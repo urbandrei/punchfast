@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Login = ({ onLoginSuccess }) => {
-    const [username, setUsername] = useState('');
+const BusinessLogin = ({onLoginSuccess}) => {
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
@@ -16,12 +16,12 @@ const Login = ({ onLoginSuccess }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('/api/login', {
+            const response = await fetch('/api/business/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ email, password }),
             });
             
             const data = await response.json();
@@ -58,16 +58,16 @@ const Login = ({ onLoginSuccess }) => {
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
                 <div className="container-fluid">
                     <a className="navbar-brand fw-bold" href="#">Punchfast</a>
-                        <div className="d-flex ms-auto">
-                            <Link to="/business/login" className="btn btn-outline-primary" role="button">Business</Link>
-                        </div>
+                    <div className="d-flex ms-auto">
+                        <Link to="/login" className="btn btn-outline-primary" role="button">Customer</Link>
+                    </div>
                 </div>
             </nav>
             <div className="container">
                 <div className="row justify-content-center align-items-center min-vh-100" style={{marginTop: '-56px'}}>
                     <div className="card shadow-sm mx-auto w-100" style={{maxWidth: '500px'}}>
                         <div className="card-body p-4 p-md-5">
-                            <h2 className="card-title text-center mb-2 fw-bold">Sign in</h2>                                
+                            <h2 className="card-title text-center mb-2 fw-bold">Business sign in</h2>                                
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="username" className="form-label">Username</label>
@@ -76,8 +76,8 @@ const Login = ({ onLoginSuccess }) => {
                                         className="form-control"
                                         id="username"
                                         placeholder="Enter username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                         required
                                     />
                                 </div>
@@ -101,7 +101,7 @@ const Login = ({ onLoginSuccess }) => {
                                 </div>
 
                                 <div className="text-center mt-4">
-                                    <p className="text-muted mb-0">No account? <Link to="/signup" className="text-decoration-none fw-medium">Sign up</Link></p>
+                                    <p className="text-muted mb-0">No account? <Link to="/business/signup" className="text-decoration-none fw-medium">Sign up</Link></p>
                                 </div>
                             </form>
 
@@ -114,4 +114,4 @@ const Login = ({ onLoginSuccess }) => {
     );
 };
 
-export default Login;
+export default BusinessLogin;
