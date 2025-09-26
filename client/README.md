@@ -1,1 +1,2 @@
 To run the frontend use the command -npm start in the terminal in the client folder.
+Hello
