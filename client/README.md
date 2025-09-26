@@ -1,1 +1,1 @@
-To run the frontend use the command -npm start in the terminal in the client folder. hello hello
+To run the frontend use the command -npm start in the terminal in the client folder. hello hello hi
