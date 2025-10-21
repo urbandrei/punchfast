@@ -1,0 +1,14 @@
+name: Example Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  example_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get deployment files
+        uses: actions/checkout@v2
+      - name: Do something on Cassini
+        run: |
+          ssh capstonia@cassini,
