@@ -7,6 +7,7 @@ import BusinessSignup from './components/business_signup';
 import Home from './components/home';
 import BusinessHome from './components/business_home';
 import NewStore from './components/new_store';
+import NewRoute from './components/new_route';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/business/signup" element={<BusinessSignup onLoginSuccess={() => handleLogin(true)} />} />
         <Route path="/" element={<Home user={{ isLogin: isLoggedIn }} />} />
         <Route path="/newstore" element={<NewStore onLoginSuccess={() => handleLogin(true)} />} />
+        <Route path="/newroute" element={<NewRoute onLoginSuccess={() => handleLogin(true)} />} />
         <Route path="/business/home" element={<BusinessHome business={{ isLogin: isLoggedIn }} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

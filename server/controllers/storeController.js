@@ -1,4 +1,17 @@
-const User = require('../models/store');
+// Get store name by id
+exports.getStoreNameById = async (req, res) => {
+    const id = req.params.id;
+    if (!id) return res.status(400).json({ message: 'Missing store id' });
+    try {
+        const store = await Store.findByPk(id);
+        if (!store) return res.status(404).json({ message: 'Store not found' });
+        return res.status(200).json({ id: store.id, name: store.name });
+    } catch (error) {
+        console.error('Error fetching store by id:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+const Store = require('../models/store');
 const bcrypt = require('bcryptjs');
 const sequelize = require('../config/database');
 const { QueryTypes } = require('sequelize');
@@ -34,7 +47,7 @@ exports.getNearbyStores = async (req, res) => {
 
     try {
         // Resolve actual table name from the model (handles naming conventions)
-        const tableName = (typeof User.getTableName === 'function') ? User.getTableName() : 'Users';
+        const tableName = (typeof Store.getTableName === 'function') ? Store.getTableName() : 'Stores';
 
         // Haversine / great-circle distance using SQL. Use LEAST to avoid acos domain errors.
         const distanceExpr = `6371 * acos(LEAST(1, cos(radians(:lat)) * cos(radians("latitude")) * cos(radians("longitude") - radians(:lng)) + sin(radians(:lat)) * sin(radians("latitude"))))`;
@@ -59,3 +72,4 @@ exports.getNearbyStores = async (req, res) => {
         return res.status(500).json({ message: 'Server error' });
     }
 };
+

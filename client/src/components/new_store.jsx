@@ -79,14 +79,6 @@ const NewStore = ({ onLoginSuccess }) => {
             <div className={`slide-alert alert ${message ? (message === 'Store created' ? 'alert-success' : 'alert-danger') : ''} text-center${message ? ' show' : ''}`} role="alert">
                 {message}
             </div>
-            <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
-                <div className="container-fluid">
-                    <a className="navbar-brand fw-bold" href="#">Punchfast</a>
-                    <div className="d-flex ms-auto">
-                        <Link to="/login" className="btn btn-outline-primary" role="button">Customer</Link>
-                    </div>
-                </div>
-            </nav>
             <div className="container">
                 <div className="row justify-content-center align-items-center min-vh-100" style={{marginTop: '-56px'}}>
                     <div className="card shadow-sm mx-auto w-100" style={{maxWidth: '500px'}}>
@@ -121,10 +113,6 @@ const NewStore = ({ onLoginSuccess }) => {
 
                                 <div className="d-flex justify-content-between align-items-center mb-4">
                                     <button type="submit" className="btn btn-primary">Create Store</button>
-                                </div>
-
-                                <div className="text-center mt-4">
-                                    <p className="text-muted mb-0">Already have an account? <Link to="/business/login" className="text-decoration-none fw-medium">Sign in</Link></p>
                                 </div>
                             </form>
 
