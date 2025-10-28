@@ -4,7 +4,6 @@ const sequelize = require('../config/database');
 const Store = sequelize.define('Store', {
     name: {
         type: DataTypes.STRING,
-        unique: true,
         allowNull: false,
     },
     address: {

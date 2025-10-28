@@ -3,51 +3,58 @@ import React, { useEffect, useState } from 'react';
 const Home = ({ isLogin , user}) => {
     const [stores, setStores] = useState([]);
     const [routes, setRoutes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [storesLoading, setStoresLoading] = useState(true);
+    const [routesLoading, setRoutesLoading] = useState(true);
+    const [storesError, setStoresError] = useState(null);
+    const [routesError, setRoutesError] = useState(null);
+    const [radius, setRadius] = useState(100);
+    const [storeAmount, setStoreAmount] = useState(100);
 
     useEffect(() => {
         const fetchNearby = async (lat, lng) => {
             try {
-                const res = await fetch(`/api/stores/nearby?lat=${lat}&lng=${lng}&radius=10&limit=50`);
+                const res = await fetch(`/api/stores/nearby?lat=${lat}&lng=${lng}&radius=${radius}&limit=${storeAmount}`);
                 if (!res.ok) throw new Error('Failed to fetch stores');
                 const data = await res.json();
                 setStores(data.stores || []);
             } catch (err) {
                 console.error(err);
-                setError('Could not load nearby stores');
+                setStoresError('Could not load nearby stores');
             } finally {
-                setLoading(false);
+                setStoresLoading(false);
             }
         };
 
         const fetchNearbyRoutes = async (lat, lng) => {
             try {
-                console.log("fetching routes");
-                const res = await fetch(`/api/nearbyroutes`);
+                const res = await fetch(`/api/routes/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
                 if (!res.ok) throw new Error('Failed to fetch routes');
                 const data = await res.json();
                 setRoutes(data.routes || []);
             } catch (err) {
                 console.error(err);
-                setError('Could not load nearby stores');
+                setRoutesError('Could not load nearby routes');
             } finally {
-                setLoading(false);
+                setRoutesLoading(false);
             }
         };
 
         if (navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (pos) => fetchNearby(pos.coords.latitude, pos.coords.longitude),
+                (pos) => {
+                    fetchNearby(pos.coords.latitude, pos.coords.longitude);
+                    fetchNearbyRoutes(pos.coords.latitude, pos.coords.longitude);
+                },
                 () => {
                     fetchNearby(40.7128, -74.0060);
+                    fetchNearbyRoutes(40.7128, -74.0060);
                 },
                 { timeout: 5000 }
             );
         } else {
             fetchNearby(40.7128, -74.0060);
+            fetchNearbyRoutes(40.7128, -74.0060);
         }
-        //fetchNearbyRoutes();
 
     }, []);
 
@@ -62,9 +69,9 @@ const Home = ({ isLogin , user}) => {
                 </div>
 
                 <div>
-                    {loading && <p>Loading nearby routes...</p>}
-                    {error && <p className="text-danger">{error}</p>}
-                    {!loading && routes.length === 0 && <p>No stores found nearby.</p>}
+                    {routesLoading && <p>Loading nearby routes...</p>}
+                    {routesError && <p className="text-danger">{routesError}</p>}
+                    {!routesLoading && routes.length === 0 && <p>No routes found nearby.</p>}
 
                     {routes.map((s) => (
                         <div key={s.id} className="panel panel-default">
@@ -89,9 +96,9 @@ const Home = ({ isLogin , user}) => {
                 </div>
 
                 <div>
-                    {loading && <p>Loading nearby stores…</p>}
-                    {error && <p className="text-danger">{error}</p>}
-                    {!loading && stores.length === 0 && <p>No stores found nearby.</p>}
+                    {storesLoading && <p>Loading nearby stores…</p>}
+                    {storesError && <p className="text-danger">{storesError}</p>}
+                    {!storesLoading && stores.length === 0 && <p>No stores found nearby.</p>}
 
                     {stores.map((s) => (
                         <div key={s.id} className="panel panel-default">

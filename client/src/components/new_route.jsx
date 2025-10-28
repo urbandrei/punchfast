@@ -9,11 +9,13 @@ const NewRoute = ({ isLogin , user}) => {
     const [submitError, setSubmitError] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
     const [successMessage, setSuccessMessage] = useState(null);
+    const [radius, setRadius] = useState(100);
+    const [storeAmount, setStoreAmount] = useState(100);
 
     useEffect(() => {
         const fetchNearby = async (lat, lng) => {
             try {
-                const res = await fetch(`/api/nearby?lat=${lat}&lng=${lng}&radius=10&limit=50`);
+                const res = await fetch(`/api/stores/nearby?lat=${lat}&lng=${lng}&radius=${radius}&limit=${storeAmount}`);
                 if (!res.ok) throw new Error('Failed to fetch stores');
                 const data = await res.json();
                 setStores(data.stores || []);
@@ -45,8 +47,8 @@ const NewRoute = ({ isLogin , user}) => {
         setSuccessMessage(null);
         setSelectedStores((prev) => {
             if (prev.includes(id)) return prev.filter((x) => x !== id);
-            if (prev.length >= 5) {
-                setSubmitError('You may select up to 5 stores');
+            if (prev.length >= 10) {
+                setSubmitError('You may select up to 10 stores');
                 return prev;
             }
             return [...prev, id];
@@ -63,19 +65,28 @@ const NewRoute = ({ isLogin , user}) => {
             return;
         }
 
-        const ids = selectedStores.slice(0, 5);
+        if (selectedStores.length < 3) {
+            setSubmitError('Please select at least 3 stores');
+            return;
+        }
+
+        if (selectedStores.length > 10) {
+            setSubmitError('Please select no more than 10 stores');
+            return;
+        }
+
         const payload = {
             name: query.trim(),
-            store1_id: ids[0] ?? null,
-            store2_id: ids[1] ?? null,
-            store3_id: ids[2] ?? null,
-            store4_id: ids[3] ?? null,
-            store5_id: ids[4] ?? null,
+            routeType: 'usergenerated',
+            stores: selectedStores.map((storeId, index) => ({
+                storeId: storeId,
+                order: index + 1
+            }))
         };
 
         try {
             setSubmitLoading(true);
-            const res = await fetch('/api/newroute', {
+            const res = await fetch('/api/routes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -84,7 +95,7 @@ const NewRoute = ({ isLogin , user}) => {
                 const err = await res.json().catch(() => ({}));
                 throw new Error(err.message || 'Failed to create route');
             }
-            const data = await res.json();
+            await res.json();
             setSuccessMessage('Route created');
             setQuery('');
             setSelectedStores([]);

@@ -16,7 +16,6 @@ const NewStore = ({ onLoginSuccess }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Try to get user's current position
         const fetchPositionAndSubmit = () => new Promise((resolve) => {
             if (navigator && navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -43,7 +42,7 @@ const NewStore = ({ onLoginSuccess }) => {
                 longitude: pos.lng,
             };
 
-            const response = await fetch('/api/newstore', {
+            const response = await fetch('/api/stores', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -53,6 +52,8 @@ const NewStore = ({ onLoginSuccess }) => {
             setMessage(data.message || (response.ok ? 'Store created' : 'Error'));
             if (response.ok) {
                 console.log('new store successful!');
+                setName('');
+                setAddress('');
             }
         } catch (error) {
             console.error('Create store error:', error);
