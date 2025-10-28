@@ -1,4 +1,8 @@
-// Get store name by id
+const Store = require('../models/store');
+const sequelize = require('../config/database');
+const { QueryTypes } = require('sequelize');
+const { searchAndAddStores } = require('../logic/searchForStores');
+
 exports.getStoreNameById = async (req, res) => {
     const id = req.params.id;
     if (!id) return res.status(400).json({ message: 'Missing store id' });
@@ -11,10 +15,6 @@ exports.getStoreNameById = async (req, res) => {
         return res.status(500).json({ message: 'Server error' });
     }
 };
-const Store = require('../models/store');
-const bcrypt = require('bcryptjs');
-const sequelize = require('../config/database');
-const { QueryTypes } = require('sequelize');
 
 
 
@@ -33,12 +33,10 @@ exports.newStore = async (req, res) => {
     }
 };
 
-// Get stores within a radius (km) of a given latitude/longitude, ordered by distance
 exports.getNearbyStores = async (req, res) => {
-    // Accept lat, lng, radius (km) and optional limit via query params or body
     const latitude = parseFloat(req.query.lat ?? req.body.lat);
     const longitude = parseFloat(req.query.lng ?? req.body.lng);
-    const radius = parseFloat(req.query.radius ?? req.body.radius ?? 5); // default 5 km
+    const radius = parseFloat(req.query.radius ?? req.body.radius ?? 5);
     const limit = parseInt(req.query.limit ?? req.body.limit ?? 50, 10);
 
     if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
@@ -46,10 +44,14 @@ exports.getNearbyStores = async (req, res) => {
     }
 
     try {
-        // Resolve actual table name from the model (handles naming conventions)
+        const searchResult = await searchAndAddStores(latitude, longitude, radius);
+
+        if (searchResult.error) {
+            return res.status(400).json({ message: searchResult.error });
+        }
+
         const tableName = (typeof Store.getTableName === 'function') ? Store.getTableName() : 'Stores';
 
-        // Haversine / great-circle distance using SQL. Use LEAST to avoid acos domain errors.
         const distanceExpr = `6371 * acos(LEAST(1, cos(radians(:lat)) * cos(radians("latitude")) * cos(radians("longitude") - radians(:lng)) + sin(radians(:lat)) * sin(radians("latitude"))))`;
 
         const sql = `
@@ -66,7 +68,14 @@ exports.getNearbyStores = async (req, res) => {
             type: QueryTypes.SELECT,
         });
 
-        return res.status(200).json({ count: stores.length, stores });
+        return res.status(200).json({
+            count: stores.length,
+            stores,
+            searchInfo: {
+                newStoresAdded: searchResult.totalStoresFound,
+                areasSearched: searchResult.searchResults.length
+            }
+        });
     } catch (error) {
         console.error('Error fetching nearby stores:', error);
         return res.status(500).json({ message: 'Server error' });

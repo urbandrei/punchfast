@@ -2,7 +2,6 @@ const User = require('../models/user');
 const Business = require('../models/business');
 const bcrypt = require('bcryptjs');
 
-// User login
 exports.login = async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -23,17 +22,14 @@ exports.login = async (req, res) => {
     }
 };
 
-// User signup
 exports.signup = async (req, res) => {
     const { username, password } = req.body;
     try {
-        // Check if user already exists
         const existingUser = await User.findOne({ where: { username } });
         if (existingUser) {
             return res.status(400).json({ message: 'Username already in use.' });
         }
 
-        // Create new user
         const newUser = await User.create({ username, password });
         res.status(201).json({ message: 'Signup successful!', user: { id: newUser.id, username: newUser.username } });
     } catch (error) {
@@ -42,7 +38,6 @@ exports.signup = async (req, res) => {
     }
 };
 
-// Business login
 exports.businessLogin = async (req, res) => {
     const { username, password } = req.body;
     try {
@@ -63,17 +58,14 @@ exports.businessLogin = async (req, res) => {
     }
 };
 
-// Business signup
 exports.businessSignup = async (req, res) => {
     const { username, password } = req.body;
     try {
-        // Check if business already exists
         const existingBusiness = await Business.findOne({ where: { username } });
         if (existingBusiness) {
             return res.status(400).json({ message: 'Username already in use.' });
         }
 
-        // Create new business
         const newBusiness = await Business.create({ username, password });
         res.status(201).json({ message: 'Signup successful!', business: { id: newBusiness.id, username: newBusiness.username } });
     } catch (error) {

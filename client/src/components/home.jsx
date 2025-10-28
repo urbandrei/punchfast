@@ -9,7 +9,7 @@ const Home = ({ isLogin , user}) => {
     useEffect(() => {
         const fetchNearby = async (lat, lng) => {
             try {
-                const res = await fetch(`/api/nearby?lat=${lat}&lng=${lng}&radius=10&limit=50`);
+                const res = await fetch(`/api/stores/nearby?lat=${lat}&lng=${lng}&radius=10&limit=50`);
                 if (!res.ok) throw new Error('Failed to fetch stores');
                 const data = await res.json();
                 setStores(data.stores || []);

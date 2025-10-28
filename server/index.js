@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
+require('./models/associations');
 
 const PORT = process.env.PORT || 5000;
 
