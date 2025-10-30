@@ -25,12 +25,10 @@ router.get('/routes/:id', routeController.getRouteById);
 
 router.post('/visits', visitController.createVisit);
 router.get('/users/:userId/visits', visitController.getUserVisits);
-router.get('/users/:userId/visit-stats', visitController.getUserVisitStats);
 router.get('/stores/:storeId/visits', visitController.getStoreVisits);
 
 router.post('/route-starts', routeStartController.startRoute);
 router.get('/users/:userId/route-starts', routeStartController.getUserRouteStarts);
-router.get('/users/:userId/active-routes', routeStartController.getUserActiveRoutes);
 router.get('/routes/:routeId/starts', routeStartController.getRouteStarts);
 
 module.exports = router;
