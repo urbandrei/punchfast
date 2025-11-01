@@ -8,6 +8,7 @@ const Business = sequelize.define('Business', {
   legalName: {
     type: DataTypes.STRING,
     allowNull: false,
+    set(v) { this.setDataValue('legalName', v?.trim()); }
   },
 
   email: {
@@ -15,16 +16,19 @@ const Business = sequelize.define('Business', {
     allowNull: false,
     unique: true,
     validate: { isEmail: true },
+    set(v) { this.setDataValue('email', v?.trim().toLowerCase()); }
   },
 
   phone: {
     type: DataTypes.STRING,
     allowNull: false,
+    set(v) { this.setDataValue('phone', v?.trim()); }
   },
 
   address: {
     type: DataTypes.STRING,
     allowNull: false,
+    set(v) { this.setDataValue('address', v?.trim()); }
   },
 
   // Stored in DB
@@ -33,7 +37,7 @@ const Business = sequelize.define('Business', {
     allowNull: false,
   },
 
-  // Not stored in DB, setting this will fill passwordHash
+  // Not stored in DB,setting this will fill passwordHash
   password: {
     type: DataTypes.VIRTUAL,
     set(value) {
@@ -42,7 +46,7 @@ const Business = sequelize.define('Business', {
       const hash = bcrypt.hashSync(value, salt);
       this.setDataValue('passwordHash', hash);
     },
-    validate: { len: [6, 72] },
+    validate: { len: [6, 72] }, // bcrypt max 72 bytes
   },
 
   status: {
@@ -52,10 +56,24 @@ const Business = sequelize.define('Business', {
   },
 }, {
   tableName: 'businesses',
+  defaultScope: {
+    attributes: { exclude: ['passwordHash'] }
+  },
+  indexes: [
+    { unique: true, fields: ['email'] }
+  ]
 });
 
+// to check a plain password
 Business.prototype.checkPassword = function (plain) {
   return bcrypt.compare(plain, this.passwordHash);
+};
+
+// ensures JSON never includes passwordHash
+Business.prototype.toJSON = function () {
+  const values = { ...this.get() };
+  delete values.passwordHash;
+  return values;
 };
 
 module.exports = Business;
