@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'r
 import Login from './components/login';
 import BusinessLogin from './components/business_login';
 import Signup from './components/signup';
-import BusinessSignup from './components/business_signup';
+import BusinessSignup from './components/business_signup.jsx';
 import Home from './components/home';
 import BusinessHome from './components/business_home';
 import NewStore from './components/new_store';
