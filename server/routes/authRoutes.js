@@ -17,15 +17,21 @@ router.post('/signup', authController.signup);
 router.post('/business/login', businessController.login);
 router.post('/business/signup', businessController.signup);
 
+// simple admin token check
 const requireAdmin = (req, res, next) => {
   if (req.headers['x-admin-token'] !== process.env.ADMIN_TOKEN) {
     return res.status(403).json({ message: 'Unauthorized' });
   }
   next();
 };
-router.post('/business/:id/approve', requireAdmin, businessController.approve);
 
-// router.post('/punch', punchesController.punch);
+//  list businesses for admin (pending)
+router.get('/admin/businesses', requireAdmin, businessController.list);
+
+// Admin approve by id 
+router.post('/admin/businesses/:id/approve', requireAdmin, businessController.approve);
+
+router.post('/business/:id/approve', requireAdmin, businessController.approve);-
 router.get('/stores/nearby', storeController.getNearbyStores);
 router.post('/stores', storeController.newStore);
 router.get('/stores/:id/name', storeController.getStoreNameById);
@@ -35,7 +41,7 @@ router.get('/routes', routeController.getRoutes);
 router.get('/routes/nearby', routeController.getNearbyRoutes);
 router.get('/routes/:id', routeController.getRouteById);
 
-// Temporarily disable RouteStart routes causing the crash
+// Temporarily disabled RouteStart routes
 // router.post('/route-starts', routeStartController.startRoute);
 // router.get('/users/:userId/route-starts', routeStartController.getUserRouteStarts);
 // router.get('/users/:userId/active-routes', routeStartController.getUserActiveRoutes);
