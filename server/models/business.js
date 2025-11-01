@@ -2,78 +2,74 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const bcrypt = require('bcryptjs');
 
-const Business = sequelize.define('Business', {
-  id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+const Business = sequelize.define(
+  'Business',
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
 
-  legalName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    set(v) { this.setDataValue('legalName', v?.trim()); }
-  },
-
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: { isEmail: true },
-    set(v) { this.setDataValue('email', v?.trim().toLowerCase()); }
-  },
-
-  phone: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    set(v) { this.setDataValue('phone', v?.trim()); }
-  },
-
-  address: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    set(v) { this.setDataValue('address', v?.trim()); }
-  },
-
-  // Stored in DB
-  passwordHash: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-
-  // Not stored in DB,setting this will fill passwordHash
-  password: {
-    type: DataTypes.VIRTUAL,
-    set(value) {
-      this.setDataValue('password', value);
-      const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(value, salt);
-      this.setDataValue('passwordHash', hash);
+    legalName: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    validate: { len: [6, 72] }, // bcrypt max 72 bytes
-  },
 
-  status: {
-    type: DataTypes.ENUM('pending', 'approved'),
-    allowNull: false,
-    defaultValue: 'pending',
-  },
-}, {
-  tableName: 'businesses',
-  defaultScope: {
-    attributes: { exclude: ['passwordHash'] }
-  },
-  indexes: [
-    { unique: true, fields: ['email'] }
-  ]
-});
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: { isEmail: true },
+    },
 
-// to check a plain password
-Business.prototype.checkPassword = function (plain) {
-  return bcrypt.compare(plain, this.passwordHash);
-};
+    phone: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
 
-// ensures JSON never includes passwordHash
-Business.prototype.toJSON = function () {
-  const values = { ...this.get() };
-  delete values.passwordHash;
-  return values;
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    // Stored in DB
+    passwordHash: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    // Not stored in DB 
+    password: {
+      type: DataTypes.VIRTUAL,
+      set(value) {
+        this.setDataValue('password', value);
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(String(value || ''), salt);
+        this.setDataValue('passwordHash', hash);
+      },
+      validate: { len: [6, 72] },
+    },
+
+    status: {
+      type: DataTypes.ENUM('pending', 'approved'),
+      allowNull: false,
+      defaultValue: 'pending',
+    },
+  },
+  {
+    tableName: 'businesses',
+  }
+);
+
+/**
+ * Safe password check that never throws.
+ * Returns true/false instead of crashing the request.
+ */
+Business.prototype.checkPassword = async function (plain) {
+  try {
+    if (!plain || typeof plain !== 'string') return false;
+    if (!this.passwordHash || typeof this.passwordHash !== 'string') return false;
+    return await bcrypt.compare(plain, this.passwordHash);
+  } catch (_) {
+    return false;
+  }
 };
 
 module.exports = Business;
