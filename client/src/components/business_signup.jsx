@@ -79,7 +79,7 @@ const BusinessSignup = () => {
 
       <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
         <div className="container-fluid">
-          <a className="navbar-brand fw-bold" href="#">Punchfast</a>
+          <Link to="/" className="navbar-brand fw-bold">Punchfast</Link>
           <div className="d-flex ms-auto">
             <Link to="/business/login" className="btn btn-outline-primary" role="button">
               Business Sign in
