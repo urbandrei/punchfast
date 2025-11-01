@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
-ENV CI=1
+ENV CI=false
 RUN npm run build
 
 # ---- serve with nginx ----
