@@ -6,11 +6,12 @@ const storeController = require('../controllers/storeController');
 const routeController = require('../controllers/routeController');
 const visitController = require('../controllers/visitController');
 const routeStartController = require('../controllers/routeStartController');
+const businessController = require('../controllers/businessController');
 
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);
-router.post('/business/login', authController.businessLogin);
-router.post('/business/signup', authController.businessSignup);
+router.post('/business/login', businessController.businessLogin);
+router.post('/business/signup', businessController.businessSignup);
 
 router.post('/punch', punchesController.punch);
 
