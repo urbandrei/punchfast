@@ -15,7 +15,8 @@ const startServer = async () => {
   try {
     await sequelize.authenticate();
       console.log('Database connection has been established successfully.');
-      await sequelize.sync(); 
+      await sequelize.sync();
+      app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
       app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
     });
