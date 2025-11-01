@@ -97,7 +97,7 @@ const Signup = ({ onLoginSuccess }) => {
 
                                 <div className="d-flex justify-content-between align-items-center mb-4">
                                     <button type="submit" className="btn btn-primary">Sign in</button>
-                                    <a href="#" className="form-text text-decoration-none ms-3">Forgot?</a>
+                                    <button type="button" className="btn btn-link p-0 ms-3">Forgot?</button>
                                 </div>
 
                                 <div className="text-center mt-4">
