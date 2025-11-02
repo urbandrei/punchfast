@@ -1,63 +1,52 @@
-'use strict';
-
+const Business = require('../models/business');
 const Punchcard = require('../models/punchcard');
 
-// For now goal is 10
-const GOAL_RAW = Number(process.env.PUNCH_GOAL || 10);
+const GOAL = 10; // keep in sync with frontend
 
-const GOAL = Number.isFinite(GOAL_RAW) && GOAL_RAW > 0 ? Math.floor(GOAL_RAW) : 10;
-
-// POST /api/punch          { businessUsername, customerUsername }
-// or  /api/punch           { business_username, customer_username }
 exports.punch = async (req, res) => {
   try {
-    const businessUsername = String(
-      req.body.businessUsername ?? req.body.business_username ?? ''
-    ).trim().toLowerCase();
+    const customer_username = (req.body.customer_username || '').trim();
+    // Accept either business_username or businessEmail from the client
+    const businessIdentifier =
+      (req.body.business_username || req.body.businessEmail || '').trim().toLowerCase();
 
-    const customerUsername = String(
-      req.body.customerUsername ?? req.body.customer_username ?? ''
-    ).trim().toLowerCase();
-
-    if (!businessUsername || !customerUsername) {
-      return res.status(400).json({
-        message: 'businessUsername and customerUsername are required'
-      });
+    if (!customer_username) {
+      return res.status(400).json({ message: 'Customer username is required.' });
+    }
+    if (!businessIdentifier) {
+      return res.status(400).json({ message: 'Business identifier is required.' });
     }
 
-    // our Punchcard model uses snake_case fields: business_username, customer_username
-    const [row] = await Punchcard.findOrCreate({
+    // Our Business table uses email, not username
+    const business = await Business.findOne({ where: { email: businessIdentifier } });
+    if (!business) {
+      return res.status(400).json({ message: 'Business Not Found.' });
+    }
+
+    // Create or find the punchcard record for (customer, business)
+    const [card, created] = await Punchcard.findOrCreate({
       where: {
-        business_username: businessUsername,
-        customer_username: customerUsername
+        customer_username,
+        business_username: business.email, // normalize to email
       },
-      defaults: { punches: 0 }
+      defaults: { punches: 0 },
     });
 
-    const current = Number(row.punches || 0);
-    let newCount;
-    let message;
-
-    // Reset-to-zero logic on reaching goal
-    if (current + 1 >= GOAL) {
-      newCount = 0;
-      message = 'Punchcard Finished.'; // reached goal; reset for next cycle
-    } else {
-      newCount = current + 1;
-      message = 'Punch recorded.';
+    // Increment and reset to 0 after reaching GOAL
+    card.punches += 1;
+    let message = 'Punchcard Added.';
+    if (card.punches >= GOAL) {
+      card.punches = 0;
+      message = 'Punchcard Finished.';
     }
+    await card.save();
 
-    await row.update({ punches: newCount });
+    const remaining = (GOAL - card.punches) % GOAL;
 
-    const remainingToGoal = newCount === 0 ? GOAL : (GOAL - newCount);
-
-    return res.status(201).json({
-      message,
-      businessUsername,
-      customerUsername,
-      punches: newCount,    // current punches after this operation (0..GOAL-1)
-      goal: GOAL,           // target to earn reward
-      remainingToGoal       // what to show in UI
+    return res.status(200).json({
+      message: created ? 'New Customer.' : message,
+      punches: card.punches,
+      remaining,
     });
   } catch (err) {
     console.error('Punchcard error:', err);
