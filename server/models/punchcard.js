@@ -4,7 +4,6 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const Punchcard = sequelize.define('Punchcard', {
-  // stored as lowercase for consistent lookups
   customerUsername: {
     type: DataTypes.STRING(80),
     allowNull: false,
@@ -27,10 +26,10 @@ const Punchcard = sequelize.define('Punchcard', {
     defaultValue: 0,
   }
 }, {
-  tableName: 'punchcards',
-  underscored: true,
+  tableName: 'Punchcards',
+  
   indexes: [
-    { unique: true, fields: ['business_username', 'customer_username'] } // one row per pair
+    { unique: true, fields: ['business_username', 'customer_username'] }
   ]
 });
 
