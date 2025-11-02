@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 const GOAL = 10; // keep in sync with backend default
 
 export default function BusinessHome() {
-  const [businessId, setBusinessId] = useState("");        // email/username used as the business identifier
+  // email/username used as the business identifier
+  const [businessId, setBusinessId] = useState("");
   const [customerUsername, setCustomerUsername] = useState("");
   const [status, setStatus] = useState("");
   const [punches, setPunches] = useState(null);
@@ -37,7 +38,7 @@ export default function BusinessHome() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer_username: customerUsername.trim(),
-          // backend accepts business_username (and we also coded it to accept businessEmail)
+          // backend accepts business_username (and also businessEmail as a fallback)
           business_username: businessId,
         }),
       });
@@ -127,8 +128,7 @@ export default function BusinessHome() {
           </div>
 
           <p className="text-muted small mt-3">
-            * Goal is shown for information; it can later be made configurable
-            in the dashboard.
+            * Goal is shown for information; it can later be made configurable in the dashboard.
           </p>
         </div>
       </div>
