@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const router = express.Router();
 
@@ -6,50 +8,50 @@ const businessController = require('../controllers/businessController');
 const punchesController = require('../controllers/punchesController');
 const storeController = require('../controllers/storeController');
 const routeController = require('../controllers/routeController');
+// const visitController = require('../controllers/visitController');
+// const routeStartController = require('../controllers/routeStartController');
 
-// NEW: import Business for listing
-const Business = require('../models/business');
-
-// ------- user auth -------
+// ------- Customer auth -------
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);
 
-// ------- business auth -------
+// ------- Business auth -------
 router.post('/business/login', businessController.login);
 router.post('/business/signup', businessController.signup);
 
-const requireAdmin = (req, res, next) => {
-  if (req.headers['x-admin-token'] !== process.env.ADMIN_TOKEN) {
+// ------- Admin (header: x-admin-token) -------
+function requireAdmin(req, res, next) {
+  const token = req.headers['x-admin-token'];
+  if (!token || token !== process.env.ADMIN_TOKEN) {
     return res.status(403).json({ message: 'Unauthorized' });
   }
   next();
-};
+}
 
-// list businesses (filterable by ?status=, with limit/offset)
-router.get('/admin/businesses', requireAdmin, async (req, res) => {
-  try {
-    const { status, limit = '50', offset = '0' } = req.query;
-    const where = {};
-    if (status) where.status = status;
+// List businesses (optionally filter by status, q, limit, offset)
+router.get('/admin/businesses', requireAdmin, businessController.listBusinesses);
 
-    const rows = await Business.findAll({
-      where,
-      order: [['id', 'ASC']],
-      limit: parseInt(limit, 10),
-      offset: parseInt(offset, 10),
-      attributes: ['id', 'legalName', 'email', 'status'],
-    });
-
-    res.json({ rows });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// existing approve endpoint
+// Approve a business by ID
 router.post('/admin/businesses/:id/approve', requireAdmin, businessController.approve);
 
+// ------- Punches -------
+router.post('/punch', punchesController.punch);
 
+// ------- Stores -------
+router.get('/stores/nearby', storeController.getNearbyStores);
+router.post('/stores', storeController.newStore);
+router.get('/stores/:id/name', storeController.getStoreNameById);
+
+// ------- Routes -------
+router.post('/routes', routeController.newRoute);
+router.get('/routes', routeController.getRoutes);
+router.get('/routes/nearby', routeController.getNearbyRoutes);
+router.get('/routes/:id', routeController.getRouteById);
+
+// ------- Temporarily disabled to avoid crashes -------
+// router.post('/route-starts', routeStartController.startRoute);
+// router.get('/users/:userId/route-starts', routeStartController.getUserRouteStarts);
+// router.get('/users/:userId/active-routes', routeStartController.getUserActiveRoutes);
+// router.get('/routes/:routeId/starts', routeStartController.getRouteStarts);
 
 module.exports = router;
