@@ -27,6 +27,7 @@ const BusinessLogin = ({onLoginSuccess}) => {
             const data = await response.json();
             setMessage(data.message);
             if (response.ok) {
+                localStorage.setItem('businessEmail', (email || '').trim().toLowerCase());
                 console.log('Login successful!');
                 onLoginSuccess();
             }
