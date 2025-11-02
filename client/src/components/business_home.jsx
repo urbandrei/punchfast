@@ -3,24 +3,27 @@ import React, { useEffect, useState } from "react";
 const GOAL = 10; // keep in sync with backend default
 
 export default function BusinessHome() {
-  const [businessEmail, setBusinessEmail] = useState("");
+  const [businessId, setBusinessId] = useState("");        // email/username used as the business identifier
   const [customerUsername, setCustomerUsername] = useState("");
   const [status, setStatus] = useState("");
   const [punches, setPunches] = useState(null);
   const [remaining, setRemaining] = useState(null);
 
   useEffect(() => {
-    // saved by BusinessLogin on success
-    const saved = localStorage.getItem("pf_business_email") || "";
-    setBusinessEmail(saved);
+    // Read whichever key our login saved
+    const saved =
+      localStorage.getItem("pf_business_email") ||
+      localStorage.getItem("pf_business_username") ||
+      "";
+    setBusinessId(saved);
   }, []);
 
   async function handleRegister(e) {
     e.preventDefault();
     setStatus("");
 
-    if (!businessEmail) {
-      setStatus("No business email found. Please sign in again.");
+    if (!businessId) {
+      setStatus("No business session found. Please sign in again.");
       return;
     }
     if (!customerUsername.trim()) {
@@ -34,11 +37,13 @@ export default function BusinessHome() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer_username: customerUsername.trim(),
-          businessEmail,
+          // backend accepts business_username (and we also coded it to accept businessEmail)
+          business_username: businessId,
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
         setStatus(data.message || "Error");
         setPunches(null);
@@ -46,9 +51,20 @@ export default function BusinessHome() {
         return;
       }
 
+      const newPunches =
+        typeof data.punches === "number" ? data.punches : null;
+
+      // If backend didn’t send remaining, compute from GOAL
+      const newRemaining =
+        typeof data.remaining === "number"
+          ? data.remaining
+          : newPunches == null
+          ? null
+          : Math.max(GOAL - newPunches, 0);
+
       setStatus(data.message || "Punch recorded");
-      setPunches(data.punches);
-      setRemaining(data.remaining);
+      setPunches(newPunches);
+      setRemaining(newRemaining);
     } catch (err) {
       console.error(err);
       setStatus("Network error");
@@ -59,10 +75,14 @@ export default function BusinessHome() {
     <div className="container py-4">
       <h2 className="text-center mb-3">Welcome to Punchfast Business Portal</h2>
 
-      {businessEmail ? (
-        <div className="alert alert-success text-center">You are signed in as <b>{businessEmail}</b>.</div>
+      {businessId ? (
+        <div className="alert alert-success text-center">
+          You are signed in as <b>{businessId}</b>.
+        </div>
       ) : (
-        <div className="alert alert-warning text-center">No business session found. Please sign in.</div>
+        <div className="alert alert-warning text-center">
+          No business session found. Please sign in.
+        </div>
       )}
 
       <div className="row justify-content-center">
@@ -72,7 +92,9 @@ export default function BusinessHome() {
               <h5 className="card-title mb-3">Register a punch</h5>
               <form onSubmit={handleRegister}>
                 <div className="mb-3">
-                  <label htmlFor="cust" className="form-label">Customer username</label>
+                  <label htmlFor="cust" className="form-label">
+                    Customer username
+                  </label>
                   <input
                     id="cust"
                     type="text"
@@ -83,7 +105,9 @@ export default function BusinessHome() {
                   />
                 </div>
 
-                <button type="submit" className="btn btn-primary">Register Punch</button>
+                <button type="submit" className="btn btn-primary">
+                  Register Punch
+                </button>
               </form>
 
               {status && <div className="alert alert-info mt-3">{status}</div>}
@@ -91,7 +115,8 @@ export default function BusinessHome() {
               {punches !== null && (
                 <div className="mt-2">
                   <p className="mb-1">
-                    <b>{customerUsername}</b> now has <b>{punches}</b> punch{punches === 1 ? "" : "es"} at your store.
+                    <b>{customerUsername}</b> now has <b>{punches}</b> punch
+                    {punches === 1 ? "" : "es"} at your store.
                   </p>
                   <p className="text-muted mb-0">
                     Remaining to goal ({GOAL}): <b>{remaining}</b>
@@ -102,7 +127,8 @@ export default function BusinessHome() {
           </div>
 
           <p className="text-muted small mt-3">
-            * Goal is shown for information; it can later be made configurable in the dashboard.
+            * Goal is shown for information; it can later be made configurable
+            in the dashboard.
           </p>
         </div>
       </div>
