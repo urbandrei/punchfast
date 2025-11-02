@@ -1,114 +1,111 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState } from "react";
 
-const BusinessHome = ({ isLogin }) => {
-  const [customerUsername, setCustomerUsername] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState(null); // { message, punches }
-  const goal = 10;
+const GOAL = 10; // keep in sync with backend default
 
-  // We saved this at business login time
-  const businessEmail = useMemo(
-    () => localStorage.getItem('businessEmail') || '',
-    []
-  );
+export default function BusinessHome() {
+  const [businessEmail, setBusinessEmail] = useState("");
+  const [customerUsername, setCustomerUsername] = useState("");
+  const [status, setStatus] = useState("");
+  const [punches, setPunches] = useState(null);
+  const [remaining, setRemaining] = useState(null);
 
-  const handlePunch = async (e) => {
+  useEffect(() => {
+    // saved by BusinessLogin on success
+    const saved = localStorage.getItem("pf_business_email") || "";
+    setBusinessEmail(saved);
+  }, []);
+
+  async function handleRegister(e) {
     e.preventDefault();
-    setResult(null);
+    setStatus("");
 
     if (!businessEmail) {
-      setResult({ message: 'No business identity found. Please sign in again.', punches: null });
+      setStatus("No business email found. Please sign in again.");
       return;
     }
     if (!customerUsername.trim()) {
-      setResult({ message: 'Please enter a customer username.', punches: null });
+      setStatus("Please enter a customer username.");
       return;
     }
 
     try {
-      setSubmitting(true);
-      const res = await fetch('/api/punch', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/punch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          business_username: businessEmail,        // using email as business id
-          customer_username: customerUsername.trim()
-        })
+          customer_username: customerUsername.trim(),
+          businessEmail,
+        }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        setResult({ message: data.message || 'Server error', punches: null });
-      } else {
-        setResult({ message: data.message || 'Punch recorded.', punches: data.punches });
-      }
-    } catch (err) {
-      setResult({ message: 'Network error. Try again.', punches: null });
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
-  const remaining = result?.punches != null ? (goal - result.punches) : null;
+      const data = await res.json();
+      if (!res.ok) {
+        setStatus(data.message || "Error");
+        setPunches(null);
+        setRemaining(null);
+        return;
+      }
+
+      setStatus(data.message || "Punch recorded");
+      setPunches(data.punches);
+      setRemaining(data.remaining);
+    } catch (err) {
+      console.error(err);
+      setStatus("Network error");
+    }
+  }
 
   return (
-    <div className="container mt-5" style={{ maxWidth: 640 }}>
-      <h1 className="text-center">Business Portal</h1>
+    <div className="container py-4">
+      <h2 className="text-center mb-3">Welcome to Punchfast Business Portal</h2>
 
-      {!isLogin && (
-        <div className="alert alert-warning text-center mt-3">
-          You are not signed in.
-        </div>
+      {businessEmail ? (
+        <div className="alert alert-success text-center">You are signed in as <b>{businessEmail}</b>.</div>
+      ) : (
+        <div className="alert alert-warning text-center">No business session found. Please sign in.</div>
       )}
 
-      {isLogin && (
-        <>
-          <div className="alert alert-info mt-3">
-            Signed in as: <strong>{businessEmail || 'Unknown'}</strong>
-          </div>
-
-          <div className="card mt-4">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8 col-lg-6">
+          <div className="card shadow-sm">
             <div className="card-body">
-              <h4 className="card-title mb-3">Register a punch</h4>
-
-              <form onSubmit={handlePunch}>
+              <h5 className="card-title mb-3">Register a punch</h5>
+              <form onSubmit={handleRegister}>
                 <div className="mb-3">
-                  <label htmlFor="customerUsername" className="form-label">Customer username</label>
+                  <label htmlFor="cust" className="form-label">Customer username</label>
                   <input
-                    id="customerUsername"
+                    id="cust"
                     type="text"
                     className="form-control"
-                    placeholder="e.g. alice123"
+                    placeholder="e.g. alice"
                     value={customerUsername}
                     onChange={(e) => setCustomerUsername(e.target.value)}
                   />
                 </div>
 
-                <button className="btn btn-primary" type="submit" disabled={submitting}>
-                  {submitting ? 'Registering…' : 'Register punch'}
-                </button>
+                <button type="submit" className="btn btn-primary">Register Punch</button>
               </form>
 
-              {result?.message && (
-                <div className="alert alert-secondary mt-3 mb-0">
-                  <div>{result.message}</div>
-                  {result.punches != null && (
-                    <div className="mt-1">
-                      Punches at this business for <strong>{customerUsername || 'this user'}</strong>:
-                      <strong> {result.punches}/{goal}</strong>
-                      {remaining != null && (
-                        <span> — Remaining to goal: <strong>{remaining}</strong></span>
-                      )}
-                    </div>
-                  )}
+              {status && <div className="alert alert-info mt-3">{status}</div>}
+
+              {punches !== null && (
+                <div className="mt-2">
+                  <p className="mb-1">
+                    <b>{customerUsername}</b> now has <b>{punches}</b> punch{punches === 1 ? "" : "es"} at your store.
+                  </p>
+                  <p className="text-muted mb-0">
+                    Remaining to goal ({GOAL}): <b>{remaining}</b>
+                  </p>
                 </div>
               )}
             </div>
           </div>
-        </>
-      )}
+
+          <p className="text-muted small mt-3">
+            * Goal is shown for information; it can later be made configurable in the dashboard.
+          </p>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default BusinessHome;
-
+}
