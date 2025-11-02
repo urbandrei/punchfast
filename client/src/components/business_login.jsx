@@ -5,6 +5,7 @@ const BusinessLogin = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
     if (message) {
@@ -16,6 +17,7 @@ const BusinessLogin = ({ onLoginSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('');
+    setIsSuccess(false);
 
     const emailNorm = (email || '').trim().toLowerCase();
     if (!emailNorm || !password) {
@@ -33,17 +35,22 @@ const BusinessLogin = ({ onLoginSuccess }) => {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setMessage(data.message || 'Login failed.');
+        setIsSuccess(false);
         return;
       }
 
-      // Persist for BusinessHome to read
+      // Persist for BusinessHome to read (these are the keys BusinessHome checks)
       localStorage.setItem('pf_business_email', emailNorm);
       localStorage.setItem('pf_business_username', emailNorm);
+      // clean up any legacy key we might have used previously
+      localStorage.removeItem('businessEmail');
 
+      setIsSuccess(true);
       setMessage(data.message || 'Login successful!');
       onLoginSuccess();
     } catch (err) {
       console.error('Login error:', err);
+      setIsSuccess(false);
       setMessage('An error occurred. Please try again.');
     }
   };
@@ -65,7 +72,7 @@ const BusinessLogin = ({ onLoginSuccess }) => {
 
       <div
         className={`slide-alert alert ${
-          message ? (message.includes('success') ? 'alert-success' : 'alert-danger') : ''
+          message ? (isSuccess ? 'alert-success' : 'alert-danger') : ''
         } text-center${message ? ' show' : ''}`}
         role="alert"
         aria-live="polite"
@@ -117,7 +124,7 @@ const BusinessLogin = ({ onLoginSuccess }) => {
 
                 <div className="d-flex justify-content-between align-items-center mb-4">
                   <button type="submit" className="btn btn-primary">Sign in</button>
-                  {/* Placeholder: wire up later */}
+                  {/* placeholder; wire up later */}
                   <button type="button" className="btn btn-link p-0 ms-3">Forgot?</button>
                 </div>
 
