@@ -13,6 +13,7 @@ const GOAL = parseInt(process.env.PUNCH_GOAL || '10', 10);
  *   - businessEmail: string       (legacy alias; also accepted)
  */
 exports.punch = async (req, res) => {
+  console.log('[punchesController] v-email-only');
   try {
     const rawCust = req.body?.customer_username || '';
     const rawBiz  = req.body?.business_username || req.body?.businessEmail || '';
