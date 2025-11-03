@@ -1,79 +1,63 @@
 'use strict';
 
-const { Op } = require('sequelize');
 const Business = require('../models/business');
 const Punchcard = require('../models/punchcard');
 
+// configurable goal, defaults to 10
 const GOAL = parseInt(process.env.PUNCH_GOAL || '10', 10);
 
-/**
- * POST /api/punch
- * Body:
- *   - customer_username: string   (required)
- *   - business_username: string   (preferred; business email or username)
- *   - businessEmail: string       (optional legacy key; same value as above)
- */
 exports.punch = async (req, res) => {
   try {
-    const { customer_username, business_username, businessEmail } = req.body || {};
+    // Accept either business_username or businessEmail from the client.
+    // We treat this value as the business's EMAIL (identifier).
+    const rawBiz =
+      req.body.businessEmail ||
+      req.body.business_username ||
+      req.body.business ||
+      '';
 
-    const customerUsername = String(customer_username || '')
-      .trim()
-      .toLowerCase();
-    const bizId = String(business_username || businessEmail || '')
-      .trim()
-      .toLowerCase();
+    const rawCust = req.body.customer_username || '';
 
-    if (!customerUsername || !bizId) {
-      return res
-        .status(400)
-        .json({ message: 'Missing customer_username or business identifier.' });
+    const businessEmail = String(rawBiz).trim().toLowerCase();
+    const customerUsername = String(rawCust).trim().toLowerCase();
+
+    if (!businessEmail || !customerUsername) {
+      return res.status(400).json({ message: 'Missing business or customer.' });
     }
 
-    // Find the business by email OR username
-    const business = await Business.findOne({
-      where: {
-        [Op.or]: [{ email: bizId }, { username: bizId }],
-      },
-    });
-
+    // Look up by EMAIL (our businesses table doesn’t have a username column)
+    const business = await Business.findOne({ where: { email: businessEmail } });
     if (!business) {
-      return res.status(404).json({ message: 'Business Not Found.' });
+      return res.status(404).json({ message: 'Business not found.' });
     }
 
-    // Canonical business key to store on the punchcard (email preferred; fall back to username)
-    const businessUsername = String(
-      (business.email && business.email.toLowerCase()) ||
-      (business.username && business.username.toLowerCase()) ||
-      bizId
-    );
-
-    // Ensure one row per (business, customer)
-    const [card, created] = await Punchcard.findOrCreate({
-      where: { customerUsername, businessUsername },
-      defaults: { punches: 0 },
+    // Find or create the punchcard row for this (business, customer) pair
+    const [card] = await Punchcard.findOrCreate({
+      where: {
+        businessUsername: businessEmail,   // stored in lowercase by the model setter
+        customerUsername: customerUsername // stored in lowercase by the model setter
+      },
+      defaults: { punches: 0 }
     });
 
-    // Increment; reset to 0 if goal reached
-    let punches = (card.punches || 0) + 1;
+    // Increment punch and wrap to 0 on reaching the goal
+    let newPunches = (card.punches || 0) + 1;
     let message;
 
-    if (punches >= GOAL) {
-      punches = 0; // reset after reward
-      await card.update({ punches });
-      message = 'Goal reached! Card reset.';
+    if (newPunches >= GOAL) {
+      newPunches = 0;
+      message = 'Goal reached! Punches reset to 0.';
     } else {
-      await card.update({ punches });
-      message = created ? 'New customer. Punch recorded.' : 'Punch recorded.';
+      message = 'Punch recorded.';
     }
 
-    const remaining = GOAL - punches;
+    card.punches = newPunches;
+    await card.save();
 
-    return res.status(200).json({
+    return res.json({
       message,
-      punches,
-      remaining,
-      goal: GOAL,
+      punches: newPunches,
+      remaining: newPunches === 0 ? GOAL : (GOAL - newPunches)
     });
   } catch (err) {
     console.error('Punch error:', err);
