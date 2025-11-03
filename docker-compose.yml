@@ -24,7 +24,6 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    container_name: backend_api
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
