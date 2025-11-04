@@ -1,5 +1,9 @@
 /* General */
 
+.container {
+  max-width: 600px;
+  width: 90%;
+}
 
 /* Route card styling */
 
@@ -325,6 +329,7 @@
 
 .nav-bar-brand {
   font-size: 3em;
+  color: #ffffff;
 }
 
 .nav-bar-button {
