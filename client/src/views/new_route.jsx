@@ -122,8 +122,8 @@ const NewRoute = ({ isLogin , user}) => {
                                 <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
                             </button>
                         </div>
-                        {submitError && <div style={{ color: 'red', marginTop: 6 }}>{submitError}</div>}
-                        {successMessage && <div style={{ color: 'green', marginTop: 6 }}>{successMessage}</div>}
+                        {submitError && <div style={{ color: 'red', marginTop: 30 }}>{submitError}</div>}
+                        {successMessage && <div style={{ color: 'green', marginTop: 30 }}>{successMessage}</div>}
                     </form>
                 </div>
 

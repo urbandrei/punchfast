@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 const NewStore = ({ onLoginSuccess }) => {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState(null);
 
     useEffect(() => {
         if (message) {
-            const timer = setTimeout(() => setMessage(''), 3000);
+            const timer = setTimeout(() => setMessage(null), 3000);
             return () => clearTimeout(timer);
         }
     }, [message]);
@@ -62,24 +62,7 @@ const NewStore = ({ onLoginSuccess }) => {
     };
 
     return (
-        <div className="bg-light position-relative" style={{ minHeight: '100vh' }}>
-            <style>{`
-                .slide-alert {
-                    position: absolute;
-                    top: 20px;
-                    left: 50%;
-                    transform: translateX(-50%) scaleY(0);
-                    min-width: 300px;
-                    z-index: 1050;
-                    transition: transform 0.4s cubic-bezier(.4,0,.2,1);
-                }
-                .slide-alert.show {
-                    transform: translateX(-50%) scaleY(1);
-                }
-            `}</style>
-            <div className={`slide-alert alert ${message ? (message === 'Store created' ? 'alert-success' : 'alert-danger') : ''} text-center${message ? ' show' : ''}`} role="alert">
-                {message}
-            </div>
+        <div>
             <div className="container">
                 <div className="row justify-content-center align-items-center min-vh-100" style={{marginTop: '-56px'}}>
                     <div className="card shadow-sm mx-auto w-100" style={{maxWidth: '500px'}}>
@@ -114,6 +97,8 @@ const NewStore = ({ onLoginSuccess }) => {
 
                                 <div className="d-flex justify-content-between align-items-center mb-4">
                                     <button type="submit" className="btn btn-primary">Create Store</button>
+                                    {message && message === 'Store created' && <div style={{ color: 'green', marginTop: 30 }}>{message}</div>}
+                                    {message && message !== 'Store created' && <div style={{ color: 'red', marginTop: 30 }}>{message}</div>}
                                 </div>
                             </form>
 

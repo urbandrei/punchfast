@@ -63,14 +63,6 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
             <div className="modal d-block" tabIndex="-1" role="dialog" onClick={handleClose}>
                 <div className="modal-dialog modal-dialog-centered" role="document" onClick={(e) => e.stopPropagation()}>
                     <div className="modal-content">
-                        <div className="modal-header border-0 pb-0">
-                            <button
-                                type="button"
-                                className="btn-close ms-auto"
-                                onClick={handleClose}
-                                aria-label="Close"
-                            ></button>
-                        </div>
                         <div className="modal-body px-4 pt-0 pb-4">
                             <ul className="nav nav-tabs nav-fill mb-4" role="tablist" style={{ borderBottom: '2px solid #A7CCDE' }}>
                                 <li className="nav-item" role="presentation">

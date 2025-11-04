@@ -12,7 +12,6 @@
   border-radius: 12px;
   padding: 20px;
   width: 100%;
-  max-width: 800px;
   box-shadow: 0 2px 8px rgba(48, 44, 154, 0.1);
   font-family: Arial, sans-serif;
   background-color: white;
@@ -223,8 +222,7 @@
 .store-card-container {
   border-radius: 12px;
   padding: 15px;
-  width: 90%;
-  max-width: 600px;
+  width: 100%;
   background-color: #ffffff;
   margin: 0 auto 20px;
 }
@@ -243,16 +241,15 @@
 }
 
 .store-card-name {
-  color: #ffffff;
-  font-size: 1em;
-  font-weight: 500;
+  color: #000000;
+  font-size: 2em;
 }
 
 .store-card-visit-info {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 0.85em;
+  font-size: 1em;
 }
 
 .store-card-visit-count {
