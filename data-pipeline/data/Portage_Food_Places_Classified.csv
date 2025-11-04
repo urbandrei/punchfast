@@ -1,0 +1,1046 @@
+Name,Type,Cuisine,City,Street,Postcode,Website,Latitude,Longitude,Status
+Ken Stewart's,restaurant,,,,,,41.1133639,-81.578618,needs_fix
+Larry's Main Entrance,bar,,,,,,41.1132883,-81.5784014,needs_fix
+da Bayou,restaurant,,,,,,41.1373339,-81.5485525,needs_fix
+Vine Valley Mediterranean Cuisine,restaurant,,,,,,41.1370914,-81.5484452,needs_fix
+Brubaker's,pub,,,,,,41.136647,-81.5525114,needs_fix
+Bourbon Street,pub,,,,,,41.1364369,-81.5526509,needs_fix
+Johnny J's Pub & Grille,pub,,,,,,41.1367448,-81.5527904,needs_fix
+Big Fish,pub,,,,,,41.1367763,-81.5532303,needs_fix
+The Dorm,pub,,,,,,41.1366632,-81.5533268,needs_fix
+Saffron Patch,restaurant,indian,,,,,41.1359525,-81.5531193,needs_fix
+The Noisy Oyster,pub,,,,,,41.1320007,-81.5491104,needs_fix
+The Getaway Pub,pub,,,,,,41.1344572,-81.5485632,needs_fix
+DQ Grill & Chill,fast_food,ice_cream;burger,Kent,South Water Street,44240-3847,https://www.dairyqueen.com/locations/oh/kent/1443-s-water-st/14304,41.140498,-81.3564348,valid
+Jubilee Donuts,fast_food,,,,,,41.1457489,-81.4733791,needs_fix
+El Meson,restaurant,mexican,,,,,41.1397728,-81.4911495,needs_fix
+Mandarin House,restaurant,,,,,,41.1589599,-81.5097613,needs_fix
+KFC,fast_food,chicken,Cuyahoga Falls,State Road,44223,https://locations.kfc.com/oh/cuyahoga-falls/1792-state-road,41.1311428,-81.5088198,valid
+McDonald's,fast_food,burger,Cuyahoga Falls,State Road,44223-1305,https://www.mcdonalds.com/us/en-us/location/276.html,41.1310782,-81.5077362,valid
+Alladin's Eatery,restaurant,middle_eastern,,,,,41.2406635,-81.4426647,needs_fix
+Tomato Grill,restaurant,italian,,,,,41.2420325,-81.442233,needs_fix
+Cold Stone Creamery,ice_cream,ice_cream,Hudson,Park Lane,44236,https://www.coldstonecreamery.com/stores/21490,41.2406848,-81.4429207,valid
+Comida Mexican Restaurant,restaurant,mexican,,,,,41.2406882,-81.4423608,needs_fix
+First Row Centre for the Arts and Coffee Shop,pub,,,State Street NW,44630,http://www.firstrowcfa.com,40.927248,-81.4025729,valid
+The Basement,bar,,Kent,Cascades Boulevard,44240,,41.0953358,-81.3883985,valid
+DQ Grill & Chill,fast_food,ice_cream;burger,Kent,Cascades Boulevard,44240-8034,https://www.dairyqueen.com/locations/oh/kent/4050-cascades-blvd-unit-a/14293,41.0999265,-81.3859343,valid
+La Terraza Mexican Bar & Grill,restaurant,mexican,Kent,Cascades Boulevard,44240,,41.0961011,-81.3883571,valid
+Pizza Hut,restaurant,pizza,Kent,State Highway 43,44240,https://locations.pizzahut.com/oh/kent/4118-state-hwy-43,41.1019995,-81.3459376,valid
+Subway,fast_food,sandwich,Kent,State Route 43,44240,https://restaurants.subway.com/united-states/oh/kent/4068-sr-43,41.1005633,-81.3434773,valid
+Chipotle,fast_food,mexican,Streetsboro,State Route 14,44241,https://locations.chipotle.com/oh/streetsboro/9754-state-route-14,41.2509978,-81.3635032,valid
+Sonic,fast_food,burger,Streetsboro,State Route 14,44241,https://locations.sonicdrivein.com/oh/streetsboro/9780-state-route-14.html,41.2516314,-81.364547,valid
+Chiban,restaurant,japanese,,,,,41.1343194,-81.5080726,needs_fix
+Arthur Treacher's Fish and Chips,fast_food,fish_and_chips,,,,,41.1319386,-81.508141,needs_fix
+Subway,fast_food,sandwich,Cuyahoga Falls,State Road,44223,https://restaurants.subway.com/united-states/oh/cuyahoga-falls/1939-state-road,41.1336861,-81.5081222,valid
+Chowder House,restaurant,seafood,,,,,41.1288405,-81.5077494,needs_fix
+Subway,fast_food,sandwich,Cuyahoga Falls,State Road,44223,https://restaurants.subway.com/united-states/oh/cuyahoga-falls/2924-state-road,41.1511409,-81.5090103,valid
+Barley House,pub,,,,,,41.0790239,-81.5207175,needs_fix
+Wildcat Cafe,restaurant,american,,,,,41.0513199,-81.39896,needs_fix
+Chipotle,fast_food,mexican,Akron,West Market Street,44303,https://locations.chipotle.com/oh/akron/825-w-market-st,41.0969622,-81.5438491,valid
+Wally Waffle,restaurant,breakfast,,,,,41.0970972,-81.5442019,needs_fix
+Irie Jamaican Kitchen,restaurant,jamaican,Akron,West Market Street,44303,https://www.iriejakitchen.com/,41.0970568,-81.5440889,valid
+Upper Crust,restaurant,pizza,Akron,West Market Street,44303,https://www.uppercrustoh.com/akron,41.0970159,-81.5439845,valid
+The Porch,restaurant,,Kent,,,https://www.kent.edu/dining/student-center-lower-level,41.1476665,-81.3429495,needs_fix
+Jazzman's Cyber Cafe,cafe,coffee_shop,Kent,,,https://www.kent.edu/dining/student-center-lower-level,41.1476721,-81.3431531,needs_fix
+The Tandoori Oven,restaurant,indian,Kent,,,https://www.kent.edu/dining/kent-markets,41.1478389,-81.3431676,needs_fix
+Fresh Inspirations,restaurant,american,,,,https://www.kent.edu/dining/kent-markets,41.147842,-81.3431991,needs_fix
+Olives,restaurant,italian,Kent,,,https://www.kent.edu/dining/kent-markets,41.1478641,-81.343231,needs_fix
+Market Grill,restaurant,burger;american,Kent,,,https://www.kent.edu/dining/kent-markets,41.1479035,-81.3432489,needs_fix
+DI Dining Facility,restaurant,,,,,https://www.kent.edu/dining/design-innovation-dining,41.14998,-81.3467233,needs_fix
+Penn Station,fast_food,sandwich,Kent,,,,41.1543431,-81.3526364,needs_fix
+Bruno's Authentic Pizza,restaurant,pizza,,,,,41.1545653,-81.3523579,needs_fix
+Summit Street Cafe,restaurant,ice_cream,Kent,,,https://www.kent.edu/dining/summit-street-cafe-1,41.141413,-81.3402224,needs_fix
+snackshop,cafe,sandwich,Kent,,,,41.1472973,-81.3482523,needs_fix
+Flipside,restaurant,burger,,,,,41.241447,-81.4427605,needs_fix
+One Red Door,restaurant,american,,,,,41.2414453,-81.4429141,needs_fix
+Swensons,restaurant,burger,,,,,41.1549171,-81.400949,needs_fix
+Panera Bread,fast_food,sandwich;bakery,Hudson,West Streetsboro Street,44236,https://locations.panerabread.com/oh/hudson/118-w-streetsboro-street.html,41.2388845,-81.446488,valid
+Lulu's,restaurant,frozen_yogurt,Hudson,Library Street,44236,,41.2407088,-81.4432648,valid
+Chipotle,fast_food,mexican,Hudson,Atterbury Boulevard,44236,https://locations.chipotle.com/oh/hudson/5-atterbury-blvd,41.240259,-81.4454207,valid
+Laziza,restaurant,israeli;mediterranean,Kent,,,http://www.yourlaziza.com/,41.1528204,-81.3565359,needs_fix
+Slim Chickens,fast_food,chicken,Streetsboro,Cleveland East Liverpool Road,44241,https://slimchickens.com/,41.2446412,-81.3573782,valid
+Dunkin' Donuts,fast_food,donut;coffee_shop,Streetsboro,Cleve E Liverpool Road,44241,https://locations.dunkindonuts.com/en/oh/streetsboro/9168-state-route-14/338519,41.2397236,-81.3428393,valid
+Baskin-Robbins,ice_cream,ice_cream,Streetsboro,Cleve E Liverpool Road,44241,https://locations.baskinrobbins.com/oh/streetsboro/9168-state-route-14,41.2397397,-81.3427937,valid
+Wendy's,fast_food,burger,Streetsboro,Cleveland East Liverpool Road,44241,,41.2388725,-81.3415947,valid
+El Campesino Mexican Restaurant,restaurant,mexican,Streetsboro,Cleve E Liverpool Road,44241,http://www.elcampesinostow.com,41.2388886,-81.3422143,valid
+Taco Bell,fast_food,tex-mex,Streetsboro,Cleve E Liverpool Road,44241,https://locations.tacobell.com/oh/streetsboro/9223-st-rte-14.html,41.2389486,-81.3434508,valid
+Pizza Hut,restaurant,pizza,Akron,South Main Street,44319,https://locations.pizzahut.com/oh/akron/2383-s-main-st,41.0222962,-81.5258601,valid
+kevin o'briens,pub,,,,,,41.038955,-81.5265234,needs_fix
+Stadium Pub,bar,,,,,,41.0392082,-81.5265165,needs_fix
+Waterloo Restaurant,restaurant,american,,East Waterloo Road,44319,https://waterloorestaurant.com/,41.0291776,-81.5120126,valid
+Bruegger's Bagels,fast_food,bagel,hudson,,44236,,41.2396995,-81.4453315,needs_fix
+Tree City Coffee,cafe,coffee_shop,,,,,41.1528372,-81.3571555,needs_fix
+The Fruit Stand,restaurant,breakfast,,East Erie Street,44240,https://thefruitstandohio.com/,41.1529687,-81.3568737,valid
+Bricco,restaurant,italian,,,,,41.1525332,-81.3567518,needs_fix
+Barflyy,restaurant,burger,,,,,41.1525483,-81.3572834,needs_fix
+Fresco,restaurant,mexican,,,,,41.1525315,-81.3579691,needs_fix
+Buffalo Wild Wings,restaurant,wings,,,,,41.1536252,-81.3566513,needs_fix
+Beware of the Leopard,bar,,Kent,East Main Street,44240,,41.1536266,-81.3567479,valid
+Jimmy John's,fast_food,sandwich,Kent,East Main Street,44240,https://locations.jimmyjohns.com/oh/kent/sandwiches-653.html,41.1539359,-81.3567855,valid
+Troy Grille,restaurant,turkish,Kent,East Main Street,44240,https://troygrille.com/,41.1536211,-81.3577054,valid
+Georgio's,restaurant,pizza,Kent,,,,41.1525594,-81.3574648,needs_fix
+D.P. Dough,restaurant,calzone,Kent,South Water Street,44240,https://www.dpdough.com/,41.1523381,-81.3579905,valid
+Barrio,restaurant,mexican,kent,South Water Street,,https://barrio-tacos.com/,41.1520437,-81.3579949,valid
+Insomnia Cookies,pastry,,Kent,South Water Street,,,41.1519944,-81.3579812,valid
+Panini's,pub,sandwich,,,44240,https://paninisgrill.com/,41.1516279,-81.3579994,needs_fix
+101 Bottles of Beer on the Wall,bar,,,,,,41.1544382,-81.3527689,needs_fix
+Subway,fast_food,sandwich,Akron,Manchester Road,44319,https://restaurants.subway.com/united-states/oh/akron/3235-manchester-rd,41.0112033,-81.5533472,valid
+DA Guild Pizza,restaurant,pizza,Akron,Manchester Road,44319,,41.0118072,-81.553409,valid
+The Upper Deck Bar & Grill,bar,,Akron,West Turkeyfoot Lake Road,44319,,40.9799568,-81.5340731,valid
+Applebee's,restaurant,american,Alliance,West State Street,44601,https://restaurants.applebees.com/en-us/oh/alliance/2600-w.-state-st.-95062,40.9015708,-81.1582006,valid
+Burrito-Del-Rey,fast_food,mexican,Kent,,,https://www.kent.edu/dining/prentice-hall,41.1512356,-81.343008,needs_fix
+Buffalo Wild Wings,restaurant,wings,,,,,41.0763204,-81.5220363,needs_fix
+Jimmy John's,fast_food,sandwich,Akron,South Main Street,44311,https://locations.jimmyjohns.com/oh/akron/sandwiches-1122.html,41.0757779,-81.5224174,valid
+Pad Thai,restaurant,sushi;thai,,,,,41.0762232,-81.5217174,needs_fix
+The Bakery at Hattie's Cafe,bakery,,,,,,41.0795669,-81.5197563,needs_fix
+The Lockview,restaurant,,,,,,41.0797737,-81.519605,needs_fix
+Baxter's,pub,,,,,,41.079839,-81.5195569,needs_fix
+Dante Boccuzzi Akron,restaurant,,Akron,Furnace Street,44308,,41.0887162,-81.5154915,valid
+Luigi's,restaurant,,Akron,North Main Street,44308,,41.0878905,-81.5153713,valid
+Jilly's Music Room,pub,,Akron,North Main Street,44308,,41.0880462,-81.5152882,valid
+Subway,fast_food,sandwich,Akron,North Main Street,44308,https://restaurants.subway.com/united-states/oh/akron/10-n-main-st,41.0853831,-81.5170165,valid
+Einstein's Bagels,restaurant,,Akron,North Main Street,44308,,41.0857435,-81.5168614,valid
+D.P. Dough Akron,restaurant,,,,,,41.07609,-81.5214425,needs_fix
+Eddies Cheesesteak,fast_food,,,,,,41.0812479,-81.5185982,needs_fix
+Nuevo,restaurant,,,,,,41.0821759,-81.5169822,needs_fix
+Hudson's Restaurant,restaurant,american,,,,,41.2410705,-81.4406484,needs_fix
+Kepner's Tavern,bar,,,,,,41.2411583,-81.4406484,needs_fix
+Downtown 140,restaurant,,,,,,41.2419072,-81.4406414,needs_fix
+Open Door Coffee Co.,cafe,coffee_shop,,,,,41.2422057,-81.4406375,needs_fix
+The Boulevard Tavern,bar,,,,,,41.1292955,-81.4893473,needs_fix
+Chestnut Beer Garden,bar,,,,,,41.1292722,-81.489673,needs_fix
+Mickey's In the Valley,pub,,,,,,41.1369148,-81.5531724,needs_fix
+Cal's Restaurant and Pizza,restaurant,,,,,,41.2781072,-81.0900104,needs_fix
+Jimmy John's,fast_food,sandwich,,,,,41.2423121,-81.1778012,needs_fix
+Jimmy John's,fast_food,sandwich,Mantua,,44255,https://locations.jimmyjohns.com/oh/mantua/sandwiches-4299.html,41.2448131,-81.1759212,needs_fix
+FreshÃ«ns,fast_food,juice;salad,,,,,41.2423717,-81.177711,needs_fix
+FreshÃ«ns,fast_food,juice;salad,,,,,41.2447526,-81.1760101,needs_fix
+Wendy's,fast_food,burger,,,,,41.2424312,-81.1776209,needs_fix
+Wendy's,fast_food,burger,,,,,41.244692,-81.1760991,needs_fix
+Dunkin',fast_food,donut;coffee_shop,Mantua,Limeridge Road,44255,https://locations.dunkindonuts.com/en/oh/mantua/9250-limeridge-rd/363401,41.2424907,-81.1775307,valid
+Dunkin',fast_food,donut;coffee_shop,Mantua,Limeridge Road,44255,https://locations.dunkindonuts.com/en/oh/mantua/9270-limeridge-rd/363402,41.2446315,-81.176188,valid
+Urban Eats Cafe,restaurant,,Akron,Maiden Lane,44308,,41.0854969,-81.5157896,valid
+Crave,restaurant,,Akron,East Market Street,44308,,41.0850497,-81.5158145,valid
+Baxter's Speakeasy,bar,,Akron,North High Street,44308,https://baxtersspeakeasy.com/,41.0854207,-81.5155142,valid
+Chipotle,fast_food,mexican,Kent,Cascades Boulevard,44240,https://locations.chipotle.com/oh/kent/4050-cascades-blvd,41.0996203,-81.3859234,valid
+Hartville Kitchen,restaurant,,,,,https://www.hartvillekitchen.com/,40.9721819,-81.3601205,needs_fix
+Hungry Howie's,fast_food,pizza,,,,,41.1537027,-81.3363531,needs_fix
+Little Caesars,fast_food,pizza,,,,,41.1545238,-81.3352562,needs_fix
+Evergreen Buffet,restaurant,chinese,,,,,41.1550385,-81.3339994,needs_fix
+East of Chicago Pizza,fast_food,pizza,,,,,41.1550303,-81.3339182,needs_fix
+Wild Papaya,restaurant,thai,,,,,41.1550344,-81.3337342,needs_fix
+Juice And Smoothie Bar,fast_food,,,,,,41.1543005,-81.3318853,needs_fix
+Subway,fast_food,sandwich,Kent,East Main Street,44240,https://restaurants.subway.com/united-states/oh/kent/1709-e-main-st,41.1560597,-81.3328198,valid
+China City,restaurant,chinese,,,,,41.1398047,-81.3593519,needs_fix
+Domino's,fast_food,pizza,Kent,South Water Street,44240,https://pizza.dominos.com/ohio/kent/1413-s-water-street,41.1407408,-81.3565772,valid
+Venice Cafe,bar,,,,,,41.1528386,-81.3589169,needs_fix
+Erie Street Kitchen,restaurant,,Kent,,44240,,41.1528396,-81.3587714,needs_fix
+The Sideline,fast_food,american,,,,,41.1392415,-81.3147062,needs_fix
+The Sideline,fast_food,american,,,,,41.138866,-81.3146988,needs_fix
+Subway,fast_food,sandwich,Munroe Falls,South Main Street,44262,https://restaurants.subway.com/united-states/oh/munroe-falls/14-south-main-street,41.1392233,-81.4386638,valid
+Great Wall,restaurant,chinese,Munroe Falls,South Main Street,,,41.1390708,-81.43868,valid
+Starbucks,cafe,coffee_shop,Hudson,South Main Street,44236,https://www.starbucks.com/store-locator/store/8778/hudson-south-main-street-85-south-main-street-hudson-oh-442363073-us,41.2364162,-81.4399885,valid
+Awaken Bake Company,bakery,,Hudson,South Main Street,44236,,41.2365556,-81.4399886,valid
+Gionino's Pizzaria,restaurant,pizza,Hudson,West Streetsboro Street,44236,,41.2397808,-81.4428763,valid
+Noble House,restaurant,chinese,Hudson,West Streetsboro Street,44236,,41.2398149,-81.4427473,valid
+Hershey's Ice Cream,ice_cream,,Hudson,West Streetsboro Street,44236,,41.2395149,-81.4422084,valid
+"Peace, Love, and Little Donuts",restaurant,donut,Hudson,South Main Street,44326,,41.2378814,-81.4397406,valid
+Restore Cold Pressed,restaurant,juice,Hudson,Park Lane,44236,https://www.restorecoldpressed.com/,41.2406856,-81.4422303,valid
+Firehouse,bar,,,,,,41.0032471,-81.4087426,needs_fix
+Steak 'n Shake,fast_food,burger,Akron,East Exchange Street,44325,,41.0741476,-81.5164661,valid
+Starbucks,cafe,coffee_shop,Akron,East Exchange Street,44325,,41.0741265,-81.516409,valid
+Cellar Door Coffee Company,cafe,coffee_shop,,,,,41.2839904,-81.0966419,needs_fix
+Sean's Pub,pub,,,,,,41.2849015,-81.0977169,needs_fix
+Pizza Hut,restaurant,pizza,Garrettsville,State Street,44231,https://locations.pizzahut.com/oh/garrettsville/7999-state-street,41.2875175,-81.1015583,valid
+Silver Crik Saloon,bar,,,,,,41.2845508,-81.0978579,needs_fix
+Lucky Dragon,restaurant,chinese,,,,,41.2843178,-81.0974685,needs_fix
+Fresh Start Diner,restaurant,diner,,,,,41.2844756,-81.0977918,needs_fix
+Subway,fast_food,sandwich,Garrettsville,Main Street,44231,https://restaurants.subway.com/united-states/oh/garrettsville/8094-main-st,41.2848511,-81.0983209,valid
+Italian Garden,restaurant,pizza,,,,,41.2847028,-81.0980689,needs_fix
+Jersey Mike's Subs,fast_food,sandwich,,,,https://www.jerseymikes.com/2061/hudson-oh,41.2387285,-81.4464323,needs_fix
+Michael's AM,restaurant,,Akron,Akron Peninsula Road,44313,https://michaelsam.net/,41.1376869,-81.5480042,valid
+Subway,fast_food,sandwich,Stow,Darrow Road,44224,https://restaurants.subway.com/united-states/oh/stow/4968-darrow-rd,41.2004287,-81.4414635,valid
+Starbucks,cafe,coffee_shop,Cuyahoga Falls,Portage Trail,44223,https://www.starbucks.com/store-locator/store/1007744/portage-trail-2071-portage-trail-space-1000-cuyahoga-falls-oh-44,41.1487199,-81.508142,valid
+Northside Speakeasy,bar,,Akron,Furnace Street,44308,https://www.northsidespeakeasy.com/,41.0888222,-81.5151401,valid
+Nervous Dog Coffee Bar,cafe,coffee_shop,Akron,West Market Street,44313,,41.1070878,-81.5649003,valid
+Arby's,fast_food,sandwich,,,,https://www.arbys.com/locations/us/oh/akron/292-e-exchange-street/store-8088/,41.0726441,-81.5127414,needs_fix
+Chipotle,fast_food,mexican,Akron,East Exchange Street,44304,https://locations.chipotle.com/oh/akron/272-e-exchange-st,41.072919,-81.513455,valid
+Cinnabon,fast_food,dessert,,,,,40.9155091,-81.4366817,needs_fix
+Little Caesars,fast_food,pizza,Alliance,West State Street,44601,,40.9022746,-81.141218,valid
+Wendy's,fast_food,burger,Alliance,West State Street,44601,https://locations.wendys.com/united-states/oh/alliance/1833-w-state-st,40.9022375,-81.1329389,valid
+LongHorn Steakhouse,restaurant,steak_house,,,,,40.9031853,-81.1393372,needs_fix
+Strickland,ice_cream,,,,,,41.1462429,-81.4740284,needs_fix
+Burger King,fast_food,burger,Alliance,South Union Avenue,44601-2932,https://www.bk.com/store-locator/store/restaurant_705,40.9144072,-81.106327,valid
+Subway,fast_food,sandwich,Stow,Kent Road,44224,https://restaurants.subway.com/united-states/oh/stow/4301-kent-rd,41.1569876,-81.4058215,valid
+Chipotle,fast_food,mexican,Stow,Kent Road,44224,https://locations.chipotle.com/oh/stow/4338-kent-rd,41.1561641,-81.4058006,valid
+Don Poncho's,restaurant,tex-mex,,,,https://www.donpanchostexmexgrill.com/,40.9027404,-81.1407417,needs_fix
+Chipotle,fast_food,mexican,Alliance,West State Street,44601,https://locations.chipotle.com/oh/alliance/1630-w-state-st,40.9014737,-81.1290297,valid
+Rey's Bar & Grill,restaurant,american,,,,https://www.reys62.com/,40.9026589,-81.1411764,needs_fix
+Jimmy John's,fast_food,sandwich,Alliance,West State Street,44601,https://locations.jimmyjohns.com/oh/alliance/sandwiches-761.html,40.9014246,-81.1446459,valid
+Buffalo Wild Wings,restaurant,wings,,,,,40.9012084,-81.110174,needs_fix
+Papa John's,fast_food,pizza,Alliance,West State Street,44601,https://locations.papajohns.com/united-states/oh/44601/alliance/1210-w-state-st,40.9015539,-81.123563,valid
+East of Chicago Pizza,restaurant,pizza,,,,,40.902173,-81.1218239,needs_fix
+Bob's Pizza,restaurant,pizza;wings;american,,,,,41.0306905,-81.2487085,needs_fix
+Chipotle,fast_food,mexican,Cuyahoga Falls,Howe Avenue,44221,https://locations.chipotle.com/oh/cuyahoga-falls/371-howe-ave,41.1195828,-81.4794273,valid
+Starbucks,cafe,coffee_shop,Cuyahoga Falls,Howe Avenue,44221,https://www.starbucks.com/store-locator/store/6597/cuyahoga-falls-howe-street-371-howe-ave-cuyahoga-falls-oh-442214921-us,41.119584,-81.4796722,valid
+Taco Bell,fast_food,tex-mex,Cuyahoga Falls,Howe Avenue,44221,https://locations.tacobell.com/oh/cuyahoga-falls/360-howe-ave.html,41.1188191,-81.4814235,valid
+Burger King,fast_food,burger,Cuyahoga Falls,Howe Avenue,44221,https://www.bk.com/store-locator/store/restaurant_3018,41.1187979,-81.4822619,valid
+Coventry Diner,restaurant,diner,,Manchester Road,44319,,41.0093722,-81.5524772,valid
+Johnny J's Pub,bar,,,,,,41.0090935,-81.5543155,needs_fix
+Dav's Creamery,ice_cream,,,,,,40.9971912,-81.5569864,needs_fix
+Starbucks,cafe,coffee_shop,Cuyahoga Falls,State Road,44223,https://www.starbucks.com/store-locator/store/1010398/market-district-cuyahoga-falls-2687-state-rd-cuyahoga-falls-oh-44223-us,41.1467506,-81.50664,valid
+Heggy's,confectionery,,,,,,40.9016163,-81.1248583,needs_fix
+College Inn Restaurant,restaurant,american,Alliance,West State Street,44601,https://collegeinnalliance.com/,40.9020296,-81.1182345,valid
+Starbucks,cafe,coffee_shop,Akron,West Market Street,44313,https://www.starbucks.com/store-locator/store/1015905/west-market-street-1971-west-market-st-akron-oh-443136910-us,41.1138063,-81.578394,valid
+Chill Artisan Ice Cream,ice_cream,,Akron,North High Street,44308,,41.0856632,-81.5154462,valid
+High Street Hop House,bar,,Akron,North High Street,44308,https://www.hophouse.bar/,41.0853984,-81.5155233,valid
+Beef 'O' Brady's,restaurant,,,,,,41.1658249,-81.4409098,needs_fix
+Golden Place,restaurant,chinese,,,,,41.1005768,-81.4375317,needs_fix
+Jersey Mike's Subs,fast_food,sandwich,,,,https://www.jerseymikes.com/2069/alliance-oh,40.9012221,-81.1109078,needs_fix
+Pavonas Pizza,restaurant,pizza,,,,,41.1183593,-81.5878459,needs_fix
+Caporalettis pizza,restaurant,pizza,,,,,41.10589,-81.2412798,needs_fix
+Starbucks,cafe,coffee_shop,Akron,Buchetel Common,44325,https://www.starbucks.com/store-locator/store/1015710/university-of-akron-library-315-buchtel-commons-rdh-akron-oh-443250002-us,41.0769275,-81.5106743,valid
+Fred's Dinner,restaurant,,,,,,41.0961914,-81.4884606,needs_fix
+Five Guys,fast_food,burger,Cuyahoga Falls,Howe Avenue,44221,https://restaurants.fiveguys.com/753-howe-ave,41.1195962,-81.4722709,valid
+Starbucks,cafe,coffee_shop,,,44325,https://www.starbucks.com/store-locator/store/8933/university-of-akron-student-un-303-carroll-st-akron-oh-443250016-us,41.0756305,-81.5117943,needs_fix
+Union Market,restaurant,,,,,,41.0757255,-81.5124596,needs_fix
+Qdoba,fast_food,mexican,Akron,Carroll Street,44325,https://locations.qdoba.com/us/oh/akron/univ-of-akron-student-union.html,41.0755961,-81.513066,valid
+Panda Express,fast_food,chinese,Akron,Carroll Street,44325,https://www.pandaexpress.com/locations/oh/akron/2643,41.0756547,-81.5129801,valid
+Auntie Anne's,fast_food,pretzel,,,,,41.0757619,-81.5129587,needs_fix
+Burger King,fast_food,burger,Akron,East Waterloo Road,44319,https://www.bk.com/store-locator/store/restaurant_4457,41.027603,-81.510787,valid
+Penn Station,fast_food,sandwich,,,,,41.072871,-81.5133278,needs_fix
+Panda,fast_food,,,,,,41.0728528,-81.5132759,needs_fix
+Pulp,fast_food,,,,,,41.0728349,-81.5132238,needs_fix
+Bubbles & Puffles,ice_cream,,,,,,41.0727664,-81.513039,needs_fix
+Five Guys,fast_food,burger,Akron,East Exchange Street,44304,https://restaurants.fiveguys.com/282-e-exchange-st,41.0728076,-81.5131479,valid
+Taco Bell,fast_food,tex-mex,Akron,West Market Street,44313,https://locations.tacobell.com/oh/akron/1940-w--market-st.html,41.1129906,-81.5777675,valid
+The Pub,restaurant,,,,,,41.1504636,-81.3598898,needs_fix
+Subway,fast_food,sandwich,Akron,East Market Street,44312,https://restaurants.subway.com/united-states/oh/akron/2068-e-market-st,41.0602321,-81.4546648,valid
+Piada,restaurant,italian,,,,,41.1110229,-81.5695716,needs_fix
+Remarkable Diner,restaurant,,,,,,41.0227746,-81.589248,needs_fix
+Little Caesars,fast_food,pizza,,,,https://littlecaesars.com/en-us/store/11196/,41.0100961,-81.5876108,needs_fix
+New China,restaurant,chinese,Alliance,East State Street,44601,https://us.chinesemenu.com/m/101332176.htm,40.9013432,-81.1005357,valid
+China Buffet,restaurant,,,,,,40.9010571,-81.1516082,needs_fix
+Marco's Pizza,restaurant,pizza,Akron,North Hawkins Avenue,44313,,41.1100432,-81.5687413,valid
+Papa Gryo's,restaurant,greek,Akron,North Hawkins Avenue,44313,,41.1098548,-81.5687178,valid
+Einstein Bros. Bagels,fast_food,bagel,Akron,West Exchange Street,44313,https://locations.einsteinbros.com/us/oh/akron/1751-w-exchange-st,41.1090691,-81.5689199,valid
+Altieri's Pizza,restaurant,pizza,Tallmadge,Tallmadge Circle,44278,http://www.altierispizza.com/,41.1005194,-81.4400304,valid
+Panda Garden,restaurant,chinese,Alliance,South Union Avenue,44601,http://alliancepandagarden.com/,40.9169593,-81.1052784,valid
+Chipotle,fast_food,mexican,Akron,Arlington Ridge,44312,https://locations.chipotle.com/oh/akron/790-arlington-rdg,40.9827344,-81.4939681,valid
+Burger Hut,restaurant,burger,,,,,40.929107,-81.1055477,needs_fix
+Subway,fast_food,sandwich,,,,,41.1064881,-81.2432465,needs_fix
+China Dragon,restaurant,chinese,,,,,41.0997107,-81.2438146,needs_fix
+Angelo's Pizzeria,restaurant,pizza,,,,,41.099398,-81.2427975,needs_fix
+Starbucks,cafe,coffee_shop,Alliance,West State Street,44601,https://www.starbucks.com/store-locator/store/1013926/alliance-west-state-st-2495-w-state-street-alliance-oh-446015600-us,40.9023822,-81.1545239,valid
+Subway,fast_food,sandwich,Alliance,Parkway Boulevard,44601,https://restaurants.subway.com/united-states/oh/alliance/2100-parkway-blvd,40.9008869,-81.1180037,valid
+Old Caralina BBQ,restaurant,barbecue,,,,,40.9015015,-81.1172941,needs_fix
+Hardee's,fast_food,burger,Akron,Gilchrist Road,44305,https://locations.hardees.com/oh/akron/2695-gilchrist-rd,41.0644687,-81.4293203,valid
+Hamburger Station,fast_food,,,,,,41.044271,-81.4372077,needs_fix
+East of Chicago Pizza,restaurant,,,Canton Road,,,41.0445265,-81.4373585,valid
+Subway,fast_food,sandwich,Akron,East Waterloo Road,44312,https://restaurants.subway.com/united-states/oh/akron/2843-e-waterloo-rd,41.0320196,-81.425135,valid
+Papa John's,fast_food,pizza,Akron,East Waterloo Road,44312,https://locations.papajohns.com/united-states/oh/44312/akron/2845-e-waterloo-rd,41.0320162,-81.4250385,valid
+Johnny J's Pub & Grill,bar,,Akron,East Waterloo Road,44312,,41.0319183,-81.4245263,valid
+Arnie's,bar,,,,,,41.1094699,-81.5699183,needs_fix
+Hopping Frog Brewery,bar,,,,,,41.0246552,-81.4676666,needs_fix
+Mucky Duck Brewery,bar,,,,,,40.9778032,-81.5215715,needs_fix
+Grinders,restaurant,american,Alliance,West State Street,44601,https://www.grinders.net,40.9009452,-81.1324591,valid
+Starbucks,cafe,coffee_shop,Stow-Kent Plaza,Kent Road,44224,https://www.starbucks.com/store-locator/store/90026/stow-kent-plaza-4294-kent-road-stow-oh-442244470-us,41.1567091,-81.4086711,valid
+Taqueria El Paso,restaurant,mexican,Akron,South Main Street,44301,https://www.facebook.com/TaqueriaElPasoAkron/,41.0376237,-81.526437,valid
+Ms. Julie's Kitchen,restaurant,,Akron,South Main Street,44301,,41.0376842,-81.5264386,valid
+House of Hunan,restaurant,asian,,East Waterloo Road,44319,https://houseofhunan6.com/,41.0275735,-81.5128049,valid
+Hungry Howie's,fast_food,pizza,,,,,41.0285029,-81.5136278,needs_fix
+Mama Rosa's,restaurant,pizza,Akron,Brown Street,44301,https://mamarosespizza.com/,41.0513434,-81.5097481,valid
+Butcher and Sprout,pub,,,,,,41.1307728,-81.4840025,needs_fix
+Akronym Brewing,bar,,,,,,41.0846999,-81.5160181,needs_fix
+McDonald's,fast_food,burger,Akron,Manchester Road,44319-3911,https://www.mcdonalds.com/us/en-us/location/5493.html,40.9623102,-81.5654457,valid
+Great Lakes Brewing Co.,pub,,,,,,40.9147727,-81.4366938,needs_fix
+Arby's,fast_food,sandwich,,,,,40.9148929,-81.4366926,needs_fix
+Subway,fast_food,sandwich,,,,,40.9147541,-81.4364347,needs_fix
+JJ's Sport Bar,pub,,,,,,40.9147559,-81.4363866,needs_fix
+Buckhead Grill,restaurant,,,,,,40.9148058,-81.4364309,needs_fix
+The Eye Opener,restaurant,,,,,,41.1096001,-81.5701619,needs_fix
+Pizza Hut,restaurant,pizza,Akron,West Market Street,44313,https://locations.pizzahut.com/oh/akron/1694-w-market-st,41.1097079,-81.5703809,valid
+Wingstop,restaurant,wings,,,,,41.1097246,-81.5704076,needs_fix
+Dunkin' Donuts,fast_food,donut;coffee_shop,Akron,West Market Street,44313,https://locations.dunkindonuts.com/en/oh/akron/1712-w-market-st/350211,41.1098426,-81.5706236,valid
+Panera Bread,fast_food,sandwich;bakery,Cuyahoga Falls,Howe Avenue,44221,https://locations.panerabread.com/oh/cuyahoga-falls/689-howe-avenue.html,41.1200399,-81.4746653,valid
+Tres Potrillos,restaurant,mexican,,,,,41.1012003,-81.4379721,needs_fix
+McDonald's,fast_food,burger,Tallmadge,Southeast Avenue,44278-2317,https://www.mcdonalds.com/us/en-us/location/10566.html,41.1006264,-81.4391501,valid
+Great Garden,restaurant,chinese,,East Tallmadge Avenue,44310,http://www.greatgarden1065.com/,41.1023258,-81.4765885,valid
+Swensons,fast_food,burger,,East Cuyahoga Falls Avenue,,https://swensonsdriveins.com/,41.1145639,-81.4956894,valid
+Gino's Pizza,restaurant,,Akron,Copley Road,44320,,41.0840828,-81.5712843,valid
+Portage Path Broaster and Mini Mart,fast_food,chicken,Akron,South Portage Path,44302,,41.0924294,-81.5434331,valid
+Little Caesars,fast_food,pizza,Akron,Copley Road,44320,,41.0841889,-81.5674333,valid
+Edgar's Restaurant,restaurant,american,Akron,Nome Avenue,44320,,41.0951804,-81.5716672,valid
+Starbucks,cafe,coffee_shop,Streetsboro Commons,Singletary Drive,44241,https://www.starbucks.com/store-locator/store/1008805/streetsboro-commons-9712-singletary-drive-streetsboro-oh-44241-us,41.2503841,-81.3626286,valid
+Chill,ice_cream,,,,,,41.0857839,-81.5157225,needs_fix
+Romeo's pizza,restaurant,pizza,Tallmadge,Erie Road,44278,https://locations.romeospizza.com/tallmadge/,41.1005234,-81.437608,valid
+Subway,fast_food,sandwich,Tallmadge,Erie Road,44278,https://restaurants.subway.com/united-states/oh/tallmadge/35-erie-rd,41.1004509,-81.4376923,valid
+The Brick Oven Brew Pub,pub,pizza,,,,,41.0472351,-81.4374168,needs_fix
+Pizza Pan,restaurant,pizza,,,,,41.0475066,-81.4375506,needs_fix
+Los Girasoles,restaurant,mexican,,,,,41.1336154,-81.5505767,needs_fix
+Zap Zap Sushi,restaurant,,,,,,41.1329096,-81.5490618,needs_fix
+Subway,fast_food,sandwich,Stow,Hudson Drive,44224,https://restaurants.subway.com/united-states/oh/stow/3500-hudson-dr,41.164979,-81.4774182,valid
+Jimmy John's,fast_food,sandwich,Stow,Hudson Drive,44224,https://locations.jimmyjohns.com/oh/stow/sandwiches-2082.html,41.1644957,-81.477568,valid
+Handel's,ice_cream,,,,,,41.084692,-81.4444259,needs_fix
+Molly's Cafe,cafe,,,,,https://www.stanhywet.org/shop-dine,41.118767,-81.5490768,needs_fix
+Popeyes,fast_food,chicken,Akron,North Howard Street,44310,https://www.popeyes.com/store-locator/store/restaurant_83727,41.1023465,-81.5156005,valid
+Valley Cafe,restaurant,,,Weathervane Lane,44313,,41.1354838,-81.5532891,valid
+Evelyn's Coffee & Banh Mi,cafe,,Akron,East Exchange Street,44308,http://evelynscoffee.com/,41.0764845,-81.5215486,valid
+Munchyâ€™s,bar,,,,,,40.9149239,-81.0869238,needs_fix
+Boba & Pearl,cafe,bubble_tea,Cuyahoga Falls,Portage Trail,44223,,41.1476997,-81.5056851,valid
+Jade Dragon,restaurant,chinese,,,,,41.0718881,-81.4932319,needs_fix
+Pierre's Brooklyn Pizza and Deli,restaurant,pizza,Akron,Kenmore Boulevard,44314,https://pierrespizzaanddeli.com/,41.043275,-81.5585508,valid
+Subway,fast_food,sandwich,Akron,Tallmadge Avenue,44310,https://restaurants.subway.com/united-states/oh/akron/904-tallmadge-ave,41.1018891,-81.4820987,valid
+Crimson Cup,cafe,coffee_shop,Tallmadge,Tallmadge Circle,44278,https://www.crimsoncup.com/assets/24x36-_2020_Tallmadge.pdf,41.102298,-81.4415404,valid
+Chipotle,fast_food,mexican,Cuyahoga Falls,Portage Trail,44223,https://locations.chipotle.com/oh/cuyahoga-falls/2042-portage-trl,41.148276,-81.5075763,valid
+Paniniâ€™s Bar & Grill,restaurant,,,Steels Pointe,44224,,41.1819474,-81.4806617,valid
+Nervous Dog Coffee Bar and Roaster,cafe,,,Steels Pointe,44224,,41.1826632,-81.4825448,valid
+Skyline Chili,restaurant,chili,,Bridgewater Parkway,44224,https://skylinechili.com/,41.179904,-81.4805418,valid
+Rockneâ€™s,restaurant,,,Hudson Drive,44224,,41.1827525,-81.4727677,valid
+Mr. Bulky's Foods,confectionery,,Cuyahoga Falls,Howe Avenue,44221,,41.1167877,-81.4793622,valid
+Agavero Mexican Restaurant,restaurant,mexican,Cuyahoga Falls,Howe Avenue,44221,,41.1169343,-81.4803031,valid
+Dunkin',fast_food,donut;coffee_shop,Stow,Graham Road,44224,https://locations.dunkindonuts.com/en/oh/stow/3027-graham-rd/353699,41.1669531,-81.4046738,valid
+Jersey Mike's Subs,fast_food,sandwich,Stow,Graham Road,44224,https://www.jerseymikes.com/2063/stow-oh,41.1668974,-81.404666,valid
+StowNut Donut & Diner,cafe,,Stow,Graham Road,44224,http://www.stownutdonut.com/,41.1674397,-81.4040781,valid
+Old Carolina,restaurant,barbecue,,,,,41.1557087,-81.4071594,needs_fix
+sweetFrog,ice_cream,frozen_yogurt,,,,,41.1652591,-81.4055753,needs_fix
+Subway,fast_food,sandwich,Stow,Graham Road,44224,https://restaurants.subway.com/united-states/oh/stow/3022-graham-rd,41.1652591,-81.4057684,valid
+Missing Falls Brewery,bar,,,South Main Street,44311,,41.0705309,-81.526809,valid
+Dunkin',fast_food,donut;coffee_shop,Akron,Shanafelt Avenue,44312,https://locations.dunkindonuts.com/en/oh/akron/1286-shanafelt-ave/354710,41.0326804,-81.4323819,valid
+Subway,fast_food,sandwich,Akron,East Waterloo Road,44306,https://restaurants.subway.com/united-states/oh/akron/1011-e-waterloo-rd,41.03102,-81.4908307,valid
+Arby's,fast_food,sandwich,,,,https://www.arbys.com/locations/us/oh/alliance/130-w-state-st/store-8148/,40.9013373,-81.1078536,needs_fix
+Bogo pizza,fast_food,pizza,,,,,40.9012131,-81.1107928,needs_fix
+Hot Head Burritos,fast_food,mexican,,,,,40.9012156,-81.110691,needs_fix
+Chinese Food,restaurant,chinese,,,,,41.1557543,-81.3329402,needs_fix
+Laundry 101,bar,,,,,,41.1556495,-81.332948,needs_fix
+Robeks,fast_food,,,,,,41.109193,-81.5688153,needs_fix
+The Shak,restaurant,diner,,,,,40.9403837,-81.1158541,needs_fix
+New York style pizza,restaurant,,,,,,41.096927,-81.5027769,needs_fix
+sunrise kitchen,restaurant,,,,,http://sunrisekitchenonline.com,41.1651655,-81.4758347,needs_fix
+Penn Station,fast_food,sandwich,Cuyahoga Falls,Howe Avenue,44221,,41.1196048,-81.4726736,valid
+Moe's Southwest Grill,fast_food,mexican,Cuyahoga Falls,Howe Avenue,44221,,41.1196005,-81.4725363,valid
+Chilling Station,ice_cream,,,,,https://chillingstation.net/,41.2789038,-81.2248456,needs_fix
+Jake's Eats,restaurant,,,,,JakesEats.com,41.2818131,-81.2236849,needs_fix
+italiano's,restaurant,italian,,,,,41.2831573,-81.2238292,needs_fix
+West Ave Tavern,restaurant,american,Tallmadge,West Avenue,44278,https://www.westavetavern.com/,41.1013046,-81.4448759,valid
+No. 1 Chinese Kitchen,restaurant,chinese,Kent,Cascades Boulevard,44240,,41.0965199,-81.3883489,valid
+Panera Bread,fast_food,sandwich;bakery,Stow,Kent Road,44224,https://locations.panerabread.com/oh/stow/4338-kent-road.html,41.1562499,-81.4062333,valid
+Marco's Pizza,restaurant,pizza,,,,,41.1370325,-81.4885311,needs_fix
+Subway,fast_food,sandwich,Alliance,West State Street,44601,https://restaurants.subway.com/united-states/oh/alliance/2491-w-state-st,40.9025567,-81.1536017,valid
+Domino's,fast_food,pizza,Alliance,West State Street,44601,https://pizza.dominos.com/ohio/alliance/1939-west-state-st,40.9023495,-81.1351536,valid
+Gionino's Pizzeria,fast_food,pizza,Akron,North Portage Path,44313,https://www.gioninos.com/locations/oh-akron-1376-n-portage-path-44313,41.1325528,-81.5493878,valid
+Papa John's,fast_food,pizza,Akron,West Market Street,44313,https://locations.papajohns.com/united-states/oh/44313/akron/1885-west-market-street,41.1126763,-81.5758135,valid
+The Blue Door Cafe & Bakery,cafe,,,,,,41.1341837,-81.5089019,needs_fix
+Lock 15 Brewing Co,pub,,Akron,West North Street,,,41.0914737,-81.5171996,valid
+Breakfast at Tiffani's Cafe and Catering,restaurant,breakfast;brunch,Tallmadge,East Avenue,44278,https://www.facebook.com/people/Breakfast-at-Tiffanis-Cafe-and-Catering/100093853910872/,41.102202,-81.4356702,valid
+Taco Bell,fast_food,tex-mex,Tallmadge,Tallmadge Circle,44278,https://locations.tacobell.com/oh/tallmadge/62-tallmadge-circle.html,41.1019253,-81.4396732,valid
+Arby's,fast_food,sandwich,Tallmadge,East Avenue,44278,https://www.arbys.com/locations/us/oh/tallmadge/30-east-ave/store-5351/,41.1010859,-81.4390042,valid
+Imperial Woc,restaurant,chinese,,,,,41.1126254,-81.5756476,needs_fix
+South Point Tavern,bar,,Akron,West Market Street,,,41.1143918,-81.5779008,valid
+Niko's Sandwich Board,cafe,,Akron,West Market Street,,,41.1145585,-81.5778946,valid
+New Baltimore,ice_cream,,,,,,40.9850039,-81.2492337,needs_fix
+Handel's Homemade Ice Cream,ice_cream,,,,,,41.065282,-81.4812452,needs_fix
+Starbucks,cafe,coffee_shop,Akron,East Market Street,44305,https://www.starbucks.com/store-locator/store/1024909/akron-east-market-drive-thru-1203-e-market-st-akron-oh-44305-us,41.0653687,-81.4813624,valid
+Royal Star Diner,restaurant,diner,,,,,40.9193467,-81.0195326,needs_fix
+Tip Top,restaurant,,,Darrow Road,,,41.158372,-81.4405109,valid
+The Town Tavern,bar,,Uniontown,Town Park Boulevard,44685,,40.9496174,-81.4669801,valid
+Gionino's,restaurant,pizza,Rootstown,Tallmadge Road,44272,,41.0992828,-81.140689,valid
+Papa John's,fast_food,pizza,Uniontown,Cleveland Avenue Northwest,44685,https://locations.papajohns.com/united-states/oh/44685/uniontown/13038-cleveland-avenue-nw,40.9758965,-81.4065843,valid
+McDonald's,fast_food,burger,Hartville,West Maple Street,44632-9669,https://www.mcdonalds.com/us/en-us/location/8064.html,40.9673438,-81.345292,valid
+Hanini Subs,restaurant,sandwich;salad;gyros,akron,Brittain Ridge,44305,https://www.haninisubs.com/,41.0855013,-81.4666259,valid
+Restoration 44 Coffee Company,cafe,coffee_shop,,,44255,https://www.r44coffee.com/,41.2822735,-81.2244218,needs_fix
+The Barrel Room,bar,,,,,,40.900855,-81.4065229,needs_fix
+Subway,fast_food,sandwich,,,,,40.9177109,-81.1062099,needs_fix
+Doug's classic 57,restaurant,diner,,,,,40.9014561,-81.1161786,needs_fix
+Starbucks,cafe,coffee_shop,Cuyahoga Falls,Graham Road,44224,https://www.starbucks.com/store-locator/store/10617/cuyahoga-falls-graham-hudso-1006-graham-road-cuyahoga-falls-oh-442242935-us,41.1631786,-81.4767859,valid
+D'Agnese's Trattoria and Cafe,restaurant,,,White Pond Drive,,,41.1012179,-81.5867436,valid
+Danny Boys,restaurant,,,,,,41.1002217,-81.4404245,needs_fix
+Firehouse,restaurant,burger;american,Tallmadge,Tallmadge Circle,44278,https://www.firehousetallmadge.com/,41.1002282,-81.4403182,valid
+R. Shea Brewing,bar,,,,,,41.0707078,-81.5277386,needs_fix
+Buffalo Wild Wings,restaurant,wings,Streetsboro,OH-14,44241,,41.2378289,-81.3366727,valid
+Rewind Virtual Cafe,cafe,,Akron,Goodyear Boulevard,44305,,41.0739433,-81.4637042,valid
+Italian Garden,restaurant,italian;pizza;chicken,Akron,Goodyear Boulevard,44305,,41.0730885,-81.4630796,valid
+Burger King,fast_food,burger,Kent,Tallmadge Road,44240,https://www.bk.com/store-locator/store/restaurant_87515,41.1010199,-81.3848909,valid
+Taco Bell,fast_food,tex-mex,Kent,Maplecrest Parkway,44240,https://locations.tacobell.com/oh/kent/4098-maplecrest-parkway.html,41.1009968,-81.3871669,valid
+Arby's,fast_food,sandwich,Kent,Tallmadge Road,44240,https://www.arbys.com/locations/us/oh/kent/165-tallmadge-road/store-8172/,41.1010515,-81.3874941,valid
+Pulp,cafe,,,,,,41.1181082,-81.5880121,needs_fix
+Romeo's Pizza,fast_food,pizza,,,,,41.1181729,-81.5881569,needs_fix
+750 ml Wines,bar,,,,,,41.1183184,-81.5882428,needs_fix
+West Side Bakery,cafe,,,,,,41.1186417,-81.5886759,needs_fix
+Subway,fast_food,sandwich,Akron,Kenmore Boulevard,44314,https://restaurants.subway.com/united-states/oh/akron/1033-kenmore-blvd,41.043259,-81.5610733,valid
+A Walk in the Park Cafe,cafe,,,,,,41.0424226,-81.5142344,needs_fix
+Park Place Pub,pub,,,,,,41.0420605,-81.5144463,needs_fix
+Gourmet Kitchen,restaurant,chinese,,,,,41.0428424,-81.5597838,needs_fix
+Domino's,fast_food,pizza,Cuyahoga Falls,State Road,44223,https://pizza.dominos.com/ohio/cuyahoga-falls/2110-state-rd,41.1361315,-81.5090143,valid
+Jimmy Bigg's,restaurant,,,,,,41.1333953,-81.5081496,needs_fix
+Compass Coffee,cafe,,,East Market Street,44304,https://thewellakron.com/,41.0775391,-81.4970372,valid
+Alexander Pierce,restaurant,,,,,,41.0747217,-81.4925828,needs_fix
+The Rabbit Hole,pub,,,,,,41.1333076,-81.5494668,needs_fix
+First Watch,restaurant,american;breakfast,,,,,41.1487113,-81.5079394,needs_fix
+Ray's Pub,pub,,,,,,41.0965865,-81.5430305,needs_fix
+Lil' Bit Cafe,cafe,,,,,,41.0430344,-81.5593389,needs_fix
+KC's Dugout,restaurant,,,,,,41.0476012,-81.4796744,needs_fix
+Luigi's,fast_food,pizza,,,,,41.0034904,-81.5897554,needs_fix
+Main Street Saloon,restaurant,,,,,,41.0465797,-81.5272782,needs_fix
+Hiachi xpress,fast_food,,,,,,41.0458112,-81.5276219,needs_fix
+IDO Bar & Grill,restaurant,,,,,,41.0450382,-81.5271331,needs_fix
+Klein Seafood,restaurant,,,,,,41.0535688,-81.5186308,needs_fix
+North Side Saloon,restaurant,,,,,,41.1147273,-81.4962759,needs_fix
+Farmer Boy,restaurant,,,,,,41.1137376,-81.4968197,needs_fix
+Rasiccis Pizza & Chicken,restaurant,,,,,,41.1133582,-81.5005487,needs_fix
+Nepali Kitchen,restaurant,,Akron,East Cuyahoga Falls Avenue,44310,https://nepalikitchen.weebly.com,41.1117175,-81.5037009,valid
+Subway,fast_food,sandwich,Mogadore,North Cleveland Avenue,44260,https://restaurants.subway.com/united-states/oh/mogadore/35-n-cleveland-ave,41.051969,-81.3926644,valid
+Hungry Howie's,fast_food,pizza,,,,,41.0518905,-81.3926581,needs_fix
+Sam's Tavern,bar,,,,,,41.0492218,-81.3933864,needs_fix
+Mariachi Coco's,restaurant,,,,,,41.1335189,-81.5503107,needs_fix
+Chipotle,fast_food,mexican,Akron,George Washington Boulevard,44312,https://locations.chipotle.com/oh/akron/1289-george-washington-blvd,41.0281236,-81.4616682,valid
+Tim Hortons,cafe,coffee_shop,Akron,George Washington Boulevard,44306,,41.0276083,-81.4628382,valid
+Mr Hero,fast_food,sandwich,,South Arlington Street,44306,https://mrhero.com/,41.0326799,-81.4908978,valid
+Taco Bell,fast_food,tex-mex,Akron,South Arlington Road,44306,https://locations.tacobell.com/oh/akron/1467-s-arlington-rd.html,41.0323142,-81.4908984,valid
+Hardee's,fast_food,burger,Akron,South Arlington Street,46305,https://locations.hardees.com/oh/akron/1395-s-arlington-st,41.0342515,-81.4909481,valid
+Rally's,fast_food,burger,,,,,41.0291593,-81.5099689,needs_fix
+Mi Casa,restaurant,mexican,Akron,East Waterloo Road,44319,https://www.micasa-akron.com,41.0280682,-81.5147433,valid
+Italo's,restaurant,pizza,,,,,41.0297021,-81.5108715,needs_fix
+Harvey Walllbangers,bar,,,,,,41.0294223,-81.5102211,needs_fix
+Fiesta Pizza and Chicken,restaurant,pizza;fried_chicken,Akron,Newton Street,44305,,41.0725749,-81.4561941,valid
+"Tip""em Up Tavern",bar,,Akron,Newton Street,44305,,41.0725601,-81.4563387,valid
+Namaste Cuisine,restaurant,,,,,,41.1093319,-81.5077662,needs_fix
+Dairy Queen,fast_food,ice_cream,Akron,East Cuyahoga Falls Avenue,44310-2256,https://www.dairyqueen.com/locations/oh/akron/260-e-cuyahoga-falls-ave/14296,41.1089626,-81.5076133,valid
+The Hill Pub,bar,,,,,,41.1108688,-81.505098,needs_fix
+Dontinos,restaurant,italian,,,,,41.1138318,-81.4990242,needs_fix
+The Hartville Pantry,restaurant,american,Hartville,N Prospect Ave,44632,https://hartvillepantry.com,40.9641759,-81.330886,valid
+pizzaBOGO,fast_food,pizza,Hartville,South Prospect Avenue,44632,,40.9637833,-81.3321494,valid
+Peace Love & Little Donuts,fast_food,donut,Hartville,South Prospect Avenue,44632,,40.9637663,-81.3317431,valid
+Manny's Pub,bar,,,,,,41.0459938,-81.437269,needs_fix
+Mr. Hero,fast_food,,,,,,41.0494199,-81.4384384,needs_fix
+New Ming Home,restaurant,chinese,,,,http://www.newminghomeellet.com,41.0493517,-81.4384317,needs_fix
+Molly Brown's Kitchen,restaurant,,,,,,41.0492713,-81.4384519,needs_fix
+Fresh Planet,fast_food,,Tallmadge,Tallmadge Circle,44278,https://fresh-planet.com/,41.1022956,-81.4414465,valid
+Jimmy John's,fast_food,sandwich,Tallmadge,North Avenue,44278,https://locations.jimmyjohns.com/oh/tallmadge/sandwiches-3043.html,41.1044155,-81.4401976,valid
+Pandora's Cupcakes,bakery,,,,,,41.1048907,-81.4403046,needs_fix
+Wally Waffle,restaurant,breakfast,,,,,41.1048933,-81.4404119,needs_fix
+Aura The Himalayan Kitchen,restaurant,indian;nepalese;chinese,Tallmadge,Tallmadge Circle,44278,https://www.aurathekitchen.com/,41.1003301,-81.4402067,valid
+China Star,restaurant,chinese,,,,,41.0841554,-81.5690714,needs_fix
+Gionino's Pizzeria,fast_food,pizza,Tallmadge,Eastwood Avenue,44278,https://www.gioninos.com/locations/oh-tallmadge-676-eastwood-ave-44278,41.0833887,-81.4170089,valid
+LampPost,restaurant,,,,,,41.0589667,-81.4519172,needs_fix
+Paleteria La Fresa,restaurant,mexican;ice_cream,Akron,Darrow Road,,https://lafresaakron.com/,41.0758148,-81.4414439,valid
+ALa Loma,restaurant,mexican,,,,,41.0761596,-81.4414465,needs_fix
+Pizza Hut,restaurant,pizza,Tallmadge,South Avenue,44278,https://locations.pizzahut.com/oh/tallmadge/535-south-ave,41.0864285,-81.4409962,valid
+Wendy's,fast_food,burger,Akron,East Market Street,44308,https://locations.wendys.com/united-states/oh/akron/275-e-market-st,41.0823354,-81.5085632,valid
+Lee Angelo's,restaurant,,,,,,41.0961076,-81.5510958,needs_fix
+Rocco's Pizza,restaurant,,,,,,41.142546,-81.4963239,needs_fix
+East of Chicago Pizza,fast_food,pizza,,,,,41.1090598,-81.5685652,needs_fix
+Subway,fast_food,sandwich,Akron,West Market Street,44313,https://restaurants.subway.com/united-states/oh/akron/1596-west-market-st,41.1078212,-81.5668009,valid
+Moe's Southwest Grill,fast_food,mexican,Akron,West Market Street,44313,,41.1102954,-81.5703273,valid
+Debouaire's ultra lounge,bar,,,,,,41.0388097,-81.4908502,needs_fix
+Popeyes,fast_food,chicken,Akron,South Arlington Street,44306,https://www.popeyes.com/store-locator/store/restaurant_82776,41.0392659,-81.4917929,valid
+Burger King,fast_food,burger,Akron,South Arlington Street,44306,https://www.bk.com/store-locator/store/restaurant_212,41.04033,-81.4909185,valid
+Dairy Queen,restaurant,,,,,,41.0400774,-81.5017949,needs_fix
+Bar-B-Q Boss,restaurant,,,,,,41.0845663,-81.5517209,needs_fix
+BurgerFi,fast_food,burger,Cuyahoga Falls,Portage Trail,44223,,41.1481237,-81.5072331,valid
+Stevos Tavern,bar,,,,,,41.0722849,-81.4568062,needs_fix
+WingStreet,fast_food,wings,,,,,41.0864056,-81.4409975,needs_fix
+Artisan Coffee,cafe,coffee_shop,,,,,41.1107478,-81.5713198,needs_fix
+Valley Wings,restaurant,,,,,,41.0693109,-81.5411986,needs_fix
+Sports Drink,bar,,,,,,41.0840194,-81.5738967,needs_fix
+Taqueria Treas Amigos,restaurant,mexican,,,,,41.0840154,-81.5741408,needs_fix
+Fire & Ice,restaurant,,,,,,41.0436255,-81.4575485,needs_fix
+Dilly's,restaurant,,,,,https://www.doubledilly.com/,41.043607,-81.4581879,needs_fix
+Oldies & Goodies Family Diner,restaurant,,,,,,41.0439436,-81.4625186,needs_fix
+Jack's Happy Landing,restaurant,,,,,,41.044112,-81.4625207,needs_fix
+Marco's Pizza,fast_food,pizza,Akron,Canton Road,44312,,41.0196769,-81.4170097,valid
+Subway,fast_food,sandwich,Uniontown,Massillon Road,44685,https://restaurants.subway.com/united-states/oh/uniontown/4195-massillon-rd,40.9479242,-81.4648761,valid
+Menches Brothers,fast_food,burger,,,,,40.9605964,-81.4670176,needs_fix
+Dunkin',fast_food,donut;coffee_shop,Uniontown,Massillon Road,44685,https://locations.dunkindonuts.com/en/oh/uniontown/3651-massillon-rd/352608,40.9620222,-81.4643717,valid
+Hunan King,restaurant,chinese,Akron,Canton Road,44312,http://www.hunankingonline.com/,41.0243035,-81.4232615,valid
+Lucky Star,restaurant,chinese,,,,,40.9603995,-81.4666026,needs_fix
+"Peace, Love, & Little Donuts",fast_food,donut,,,,,40.9603744,-81.4664559,needs_fix
+DQ Grill & Chill,fast_food,ice_cream;burger,Uniontown,Town Park Boulevard,44685,https://www.dairyqueen.com/en-us/locations/oh/uniontown/1840-town-park-blvd-ste-r/14326/,40.9495143,-81.466127,valid
+EuroGyro,fast_food,,,,,,41.0027482,-81.5241706,needs_fix
+Tonix,bar,,,,,,41.0031095,-81.5241202,needs_fix
+Northside Tavern,bar,,,,,,41.1114634,-81.5148941,needs_fix
+East of Chicago Pizza,fast_food,pizza,Akron,South Arlington Road,44312,,40.976545,-81.4928431,valid
+Strickland's,ice_cream,,Akron,South Arlington Road,44312,,40.9762388,-81.4928543,valid
+Subway,fast_food,sandwich,Akron,South Arlington Road,44312,https://restaurants.subway.com/united-states/oh/akron/3421-s-arlington-rd,40.9778339,-81.4926743,valid
+mr Hero,fast_food,,,,,,41.066496,-81.5691639,needs_fix
+New Ming,restaurant,chinese,,,,,41.0658549,-81.5701711,needs_fix
+Subway,fast_food,sandwich,Akron,South Hawkins Avenue,44320,https://restaurants.subway.com/united-states/oh/akron/1607-s-hawkins-ave,41.0657376,-81.5680213,valid
+Domino's,fast_food,pizza,Akron,Vernon Odom Boulevard,44333,https://pizza.dominos.com/ohio/akron/1324-vernon-odom-blvd,41.064679,-81.5688448,valid
+A-Town,restaurant,,,,,,40.9022651,-81.1371043,needs_fix
+ShawarmaBrothers,fast_food,,,,,,41.1470159,-81.5045817,needs_fix
+Wing Stop,fast_food,,,,,,41.1477551,-81.5057974,needs_fix
+Smoothie King,fast_food,juice,,,,,41.1477693,-81.5058263,needs_fix
+tropical Smoothis Cafe,fast_food,juice,,,,,41.1482727,-81.5073082,needs_fix
+Poke,fast_food,,,,,,41.1482767,-81.5074155,needs_fix
+Aladdin's Eatery,restaurant,lebanese,,,,,41.1485782,-81.507278,needs_fix
+Poallotta's Pastries,bakery,,,,,,41.1449567,-81.5077863,needs_fix
+East of Chicago Pizza,fast_food,,,,,,41.1447739,-81.5082107,needs_fix
+SeoulGarden,restaurant,korean,,,,,41.1433535,-81.5082081,needs_fix
+Molly Brown's,cafe,,,,,,41.1414494,-81.5082059,needs_fix
+Domenic's Pub,bar,,,,,,41.1410134,-81.5082343,needs_fix
+Lacci's Place,fast_food,,,,,,41.1407503,-81.508204,needs_fix
+Village Gardens,restaurant,,,State Road,44223,,41.1403069,-81.5081021,valid
+Asian Market,restaurant,korean,,,,,41.1398999,-81.5082121,needs_fix
+Chen Garden,fast_food,chinese,,,,,41.1355335,-81.5081558,needs_fix
+Everest,restaurant,indian,,,,,41.1351558,-81.5081712,needs_fix
+Little Caesars,fast_food,pizza,,,,https://littlecaesars.com/en-us/store/8461/,41.1298335,-81.5087277,needs_fix
+R's Pub,bar,,,,,,41.1263949,-81.5076904,needs_fix
+Vine Valley,restaurant,,,,,,41.1342569,-81.5486371,needs_fix
+Quarter Up,bar,,,,,,41.134363,-81.5486041,needs_fix
+Noisy Oyster,restaurant,,,,,,41.1318991,-81.5489893,needs_fix
+Sushi Asia Gourmet,restaurant,,,,,,41.1321992,-81.5486789,needs_fix
+Dilly's Drive In,restaurant,american,,State Road,,https://www.doubledilly.com/,41.1881167,-81.5078404,valid
+Grabham's Candies,confectionery,,Peninsula,State Road,,https://www.grabhamscandies.com/,41.1881135,-81.5068246,valid
+Pav's Creamery,ice_cream,,Uniontown,Massillon Road,44685,https://www.pavscreamery.com/,40.9561767,-81.4640335,valid
+Sunrise Social,restaurant,breakfast,Uniontown,Massillon Road,44685,,40.9558585,-81.4644833,valid
+35Â° Brix,restaurant,american,Uniontown,Massillon Road,44685,http://www.35brix.com/,40.9558722,-81.4649658,valid
+Antonio's Pizzeria,restaurant,pizza,Uniontown,Massillon Road,44685,https://www.antoniospizza.net/,40.9558661,-81.4647286,valid
+Kasai Japanese Restaurant,restaurant,japanese,Uniontown,Massillon Road,44685,http://eatatkasaioh.com/,40.9577749,-81.4646916,valid
+Hot Head Burritos,fast_food,mexican,Uniontown,Massillon Road,44685,https://hotheadburritos.com/green-oh,40.9578637,-81.4646866,valid
+Starbucks,cafe,coffee_shop,Uniontown,Massillon Road,44685,https://www.starbucks.com/store-locator/store/1008863/green-heritage-crossing-3875-massillon-road-green-oh-446857839-us,40.9581266,-81.4646697,valid
+Jimmy John's,fast_food,sandwich,Uniontown,U,44685,https://locations.jimmyjohns.com/oh/uniontown/sandwiches-2636.html,40.9579923,-81.4646777,valid
+Beyond Juciery and Eatery,fast_food,smoothie,Uniontown,Massillon Road,44685,https://beyondjuiceryeatery.com/,40.953959,-81.466336,valid
+Brubaker's Pub,pub,,Uniontown,Massillon Road,44685,https://brubakerspub.com/,40.9542586,-81.4650775,valid
+Papa Gyro's,restaurant,greek,Uniontown,Massillon Road,44685,https://www.papagyros.com/,40.9537965,-81.4651114,valid
+Nectar Smoothie Cafe,fast_food,smoothie,Uniontown,Massillon Road,44685,http://nectarsmoothiecafe.com/,40.9538555,-81.4651027,valid
+Hungry Howie's,fast_food,pizza,Uniontown,Massillon Road,44685,https://www.hungryhowies.com/store/hungry-howies-00873,40.9539121,-81.4651038,valid
+Pizza Hut,restaurant,pizza,Uniontown,Town Park Boulevard,44685,https://locations.pizzahut.com/oh/uniontown/1840-town-park-blvd,40.9500215,-81.4669684,valid
+Jimmy John's,fast_food,sandwich,Barberton,Robinson Avenue,44203,https://locations.jimmyjohns.com/oh/barberton/sandwiches-3724.html,41.0098727,-81.5887328,valid
+Chipotle,fast_food,mexican,Barberton,Robinson Avenue,44203,https://locations.chipotle.com/oh/barberton/446-robinson-ave,41.0098673,-81.588606,valid
+A Plus Crab,restaurant,seafood,Cuyahoga Falls,Howe Avenue,44221,,41.1178704,-81.4734,valid
+Giovanni's Pizza,restaurant,pizza,Akron,Buchholzer Boulevard,44310,,41.1159528,-81.4731694,valid
+Royal Buffet & Grill,restaurant,chinese,Akron,Buchholzer Boulevard,44310,,41.1151948,-81.4732075,valid
+Chick-fil-A,fast_food,chicken,Cuyahoga Falls,Howe Avenue,44221,https://www.chick-fil-a.com/locations/oh/chapel-hill,41.118747,-81.4798683,valid
+Wendy's,fast_food,burger,Cuyahoga Falls,Howe Avenue,44221,https://locations.wendys.com/united-states/oh/cuyahoga-falls/460-howe-avenue,41.1187382,-81.4788497,valid
+McDonald's,fast_food,burger,Cuyahoga Falls,Howe Avenue,44221,https://www.mcdonalds.com/us/en-us/location/11090.html,41.118616,-81.4771985,valid
+Denny's,restaurant,american,Akron,Home Avenue,44310,https://locations.dennys.com/OH/AKRON/9214,41.1165564,-81.4846462,valid
+Bob Evans,restaurant,american,Cuyahoga Falls,Howe Avenue,44221,,41.119971,-81.4858047,valid
+Brick House Tavern + Tap,bar,,Cuyahoga Falls,Howe Avenue,44221,,41.119526,-81.4757117,valid
+7 Brew Coffee,cafe,coffee_shop,Cuyahoga Falls,Howe Avenue,44221,,41.1194964,-81.4742221,valid
+LongHorn Steakhouse,restaurant,steak_house,Cuyahoga Falls,Howe Avenue,44221,,41.119555,-81.4785033,valid
+O'Charley's,restaurant,american,Cuyahoga Falls,Howe Avenue,44221,,41.1196746,-81.4822426,valid
+Steak 'n Shake,fast_food,burger,Akron,Home Avenue,44310,https://www.steaknshake.com/locations/oh-akron-home-avenue/,41.1168783,-81.4856848,valid
+Taco Bell,fast_food,tex-mex,Akron,Romig Road,44320,https://locations.tacobell.com/oh/akron/2419-romig-road.html,41.0484211,-81.5802398,valid
+The Beanhead Brothers,cafe,coffee_shop,Akron,Romig Road,44320,,41.0463437,-81.5804003,valid
+Roma Pizzeria,restaurant,,,,,,41.0513279,-81.3987706,needs_fix
+The Park,bar,,,,,,41.053256,-81.4216304,needs_fix
+Starbucks,cafe,coffee_shop,Kent,East Main Street,44240,https://www.starbucks.com/store-locator/store/1023516/kent-east-main-st-and-luther-1005-e-main-street-kent-oh-442402815-us,41.1541413,-81.3448428,valid
+Bell Tower Brewing Co.,pub,,Kent,Park Avenue,44240,https://belltowerbrewing.com/,41.1546731,-81.3606596,valid
+Aida's Bakery,bakery,,,,,,40.9750857,-81.3610707,needs_fix
+Brimfield Bread Oven,bakery,,,,,,41.097209,-81.3457545,needs_fix
+Yada Yada Coffee,cafe,coffee_shop,Cuyahoga Falls,Front Street,44221,https://www.yadayadacoffee.com,41.1320798,-81.4836824,valid
+The Spotted Owl,bar,,Akron,South Maple Street,44303,https://spottedowlbar.com/akron,41.0866929,-81.5246994,valid
+Vincents Bakery,bakery,,Cuyahoga Falls,Bailey Road,44221,,41.1342443,-81.4676805,valid
+Crave,restaurant,,,,,,41.0811159,-81.5192506,needs_fix
+Starbucks,cafe,coffee_shop,Akron,South Main Street,44325,https://www.starbucks.com/store-locator/store/10333/university-of-akron-polsky-bui-225-south-main-street-akron-oh-443250035-us,41.0787641,-81.5193359,valid
+Sweet Mary's,bakery,,,,,,41.0820108,-81.516278,needs_fix
+Hamad's on Main,food_court,,,,,,41.0816058,-81.5181979,needs_fix
+Chameleon Cafe,cafe,coffee_shop;breakfast;lunch,Akron,South Main Street,44308,https://www.chameleoncafeakron.com/,41.0843604,-81.5168548,valid
+Nothing Bundt Cakes,pastry,,Stow,Kent Road,44224,,41.1572611,-81.4054604,valid
+Latino Bar & Grill,restaurant,mexican,,South Arlington Road,44312,https://latinobarandgrill.com/,40.9773708,-81.4936631,valid
+Jersey Mike's Subs,fast_food,sandwich,Uniontown,Massillon Road,44685,https://www.jerseymikes.com/2095/uniontown-oh,40.9540143,-81.4663341,valid
+The Boathouse Cafe,cafe,,Akron,East Waterloo Road,44312,https://boathousecafeakron.com/,41.0328825,-81.4529742,valid
+Uncle Tito's Mexican Grill,restaurant,mexican,Akron,East Waterloo Road,44312,https://uncletitosmexicangrill.com/,41.0328801,-81.4522722,valid
+Wing Warehouse Sports Bar,restaurant,,Akron,East Waterloo Road,44312,https://www.wingwarehouse.com/,41.032879,-81.4516281,valid
+Iron Grill,restaurant,,Akron,East Waterloo Road,44312,https://irongrillakron.com/,41.0333126,-81.4515915,valid
+Taco Bell,fast_food,tex-mex,Uniontown,Massillon Road,44685,https://locations.tacobell.com/oh/uniontown/3532-massillon-road.html,40.9655328,-81.465783,valid
+The Human Bean,cafe,coffee_shop,Uniontown,Massillon Road,44685,https://thehumanbean.com/location/the-human-bean-3532-massillon-road-uniontown-oh/,40.9659594,-81.465721,valid
+The Bistro of Green,restaurant,american,Uniontown,Massillon Road,44685,,40.9673672,-81.4643958,valid
+sweetFrog,ice_cream,frozen_yogurt,Uniontown,Massillon Road,44685,https://www.sweetfrog.com/stores/frozen-yogurt-cleancity/35265,40.9672002,-81.4644092,valid
+Subway,fast_food,sandwich,Uniontown,Massillon Road,44685,https://restaurants.subway.com/united-states/oh/uniontown/3471-massillon-rd,40.9670949,-81.4644189,valid
+Gionino's Pizzeria,fast_food,pizza,Uniontown,Massillon Road,44685,http://www.gioninos.com/,40.9667608,-81.4644331,valid
+Starbucks,cafe,coffee_shop,Uniontown,Corporate Woods Parkway,44685,https://www.starbucks.com/store-locator/store/1006895/market-district-uniontown-1620-1700-corporate-woods-pkwy-uniontown-oh-44685-us,40.9623895,-81.4688657,valid
+Gionino's Pizzeria,fast_food,pizza,Akron,East Tallmadge Avenue,44310,https://www.gioninos.com/locations/oh-akron-1250-e-tallmadge-ave-44310,41.1016572,-81.4696146,valid
+Your Pizza Restaurant,restaurant,pizza,,,,,40.9150919,-81.1054931,needs_fix
+Federales,restaurant,mexican,Kent,East Main Street,,,41.1534744,-81.3568918,valid
+Aladdin's Eatery,restaurant,mediterranean,Akron,West Market Street,44303,https://aladdins.com/,41.0960421,-81.5426679,valid
+Annabell's,bar,,Akron,West Market Street,44303,https://m.facebook.com/annabellsakron/,41.096053,-81.5426938,valid
+Platinum Dragon,restaurant,chinese,Akron,West Market Street,44303,https://www.platinumdragonakron.com/,41.0965116,-81.5437,valid
+Southern Comfort Kitchen Ohio,restaurant,,Akron,West Market Street,44303,http://www.sococreolegmail.com/,41.0964777,-81.54362,valid
+The Matinee,bar,,Akron,West Market Street,44303,,41.0964482,-81.5435505,valid
+Hibachi Xpress Highland Square,restaurant,japanese,Akron,West Market Street,44303,https://highlandsq.orderhibachixpressgrill.com/,41.0964375,-81.5435254,valid
+Barmacy,bar,,Akron,West Market Street,44303,https://www.facebook.com/BarmacyBarAndGrill/,41.0963955,-81.5434262,valid
+HA!TEA Bubble Tea House,cafe,bubble_tea,Kent,North Mantua Street,44240,,41.1608408,-81.3594266,valid
+Diana Coffee,cafe,coffee_shop,,,,,41.0677739,-81.5242986,needs_fix
+Dominick's,bar,,,,,,41.1530014,-81.3588297,needs_fix
+Guy's Pizza,restaurant,pizza,,,,,41.1529997,-81.3583524,needs_fix
+Water Street Tavern and Cajun Dave's,bar,,,,,,41.1531481,-81.3583551,needs_fix
+Ray's Place,restaurant,american;burger;fries,,,,,41.153135,-81.3587742,needs_fix
+Firefly Hookah Lounge,bar,,,,,,41.1532927,-81.3583697,needs_fix
+Taco Tonto's,restaurant,mexican,,,,,41.153327,-81.3587064,needs_fix
+The Loft,bar,,,,,,41.1536169,-81.3585613,needs_fix
+The Zephyr,bar,,,,,,41.1536226,-81.3584579,needs_fix
+Franklin Square Deli,restaurant,sandwich,,South Water Street,44240,http://www.franklinsquaredeli.com/,41.1536112,-81.3583479,valid
+EuroGyro,restaurant,greek,Uniontown,Massillon Road,44685,https://eurogyro.com/,40.9483768,-81.4646387,valid
+Whitehouse Chicken,fast_food,chicken,Uniontown,Massillon Road,44685,http://www.whitehousechicken.com/,40.9481685,-81.4639344,valid
+RJ's Sports Pub and Grill,pub,,Uniontown,Massillon Road,44685,https://rjs-sports-pub-grill.edan.io/,40.9481417,-81.4630313,valid
+EuroGyro,pub,,,,,,41.1534319,-81.3562341,needs_fix
+157 Lounge,bar,,,,,,41.1528851,-81.3580017,needs_fix
+Hanini's Subs,fast_food,,,,,,41.0711015,-81.5099731,needs_fix
+Manny's Pub,bar,,,,,,41.0710189,-81.5099697,needs_fix
+Taste of Bangkok,restaurant,,,,,,41.0708297,-81.5051517,needs_fix
+Muggswigz Coffee & Tea,cafe,coffee_shop,,,,,41.0757322,-81.5224524,needs_fix
+Insomnia Cookies,pastry,,,,,,41.0759053,-81.5223331,needs_fix
+69 Taps,pub,,,,,,41.0760433,-81.5231898,needs_fix
+Perfect Pour Akron,bar,,,,,,41.0758268,-81.52285,needs_fix
+DaVinci's Pizza,fast_food,pizza,,,,,41.0758862,-81.522809,needs_fix
+Tear-Ez,bar,,,,,,41.0762011,-81.5225835,needs_fix
+Clouds Hookah Lounge,cafe,,,,,,41.0763056,-81.5225164,needs_fix
+Cilantro Thai & Sushi,restaurant,,,,,,41.0770662,-81.5220234,needs_fix
+Boiling House Seafood & Sushi,restaurant,,,,,,41.0768735,-81.5225196,needs_fix
+Subway,fast_food,sandwich,Uniontown,Cleveland Avenue Northwest,44685,https://restaurants.subway.com/united-states/oh/uniontown/13030-cleveland-ave-nw,40.9757208,-81.4064162,valid
+Shogun Japanese Steakhouse,restaurant,japanese,Akron,South Arlington Road,44312,https://www.shogunakron.com/,40.9937995,-81.4910736,valid
+Pulp Juice and Smoothie Bar,fast_food,juice,Akron,South Arlington Road,44312,,40.9938055,-81.4915185,valid
+Jimmy John's,fast_food,sandwich,Akron,South Arlington Road,44312,,40.9938045,-81.4914032,valid
+Mr. Hero,fast_food,sandwich,Akron,South Arlington Road,44312,,40.993932,-81.4917733,valid
+Komodo Kingdom Cafe,fast_food,,,,,,41.0800373,-81.5407694,needs_fix
+The Daily Pressed,cafe,coffee_shop,,,,,41.0769355,-81.5216212,needs_fix
+Twisted Tomato Pizzeria & Beer Wall,restaurant,,,,,,41.0768027,-81.5217173,needs_fix
+Freddy's,fast_food,ice_cream;burger,Streetsboro,State Route 303,44241,http://www.freddys.com,41.2390268,-81.3483376,valid
+Papa Roni's,fast_food,pizza,,,,,41.0293856,-81.589201,needs_fix
+Bean and the Baker,cafe,coffee_shop;sandwich,,Main Street,,https://www.beanandthebaker.com/,41.1579083,-81.2427273,valid
+Five Guys,fast_food,burger,Green,Arlington Ridge,44312,https://restaurants.fiveguys.com/790-arlington-ridge,40.9827273,-81.4937795,valid
+Altieri's Pizza,fast_food,pizza,,,,,41.1590852,-81.442975,needs_fix
+The Watson Speakeasy,bar,,,,,,41.130981,-81.4839603,needs_fix
+Square Scullery,restaurant,,,,,,41.0963541,-81.5423857,needs_fix
+Bangkok Thai Restaurant,restaurant,chinese;japanese;thai,,Darrow Road,44334,https://www.bangkokthaistow.com/,41.1673766,-81.4400231,valid
+Grazers,restaurant,,,North Water Street,44240,https://www.grazerskent.com/,41.1542797,-81.3579231,valid
+Bar Lucci,bar,,,North Water Street,44240,https://www.barluccikent.com/,41.155734,-81.3578739,valid
+Pacific East,restaurant,japanese;malaysian,,East Main Street,44240,https://www.pacificeastkent.com/,41.1536265,-81.3579498,valid
+BLU Plate,restaurant,,Akron,East Market Street,44308,,41.0851513,-81.5161533,valid
+Clean Eatz,restaurant,,,,,https://locations.cleaneatz.com/oh/cuyahogafalls/meal-prep-28.html,41.1294313,-81.484277,needs_fix
+Totally Baked Pizza,restaurant,pizza,Akron,North High Street,44308,https://totallybakedpizza.net/,41.0853449,-81.5155517,valid
+Dunkin Donuts,fast_food,donut;coffee_shop,Akron,East Market Street,44312,https://locations.dunkindonuts.com/en/oh/akron/2081-e-market-st/355148,41.0604264,-81.4537492,valid
+Bann Thai,restaurant,thai,,,,https://www.bann-thai.com/,40.9016947,-81.038801,needs_fix
+Mickey's Irish Pub,pub,,,,,,41.1313033,-81.4838899,needs_fix
+Pavona's Pizza Joint,restaurant,pizza,,,,,41.1313987,-81.4838569,needs_fix
+Flury's,cafe,,,,,,41.1364313,-81.4829753,needs_fix
+Leo's Italian Social,restaurant,italian,,,,,41.13759,-81.4823886,needs_fix
+On Tap,bar,,,,,,41.1597122,-81.509039,needs_fix
+Vinifera,bar,,,,,,41.1600906,-81.5099694,needs_fix
+Asterisk Coffee,cafe,,Cuyahoga Falls,Front Street,44221,,41.1353766,-81.48281,valid
+Pav's Creamery,ice_cream,,Cuyahoga Falls,Front Street,44221,https://www.pavscreamery.com/,41.1360274,-81.4830349,valid
+Grandpa Joe's Candy Shop,confectionery,,Cuyahoga Falls,Front Street,44221,http://www.grandpajoes.com/,41.1359754,-81.4830429,valid
+Ryes and Shine,restaurant,,,Front Street,,https://www.ryesnshinefalls.com/,41.1462019,-81.4729516,valid
+Dunkin',fast_food,donut;coffee_shop,Cuyahoga Falls,Tallmadge Road,44221,https://locations.dunkindonuts.com/en/oh/cuyahoga-falls/310-tallmadge-rd/342449,41.1321785,-81.4786987,valid
+Pulp,fast_food,juice,,Buchholzer Boulevard,44221,,41.1192285,-81.4710688,valid
+Starbucks,cafe,coffee_shop,Kent,Maplecrest Parkway,44240,https://www.starbucks.com/store-locator/store/1027457/tallmadge-rd-cascades-blvd-4094-maplecrest-pkwy-kent-oh-442407236-us,41.1009713,-81.3861476,valid
+Jersey Mike's Subs,fast_food,sandwich,Kent,Maplecrest Parkway,44240,https://www.jerseymikes.com/menu,41.1009719,-81.3860588,valid
+Panda Express,fast_food,chinese,Kent,Tallmadge Road,44240,https://www.pandaexpress.com/locations/oh/kent/3223,41.1009483,-81.3855585,valid
+Panera Bread,fast_food,sandwich;bakery,Kent,Cascades Boulevard,44240,https://locations.panerabread.com/oh/kent/4031-cascades-blvd.html,41.0992819,-81.3873836,valid
+Applebee's,restaurant,american,Kent,Tallmadge Road,44240,https://restaurants.applebees.com/en-us/oh/kent/220-tallmadge-road-75028,41.0997207,-81.3852477,valid
+Square Scullery,restaurant,,,,,,41.1064299,-81.5109932,needs_fix
+Piada Italian Street Food,restaurant,italian,,,,,41.1512739,-81.5078549,needs_fix
+Los Girasoles Mexican Grill & Bar,restaurant,,,,,,41.1826381,-81.482702,needs_fix
+Amigos Authentic Mexican Taqueria,restaurant,,,,,,41.1805083,-81.4819969,needs_fix
+Hunan of Stow,fast_food,,,,,,41.1803426,-81.4816715,needs_fix
+Buffalo Wild Wings,restaurant,,,,,,41.1539948,-81.5084937,needs_fix
+Scooter's Coffee,cafe,coffee_shop,,,,,41.0718947,-81.4903751,needs_fix
+New Peking Buffet,restaurant,asian;chinese,,Cleveland East Liverpool Road,44241,,41.2436588,-81.356332,valid
+Arby's,restaurant,american,,Cleveland East Liverpool Road,44241,https://www.arbys.com/,41.2444348,-81.3553107,valid
+Little Caesars Pizza,restaurant,pizza,,Cleveland East Liverpool Road,44241,https://littlecaesars.com/,41.2390516,-81.347446,valid
+KFC,restaurant,chicken,,Cleveland East Liverpool Road,44241,https://www.kfc.com/,41.238452,-81.3400917,valid
+China Chef,restaurant,asian;chinese,,Cleveland East Liverpool Road,44241,https://chinachefstreetsboro.com/,41.238287,-81.3395916,valid
+Raising Cane's,restaurant,chicken,,Cleveland East Liverpool Road,44241,https://raisingcanes.com/,41.2455783,-81.3565334,valid
+Panda Express,restaurant,chinese,,Cleveland East Liverpool Road,44241,http://pandaexpress.com,41.2449697,-81.3558773,valid
+Wild Eagle Steak & Saloon,restaurant,american,,Cleveland East Liverpool Road,44241,https://www.wildeagle.com/,41.2440519,-81.3546252,valid
+Popeyes,restaurant,chicken,,Cleveland East Liverpool Road,44241,https://popeyes.com/,41.2399542,-81.3487622,valid
+Mr. Hero,restaurant,american,,Cleveland East Liverpool Road,44241,https://mrhero.com/,41.2390643,-81.3442847,valid
+Blasiole's Pizza,restaurant,italian_pizza,,State Route 43,44241,http://blasioleseatery.com,41.2453473,-81.3450435,valid
+Maki House,restaurant,japanese;sushi,Akron,Arlington Ridge,44319,https://www.ordermakihouse.com/,40.9827037,-81.4947146,valid
+Mikado,restaurant,japanese;sushi;chinese;asian,Akron,Brittain Road,44310,https://www.mikadohibachisushi.com/,41.1080821,-81.466705,valid
+Chipotle,fast_food,mexican,,,,,41.1633499,-81.4776038,needs_fix
+Domino's,fast_food,pizza,,,,,41.1997076,-81.4397258,needs_fix
+Belleria,restaurant,italian,,,,,41.152992,-81.3571839,needs_fix
+Otani Restaurant and Pub,restaurant,,,,,,41.239007,-81.4495106,needs_fix
+Papa John's,fast_food,pizza,,,,,41.2382879,-81.4493172,needs_fix
+Blu Basil,restaurant,,,,,,41.2386694,-81.4496156,needs_fix
+Subway,fast_food,sandwich,,,,,41.2385272,-81.4495946,needs_fix
+Johnny's Diner,restaurant,,,,,,41.238792,-81.4495615,needs_fix
+Hideaway,bar,,,,,,41.2414219,-81.0486195,needs_fix
+Cafe Express,cafe,coffee_shop,,,,,40.9151578,-81.4368752,needs_fix
+Cocktails Akron,bar,,,West Mapledale Avenue,44301,,41.0458024,-81.5287171,valid
+Wholly Frijoles,restaurant,mexican,Cuyahoga Falls,State Road,44223,https://eatwhollyfrijoles.com/,41.1394591,-81.508884,valid
+Poke & Roll,restaurant,sushi,,,44221,http://eatpokenroll.com,41.1628164,-81.4776286,needs_fix
+Biggby Coffee,cafe,coffee_shop,,,,,41.162784,-81.477628,needs_fix
+Vacancy Lounge,bar,,,,,,41.1367831,-81.4826215,needs_fix
+Cashmere Cricket,bar,,,,,,41.1370107,-81.4825896,needs_fix
+Mr. Hero,fast_food,sandwich;burger,,,,,41.1630419,-81.4776476,needs_fix
+Spicy Sombreros,restaurant,,,,,,41.2006775,-81.4410149,needs_fix
+Chipotle,fast_food,mexican,Akron,E Waterloo Rd,44319,https://locations.chipotle.com/oh/akron/454-e-waterloo-rd,41.0285282,-81.5109199,valid
+Bob's hamburg,restaurant,american,,East Avenue,44307,,41.0633193,-81.554259,valid
+Dairy Queen,fast_food,american,,OH-14,44241,,41.2407129,-81.3519658,valid
+Mark & Philly's Pizzeria,restaurant,,,,,,41.1563309,-81.4839254,needs_fix
+Silver Bullet Saloon,bar,,,,,,40.9328797,-81.1001422,needs_fix
+Penn Station East Coast Subs,restaurant,sandwich,,Howe Avenue,44221,,41.1196913,-81.4719792,valid
+Umami Noodle,restaurant,ramen,,Howe Avenue,44221,,41.1202081,-81.474681,valid
+Jubilee Donuts,bakery,,,South Main Street,44301,http://jubileedonuts.com,41.0290128,-81.5274446,valid
+Basement Sports Bar & Grill,bar,,,East Waterloo Road,44319,https://thebasementbars.com/,41.0290034,-81.5177481,valid
+B & K Root Beer Drive in,restaurant,burger,,Manchester Road,44314,,41.0391361,-81.5464282,valid
+Marco's Pizza,restaurant,pizza,,Manchester Road,44314,http://marcos.com,41.031675,-81.5463521,valid
+Cramer's Place,bar,,,Manchester Road,44314,,41.0382022,-81.5462121,valid
+Decheco's Pizzeria,restaurant,pizza,,South Main Street,44301,https://dechecospizzeria.com/,41.0303019,-81.5269108,valid
+SRINA Tea House & Cafe,cafe,,,Kenmore Boulevard,44314,,41.0435539,-81.5588957,valid
+The Green Dragon Inn,bar,,,East Market Street,44308,https://greendragoninn.com/,41.0842978,-81.5139359,valid
+The Golden Burrito,restaurant,mexican,,South Main Street,44301,https://thegoldenburritooh.com/,41.0317214,-81.5268174,valid
+Mr. Hero,fast_food,sandwich,,Manchester Road,44319,https://mrhero.com/,41.005995,-81.556365,valid
+La Fresca Express,restaurant,mexican,Alliance,East State Street,44601,,40.9013215,-81.099226,valid
+Lyla's Family Restaurant,restaurant,,,Bailey Road,44221,https://lylasfamilyrestaurant.com/,41.1330763,-81.4652543,valid
+Cantina Jalisco,restaurant,mexican,,,,,40.9011653,-81.1117025,needs_fix
+Balkan Bakery,bakery,,,,,,41.0520533,-81.3926628,needs_fix
+United States Pierogi Service,restaurant,,,,,,41.0796915,-81.5196683,needs_fix
+Chill & Indulge Ice Cream And Chocolate Emporium,ice_cream,,,,,,41.0796647,-81.5196828,needs_fix
+Cafe 388,cafe,,,South Main Street,,,41.0744388,-81.5238626,valid
+Evelynâ€™s Coffee And Banh Mi,cafe,coffee_shop,,,,,41.0795131,-81.5211045,needs_fix
+Stray Dog Cafe,cafe,,,,,,41.0834401,-81.5171984,needs_fix
+Jamaican Jerk Center,restaurant,,,East Tallmadge Avenue,44310,,41.1023388,-81.4705723,valid
+Whimsical Whiskers CatFae & Rescue,cafe,,,South Arlington Road,44312,https://whimwhiskerscatfae.com/,40.9774417,-81.4940574,valid
+TOKO SUSHI HIBACHI & BBQ,restaurant,asian,,Howe Avenue,44221,,41.1175404,-81.4750285,valid
+Wendy's,fast_food,burger,Stow,Kent Road,44224,https://locations.wendys.com/united-states/oh/stow/4305-kent-road,,,valid
+Applebee's,restaurant,american,,,,https://restaurants.applebees.com/en-us/oh/stow/4296-kent-road-92017,,,needs_fix
+Bob Evans,restaurant,american,,,,,,,needs_fix
+McDonald's,fast_food,burger,Akron,Arlington Road,44312-5215,https://www.mcdonalds.com/us/en-us/location/6543.html,,,valid
+Taco Bell,fast_food,tex-mex,Akron,South Arlington Road,44312,https://locations.tacobell.com/oh/akron/3217-s-arlington-rd.html,,,valid
+Wendy's,fast_food,burger,Akron,South Arlington Road,44312,https://locations.wendys.com/united-states/oh/akron/3239-s-arlington-road,,,valid
+Cleveland Bagel Co,cafe,coffee_shop;bagel,,,,http://clebagelco.com/,,,needs_fix
+Papa John's,fast_food,pizza,Kent,East Main Street,44240,https://locations.papajohns.com/united-states/oh/44240/kent/439-e-main-st,,,valid
+Chipotle,fast_food,mexican,Kent,East Main Street,44240,https://locations.chipotle.com/oh/kent/605-e-main-st,,,valid
+Five Guys,fast_food,burger,Kent,East Main Street,44240,https://restaurants.fiveguys.com/623-east-main-street,,,valid
+Wendy's,fast_food,burger,Kent,East Main Street,44240,https://locations.wendys.com/united-states/oh/kent/515-e-main-street,,,valid
+The Endzone,fast_food,american,,,,,,,needs_fix
+Taco Bell,fast_food,tex-mex,Kent,Maplecrest Parkway,44240,https://locations.tacobell.com/oh/kent/805-e-main-street.html,,,valid
+Main Street Continental Grill,fast_food,mediterranean,Kent,,,,,,needs_fix
+Over Easy At The Depot,restaurant,american;breakfast,Kent,Franklin Avenue,44240,,,,valid
+Katie's Korner Ice Cream,ice_cream,,Kent,,,,,,needs_fix
+Arnie's West Branch Steak House,restaurant,,Ravenna,SR 14,44266,,,,valid
+Lager and Vine,restaurant,gastropub,,West Streetsboro Street,,,,,valid
+Yours Truly,restaurant,,,,,,,,needs_fix
+Dave's Cosmic Subs,restaurant,,,,,,,,needs_fix
+Bent Tree Coffee Roasters,cafe,coffee_shop,,,,,,,needs_fix
+Panera Bread,fast_food,sandwich;bakery,Akron,Arlington Ridge,44319,https://locations.panerabread.com/oh/akron/790-arlington-ridge.html,,,valid
+Burger King,fast_food,burger,Akron,South Arlington Road,44312-5214,https://www.bk.com/store-locator/store/restaurant_3623,,,valid
+El Fogon Mexican Restaurant,restaurant,mexican,,,,,,,needs_fix
+Guaca-Mole's Mexican Grill & Cantina,pub,,,,,,,,needs_fix
+Toko Japanese Steakhouse,restaurant,japanese,,,,,,,needs_fix
+Singh Biryani,restaurant,indian,,,,,,,needs_fix
+Mike's Place,restaurant,american,Kent,,,https://www.mikesplacerestaurant.com/,,,needs_fix
+Bob Evans,restaurant,american,Kent,,,,,,needs_fix
+Scribbles Coffee Company,cafe,coffee_shop,Kent,North Water Street,44240,https://www.scribblescoffeecompany.com/,,,valid
+River Merchant,restaurant,american,Kent,North Mantua Street,44240,https://therivermerchantkent.com/,,,valid
+Azteca Mexican Restaurant,restaurant,,,,,,,,needs_fix
+Rosewood Grill,restaurant,,,,,,,,needs_fix
+Wild Goats Cafe,restaurant,,,,,https://wildgoatscafe.com/,,,needs_fix
+The Basement at the Lakes,bar,,Akron,Manchester Road,44319,,,,valid
+Wendy's,fast_food,burger,Akron,Manchester Road,44319,https://locations.wendys.com/united-states/oh/akron/3193-manchester-road,,,valid
+McDonald's,fast_food,burger,Akron,Manchester Road,44319,https://www.mcdonalds.com/us/en-us/location/11723.html,,,valid
+Burger King,fast_food,burger,Akron,Manchester Road,44319,https://www.bk.com/store-locator/store/restaurant_6252,,,valid
+Pizza Hut,restaurant,pizza,Kent,State Route 59,44240,https://locations.pizzahut.com/oh/kent/1715-state-route-59,,,valid
+Board & Bevy,bar,,,,,,,,needs_fix
+Bob Evans,restaurant,american,Alliance,West State Street,44601,,,,valid
+Taco Bell,fast_food,tex-mex,Alliance,West State Street,44601,https://locations.tacobell.com/oh/alliance/2353-w-state-st-.html,,,valid
+McDonald's,fast_food,burger,Akron,East Exchange Street,44304,https://www.mcdonalds.com/us/en-us/location/31065.html,,,valid
+Arby's,fast_food,sandwich,,,,https://www.arbys.com/locations/us/oh/akron/2073-e-market-st/store-6937/,,,needs_fix
+McDonald's,fast_food,burger,Akron,East Market Street,44305,https://www.mcdonalds.com/us/en-us/location/197.html,,,valid
+Wendy's,fast_food,burger,Akron,Mogadore Road,44312,https://locations.wendys.com/united-states/oh/akron/2060-mogadore-road,,,valid
+Olive Garden,restaurant,italian,Cuyahoga Falls,Howe Avenue,44221,,,,valid
+KFC,fast_food,chicken,Macedonia,Highland Road East,44056,https://locations.kfc.com/oh/macedonia/307-highland-road-east,,,valid
+Burger King,fast_food,burger,Kent,South Water Street,44240-4441,https://www.bk.com/store-locator/store/restaurant_521,,,valid
+McDonald's,fast_food,burger,Kent,South Water Street,44240-3844,https://www.mcdonalds.com/us/en-us/location/1310.html,,,valid
+Henry Wahner's,restaurant,german,,,,,,,needs_fix
+Stoddard's Ice Cream,restaurant,ice_cream,,,,,,,needs_fix
+Blind Squirrel Pub,restaurant,,Kent,North Mantua Street,44240,https://blindsquirrelpub.com/,,,valid
+Rockne's,pub,,,,,,,,needs_fix
+McDonald's,fast_food,burger,Stow,Kent Road,44224,https://www.mcdonalds.com/us/en-us/location/34016.html,,,valid
+On Tap,restaurant,,,,,,,,needs_fix
+El Campesino,restaurant,,,,,https://www.yelp.com/biz/el-campesino-stow,,,needs_fix
+Diamond Grille,restaurant,steak_house,Akron,West Market Street,44308,http://www.diamondgrille.com/,,,valid
+McDonald's,fast_food,burger,Akron,West Market Street,44303,https://www.mcdonalds.com/us/en-us/location/11830.html,,,valid
+Swenson's,fast_food,burger,Akron,South Hawkins Avenue,44313,,,,valid
+McDonald's,fast_food,burger,Akron,West Exchange Street,44313-7662,https://www.mcdonalds.com/us/en-us/location/381.html,,,valid
+Arby's,fast_food,sandwich,Akron,West Market Street,44313,https://www.arbys.com/locations/us/oh/akron/1636-w-market-st/store-3/,,,valid
+El Rancho,restaurant,mexican,,,,,,,needs_fix
+Burger King,fast_food,burger,Tallmadge,South Avenue,44278-2828,https://www.bk.com/store-locator/store/restaurant_5527,,,valid
+McDonald's,fast_food,burger,Ravenna,West Main Street,44266-2716,https://www.mcdonalds.com/us/en-us/location/4371.html,,,valid
+Domino's,fast_food,pizza,Ravenna,East Main Street,44266,https://pizza.dominos.com/ohio/ravenna/302-e-main-st,,,valid
+Taco Bell,fast_food,tex-mex,Ravenna,East Main Street,44266,https://locations.tacobell.com/oh/ravenna/308-e-main-st.html,,,valid
+Mature Lounge & Eatery,restaurant,,Akron,South Main Street,44308,,,,valid
+Applebee's,restaurant,american,Cuyahoga Falls,Howe Avenue,44221,https://restaurants.applebees.com/en-us/oh/cuyahoga-falls/508-howe-avenue-87096,,,valid
+Crave Cantina,restaurant,,Cuyahoga Falls,Front Street,44221,,,,valid
+Barrio di Mario,restaurant,italian,,,,,,,needs_fix
+Ohio Brewing Co.,pub,,,,,,,,needs_fix
+Mr. Hero,fast_food,,Akron,West Market Street,44302,https://www.mrhero.com/,,,valid
+Chin's Place,restaurant,chinese,Akron,West Market Street,44302,http://chinsplace.com/,,,valid
+Pizza Hut,restaurant,pizza,Akron,East Market,44304,https://locations.pizzahut.com/oh/akron/396-east-market,,,valid
+McDonald's,fast_food,burger,Akron,East Market Street,44304-1660,https://www.mcdonalds.com/us/en-us/location/3490.html,,,valid
+Burger King,fast_food,burger,Akron,East Market Street,44304-1668,https://www.bk.com/store-locator/store/restaurant_286,,,valid
+Rally's,fast_food,burger,,,,,,,needs_fix
+Taco Bell,fast_food,tex-mex,Akron,East Market Street,44305,https://locations.tacobell.com/oh/akron/716-e-market-st.html,,,valid
+Akron Family Restaurant,restaurant,,,,,https://akron-family-restaurant.business.site/,,,needs_fix
+3 Palms Pizzeria & Bakery,restaurant,pizza,,,,,,,needs_fix
+McDonald's,fast_food,burger,Akron,Merriman Road,44313-5284,https://www.mcdonalds.com/us/en-us/location/7797.html,,,valid
+Papa Joe's,restaurant,,,,,,,,needs_fix
+Denny's,restaurant,american,Akron,South Arlington Road,44312,,,,valid
+Domino's,fast_food,pizza,Garrettsville,State Street,44231,https://pizza.dominos.com/ohio/garrettsville/8007-state-st,,,valid
+DQ Grill & Chill,fast_food,ice_cream;burger;chicken,garrettsville,State Street,44231,https://www.dairyqueen.com/locations/oh/garrettsville/8013-state-st/14308,,,valid
+McDonald's,fast_food,burger,,,,https://www.mcdonalds.com/us/en-us/location/oh/garrettsville/8027-state-st/10601.html,,,needs_fix
+Miller's Family Restaurant,restaurant,american,,,,,,,needs_fix
+McDonald's,fast_food,burger,,,,https://www.mcdonalds.com/us/en-us/location/oh/mantua/10637-main-st/22007.html,,,needs_fix
+Lembo's Italian Restaurant,restaurant,italian,Akron,Canton Road,44312,,,,valid
+McDonald's,fast_food,burger,Akron,Canton Road,44312,https://www.mcdonalds.com/us/en-us/location/3394.html,,,valid
+Pizza Hut,restaurant,pizza,Akron,East Waterloo Road,44312,https://locations.pizzahut.com/oh/akron/2797-e-waterloo-rd,,,valid
+Wendy's,fast_food,burger,Akron,Canton Road,44312,https://locations.wendys.com/united-states/oh/akron/1266-canton-rd,,,valid
+Taco Bell,fast_food,tex-mex,Akron,Canton Road,44312,https://locations.tacobell.com/oh/akron/1299-canton-rd.html,,,valid
+KFC,fast_food,chicken,Akron,East Waterloo Road,44312,https://locations.kfc.com/oh/akron/2840-e-waterloo-road,,,valid
+Burger King,fast_food,burger,Akron,Canton Road,44312,https://www.bk.com/store-locator/store/restaurant_3511,,,valid
+Farmer Boy,restaurant,,,,,,,,needs_fix
+The Lakehouse Kitchen + Bar,restaurant,seafood;american,Kent,State Route 43,44240,https://lakehousekent.com/,,,valid
+Rockne's,restaurant,regional,Streetsboro,Staples Drive,44241,https://www.rocknes.com/,,,valid
+Musica,bar,,Akron,East Market Street,44308,https://www.celebrityetc.com/musica/,,,valid
+Cracker Barrel,restaurant,american,,,,,,,needs_fix
+Belgrade Gardens,restaurant,barberton_chicken,,,,,,,needs_fix
+Church's Chicken,fast_food,chicken,Akron,Vernon Odom Boulevard,44320,https://locations.churchs.com/oh/akron/1391-vernon-odom-boulevard,,,valid
+Dunkin',fast_food,donut;coffee_shop,Kent,East Main Street,44240,https://locations.dunkindonuts.com/en/oh/kent/527-east-main-st/350599,,,valid
+Prentice Cafe,cafe,american,,,,https://www.kent.edu/dining/prentice-hall,,,needs_fix
+The Bean Scene at Olson,cafe,coffee_shop,,,,https://www.kent.edu/dining/olson-hall-0,,,needs_fix
+Einstein Bros. Bagels,fast_food,bagel,Kent,Midway Drive,44243,https://www.kent.edu/dining/hub,,,valid
+Wholly Habaneros,fast_food,mexican,,,,https://www.kent.edu/dining/hub,,,needs_fix
+Subway,fast_food,sandwich,Kent,,,https://www.kent.edu/dining/hub,,,needs_fix
+Wow Bao,fast_food,asian;chinese,Kent,,,https://www.kent.edu/dining/hub,,,needs_fix
+Sushi with Gusto,fast_food,sushi,,,,https://www.kent.edu/dining/hub,,,needs_fix
+The Slice - Pizza Salad & More,fast_food,pizza;american,Kent,,,https://www.kent.edu/dining/hub,,,needs_fix
+Auntie Anne's,fast_food,pretzel,,,,https://www.kent.edu/dining/hub,,,needs_fix
+Schwebel Garden Room,restaurant,american;steak_house;international,Kent,,,https://www.kent.edu/dining/schwebel-room,,,needs_fix
+Food 4 Thought,cafe,,Kent,,,,,,needs_fix
+The Bean Scene,cafe,coffee_shop,Kent,,,https://www.kent.edu/dining/library,,,needs_fix
+Subway,fast_food,sandwich,Kent,South Water Street,44240,https://restaurants.subway.com/united-states/oh/kent/1330-s-water-st,,,valid
+Food 4 Thought Cyber Cafe,restaurant,american,Kent,,,,,,needs_fix
+Snack Bar,restaurant,american,,,,,,,needs_fix
+Deltasig Cafe,cafe,,Kent,,,,,,needs_fix
+Jazzman's,cafe,coffee_shop,,,,https://www.kent.edu/dining/oscar-ritchie,,,needs_fix
+Jazzman's,cafe,coffee_shop,,,,https://www.kent.edu/dining/eastway-center,,,needs_fix
+Eastway Cafe,cafe,american,,,,https://www.kent.edu/dining/eastway-center,,,needs_fix
+Rosies Diner,fast_food,american;pizza;fries;burger;sandwich,,,,https://www.kent.edu/dining/tri-towers-rotunda,,,needs_fix
+Bruegger's Bagles,cafe,,Stow,Darrow Road,44224,,,,valid
+Fun Buffet,restaurant,chinese,,,,,,,needs_fix
+McDonald's,fast_food,burger,Ravenna,Lynn Road,44266-9527,https://www.mcdonalds.com/us/en-us/location/11116.html,,,valid
+McDonald's,fast_food,burger,Hudson,West Streetsboro Street,44326,https://www.mcdonalds.com/us/en-us/location/7392.html,,,valid
+Taco Bell,fast_food,tex-mex,Akron,East Exchange Street,44304,https://locations.tacobell.com/oh/akron/414-e-exchange-st.html,,,valid
+Bob Evans,restaurant,american,Streetsboro,Cleve E Liverpool Road,44241,,,,valid
+Slim and Jumbo's,bar,,,,,,,,needs_fix
+The Battleground,restaurant,mexican,Kent,Cherry Street,44240,https://battlegroundbar.com/,,,valid
+McDonald's,fast_food,burger,Kent,State Route 43,44240-6917,https://www.mcdonalds.com/us/en-us/location/31878.html,,,valid
+Wendy's,fast_food,burger,Kent,State Route 43,44240,https://locations.wendys.com/united-states/oh/kent/4244-state-route-43,,,valid
+Wendy's,fast_food,burger,Stow,Darrow Road,44224,https://locations.wendys.com/united-states/oh/stow/5025-darrow-road,,,valid
+Burger King,fast_food,burger,Stow,Norton Road,44224-1410,https://www.bk.com/store-locator/store/restaurant_8393,,,valid
+McDonald's,fast_food,burger,Stow,Darrow Road,44224-1408,https://www.mcdonalds.com/us/en-us/location/11579.html,,,valid
+Arby's,fast_food,sandwich,Stow,Norton Road,44224,https://www.arbys.com/locations/us/oh/stow/1540-norton-rd/store-1831/,,,valid
+veg+,restaurant,,,,,https://www.vegplus-hudson.com/,,,needs_fix
+Taco Bell,fast_food,tex-mex,Stow,Kent Road,44224,https://locations.tacobell.com/oh/stow/4152-kent-rd.html,,,valid
+Arby's,fast_food,sandwich,Akron,East Waterloo Road,44306,https://www.arbys.com/locations/us/oh/akron/1000-e-waterloo-rd/store-34/,,,valid
+McDonald's,fast_food,burger,Akron,East Waterloo Road,44306,https://www.mcdonalds.com/us/en-us/location/536.html,,,valid
+Smoke-N-Joe's BBQ,restaurant,,Akron,East Waterloo Road,44306,,,,valid
+Parasson's Italian,restaurant,italian,Akron,East Waterloo Road,44306,https://parassons.com/,,,valid
+Wendy's,fast_food,burger,Akron,South Arlington Street,44306,https://locations.wendys.com/united-states/oh/akron/1521-s-arlington-st,,,valid
+Burger King,fast_food,burger,Alliance,West State Street,44601-3538,https://www.bk.com/store-locator/store/restaurant_4546,,,valid
+McDonald's,fast_food,burger,Alliance,East State Street,44601-4915,https://www.mcdonalds.com/us/en-us/location/1540.html,,,valid
+Panera Bread,fast_food,sandwich;bakery,Alliance,West State Street,44601,https://locations.panerabread.com/oh/alliance/1670-west-state-st.html,,,valid
+El Rincon,restaurant,mexican,,South Arlington Street,44306,https://el-rincon.shop/,,,valid
+KFC,fast_food,chicken,Alliance,East State Street,44601,https://locations.kfc.com/oh/alliance/825-east-state-street,,,valid
+DQ Grill & Chill,fast_food,ice_cream;burger,Alliance,West State Street,44601,https://www.dairyqueen.com/locations/oh/alliance/1635-w-state-st/14297,,,valid
+Taco Bell,fast_food,tex-mex,Alliance,West State Street,44601,https://locations.tacobell.com/oh/alliance/110-w-state-street.html,,,valid
+Pizza Hut,restaurant,pizza,Alliance,West State Street,44601,https://locations.pizzahut.com/oh/alliance/2200-w-state-street,,,valid
+Jalisco,restaurant,mexican,,,,,,,needs_fix
+McDonald's,fast_food,burger,Alliance,West State Street,44601,https://www.mcdonalds.com/us/en-us/location/13703.html,,,valid
+DQ Grill & Chill,fast_food,ice_cream;burger,Rootstown,State Route 14,44272-9720,https://www.dairyqueen.com/locations/oh/rootstown/4009-state-rte-14/14306,,,valid
+DQ Grill & Chill,fast_food,ice_cream;burger,Akron,Brittain Road,44305-1340,https://www.dairyqueen.com/locations/oh/akron/821-brittain-rd/14311,,,valid
+Rockne's,restaurant,,,,,,,,needs_fix
+Mikado,restaurant,japanese;sushi;chinese,Akron,Brittain Road,44310,https://www.mikadohibachisushi.com/,,,valid
+Applebee's,restaurant,american,,Hudson Drive,,https://restaurants.applebees.com/en-us/oh/stow/3528-hudson-dr.-99019,,,valid
+Panera Bread,fast_food,sandwich;bakery,Stow,Graham Road,44224,https://locations.panerabread.com/oh/stow/1059-graham-road.html,,,valid
+McDonald's,fast_food,burger,Cuyahoga Falls,Graham Road,44224-2935,https://www.mcdonalds.com/us/en-us/location/2542.html,,,valid
+The Interbelt Nightclub,bar,,Akron,Howard Street,44308,,,,valid
+Handel's Homemade Ice Cream,ice_cream,ice_cream;burger,,,,,,,needs_fix
+Pizza Hut,restaurant,pizza,Cuyahoga Falls,State Street,44223,https://locations.pizzahut.com/oh/cuyahoga-falls/2893-state-street,,,valid
+Pad Thai,restaurant,thai,Hudson,Darrow Road,44236,,,,valid
+Donatos Pizza,restaurant,pizza,Hudson,Darrow Road,44236,,,,valid
+Wil's Grille and Pub,restaurant,american;burger;seafood,Barberton,West Turkeyfoot Lake Road,44203,,,,valid
+Honeymoon Grille,restaurant,american;breakfast,Akron,Manchester Road,44319,,,,valid
+Panda Express,fast_food,chinese,Cuyahoga Falls,State Road,44223,https://www.pandaexpress.com/locations/oh/cuyahoga-falls/2846,,,valid
+Burger King,fast_food,burger,Cuyahoga Falls,State Road,44223-1643,https://www.bk.com/store-locator/store/restaurant_3042,,,valid
+Arby's,fast_food,sandwich,Cuyahoga Falls,State Road,44223,https://www.arbys.com/locations/us/oh/cuyahoga-falls/2685-state-rd/store-21/,,,valid
+Perkins,restaurant,american,,,,,,,needs_fix
+The Brew Kettle,restaurant,,,,,,,,needs_fix
+Taco Bell,fast_food,tex-mex,Cuyahoga Falls,State Road,44223,https://locations.tacobell.com/oh/cuyahoga-falls/2618-state-rd.html,,,valid
+TGI Friday's,restaurant,american,,Lakepointe Corporate Drive,,https://locations.tgifridays.com/oh/stow/4300-lakepointe-corporate-dr.html,,,valid
+Mid East Cafe,restaurant,,,,,,,,needs_fix
+Burntwood Tavern,restaurant,,,,,,,,needs_fix
+Papa John's,fast_food,pizza,Akron,East Market Street,44305,https://locations.papajohns.com/united-states/oh/44305/akron/701-e-market-st,,,valid
+Domino's,fast_food,pizza,Akron,East Market Street,44305,https://pizza.dominos.com/ohio/akron/730-e-market-st,,,valid
+The Presidents Lounge,bar,,,,,,,,needs_fix
+Stricklands,ice_cream,,Akron,Triplett Boulevard,44312,,,,valid
+Little Caesars,fast_food,pizza,,,,https://littlecaesars.com/en-us/store/10784/,,,needs_fix
+Applebee's,restaurant,american,,,,https://restaurants.applebees.com/en-us/oh/streetsboro/1200-state-rt.-303-96096,,,needs_fix
+Retro Dog,restaurant,,,,,,,,needs_fix
+Guidoâ€™s Pizza,restaurant,pizza,,,,,,,needs_fix
+A&W,fast_food,burger,,,,https://awrestaurants.com/locations/ohio/kent/1124-w-main-street/,,,needs_fix
+HiHo Brewery,pub,,,,,,,,needs_fix
+Hibachi Japan,restaurant,hibachi,,Front Street,,,,,valid
+Angelina's Pizza House,restaurant,pizza,Stow,Darrow Road,44224,,,,valid
+Krispy Kreme,fast_food,donut,Akron,S Maple Street;S Maple,44302,https://site.krispykreme.com/oh/akron/354-s-maple-st,,,valid
+Wendy's,fast_food,burger,Streetsboro,State Route 14,44241,https://locations.wendys.com/united-states/oh/streetsboro/9717-state-route-14,,,valid
+Ruby Tuesday,restaurant,american,,,,,,,needs_fix
+McDonald's,fast_food,burger,Streetsboro,Cleveland East Liverpool Road,44241,https://www.mcdonalds.com/us/en-us/location/19656.html,,,valid
+Domino's,fast_food,pizza,Streetsboro,State Route 43,44241,https://pizza.dominos.com/ohio/streetsboro/9380-state-route-43,,,valid
+Subway,fast_food,sandwich,Streetsboro,State Route 43,44241,https://restaurants.subway.com/united-states/oh/streetsboro/9380-state-rt-43,,,valid
+Little Caesars,fast_food,pizza,,,,https://littlecaesars.com/en-us/store/9488/,,,needs_fix
+Handel's,ice_cream,,,,,,,,needs_fix
+Emedio and Sons Italian Restaurant,restaurant,,,,,,,,needs_fix
+Taco Bell,fast_food,tex-mex,Cuyahoga Falls,Graham Road,44221,https://locations.tacobell.com/oh/cuyahoga-falls/993-graham-rd-.html,,,valid
+Bob Evans,restaurant,american,,Hudson Drive,44224,,,,valid
+Red Lobster,restaurant,seafood,,,,,,,needs_fix
+McDonald's,fast_food,burger,Stow,Steels Corners Road,44224,https://www.mcdonalds.com/us/en-us/location/24570.html,,,valid
+Texas Roadhouse,restaurant,steak_house,,,,,,,needs_fix
+Arby's,fast_food,sandwich,Ravenna,Lynn Road,44266,https://www.arbys.com/locations/us/oh/ravenna/4231-lynn-rd/store-6951/,,,valid
+Wendy's,fast_food,burger,Ravenna,Lynn Road,44266,https://locations.wendys.com/united-states/oh/ravenna/4151-lynn-rd,,,valid
+The Merchant,restaurant,,,,,,,,needs_fix
+Lemongrass Grill Thai Restaurant and Bar,restaurant,thai,Munroe Falls,North Main Street,44262,,,,valid
+Brewster's Pub,bar,,Munroe Falls,South Main Street,,,,,valid
+Pizza Hut,restaurant,pizza,Munroe Falls,Munroe Falls Avenue,44262,https://locations.pizzahut.com/oh/munroe-falls/24-munroe-falls-ave,,,valid
+McDonald's,fast_food,burger,Munroe Falls,Munroe Falls Avenue,44262,https://www.mcdonalds.com/us/en-us/location/12852.html,,,valid
+Raising Cane's,fast_food,chicken,,,,,,,needs_fix
+Bellacinos,restaurant,italian,,,,https://www.bellacinosofstow.com/,,,needs_fix
+DQ Grill & Chill,fast_food,ice_cream;burger,Stow,Fishcreek Road,44224-4301,https://www.dairyqueen.com/locations/oh/stow/3645-fishcreek-rd/14310,,,valid
+Winking Lizard,pub,,,,,,,,needs_fix
+Peninsula Coffee House & Market,cafe,coffee_shop,Peninsula,Main Street,44264,,,,valid
+Burger King,fast_food,burger,Stow,Graham Road,44224-3655,https://www.bk.com/store-locator/store/restaurant_3262,,,valid
+Handel's Homemade Ice Cream,ice_cream,,Uniontown,Massillon Road,44685,http://www.handelsicecream.com/green,,,valid
+Pizza Hut,restaurant,pizza,Akron,Manchester Road,44319,https://locations.pizzahut.com/oh/akron/2665-manchester-rd,,,valid
+Hamburger Station,fast_food,burger,,,,,,,needs_fix
+Dunkin' Donuts,fast_food,donut;coffee_shop,Tallmadge,Tallmadge Circle,44278,https://locations.dunkindonuts.com/en/oh/tallmadge/196-tallmadge-circle/345732,,,valid
+Taco Bell,fast_food,tex-mex,Akron,Manchester Road,44319,https://locations.tacobell.com/oh/coventry-township/3333-manchester-road.html,,,valid
+TJ's Drive In,restaurant,burger;hot_dog,Tallmadge,West Avenue,44278,https://tjs-drive-in.business.site/,,,valid
+Delanie's Bar & Grill,restaurant,,,,,,,,needs_fix
+Moe's,restaurant,,,,,https://www.moesrestaurant.com/,,,needs_fix
+Arby's,fast_food,sandwich,Ravenna,West Main Street,44266,https://www.arbys.com/locations/us/oh/ravenna/417-w-main-st/store-5701/,,,valid
+Artisan Coffee,cafe,,,,,,,,needs_fix
+Square,bar,,Akron,West Market Street,44303,,,,valid
+Angel Falls Coffee Co.,cafe,coffee_shop,Akron,West Market Street,44303,https://www.facebook.com/profile.php?id=100057490028026,,,valid
+Mary Coyle Ice Cream,restaurant,italian;ice_cream,Akron,West Market Street,44303,https://www.trecasos.com,,,valid
+Grinders Above & Beyond,restaurant,,,,,,,,needs_fix
+Wendy's,fast_food,burger,Hartville,West Maple Street,44632,https://locations.wendys.com/united-states/oh/hartville/915-w-maple-street,,,valid
+Mi Casa,restaurant,mexican,,,,,,,needs_fix
+Pizza Hut,restaurant,pizza,Hartville,West Maple Street,44632,https://locations.pizzahut.com/oh/hartville/925-w-maple-st,,,valid
+Subway,fast_food,sandwich,Hartville,West Maple Street,44632,https://restaurants.subway.com/united-states/oh/hartville/820-w-maple-st,,,valid
+DQ Grill & Chill,fast_food,ice_cream;burger,Hartville,West Maple Street,44632-9684,https://www.dairyqueen.com/locations/oh/hartville/810-w-maple-st/14325,,,valid
+Brighton Hot Dog Shoppe,restaurant,,,,,,,,needs_fix
+Hartville Chocolate Factory,confectionery,,Hartville,Prospect Avenue North,44632,,,,valid
+Burger King,fast_food,burger,,,,,,,needs_fix
+Hartville Food Truck Park,restaurant,,,,,,,,needs_fix
+Starbucks,cafe,coffee_shop,Hartville,West Maple Street,44632,https://www.starbucks.com/store-locator/store/1025849/hartville-w-maple-st-832-w-maple-street-hartville-oh-446329684-us,,,valid
+Taco Bell,fast_food,tex-mex,Hartville,West Maple Street,44632,https://locations.tacobell.com/oh/hartville/821-west-maple-street.html,,,valid
+Domino's,fast_food,pizza,Hartville,West Maple Street,44632,https://pizza.dominos.com/ohio/hartville/847-w-maple-street,,,valid
+Front Porch,cafe,,,,,,,,needs_fix
+Freddy's,fast_food,ice_cream;burger,,,,,,,needs_fix
+Hanini Subs,fast_food,sandwich,,,,,,,needs_fix
+A&W,fast_food,burger,,,,https://awrestaurants.com/locations/ohio/ravenna/769-e-main-street/,,,needs_fix
+Social 8,restaurant,,,,,,,,needs_fix
+Subway,fast_food,sandwich,Akron,Akron Peninsula Road,44313,https://restaurants.subway.com/united-states/oh/akron/1562-akron-peninsula-rd,,,valid
+Jersey Mike's Subs,fast_food,sandwich,Akron,Canton Road,44312,https://www.jerseymikes.com/2116/akron-oh,,,valid
+Gionino's Pizzeria,restaurant,pizza,,,,,,,needs_fix
+Chipotle,fast_food,mexican,Ravenna,East Main Street,44266,https://locations.chipotle.com/oh/ravenna/787-e-main-st,,,valid
+Burger King,fast_food,burger,Ravenna,East Main Street,44266-3325,https://www.bk.com/store-locator/store/restaurant_2900,,,valid
+Wendy's,fast_food,burger,Ravenna,Main Street,44266,https://locations.wendys.com/united-states/oh/ravenna/988-main-street,,,valid
+Pizza Hut,restaurant,pizza,Ravenna,East Main Street,44266,https://locations.pizzahut.com/oh/ravenna/1313-e-main-st,,,valid
+Dairy Queen,fast_food,ice_cream,Ravenna,East Main Street,44266-3134,https://www.dairyqueen.com/locations/oh/ravenna/333-e-main-st/14305,,,valid
+Subway,fast_food,sandwich,Ravenna,West Main Street,44266,https://restaurants.subway.com/united-states/oh/ravenna/1052-w-main-st,,,valid
+Papa John's,fast_food,pizza,Ravenna,West Main Street,44266,https://locations.papajohns.com/united-states/oh/44266/ravenna/1054-west-main-street,,,valid
+Little Caesars,fast_food,pizza,,,,https://littlecaesars.com/en-us/store/8146/,,,needs_fix
+Domino's,fast_food,pizza,Tallmadge,Northwest Avenue,44278,https://pizza.dominos.com/ohio/tallmadge/147-northwest-ave,,,valid
+Marco's Pizza,restaurant,pizza,,,,,,,needs_fix
+China Dragon,restaurant,chinese,,,,,,,needs_fix
+Subway,fast_food,sandwich,Tallmadge,South Avenue,44278,https://restaurants.subway.com/united-states/oh/tallmadge/622-south-ave,,,valid
+McDonald's,fast_food,burger,Akron,East Tallmadge Avenue,44310,https://www.mcdonalds.com/us/en-us/location/26655.html,,,valid
+The Glamm Bar,bar,,,,,,,,needs_fix
+Al & Dave's Pizza,cafe,pizza;wings,Alliance,South Union Avenue,44061,https://www.aldavespizza.com,,,valid
+Gionino's Pizzeria,fast_food,pizza,Akron,Canton Road,44312,https://www.gioninos.com/locations/oh-akron-1492-canton-rd-44312,,,valid
+DeCheco's Pizzeria,restaurant,pizza,Akron,Canton Road,44312,,,,valid
+Ideal Bakery,bakery,,Lakemore,Main Street,44250,https://idealbakeryohio.com/,,,valid
+McDonald's,fast_food,burger,Uniontown,Massillon Road,44685,https://www.mcdonalds.com/us/en-us/location/14434.html,,,valid
+Arby's,fast_food,sandwich,Uniontown,Sandy Knoll Drive,44685,https://www.arbys.com/locations/us/oh/uniontown/1687-sandy-knoll-dr/store-5355/,,,valid
+Crazy Chicken,restaurant,,,,,,,,needs_fix
+Wayside Cafe,cafe,,Akron,Canton Road,44312,,,,valid
+Church's Chicken,fast_food,chicken,,,,,,,needs_fix
+The Empire Concert Club & Bar,bar,,Akron,East Tallmadge Avenue,44310,,,,valid
+Friendship Acres Bar & Grill,bar,,Randolph,State route 44,44265,,,,valid
+Pub Bricco,restaurant,,,,,,,,needs_fix
+Chipotle,fast_food,mexican,Uniontown,Franks Parkway,44685,https://locations.chipotle.com/oh/uniontown/1840-franks-pkwy,,,valid
+McDonald's,fast_food,burger,Mogadore,Mogadore Road,44260,https://www.mcdonalds.com/us/en-us/location/20705.html,,,valid
+Uncle Tito's,restaurant,mexican,Mogadore,S Cleveland,44260,https://uncletitosmexicangrill.com/mogadore-location/,,,valid
+Concessions,food_court,,,,,,,,needs_fix
+Skoops,ice_cream,,,,,,,,needs_fix
+Arby's,fast_food,sandwich,Cuyahoga Falls,Main Street,44221,https://www.arbys.com/locations/us/oh/cuyahoga-falls/1145-main-street/store-8152/,,,valid
+The Cut Cafe,restaurant,american,Louisville,Edison Street Northeast,44641,https://sites.google.com/view/the-cut-cafe,,,valid
+McDonald's,fast_food,burger,Akron,Copley Road,44320-2537,https://www.mcdonalds.com/us/en-us/location/10786.html,,,valid
+Jerzee's Sports Pub,restaurant,american,Akron,East Turkeyfoot Lake Road,44312,https://www.jerzeesgrille.com/,,,valid
+Gionino's Pizzeria,fast_food,pizza,Akron,South Main Street,44301,https://www.gioninos.com/locations/oh-akron-1522-s-main-st-44301,,,valid
+Don Pancho's,restaurant,mexican,Uniontown,Massillon Road,44685,,,,valid
+Waffle House,restaurant,american,Akron,South Arlington Road,44312,https://locations.wafflehouse.com/akron-oh-1540,,,valid
+Kinsey's Korner,restaurant,pizza,Atwater,SR 183,44201,https://kinseyskorner.com/,,,valid
+Uncle Tito's Mexican Grill,restaurant,mexican,Atwater,SR 183,44201,,,,valid
+EuroGyro,restaurant,,,,,,,,needs_fix
+The Score Draft Room,pub,,,,,,,,needs_fix
+Subway,fast_food,sandwich,Akron,East Exchange Street,44304,https://restaurants.subway.com/united-states/oh/akron/484-e-exchange-st,,,valid
+County Line Bar and Grill,restaurant,,,,,,,,needs_fix
+Candle's Kitchen,restaurant,,,,,https://candles-kitchen.business.site/,,,needs_fix
+Thirsty Dog Brewing Taphouse,pub,,,,,,,,needs_fix
+Tandoori Kabobs,restaurant,,,,,,,,needs_fix
+McDonald's,fast_food,burger,Akron,East Thornton Street,44311,https://www.mcdonalds.com/us/en-us/location/39230.html,,,valid
+Spaghetti Warehouse,restaurant,,,,,,,,needs_fix
+Golden Corral,restaurant,american;buffet,Akron,South Arlington Road,44312,,,,valid
+Starbucks,cafe,coffee_shop,Akron,South Arlington Road,44312,https://www.starbucks.com/store-locator/store/8054/akron-south-arlington-rd-2884-south-arlington-road-akron-oh-443124716-us,,,valid
+Applebee's,restaurant,american,,South Arlington Road,44312,https://restaurants.applebees.com/en-us/oh/akron/2897-s.-arlington-road-95099,,,valid
+IHOP,restaurant,breakfast;pancake,,South Arlington Road,44312,https://restaurants.ihop.com/en-us/oh/akron/breakfast-2877-s-arlington-rd-5508,,,valid
+Wink's,cafe,burger,,,,,,,needs_fix
+Starbucks,cafe,coffee_shop,Kent,Terrace Drive,44240,https://www.starbucks.com/store-locator/store/1021745/kent-state-university-esplanad-475-terrace-drive-kent-oh-44240-us,,,valid
+The Wine Mill,restaurant,,Peninsula,Akron Cleveland Rd,44264,,,,valid
+The Twisted Olive,restaurant,,,,,,,,needs_fix
+Stow Cone,ice_cream,,,,,,,,needs_fix
+Dunkin',fast_food,donut;coffee_shop,Kent,South Water Street,44240,https://locations.dunkindonuts.com/en/oh/kent/1625-s-water-st/358786,,,valid
+Arby's,fast_food,sandwich,Kent,East Main Street,44240,https://www.arbys.com/locations/us/oh/kent/1821-e-main-st/store-8189/,,,valid
+Tiki Underground,bar,,,,,,,,needs_fix
+Skyway Drive-In,fast_food,american,Akron,East Turkeyfoot Lake Road,44312,,,,valid
+Wing Warehouse,restaurant,,,,,,,,needs_fix
+Merriman Valley Pizza,restaurant,pizza,,,,,,,needs_fix
+Fisherâ€™s Cafe & Pub,restaurant,,,Main Street,44264,,,,valid
+The Basement,bar,,,,,,,,needs_fix
+Eddy's,restaurant,,,,,,,,needs_fix
+Donatos Pizza,restaurant,pizza,,,,,,,needs_fix
+Dunkin',fast_food,donut;coffee_shop,Cuyahoga Falls,State Road,44223,https://locations.dunkindonuts.com/en/oh/cuyahoga-falls/1760-state-rd/351520,,,valid
+The Jetty,bar,,,,,,,,needs_fix
+Wendy's,fast_food,burger,Stow,West Graham Street,44224,https://locations.wendys.com/united-states/oh/stow/1051-w-graham-street,,,valid
+Papa John's,fast_food,pizza,Cuyahoga Falls,State Road,44223,https://locations.papajohns.com/united-states/oh/44223/cuyahoga-falls/1630-state-rd,,,valid
+Golden Dragon,restaurant,chinese,,,,,,,needs_fix
+B&K Root Beer,fast_food,hot_dog,,,,,,,needs_fix
+DQ Grill & Chill,fast_food,ice_cream;burger,Cuyahoga Falls,Portage Trail,44221-3003,https://www.dairyqueen.com/locations/oh/cuyahoga-falls/715-portage-tr/14299,,,valid
+Outback Steakhouse,restaurant,american;steak,,,,,,,needs_fix
+Darby's on 59,restaurant,american,,Front Street,44221,http://darbyson59.com/,,,valid
+Retz's Laconi's II,restaurant,italian,,,,,,,needs_fix
+Eddy's Deli,restaurant,,,,,,,,needs_fix
+KC's Melody Inn,bar,,,,,,,,needs_fix
+Windsor Pub,pub,burger;wings,Akron,East Tallmadge Avenue,44310,,,,valid
+Kenmore Eastern Sports Bar,bar,,,,,,,,needs_fix
+Bob Evans,restaurant,american,,,,,,,needs_fix
+Papa John's,fast_food,pizza,Akron,East Waterloo Road,44319,https://locations.papajohns.com/united-states/oh/44319/akron/340-e-waterloo-rd,,,valid
+Raising Cane's,fast_food,chicken,Cuyahoga Falls,Howe Avenue,44221,,,,valid
+McDonald's,fast_food,burger,Akron,Vernon Odom Boulevard,44320,https://www.mcdonalds.com/us/en-us/location/36187.html,,,valid
+Rally's,fast_food,burger,,,,,,,needs_fix
+Burger King,fast_food,burger,Akron,Vernon Odom Boulevard,44320-4036,https://www.bk.com/store-locator/store/restaurant_349,,,valid
+Pizza Hut,restaurant,pizza,Akron,Copley Road,44320,https://locations.pizzahut.com/oh/akron/1591-copley-rd,,,valid
+Dunkin',fast_food,donut;coffee_shop,,,,https://locations.dunkindonuts.com/,,,needs_fix
+Bailey Road Tavern,bar,,,,,,,,needs_fix
+Tim's Pizzeria,bar,,,,,,,,needs_fix
+Ozzy's Nottingham Pub,bar,,Akron,Brittain Road,44310,,,,valid
+Burger King,fast_food,burger,Streetsboro,State Route 14,44241-5227,https://www.bk.com/store-locator/store/restaurant_8642,,,valid
+The Cafe in Stow,restaurant,,,,,,,,needs_fix
+Biggby Coffee,cafe,coffee_shop,,,,,,,needs_fix
+Manchester Tavern,bar,,,,,,,,needs_fix
