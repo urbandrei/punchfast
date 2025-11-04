@@ -3,21 +3,6 @@ const sequelize = require('../config/database');
 const { QueryTypes } = require('sequelize');
 const { searchAndAddStores } = require('../logic/searchForStores');
 
-exports.getStoreNameById = async (req, res) => {
-    const id = req.params.id;
-    if (!id) return res.status(400).json({ message: 'Missing store id' });
-    try {
-        const store = await Store.findByPk(id);
-        if (!store) return res.status(404).json({ message: 'Store not found' });
-        return res.status(200).json({ id: store.id, name: store.name });
-    } catch (error) {
-        console.error('Error fetching store by id:', error);
-        return res.status(500).json({ message: 'Server error' });
-    }
-};
-
-
-
 exports.newStore = async (req, res) => {
     const { name, address, longitude, latitude } = req.body;
     if (!name || !address || typeof latitude === 'undefined' || typeof longitude === 'undefined') {

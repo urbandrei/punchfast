@@ -39,45 +39,6 @@ exports.newRoute = async (req, res) => {
     }
 };
 
-exports.getRoutes = async (req, res) => {
-    try {
-        const routes = await Route.findAll({
-            include: [{
-                model: Store,
-                as: 'stores',
-                through: {
-                    attributes: ['order'],
-                    as: 'routeStoreInfo'
-                },
-                attributes: ['id', 'name', 'address', 'latitude', 'longitude']
-            }],
-            order: [
-                ['id', 'ASC'],
-                [{ model: Store, as: 'stores' }, RouteStore, 'order', 'ASC']
-            ]
-        });
-
-        const result = routes.map(route => ({
-            id: route.id,
-            name: route.name,
-            routeType: route.routeType,
-            stores: route.stores.map(store => ({
-                id: store.id,
-                name: store.name,
-                address: store.address,
-                latitude: store.latitude,
-                longitude: store.longitude,
-                order: store.RouteStore.order
-            })).sort((a, b) => a.order - b.order)
-        }));
-
-        return res.status(200).json({ count: result.length, routes: result });
-    } catch (error) {
-        console.error('Error fetching routes:', error);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
-};
-
 exports.getNearbyRoutes = async (req, res) => {
     const latitude = parseFloat(req.query.lat ?? req.body.lat);
     const longitude = parseFloat(req.query.lng ?? req.body.lng);
@@ -155,47 +116,6 @@ exports.getNearbyRoutes = async (req, res) => {
         return res.status(200).json({ count: result.length, routes: result });
     } catch (error) {
         console.error('Error fetching nearby routes:', error);
-        return res.status(500).json({ message: 'Server error', error: error.message });
-    }
-};
-
-exports.getRouteById = async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const route = await Route.findByPk(id, {
-            include: [{
-                model: Store,
-                as: 'stores',
-                through: { attributes: ['order'] },
-                attributes: ['id', 'name', 'address', 'latitude', 'longitude']
-            }],
-            order: [
-                [{ model: Store, as: 'stores' }, RouteStore, 'order', 'ASC']
-            ]
-        });
-
-        if (!route) {
-            return res.status(404).json({ message: 'Route not found' });
-        }
-
-        const result = {
-            id: route.id,
-            name: route.name,
-            routeType: route.routeType,
-            stores: route.stores.map(store => ({
-                id: store.id,
-                name: store.name,
-                address: store.address,
-                latitude: store.latitude,
-                longitude: store.longitude,
-                order: store.RouteStore.order
-            })).sort((a, b) => a.order - b.order)
-        };
-
-        return res.status(200).json({ route: result });
-    } catch (error) {
-        console.error('Error fetching route:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const RouteStart = sequelize.define('RouteStart', {
+const SavedStore = sequelize.define('SavedStore', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -10,24 +10,21 @@ const RouteStart = sequelize.define('RouteStart', {
             key: 'id'
         }
     },
-    routeId: {
+    storeId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'Routes',
+            model: 'Stores',
             key: 'id'
         }
-    },
-    startDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
-    },
-    status: {
-        type: DataTypes.ENUM('active', 'left'),
-        allowNull: false,
-        defaultValue: 'active'
     }
+}, {
+    indexes: [
+        {
+            unique: true,
+            fields: ['userId', 'storeId']
+        }
+    ]
 });
 
-module.exports = RouteStart;
+module.exports = SavedStore;

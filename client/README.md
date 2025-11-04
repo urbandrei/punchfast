@@ -1,1 +1,1 @@
-To run the frontend use the command -npm start in the terminal in the client folder. hello hello
+#A7CCDE, #E2CA80, #E68E*D, #6AB7AD, #302C9A

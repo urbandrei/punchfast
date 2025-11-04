@@ -1,0 +1,319 @@
+/* General */
+
+/* Route card styling */
+
+.route-card-container {
+  border: 2px solid #A7CCDE;
+  border-radius: 12px;
+  padding: 20px;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 2px 8px rgba(48, 44, 154, 0.1);
+  font-family: Arial, sans-serif;
+  background-color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin: 0 auto 20px;
+}
+
+.route-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.route-card-title {
+  font-size: 1.3em;
+  font-weight: 600;
+  margin: 0;
+  color: #302C9A;
+}
+
+.route-card-join-button {
+  background-color: #302C9A;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-size: 0.9em;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.route-card-join-button:hover {
+  background-color: #6AB7AD;
+  transform: scale(1.05);
+}
+
+.route-card-path-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.route-card-path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  flex: 1;
+}
+
+.route-card-horizontal-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #A7CCDE;
+  z-index: 0;
+  transform: translateY(-50%);
+}
+
+.route-card-horizontal-line-filled {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 3px;
+  background-color: #6AB7AD;
+  z-index: 1;
+  transition: width 0.5s ease;
+  transform: translateY(-50%);
+}
+
+.route-card-path-circle {
+  width: 16px;
+  height: 16px;
+  border: 3px solid #A7CCDE;
+  border-radius: 50%;
+  background-color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.route-card-path-circle.visited {
+  background-color: #6AB7AD;
+  border-color: #6AB7AD;
+  box-shadow: 0 0 8px rgba(106, 183, 173, 0.5);
+}
+
+.route-card-dropdown-arrow {
+  font-size: 1.2em;
+  color: #302C9A;
+  cursor: pointer;
+  margin-left: 15px;
+  user-select: none;
+  transition: transform 0.2s;
+}
+
+.route-card-dropdown-arrow:hover {
+  transform: scale(1.2);
+}
+
+.route-card-stores-list {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid #A7CCDE;
+}
+
+.route-card-stores-wrapper {
+  position: relative;
+}
+
+.route-card-store-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #A7CCDE;
+  transition: background-color 0.2s;
+  position: relative;
+  z-index: 2;
+}
+
+.route-card-store-item:last-child {
+  border-bottom: none;
+}
+
+.route-card-store-item.visited {
+  background-color: rgba(106, 183, 173, 0.08);
+}
+
+.store-left-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.store-list-circle {
+  width: 16px;
+  height: 16px;
+  border: 3px solid #A7CCDE;
+  border-radius: 50%;
+  background-color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.store-list-circle.visited {
+  background-color: #6AB7AD;
+  border-color: #6AB7AD;
+  box-shadow: 0 0 8px rgba(106, 183, 173, 0.5);
+}
+
+.store-name {
+  color: #302C9A;
+  font-size: 0.95em;
+  font-weight: 500;
+  flex: 1;
+}
+
+.store-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.store-map-icon {
+  font-size: 1.2em;
+  text-decoration: none;
+  transition: transform 0.2s;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.store-map-icon:hover {
+  transform: scale(1.2);
+}
+
+.store-save-icon {
+  font-size: 1.2em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.store-save-icon:hover {
+  transform: scale(1.2);
+}
+
+.store-save-icon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* Store card styling */
+
+.store-card-container {
+  border-radius: 12px;
+  padding: 15px;
+  width: 90%;
+  max-width: 600px;
+  background-color: #ffffff;
+  margin: 0 auto 20px;
+}
+
+.store-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.store-card-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.store-card-name {
+  color: #ffffff;
+  font-size: 1em;
+  font-weight: 500;
+}
+
+.store-card-visit-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85em;
+}
+
+.store-card-visit-count {
+  color: #6AB7AD;
+  font-weight: 500;
+}
+
+.store-card-visited-today {
+  color: #E2CA80;
+  font-weight: 600;
+  background-color: rgba(226, 202, 128, 0.15);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.store-card-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.store-card-map-icon {
+  font-size: 1.3em;
+  text-decoration: none;
+  transition: transform 0.2s;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.store-card-map-icon:hover {
+  transform: scale(1.2);
+}
+
+.store-card-save-icon {
+  background: none;
+  border: none;
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.store-card-save-icon:hover:not(:disabled) {
+  transform: scale(1.2);
+}
+
+.store-card-save-icon:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Nav bar styling */
+
+.nav-bar-container {
+  background-color: #ffffff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.nav-bar-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

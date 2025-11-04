@@ -27,8 +27,6 @@ const NewRoute = ({ isLogin , user}) => {
             }
         };
 
-
-
         if (navigator && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (pos) => fetchNearby(pos.coords.latitude, pos.coords.longitude),
