@@ -18,12 +18,18 @@ def main():
 
     Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.25, random_state=42, stratify=y)
     pipe = Pipeline([
-        ("tfidf", TfidfVectorizer(ngram_range=(1,3), min_df=2, max_df=0.9)),
-        ("clf", LogisticRegression(max_iter=2000, class_weight="balanced"))
+        ("tfidf", TfidfVectorizer(max_features=50000, ngram_range=(1,2))),
+        ("clf", LogisticRegression(max_iter=1000, n_jobs=None))
     ])
     pipe.fit(Xtr, ytr)
-    print(classification_report(yte, pipe.predict(Xte)))
+    yp = pipe.predict(Xte)
+    try:
+        print(classification_report(yte, yp))
+    except Exception:
+        pass
+
     joblib.dump(pipe, os.path.join(args.out, "type_model.joblib"))
+    print("Saved:", os.path.join(args.out, "type_model.joblib"))
 
 if __name__ == "__main__":
     main()

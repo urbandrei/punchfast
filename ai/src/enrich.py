@@ -1,4 +1,4 @@
-import os, json, argparse, joblib, re, pandas as pd, numpy as np
+import os, json, argparse, joblib, re, pandas as pd, numpy as np, io
 from typing import Dict, Any, List
 from ai.src.utils.text_utils import normalize_whitespace, tokenize_domain, keyword_hits
 from ai.src.utils.scrape_site import scrape_site
@@ -8,7 +8,30 @@ GAZETTEER_PATH = pathlib.Path(__file__).parent / "gazetteer" / "brand_gazetteer.
 with open(GAZETTEER_PATH, "r", encoding="utf-8") as f:
   GAZ = json.load(f)
 
-def brand_cuisine_from_name(name: str) -> List[str]:
+def _coerce_records(obj) -> List[dict]:
+  if isinstance(obj, list):
+    return [x for x in obj if isinstance(x, dict)]
+  if isinstance(obj, dict):
+    for k in ("elements","features","data","stores"):
+      if isinstance(obj.get(k), list):
+        return [x for x in obj[k] if isinstance(x, dict)]
+    return []
+  if isinstance(obj, str):
+    recs = []
+    for line in io.StringIO(obj):
+      line = line.strip()
+      if not line:
+        continue
+      try:
+        d = json.loads(line)
+        if isinstance(d, dict):
+          recs.append(d)
+      except Exception:
+        pass
+    return recs
+  return []
+
+def brand_cuisine_from_name(name: str):
   name = (name or "").lower()
   labs = set()
   for b, tags in GAZ.get("brands", {}).items():
@@ -38,7 +61,10 @@ def apply_type_rules(tags: Dict[str, Any], type_map_path: str) -> str:
   return ""
 
 def load_models(models_dir: str):
-  type_model = joblib.load(os.path.join(models_dir, "type_model.joblib")) if os.path.exists(os.path.join(models_dir, "type_model.joblib")) else None
+  type_model = None
+  type_path = os.path.join(models_dir, "type_model.joblib")
+  if os.path.exists(type_path):
+    type_model = joblib.load(type_path)
   cuisine_model = joblib.load(os.path.join(models_dir, "cuisine_model.joblib"))
   cuisine_mlb   = joblib.load(os.path.join(models_dir, "cuisine_mlb.joblib"))
   return type_model, cuisine_model, cuisine_mlb
@@ -52,18 +78,29 @@ def main():
   ap.add_argument("--scrape", action="store_true")
   args = ap.parse_args()
 
+  raw = open(args.stores, "r", encoding="utf-8").read()
+  try:
+    obj = json.loads(raw)
+  except Exception:
+    obj = raw
+  records = _coerce_records(obj)
+  if not records:
+    raise ValueError("No store records parsed from --stores")
+
   type_model, cuisine_model, cuisine_mlb = load_models(args.models)
-  with open(args.stores, "r", encoding="utf-8") as f:
-    data = json.load(f)
 
   enriched = []
-  for el in data:
+  for el in records:
     tags = el.get("tags", {})
+    if not isinstance(tags, dict): tags = {}
+
     store = {
       "id": el.get("id"), "lat": el.get("lat"), "lon": el.get("lon"),
-      "name": tags.get("name",""), "brand": tags.get("brand",""),
-      "website": tags.get("website",""), "amenity": tags.get("amenity",""),
-      "shop": tags.get("shop",""), "cuisine": tags.get("cuisine","") or ""
+      "name": tags.get("name", el.get("name","")), "brand": tags.get("brand", el.get("brand","")),
+      "website": tags.get("website", el.get("website","")),
+      "amenity": tags.get("amenity", el.get("amenity","")),
+      "shop": tags.get("shop", el.get("shop","")),
+      "cuisine": tags.get("cuisine", el.get("cuisine","")) or ""
     }
 
     # TYPE
@@ -99,7 +136,7 @@ def main():
         hints = sorted(set(hints + brand_cuisine_from_name(" ".join([scraped.get("title",""), scraped.get("meta_desc","")]))))
       text = build_text(store, scraped)
       scores = cuisine_model.decision_function([text])
-      probs = 1 / (1 + np.exp(-scores))  # sigmoid
+      probs = 1 / (1 + np.exp(-scores))
       probs = probs[0]
       classes = list(cuisine_mlb.classes_)
       keep = [(c, float(p)) for c, p in zip(classes, probs) if p >= 0.6]
@@ -127,8 +164,15 @@ def main():
     out_el["tags"] = enriched_tags
     enriched.append(out_el)
 
-  with open(args.out, "w", encoding="utf-8") as f:
-    json.dump(enriched, f, ensure_ascii=False, indent=2)
+  # Write with same top-level shape when possible
+  if isinstance(obj, dict) and "elements" in obj:
+    obj["elements"] = enriched
+    with open(args.out, "w", encoding="utf-8") as f:
+      json.dump(obj, f, ensure_ascii=False, indent=2)
+  else:
+    with open(args.out, "w", encoding="utf-8") as f:
+      json.dump(enriched, f, ensure_ascii=False, indent=2)
+
   print("Wrote:", args.out, "Total:", len(enriched))
 
 if __name__ == "__main__":

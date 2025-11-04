@@ -15,24 +15,30 @@ def main():
     os.makedirs(args.out, exist_ok=True)
 
     df = pd.read_csv(os.path.join(args.data, "train_cuisine.csv"))
-    df["cuisine_labels"] = df["cuisine_labels"].apply(lambda s: ast.literal_eval(s) if isinstance(s, str) else (s or []))
-    X = df["text_seed"].fillna("")
-    Y_list = df["cuisine_labels"].tolist()
-
+    # cuisine_labels column is like "['pizza','italian']" after CSV; parse it
+    labels = df["cuisine_labels"].apply(lambda s: ast.literal_eval(s) if isinstance(s,str) else (s or []))
     mlb = MultiLabelBinarizer()
-    Y = mlb.fit_transform(Y_list)
+    Y = mlb.fit_transform(labels)
+    X = df["text_seed"].fillna("")
 
     Xtr, Xte, Ytr, Yte = train_test_split(X, Y, test_size=0.25, random_state=42)
     pipe = Pipeline([
-        ("tfidf", TfidfVectorizer(ngram_range=(1,3), min_df=2, max_df=0.95)),
-        ("clf", OneVsRestClassifier(LogisticRegression(max_iter=2000, class_weight="balanced")))
+        ("tfidf", TfidfVectorizer(max_features=60000, ngram_range=(1,2))),
+        ("clf", OneVsRestClassifier(LogisticRegression(max_iter=1000)))
     ])
     pipe.fit(Xtr, Ytr)
-    print("Labels:", mlb.classes_)
-    print(classification_report(Yte, pipe.predict(Xte), target_names=mlb.classes_))
+    try:
+        Yp = pipe.predict(Xte)
+        print(classification_report(Yte, Yp, zero_division=0))
+        print("Labels:", mlb.classes_)
+    except Exception:
+        pass
 
-    joblib.dump(pipe, os.path.join(args.out, "cuisine_model.joblib"))
-    joblib.dump(mlb,  os.path.join(args.out, "cuisine_mlb.joblib"))
+    import joblib as jb
+    jb.dump(pipe, os.path.join(args.out, "cuisine_model.joblib"))
+    jb.dump(mlb,  os.path.join(args.out, "cuisine_mlb.joblib"))
+    print("Saved:", os.path.join(args.out, "cuisine_model.joblib"))
+    print("Saved:", os.path.join(args.out, "cuisine_mlb.joblib"))
 
 if __name__ == "__main__":
     main()

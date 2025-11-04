@@ -1,0 +1,146 @@
+id,lat,lon,name,brand,website,amenity,shop,cuisine_raw,opening_hours,store_type_label,cuisine_labels,domain_tokens,text_seed
+944649483,41.140498,-81.3564348,DQ Grill & Chill,DQ Grill & Chill,https://www.dairyqueen.com/locations/oh/kent/1443-s-water-st/14304,fast_food,,ice_cream;burger,,fast_food,"['burger', 'ice_cream']",www dairyqueen com,DQ Grill & Chill DQ Grill & Chill www dairyqueen com
+1909606906,41.1019995,-81.3459376,Pizza Hut,Pizza Hut,https://locations.pizzahut.com/oh/kent/4118-state-hwy-43,restaurant,,pizza,,restaurant,['pizza'],locations pizzahut com,Pizza Hut Pizza Hut locations pizzahut com
+1909606958,41.1005633,-81.3434773,Subway,Subway,https://restaurants.subway.com/united-states/oh/kent/4068-sr-43,fast_food,,sandwich,08:00-21:00,fast_food,['sandwich'],restaurants subway com,Subway Subway restaurants subway com
+2419993489,41.1476665,-81.3429495,The Porch,,https://www.kent.edu/dining/student-center-lower-level,restaurant,,,,restaurant,[],www kent edu,The Porch  www kent edu
+2424924290,41.1476721,-81.3431531,Jazzman's Cyber Cafe,,https://www.kent.edu/dining/student-center-lower-level,cafe,,coffee_shop,,cafe,['coffee'],www kent edu,Jazzman's Cyber Cafe  www kent edu
+2434607393,41.1478389,-81.3431676,The Tandoori Oven,,https://www.kent.edu/dining/kent-markets,restaurant,,indian,Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off,restaurant,['indian'],www kent edu,The Tandoori Oven  www kent edu
+2434607395,41.147842,-81.3431991,Fresh Inspirations,,https://www.kent.edu/dining/kent-markets,restaurant,,american,Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off,restaurant,['american'],www kent edu,Fresh Inspirations  www kent edu
+2434607396,41.1478641,-81.343231,Olives,,https://www.kent.edu/dining/kent-markets,restaurant,,italian,Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off,restaurant,['italian'],www kent edu,Olives  www kent edu
+2434607397,41.1479334,-81.3432271,Market Deli,,https://www.kent.edu/dining/kent-markets,,deli,,Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off,deli,[],www kent edu,Market Deli  www kent edu
+2434607398,41.1479035,-81.3432489,Market Grill,,https://www.kent.edu/dining/kent-markets,restaurant,,burger;american,Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off,restaurant,"['american', 'burger']",www kent edu,Market Grill  www kent edu
+2439068995,41.14998,-81.3467233,DI Dining Facility,,https://www.kent.edu/dining/design-innovation-dining,restaurant,,,,restaurant,[],www kent edu,DI Dining Facility  www kent edu
+2451963743,41.1543431,-81.3526364,Penn Station,Penn Station,,fast_food,,sandwich,,fast_food,['sandwich'],,Penn Station Penn Station
+2451974646,41.1545653,-81.3523579,Bruno's Authentic Pizza,,,restaurant,,pizza,,restaurant,['pizza'],,Bruno's Authentic Pizza
+2452321502,41.141413,-81.3402224,Summit Street Cafe,,https://www.kent.edu/dining/summit-street-cafe-1,restaurant,,ice_cream,,restaurant,['ice_cream'],www kent edu,Summit Street Cafe  www kent edu
+2452437694,41.1472973,-81.3482523,snackshop,,,cafe,,sandwich,,cafe,['sandwich'],,snackshop
+2548226142,41.1528204,-81.3565359,Laziza,,http://www.yourlaziza.com/,restaurant,,israeli;mediterranean,,restaurant,"['israeli', 'mediterranean']",www yourlaziza com,Laziza  www yourlaziza com
+2793595631,41.1528372,-81.3571555,Tree City Coffee,,,cafe,,coffee_shop,,cafe,['coffee'],,Tree City Coffee
+2793595633,41.1529687,-81.3568737,The Fruit Stand,,https://thefruitstandohio.com/,restaurant,,breakfast,Mo-Su 09:00-19:00,restaurant,['breakfast'],thefruitstandohio com,The Fruit Stand  thefruitstandohio com
+2793639793,41.1525332,-81.3567518,Bricco,,,restaurant,,italian,,restaurant,['italian'],,Bricco
+2793641019,41.1525483,-81.3572834,Barflyy,,,restaurant,,burger,,restaurant,['burger'],,Barflyy
+2793641021,41.1525315,-81.3579691,Fresco,,,restaurant,,mexican,,restaurant,['mexican'],,Fresco
+2794798756,41.1536252,-81.3566513,Buffalo Wild Wings,Buffalo Wild Wings,,restaurant,,wings,,restaurant,['wings'],,Buffalo Wild Wings Buffalo Wild Wings
+2794798757,41.1536266,-81.3567479,Beware of the Leopard,,,bar,,,,bar,[],,Beware of the Leopard
+2794798758,41.1539359,-81.3567855,Jimmy John's,Jimmy John's,https://locations.jimmyjohns.com/oh/kent/sandwiches-653.html,fast_food,,sandwich,,fast_food,['sandwich'],locations jimmyjohns com,Jimmy John's Jimmy John's locations jimmyjohns com
+2797783440,41.1536211,-81.3577054,Troy Grille,,https://troygrille.com/,restaurant,,turkish,Mo-Sa 12:00-20:00,restaurant,['turkish'],troygrille com,Troy Grille  troygrille com
+2797880782,41.1525594,-81.3574648,Georgio's,,,restaurant,,pizza,,restaurant,['pizza'],,Georgio's
+2797880785,41.1523381,-81.3579905,D.P. Dough,D.P. Dough,https://www.dpdough.com/,restaurant,,calzone,,restaurant,['calzone'],www dpdough com,D.P. Dough D.P. Dough www dpdough com
+2797880787,41.1520437,-81.3579949,Barrio,,https://barrio-tacos.com/,restaurant,,mexican,,restaurant,['mexican'],barrio tacos com,Barrio  barrio tacos com
+2797880792,41.1516279,-81.3579994,Panini's,,https://paninisgrill.com/,pub,,sandwich,Mo-Su 11:00-02:30,pub,['sandwich'],paninisgrill com,Panini's  paninisgrill com
+2805301230,41.1544382,-81.3527689,101 Bottles of Beer on the Wall,,,bar,,,,bar,[],,101 Bottles of Beer on the Wall
+3079567204,41.1512356,-81.343008,Burrito-Del-Rey,,https://www.kent.edu/dining/prentice-hall,fast_food,,mexican,,fast_food,['mexican'],www kent edu,Burrito-Del-Rey  www kent edu
+3792873512,41.154223,-81.3521214,Stahl's Bakery Delicatessen,,,,deli,,,deli,[],,Stahl's Bakery Delicatessen
+4207984188,41.1537027,-81.3363531,Hungry Howie's,Hungry Howie's,,fast_food,,pizza,,fast_food,['pizza'],,Hungry Howie's Hungry Howie's
+4207985773,41.1545238,-81.3352562,Little Caesars,Little Caesars,,fast_food,,pizza,,fast_food,['pizza'],,Little Caesars Little Caesars
+4207992806,41.1550385,-81.3339994,Evergreen Buffet,,,restaurant,,chinese,,restaurant,['chinese'],,Evergreen Buffet
+4207992807,41.1550303,-81.3339182,East of Chicago Pizza,East of Chicago Pizza,,fast_food,,pizza,,fast_food,['pizza'],,East of Chicago Pizza East of Chicago Pizza
+4207992809,41.1550344,-81.3337342,Wild Papaya,,,restaurant,,thai,,restaurant,['thai'],,Wild Papaya
+4207995156,41.1543005,-81.3318853,Juice And Smoothie Bar,,,fast_food,,,,fast_food,[],,Juice And Smoothie Bar
+4209764278,41.1560597,-81.3328198,Subway,Subway,https://restaurants.subway.com/united-states/oh/kent/1709-e-main-st,fast_food,,sandwich,Mo-Su 09:00-22:00,fast_food,['sandwich'],restaurants subway com,Subway Subway restaurants subway com
+4210133405,41.1398047,-81.3593519,China City,,,restaurant,,chinese,,restaurant,['chinese'],,China City
+4213156597,41.1407408,-81.3565772,Domino's,Domino's,https://pizza.dominos.com/ohio/kent/1413-s-water-street,fast_food,,pizza,Mo-Th 10:30-24:00; Fr-Sa 10:30-01:00; Su 10:30-24:00,fast_food,['pizza'],pizza dominos com,Domino's Domino's pizza dominos com
+4213311240,41.1528386,-81.3589169,Venice Cafe,,,bar,,,,bar,[],,Venice Cafe
+4213311241,41.1528396,-81.3587714,Erie Street Kitchen,,,restaurant,,,,restaurant,[],,Erie Street Kitchen
+4216151265,41.1392415,-81.3147062,The Sideline,,,fast_food,,american,,fast_food,['american'],,The Sideline
+4216151266,41.138866,-81.3146988,The Sideline,,,fast_food,,american,,fast_food,['american'],,The Sideline
+4240759678,41.1511393,-81.3428199,,,,fast_food,,sandwich,,fast_food,['sandwich'],,
+5163597149,41.1523998,-81.3569235,,,,public_bookcase,,,,,[],,
+5163597150,41.1522838,-81.3569247,,,,public_bookcase,,,,,[],,
+5351450530,41.1504636,-81.3598898,The Pub,,,restaurant,,,,restaurant,[],,The Pub
+6273390919,41.1557543,-81.3329402,Chinese Food,,,restaurant,,chinese,,restaurant,['chinese'],,Chinese Food
+6273390920,41.1556495,-81.332948,Laundry 101,,,bar,laundry,,,bar,[],,Laundry 101
+6370267704,41.1555135,-81.3656701,,,,public_bookcase,,,24/7,,[],,
+9322604292,41.1541413,-81.3448428,Starbucks,Starbucks,https://www.starbucks.com/store-locator/store/1023516/kent-east-main-st-and-luther-1005-e-main-street-kent-oh-442402815-us,cafe,,coffee_shop,,cafe,['coffee'],www starbucks com,Starbucks Starbucks www starbucks com
+9366644583,41.1546731,-81.3606596,Bell Tower Brewing Co.,,https://belltowerbrewing.com/,pub,,,,pub,[],belltowerbrewing com,Bell Tower Brewing Co.  belltowerbrewing com
+9675979053,41.1530492,-81.3900843,Speedway,Speedway,,,convenience,,,convenience,[],,Speedway Speedway
+9676077465,41.1093254,-81.3481045,Kent Marathon,,,,convenience,,,convenience,[],,Kent Marathon
+9676077466,41.1098562,-81.3481632,Kent Bp,,,,convenience,,,convenience,[],,Kent Bp
+9676077471,41.1056761,-81.3478392,Speedway,Speedway,https://www.speedway.com/locations/OH/Kent/4261-State-Route-43,,convenience,,,convenience,[],www speedway com,Speedway Speedway www speedway com
+10235832899,41.1534744,-81.3568918,Federales,,,restaurant,,mexican,,restaurant,['mexican'],,Federales
+10235832900,41.1535158,-81.3568918,,,,restaurant,,,,restaurant,[],,
+10235832901,41.1535594,-81.3568932,,,,restaurant,,,,restaurant,[],,
+10286063629,41.1608408,-81.3594266,HA!TEA Bubble Tea House,,,cafe,,bubble_tea,Mo-Sa 11:00-22:00; Su 11:30-21:30,cafe,['bubble_tea'],,HA!TEA Bubble Tea House
+10302577879,41.1530014,-81.3588297,Dominick's,,,bar,,,,bar,[],,Dominick's
+10302577881,41.1529997,-81.3583524,Guy's Pizza,,,restaurant,,pizza,,restaurant,['pizza'],,Guy's Pizza
+10302577882,41.1531481,-81.3583551,Water Street Tavern and Cajun Dave's,,,bar,,,,bar,[],,Water Street Tavern and Cajun Dave's
+10302577883,41.153135,-81.3587742,Ray's Place,,,restaurant,,american;burger;fries,Mo-Sa 11:00-02:30; Su 12:00-00:30,restaurant,"['american', 'burger', 'fries']",,Ray's Place
+10302577884,41.1532927,-81.3583697,Firefly Hookah Lounge,,,bar,,,,bar,[],,Firefly Hookah Lounge
+10302577885,41.153327,-81.3587064,Taco Tonto's,,,restaurant,,mexican,,restaurant,['mexican'],,Taco Tonto's
+10302577886,41.1536169,-81.3585613,The Loft,,,bar,,,,bar,[],,The Loft
+10302577887,41.1536226,-81.3584579,The Zephyr,,,bar,,,,bar,[],,The Zephyr
+10302577888,41.1536112,-81.3583479,Franklin Square Deli,,http://www.franklinsquaredeli.com/,restaurant,,sandwich,Mo-Su 11:00-17:00,restaurant,['sandwich'],www franklinsquaredeli com,Franklin Square Deli  www franklinsquaredeli com
+10305009818,41.1534319,-81.3562341,EuroGyro,,,pub,,,,pub,[],,EuroGyro
+10305009900,41.1528851,-81.3580017,157 Lounge,,,bar,,,,bar,[],,157 Lounge
+10555125020,41.1465097,-81.3586891,,,,,convenience,,,convenience,[],,
+11251472237,41.1542797,-81.3579231,Grazers,,https://www.grazerskent.com/,restaurant,,,"Mo-Th, Sa 11:00-17:00; Fr 11:00-19:00",restaurant,[],www grazerskent com,Grazers  www grazerskent com
+11251497738,41.155734,-81.3578739,Bar Lucci,,https://www.barluccikent.com/,bar,,,Tu-Th 18:00-01:00; Fr-Su 18:00-02:30; Mo 18:00-00:00,bar,[],www barluccikent com,Bar Lucci  www barluccikent com
+11251511637,41.1536265,-81.3579498,Pacific East,,https://www.pacificeastkent.com/,restaurant,,japanese;malaysian,"Mo-Th 11:00-15:00, 17:00-21:30; Fr 11:00-15:00, 17:00-22:30; Su 15:30-21:30; Sa 12:00-15:00, 17:00-22:30",restaurant,"['japanese', 'malaysian']",www pacificeastkent com,Pacific East  www pacificeastkent com
+11335171166,41.1105283,-81.3480547,,,,restaurant,,mexican,,restaurant,['mexican'],,
+12297192135,41.152992,-81.3571839,Belleria,,,restaurant,,italian,,restaurant,['italian'],,Belleria
+200164774,,,Cleveland Bagel Co,,http://clebagelco.com/,cafe,,coffee_shop;bagel,,cafe,"['bagel', 'coffee']",clebagelco com,Cleveland Bagel Co  clebagelco com
+231986919,,,Papa John's,Papa John's,https://locations.papajohns.com/united-states/oh/44240/kent/439-e-main-st,fast_food,,pizza,Mo-Th 10:00-01:00; Fr-Sa 10:00-02:00; Su 10:00-24:00,fast_food,['pizza'],locations papajohns com,Papa John's Papa John's locations papajohns com
+232486863,,,Circle K,Circle K,,,convenience,,,convenience,[],,Circle K Circle K
+232486865,,,Sheetz,Sheetz,https://orders.sheetz.com/findasheetz/store/452,,convenience,,24/7,convenience,[],orders sheetz com,Sheetz Sheetz orders sheetz com
+234797651,,,Chipotle,Chipotle,https://locations.chipotle.com/oh/kent/605-e-main-st,fast_food,,mexican,,fast_food,['mexican'],locations chipotle com,Chipotle Chipotle locations chipotle com
+234797653,,,Five Guys,Five Guys,https://restaurants.fiveguys.com/623-east-main-street,fast_food,,burger,11:00-22:00; PH off,fast_food,['burger'],restaurants fiveguys com,Five Guys Five Guys restaurants fiveguys com
+234797655,,,Wendy's,Wendy's,https://locations.wendys.com/united-states/oh/kent/515-e-main-street,fast_food,,burger,07:00-22:00,fast_food,['burger'],locations wendys com,Wendy's Wendy's locations wendys com
+235201036,,,The Endzone,,,fast_food,,american,,fast_food,['american'],,The Endzone
+235306315,,,Campus Market,,,,convenience,,,convenience,[],,Campus Market
+235306316,,,Taco Bell,Taco Bell,https://locations.tacobell.com/oh/kent/805-e-main-street.html,fast_food,,tex-mex,,fast_food,['mexican'],locations tacobell com,Taco Bell Taco Bell locations tacobell com
+235306317,,,Main Street Continental Grill,,,fast_food,,mediterranean,,fast_food,['mediterranean'],,Main Street Continental Grill
+235375935,,,Over Easy At The Depot,,,restaurant,,american;breakfast,08:00-14:30,restaurant,"['american', 'breakfast']",,Over Easy At The Depot
+241964491,,,Bent Tree Coffee Roasters,,,cafe,,coffee_shop,,cafe,['coffee'],,Bent Tree Coffee Roasters
+245938647,,,Guaca-Mole's Mexican Grill & Cantina,,,pub,,,,pub,[],,Guaca-Mole's Mexican Grill & Cantina
+245938649,,,Toko Japanese Steakhouse,,,restaurant,,japanese,,restaurant,['japanese'],,Toko Japanese Steakhouse
+245938650,,,Singh Biryani,,,restaurant,,indian,,restaurant,['indian'],,Singh Biryani
+246483237,,,Mike's Place,,https://www.mikesplacerestaurant.com/,restaurant,,american,,restaurant,['american'],www mikesplacerestaurant com,Mike's Place  www mikesplacerestaurant com
+246483244,,,Bob Evans,Bob Evans,,restaurant,,american,,restaurant,['american'],,Bob Evans Bob Evans
+249401154,,,Scribbles Coffee Company,,https://www.scribblescoffeecompany.com/,cafe,,coffee_shop,Mo-Su 07:00-17:00,cafe,['coffee'],www scribblescoffeecompany com,Scribbles Coffee Company  www scribblescoffeecompany com
+249402020,,,River Merchant,,https://therivermerchantkent.com/,restaurant,,american,Su-Th 11:00-21:00; Fr-Sa 11:00-22:00,restaurant,['american'],therivermerchantkent com,River Merchant  therivermerchantkent com
+259457813,,,Wild Goats Cafe,,https://wildgoatscafe.com/,restaurant,,,"Mo-Sa 07:00-20:30, Su 08:00-14:30",restaurant,[],wildgoatscafe com,Wild Goats Cafe  wildgoatscafe com
+274459856,,,Pizza Hut,Pizza Hut,https://locations.pizzahut.com/oh/kent/1715-state-route-59,restaurant,,pizza,,restaurant,['pizza'],locations pizzahut com,Pizza Hut Pizza Hut locations pizzahut com
+274460229,,,Board & Bevy,,,bar,,,,bar,[],,Board & Bevy
+300296181,,,Sheetz,Sheetz,https://orders.sheetz.com/findasheetz/store/390,,convenience,,Mo-Su 09:00+,convenience,[],orders sheetz com,Sheetz Sheetz orders sheetz com
+300743764,,,Burger King,Burger King,https://www.bk.com/store-locator/store/restaurant_521,fast_food,,burger,Mo-Fr 06:00-22:00; Sa-Su 07:00-22:00,fast_food,['burger'],www bk com,Burger King Burger King www bk com
+300785131,,,McDonald's,McDonald's,https://www.mcdonalds.com/us/en-us/location/1310.html,fast_food,,burger,"Mo-Su,PH 06:00-23:00",fast_food,['burger'],www mcdonalds com,McDonald's McDonald's www mcdonalds com
+300845253,,,Henry Wahner's,,,restaurant,,german,,restaurant,['german'],,Henry Wahner's
+300846371,,,Stoddard's Ice Cream,,,restaurant,,ice_cream,,restaurant,['ice_cream'],,Stoddard's Ice Cream
+300876816,,,Blind Squirrel Pub,,https://blindsquirrelpub.com/,restaurant,,,,restaurant,[],blindsquirrelpub com,Blind Squirrel Pub  blindsquirrelpub com
+303368261,,,Rockne's,,,pub,,,,pub,[],,Rockne's
+303368263,,,BP Shop,BP Shop,,,convenience,,,convenience,[],,BP Shop BP Shop
+418200176,,,Dunkin',Dunkin',https://locations.dunkindonuts.com/en/oh/kent/527-east-main-st/350599,fast_food,,donut;coffee_shop,Mo-Fr 05:00-21:00; Sa-Su 06:00-21:00,fast_food,"['coffee', 'donut']",locations dunkindonuts com,Dunkin' Dunkin' locations dunkindonuts com
+418353839,,,Prentice Cafe,,https://www.kent.edu/dining/prentice-hall,cafe,,american,,cafe,['american'],www kent edu,Prentice Cafe  www kent edu
+420980121,,,The Bean Scene at Olson,,https://www.kent.edu/dining/olson-hall-0,cafe,,coffee_shop,,cafe,['coffee'],www kent edu,The Bean Scene at Olson  www kent edu
+421058930,,,Einstein Bros. Bagels,Einstein Bros. Bagels,https://www.kent.edu/dining/hub,fast_food,,bagel,Mo-Fr 07:00-15:00; Sa-Su 08:30-15:00,fast_food,['bagel'],www kent edu,Einstein Bros. Bagels Einstein Bros. Bagels www kent edu
+421058931,,,Wholly Habaneros,,https://www.kent.edu/dining/hub,fast_food,,mexican,,fast_food,['mexican'],www kent edu,Wholly Habaneros  www kent edu
+421058932,,,Subway,Subway,https://www.kent.edu/dining/hub,fast_food,,sandwich,,fast_food,['sandwich'],www kent edu,Subway Subway www kent edu
+421060203,,,Wow Bao,,https://www.kent.edu/dining/hub,fast_food,,asian;chinese,,fast_food,"['asian', 'chinese']",www kent edu,Wow Bao  www kent edu
+421060204,,,Sushi with Gusto,,https://www.kent.edu/dining/hub,fast_food,,sushi,,fast_food,['sushi'],www kent edu,Sushi with Gusto  www kent edu
+421060205,,,The Slice - Pizza Salad & More,,https://www.kent.edu/dining/hub,fast_food,,pizza;american,,fast_food,"['american', 'pizza']",www kent edu,The Slice - Pizza Salad & More  www kent edu
+421060206,,,Auntie Anne's,Auntie Anne's,https://www.kent.edu/dining/hub,fast_food,,pretzel,,fast_food,['pretzel'],www kent edu,Auntie Anne's Auntie Anne's www kent edu
+421063313,,,Schwebel Garden Room,,https://www.kent.edu/dining/schwebel-room,restaurant,,american;steak_house;international,Mo-Fr 11:00-14:00; PH off,restaurant,"['american', 'international', 'steak_house']",www kent edu,Schwebel Garden Room  www kent edu
+421080419,,,Food 4 Thought,,,cafe,,,,cafe,[],,Food 4 Thought
+421174735,,,The Bean Scene,,https://www.kent.edu/dining/library,cafe,,coffee_shop,,cafe,['coffee'],www kent edu,The Bean Scene  www kent edu
+421565214,,,Subway,Subway,https://restaurants.subway.com/united-states/oh/kent/1330-s-water-st,fast_food,,sandwich,08:30-21:30,fast_food,['sandwich'],restaurants subway com,Subway Subway restaurants subway com
+421571594,,,Food 4 Thought Cyber Cafe,,,restaurant,,american,Mo-Th 08:00-20:00; Fr 08:00-15:00; PH off,restaurant,['american'],,Food 4 Thought Cyber Cafe
+421573854,,,Snack Bar,,,restaurant,,american,,restaurant,['american'],,Snack Bar
+421657494,,,The Kent Market,,https://www.kent.edu/dining/kent-markets,,deli,,,deli,[],www kent edu,The Kent Market  www kent edu
+421660426,,,Deltasig Cafe,,,cafe,,,,cafe,[],,Deltasig Cafe
+421943877,,,Jazzman's,,https://www.kent.edu/dining/oscar-ritchie,cafe,,coffee_shop,,cafe,['coffee'],www kent edu,Jazzman's  www kent edu
+422064938,,,Boars Head,,https://www.kent.edu/dining/eastway-center,,deli,,,deli,[],www kent edu,Boars Head  www kent edu
+422064939,,,Jazzman's,,https://www.kent.edu/dining/eastway-center,cafe,,coffee_shop,,cafe,['coffee'],www kent edu,Jazzman's  www kent edu
+422065422,,,Eastway Cafe,,https://www.kent.edu/dining/eastway-center,cafe,,american,,cafe,['american'],www kent edu,Eastway Cafe  www kent edu
+422065641,,,Rosies Diner,,https://www.kent.edu/dining/tri-towers-rotunda,fast_food,,american;pizza;fries;burger;sandwich,,fast_food,"['american', 'burger', 'fries', 'pizza', 'sandwich']",www kent edu,Rosies Diner  www kent edu
+422065642,,,Rosies Rations,,https://www.kent.edu/dining/tri-towers-rotunda,,convenience,,24/7,convenience,[],www kent edu,Rosies Rations  www kent edu
+441370210,,,Safeway,,,,convenience,,,convenience,[],,Safeway
+476366380,,,The Battleground,,https://battlegroundbar.com/,restaurant,,mexican,,restaurant,['mexican'],battlegroundbar com,The Battleground  battlegroundbar com
+476373475,,,McDonald's,McDonald's,https://www.mcdonalds.com/us/en-us/location/31878.html,fast_food,,burger,05:00-23:00,fast_food,['burger'],www mcdonalds com,McDonald's McDonald's www mcdonalds com
+476373478,,,Wendy's,Wendy's,https://locations.wendys.com/united-states/oh/kent/4244-state-route-43,fast_food,,burger,07:00-22:00,fast_food,['burger'],locations wendys com,Wendy's Wendy's locations wendys com
+586987222,,,Guido’s Pizza,,,restaurant,,pizza,,restaurant,['pizza'],,Guido’s Pizza
+587068722,,,A&W,A&W,https://awrestaurants.com/locations/ohio/kent/1124-w-main-street/,fast_food,,burger,,fast_food,['burger'],awrestaurants com,A&W A&W awrestaurants com
+619591455,,,Circle K,Circle K,,,convenience,,,convenience,[],,Circle K Circle K
+656631184,,,Raising Cane's,Raising Cane's,,fast_food,,chicken,,fast_food,['chicken'],,Raising Cane's Raising Cane's
+1186062189,,,Starbucks,Starbucks,https://www.starbucks.com/store-locator/store/1021745/kent-state-university-esplanad-475-terrace-drive-kent-oh-44240-us,cafe,,coffee_shop,,cafe,['coffee'],www starbucks com,Starbucks Starbucks www starbucks com
+1192111752,,,Dunkin',Dunkin',https://locations.dunkindonuts.com/en/oh/kent/1625-s-water-st/358786,fast_food,,donut;coffee_shop,Mo-Fr 05:00-21:00; Sa-Su 06:00-21:00,fast_food,"['coffee', 'donut']",locations dunkindonuts com,Dunkin' Dunkin' locations dunkindonuts com
+1195992430,,,Arby's,Arby's,https://www.arbys.com/locations/us/oh/kent/1821-e-main-st/store-8189/,fast_food,,sandwich,10:00-24:00,fast_food,['sandwich'],www arbys com,Arby's Arby's www arbys com

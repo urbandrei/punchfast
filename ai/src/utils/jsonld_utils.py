@@ -30,7 +30,8 @@ def harvest_schema_cues(jsonlds):
                         types.add(x.lower())
             elif isinstance(t, str):
                 types.add(t.lower())
-            if obj.get("@type") in ("Menu", "MenuSection", "MenuItem") or "Menu" in str(obj.get("@type")):
+            # menu-ish
+            if obj.get("@type") in ("Menu","MenuSection","MenuItem") or "Menu" in str(obj.get("@type")):
                 name = obj.get("name")
                 if isinstance(name, str):
                     menu_items.append(name.lower())
