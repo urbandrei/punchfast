@@ -1,4 +1,5 @@
-const { User, Store, Visit } = require('../models/associations');
+const { User, Store, Visit, RouteStart } = require('../models/associations');
+const { Op } = require('sequelize');
 
 exports.createVisit = async (req, res) => {
     const { userId, storeId, visitDate } = req.body;
@@ -47,48 +48,80 @@ exports.createVisit = async (req, res) => {
     }
 };
 
-exports.getUserVisits = async (req, res) => {
-    const { userId } = req.params;
+exports.getStoreVisitStats = async (req, res) => {
+    const { userId, storeId } = req.query;
+
+    if (!userId || !storeId) {
+        return res.status(400).json({ message: 'Missing required parameters: userId, storeId' });
+    }
 
     try {
-        const visits = await Visit.findAll({
-            where: { userId },
-            include: [
-                {
-                    model: Store,
-                    as: 'store',
-                    attributes: ['id', 'name', 'address', 'latitude', 'longitude']
-                }
-            ],
-            order: [['visitDate', 'DESC']]
+        // Get total visit count
+        const totalVisits = await Visit.count({
+            where: { userId, storeId }
         });
 
-        return res.status(200).json({ count: visits.length, visits });
+        // Get today's visits
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const visitedToday = await Visit.count({
+            where: {
+                userId,
+                storeId,
+                visitDate: {
+                    [Op.gte]: today,
+                    [Op.lt]: tomorrow
+                }
+            }
+        }) > 0;
+
+        return res.status(200).json({
+            totalVisits,
+            visitedToday
+        });
     } catch (error) {
-        console.error('Error fetching user visits:', error);
+        console.error('Error fetching store visit stats:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
 
-exports.getStoreVisits = async (req, res) => {
-    const { storeId } = req.params;
+exports.getRouteVisitProgress = async (req, res) => {
+    const { userId, routeId } = req.query;
+
+    if (!userId || !routeId) {
+        return res.status(400).json({ message: 'Missing required parameters: userId, routeId' });
+    }
 
     try {
-        const visits = await Visit.findAll({
-            where: { storeId },
-            include: [
-                {
-                    model: User,
-                    as: 'user',
-                    attributes: ['id', 'username']
-                }
-            ],
-            order: [['visitDate', 'DESC']]
+        // Get the route start to find when user joined the route
+        const routeStart = await RouteStart.findOne({
+            where: { userId, routeId },
+            order: [['startDate', 'DESC']]
         });
 
-        return res.status(200).json({ count: visits.length, visits });
+        if (!routeStart) {
+            return res.status(200).json({ visitedStoreIds: [] });
+        }
+
+        // Get visits to any store since the route was started
+        const visits = await Visit.findAll({
+            where: {
+                userId,
+                visitDate: {
+                    [Op.gte]: routeStart.startDate
+                }
+            },
+            attributes: ['storeId', 'visitDate']
+        });
+
+        const visitedStoreIds = [...new Set(visits.map(v => v.storeId))];
+
+        return res.status(200).json({ visitedStoreIds });
     } catch (error) {
-        console.error('Error fetching store visits:', error);
+        console.error('Error fetching route visit progress:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };

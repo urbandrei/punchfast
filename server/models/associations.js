@@ -7,6 +7,7 @@ const Visit = require('./visit');
 const RouteStart = require('./routeStart');
 const RouteStore = require('./routeStore');
 const Search = require('./search');
+const SavedStore = require('./savedStore');
 
 User.hasMany(Visit, { foreignKey: 'userId', as: 'visits' });
 Visit.belongsTo(User, { foreignKey: 'userId', as: 'user' });
@@ -41,6 +42,28 @@ RouteStore.belongsTo(Route, { foreignKey: 'routeId', as: 'route' });
 Store.hasMany(RouteStore, { foreignKey: 'storeId', as: 'routeStores' });
 RouteStore.belongsTo(Store, { foreignKey: 'storeId', as: 'store' });
 
+// SavedStore associations
+User.hasMany(SavedStore, { foreignKey: 'userId', as: 'savedStores' });
+SavedStore.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+Store.hasMany(SavedStore, { foreignKey: 'storeId', as: 'savedByUsers' });
+SavedStore.belongsTo(Store, { foreignKey: 'storeId', as: 'store' });
+
+// Many-to-many relationship through SavedStore
+User.belongsToMany(Store, {
+    through: SavedStore,
+    foreignKey: 'userId',
+    otherKey: 'storeId',
+    as: 'savedStoresList'
+});
+
+Store.belongsToMany(User, {
+    through: SavedStore,
+    foreignKey: 'storeId',
+    otherKey: 'userId',
+    as: 'savedByUsersList'
+});
+
 module.exports = {
     User,
     Business,
@@ -50,5 +73,6 @@ module.exports = {
     Visit,
     RouteStart,
     RouteStore,
-    Search
+    Search,
+    SavedStore
 };

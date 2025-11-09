@@ -27,18 +27,35 @@ exports.startRoute = async (req, res) => {
             return res.status(404).json({ message: 'Route not found' });
         }
 
-        const routeStartData = { userId, routeId };
-        if (startDate) {
-            routeStartData.startDate = new Date(startDate);
-        }
+        const existingRouteStart = await RouteStart.findOne({
+            where: { userId, routeId }
+        });
 
-        const routeStart = await RouteStart.create(routeStartData);
+        let routeStart;
+
+        if (existingRouteStart) {
+            if (existingRouteStart.status === 'active') {
+                return res.status(400).json({ message: 'You are already in this route' });
+            }
+
+            existingRouteStart.status = 'active';
+            existingRouteStart.startDate = startDate ? new Date(startDate) : new Date();
+            await existingRouteStart.save();
+            routeStart = existingRouteStart;
+        } else {
+            const routeStartData = { userId, routeId };
+            if (startDate) {
+                routeStartData.startDate = new Date(startDate);
+            }
+            routeStart = await RouteStart.create(routeStartData);
+        }
 
         const result = {
             id: routeStart.id,
             userId: routeStart.userId,
             routeId: routeStart.routeId,
             startDate: routeStart.startDate,
+            status: routeStart.status,
             route: {
                 id: route.id,
                 name: route.name,
@@ -91,6 +108,7 @@ exports.getUserRouteStarts = async (req, res) => {
             userId: rs.userId,
             routeId: rs.routeId,
             startDate: rs.startDate,
+            status: rs.status,
             route: {
                 id: rs.route.id,
                 name: rs.route.name,
@@ -113,25 +131,32 @@ exports.getUserRouteStarts = async (req, res) => {
     }
 };
 
-exports.getRouteStarts = async (req, res) => {
-    const { routeId } = req.params;
+exports.leaveRoute = async (req, res) => {
+    const { userId, routeId } = req.body;
+
+    if (!userId || !routeId) {
+        return res.status(400).json({ message: 'Missing required fields: userId, routeId' });
+    }
 
     try {
-        const routeStarts = await RouteStart.findAll({
-            where: { routeId },
-            include: [
-                {
-                    model: User,
-                    as: 'user',
-                    attributes: ['id', 'username']
-                }
-            ],
-            order: [['startDate', 'DESC']]
+        const routeStart = await RouteStart.findOne({
+            where: { userId, routeId }
         });
 
-        return res.status(200).json({ count: routeStarts.length, routeStarts });
+        if (!routeStart) {
+            return res.status(404).json({ message: 'Route start not found' });
+        }
+
+        if (routeStart.status === 'left') {
+            return res.status(400).json({ message: 'You have already left this route' });
+        }
+
+        routeStart.status = 'left';
+        await routeStart.save();
+
+        return res.status(200).json({ message: 'Successfully left the route', routeStart });
     } catch (error) {
-        console.error('Error fetching route starts:', error);
+        console.error('Error leaving route:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
