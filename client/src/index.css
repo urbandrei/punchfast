@@ -8,12 +8,10 @@
 /* Route card styling */
 
 .route-card-container {
-  border: 2px solid #A7CCDE;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 20px;
   width: 100%;
   box-shadow: 0 2px 8px rgba(48, 44, 154, 0.1);
-  font-family: Arial, sans-serif;
   background-color: white;
   transition: transform 0.2s, box-shadow 0.2s;
   margin: 0 auto 20px;
@@ -27,10 +25,10 @@
 }
 
 .route-card-title {
-  font-size: 1.3em;
+  font-size: 2em;
   font-weight: 600;
   margin: 0;
-  color: #302C9A;
+  color: #000000;
 }
 
 .route-card-join-button {
@@ -38,7 +36,7 @@
   border: none;
   border-radius: 20px;
   padding: 8px 20px;
-  font-size: 0.9em;
+  font-size: 1em;
   color: white;
   cursor: pointer;
   outline: none;
@@ -174,7 +172,7 @@
 
 .store-name {
   color: #302C9A;
-  font-size: 0.95em;
+  font-size: 2em;
   font-weight: 500;
   flex: 1;
 }

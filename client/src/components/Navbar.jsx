@@ -21,14 +21,7 @@ const Navbar = ({ isLoggedIn, currentUser, onShowAuth, onChangePassword, onSignO
           {isLoggedIn && (
             <Link
               to="/dashboard"
-              style={{
-                color: '#302C9A',
-                textDecoration: 'none',
-                fontWeight: '500',
-                transition: 'color 0.2s'
-              }}
-              onMouseOver={(e) => e.target.style.color = '#6AB7AD'}
-              onMouseOut={(e) => e.target.style.color = '#302C9A'}
+              className='nav-bar-button'
             >
               Dashboard
             </Link>

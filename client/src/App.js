@@ -62,7 +62,7 @@ const App = () => {
       );
 
       if (!res.ok) {
-        console.error('Failed to fetch nearby stores');
+        console.error('Failed to fetch nearby stores: ');
         return;
       }
 
