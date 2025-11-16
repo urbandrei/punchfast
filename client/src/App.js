@@ -8,12 +8,18 @@ import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
 import NewRoute from './views/new_route';
+import BusinessAuthModal from './components/BusinessAuthModal'; 
 
 const SESSION_STORAGE_KEY = 'punchfast_notified_stores';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+
+  // track business login & modal separately
+  const [businessUser, setBusinessUser] = useState(null);
+  const [showBusinessAuthModal, setShowBusinessAuthModal] = useState(false);
+
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showVisitModal, setShowVisitModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -31,6 +37,13 @@ const App = () => {
         locationCheckInterval.current = null;
       }
     }
+  };
+
+  // business login handler (we’ll route to punches page in a later step)
+  const handleBusinessLoginSuccess = (businessData) => {
+    setBusinessUser(businessData);
+    setShowBusinessAuthModal(false);
+    
   };
 
   const getNotifiedStores = () => {
@@ -145,6 +158,9 @@ const App = () => {
       locationCheckInterval.current = null;
     }
     sessionStorage.removeItem(SESSION_STORAGE_KEY);
+
+    // ⬇️ ALSO clear business session if any
+    setBusinessUser(null);
   };
 
   return (
@@ -154,6 +170,7 @@ const App = () => {
           isLoggedIn={isLoggedIn}
           currentUser={currentUser}
           onShowAuth={() => setShowAuthModal(true)}
+          onShowBusinessAuth={() => setShowBusinessAuthModal(true)}   // ⬅️ NEW
           onChangePassword={() => setShowChangePasswordModal(true)}
           onSignOut={handleSignOut}
         />
@@ -162,6 +179,13 @@ const App = () => {
           show={showAuthModal}
           onClose={() => setShowAuthModal(false)}
           onLoginSuccess={(userData) => handleLogin(true, userData)}
+        />
+
+        {/* ⬇️ NEW: Business auth modal */}
+        <BusinessAuthModal
+          show={showBusinessAuthModal}
+          onClose={() => setShowBusinessAuthModal(false)}
+          onLoginSuccess={handleBusinessLoginSuccess}
         />
 
         <VisitNotificationModal
@@ -180,10 +204,34 @@ const App = () => {
         />
 
         <Routes>
-          <Route path="/" element={<Home isLogin={isLoggedIn} user={currentUser} onShowAuth={() => setShowAuthModal(true)} />} />
-          <Route path="/dashboard" element={<Dashboard isLogin={isLoggedIn} user={currentUser} onShowAuth={() => setShowAuthModal(true)} />} />
-          <Route path="/newstore" element={<NewStore onLoginSuccess={() => handleLogin(true)} />} />
-          <Route path="/newroute" element={<NewRoute onLoginSuccess={() => handleLogin(true)} />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                isLogin={isLoggedIn}
+                user={currentUser}
+                onShowAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <Dashboard
+                isLogin={isLoggedIn}
+                user={currentUser}
+                onShowAuth={() => setShowAuthModal(true)}
+              />
+            }
+          />
+          <Route
+            path="/newstore"
+            element={<NewStore onLoginSuccess={() => handleLogin(true)} />}
+          />
+          <Route
+            path="/newroute"
+            element={<NewRoute onLoginSuccess={() => handleLogin(true)} />}
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
