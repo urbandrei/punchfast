@@ -1,14 +1,12 @@
-const express = require('express');
+const cookieParser = require("cookie-parser");
 const app = express();
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 require('./models/associations');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;app.use(cookieParser());
 
-app.use(express.json());
 app.use('/api', authRoutes);
-
 const startServer = async () => {
   try {
     await sequelize.authenticate();
