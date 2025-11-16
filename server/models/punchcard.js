@@ -5,29 +5,28 @@ const Punchcard = sequelize.define('Punchcard', {
     customer_username: {
         type: DataTypes.STRING,
         allowNull: false,
-        set(v) {
-            this.setDataValue('customer_username', String(v || '').trim().toLowerCase());
-        }
     },
+
     business_username: {
         type: DataTypes.STRING,
         allowNull: false,
-        set(v) {
-            this.setDataValue('business_username', String(v || '').trim().toLowerCase());
-        }
     },
+
     punches: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0
     }
 }, {
-    indexes: [
-        {
-            unique: true,
-            fields: ['business_username', 'customer_username']
+    hooks: {
+        beforeValidate: (card) => {
+            if (card.customer_username)
+                card.customer_username = card.customer_username.toLowerCase().trim();
+
+            if (card.business_username)
+                card.business_username = card.business_username.toLowerCase().trim();
         }
-    ]
+    }
 });
 
 module.exports = Punchcard;
