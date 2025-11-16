@@ -3,46 +3,37 @@ const Business = require('../models/business');
 const Punchcard = require('../models/punchcard');
 
 exports.punch = async (req, res) => {
-    const { business_username, customer_username } = req.body;
-    try {
-        const user = await User.findOne({ where: { username: customer_username } });
-        if (!user) {
-            return res.status(400).json({ message: 'Customer Not Found.' });
-        }
+  const { business_username, customer_username } = req.body;
+  try {
+    const customer = String(customer_username || '').trim().toLowerCase();
+    const bizUser  = String(business_username || '').trim().toLowerCase();
 
-        const business = await Business.findOne({ where: { username: business_username } });
-        if (!business) {
-            return res.status(400).json({ message: 'Business Not Found.' });
-        }
+    const user = await User.findOne({ where: { username: customer } });
+    if (!user) return res.status(400).json({ message: 'Customer Not Found.' });
 
-        const punchcard = await Punchcard.findOne({
-            where: {
-                customer_username: customer_username,
-                business_username: business_username
-            }
-        });
+    const business = await Business.findOne({ where: { username: bizUser } });
+    if (!business) return res.status(400).json({ message: 'Business Not Found.' });
+    if (business.status !== 'approved') return res.status(403).json({ message: 'Business not approved yet.' });
 
-        if (!punchcard) {
-            await Punchcard.create({
-                customer_username: customer_username,
-                business_username: business_username,
-                punches: 1
-            });
-            return res.status(200).json({ message: 'New Customer.', punches: 1 });
-        } else {
-            punchcard.punches += 1;
+    const goal = business.goal || 10;
 
-            if (punchcard.punches > 10) {
-                punchcard.punches = 0;
-                await punchcard.save();
-                return res.status(200).json({ message: 'Punchcard Finished.', punches: 0 });
-            } else {
-                await punchcard.save();
-                return res.status(200).json({ message: 'Punchcard Added.', punches: punchcard.punches });
-            }
-        }
-    } catch (error) {
-        console.error('Punchcard error:', error);
-        res.status(500).json({ message: 'Server error' });
+    const [card] = await Punchcard.findOrCreate({
+      where: { customer_username: customer, business_username: bizUser },
+      defaults: { punches: 0 }
+    });
+
+    let punches = (card.punches || 0) + 1;
+
+    if (punches >= goal) {
+      punches = 0;
+      await card.update({ punches });
+      return res.status(200).json({ message: 'Goal reached! Card reset.', punches, goal, remaining: goal - punches });
     }
-}
+
+    await card.update({ punches });
+    return res.status(200).json({ message: 'Punch recorded.', punches, goal, remaining: goal - punches });
+  } catch (error) {
+    console.error('Punchcard error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
