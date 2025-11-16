@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const auth = require("../middleware/auth");
 
 const RouteStart = sequelize.define('RouteStart', {
     userId: {
