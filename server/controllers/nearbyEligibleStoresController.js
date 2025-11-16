@@ -1,5 +1,6 @@
 const { User, Store, RouteStart, Route, RouteStore, Visit, SavedStore } = require('../models/associations');
 const { Op } = require('sequelize');
+const auth = require("../middleware/auth");
 
 const PROXIMITY_RANGE_METERS = 15;
 
