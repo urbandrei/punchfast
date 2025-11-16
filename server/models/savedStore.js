@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const auth = require("../middleware/auth");
 
 const SavedStore = sequelize.define('SavedStore', {
     userId: {
