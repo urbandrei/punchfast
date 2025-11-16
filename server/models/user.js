@@ -7,19 +7,20 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
-        set(v) {
-            this.setDataValue('username', String(v || '').trim().toLowerCase());
-        }
     },
+
     password: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-});
-
-User.beforeCreate(async (user) => {
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+    }
+}, {
+    hooks: {
+        beforeCreate: async (user) => {
+            user.username = user.username.toLowerCase().trim();
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+        }
+    }
 });
 
 module.exports = User;
