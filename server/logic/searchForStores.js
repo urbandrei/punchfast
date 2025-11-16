@@ -1,4 +1,5 @@
 const { Search, Store } = require('../models/associations');
+const auth = require("../middleware/auth");
 
 function getBoundingSquare(centerLat, centerLng, radiusKm) {
 	if (radiusKm <= 0) {
