@@ -7,6 +7,9 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
+        set(v) {
+            this.setDataValue('username', String(v || '').trim().toLowerCase());
+        }
     },
     password: {
         type: DataTypes.STRING,
