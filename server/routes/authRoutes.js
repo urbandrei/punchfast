@@ -8,7 +8,9 @@ const visitController = require('../controllers/visitController');
 const routeStartController = require('../controllers/routeStartController');
 const savedStoresController = require('../controllers/savedStoresController');
 const nearbyEligibleStoresController = require('../controllers/nearbyEligibleStoresController');
+const auth = require("../middleware/auth");
 
+router.get("/secure-data", auth, controllerFunction);
 
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);
