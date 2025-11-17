@@ -169,6 +169,40 @@ exports.forgotPassword = async (req, res) => {
         return res.status(500).json({ message: "Email error" });
     }
 };
+exports.verifyResetOtp = async (req, res) => {
+    const { username, otp } = req.body;
+
+    const user = await User.findOne({ where: { username } });
+    if (!user || !user.resetOtp) {
+        return res.status(400).json({ message: "OTP not found" });
+    }
+
+    if (user.resetOtpExpires < new Date()) {
+        return res.status(400).json({ message: "OTP expired" });
+    }
+
+    if (user.resetOtp !== otp) {
+        return res.status(400).json({ message: "Invalid OTP" });
+    }
+
+    return res.json({ success: true, message: "OTP verified!" });
+};
+exports.resetPassword = async (req, res) => {
+    const { username, newPassword } = req.body;
+
+    const user = await User.findOne({ where: { username } });
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    user.password = hashed;
+
+    user.resetOtp = null;
+    user.resetOtpExpires = null;
+
+    await user.save();
+
+    return res.json({ success: true, message: "Password reset successful!" });
+};
 
 /* ============================================
    BUSINESS LOGIN / SIGNUP (NO OTP HERE)
