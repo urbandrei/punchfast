@@ -1,303 +1,303 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const AuthModal = ({ show, onClose, onLoginSuccess }) => {
-    const [activeTab, setActiveTab] = useState("login");
-
-    // Login state
-    const [step, setStep] = useState(1); // 1=email, 2=otp, 3=password
+    const [activeTab, setActiveTab] = useState("login"); 
     const [username, setUsername] = useState("");
-    const [otp, setOtp] = useState("");
+    const [email, setEmail] = useState(""); 
     const [password, setPassword] = useState("");
+    const [otp, setOtp] = useState("");
 
+    const [isBusiness, setIsBusiness] = useState(false);
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const [recentLogins, setRecentLogins] = useState([]);
+    const [cookiesAllowed, setCookiesAllowed] = useState(false);
+
+    // Load remembered logins
+    useEffect(() => {
+        const saved = JSON.parse(localStorage.getItem("recentLogins")) || [];
+        setRecentLogins(saved);
+    }, []);
+
+    const rememberLogin = (username, password) => {
+        const saved = JSON.parse(localStorage.getItem("recentLogins")) || [];
+
+        const exists = saved.find((u) => u.username === username);
+        if (!exists) {
+            const updated = [...saved, { username, password }];
+            localStorage.setItem("recentLogins", JSON.stringify(updated));
+            setRecentLogins(updated);
+        }
+    };
+
+    const handleRequestOtp = async () => {
+        setIsLoading(true);
+        setMessage("");
+
+        try {
+            const res = await fetch("/api/request-login-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password, isBusiness })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setMessage(data.message || "Invalid login");
+            } else {
+                setMessage("OTP sent to your email.");
+                setActiveTab("otp");
+            }
+        } catch (err) {
+            setMessage("Server error.");
+        }
+
+        setIsLoading(false);
+    };
+
+    const handleVerifyOtp = async () => {
+        setIsLoading(true);
+
+        try {
+            const res = await fetch("/api/verify-login-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, otp })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setMessage(data.message || "Invalid OTP");
+            } else {
+                setMessage("Logged in!");
+
+                if (cookiesAllowed) {
+                    rememberLogin(username, password);
+                }
+
+                onLoginSuccess(data.user);
+                onClose();
+            }
+
+        } catch (err) {
+            setMessage("Server error.");
+        }
+
+        setIsLoading(false);
+    };
+
+    const handleSignup = async () => {
+        setIsLoading(true);
+
+        try {
+            const endpoint = isBusiness ? "/api/businessSignup" : "/api/signup";
+
+            const res = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) setMessage(data.message);
+            else {
+                setMessage("Signup successful. You can log in now.");
+                setActiveTab("login");
+            }
+        } catch (err) {
+            setMessage("Server error.");
+        }
+
+        setIsLoading(false);
+    };
+
+    const handleRecentLoginClick = (item) => {
+        setUsername(item.username);
+        setPassword(item.password);
+    };
+
     if (!show) return null;
-
-    /* -----------------------------
-        SEND OTP (STEP 1)
-    ------------------------------*/
-    const sendOTP = async () => {
-        setIsLoading(true);
-        setMessage("");
-
-        const res = await fetch("/api/send-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username }),
-        });
-
-        const data = await res.json();
-        setMessage(data.message);
-
-        if (data.success) {
-            setStep(2);
-        }
-
-        setIsLoading(false);
-    };
-
-    /* -----------------------------
-        VERIFY OTP (STEP 2)
-    ------------------------------*/
-    const verifyOTP = async () => {
-        setIsLoading(true);
-        setMessage("");
-
-        const res = await fetch("/api/verify-otp", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, otp }),
-        });
-
-        const data = await res.json();
-        setMessage(data.message);
-
-        if (data.success) {
-            setStep(3);
-        }
-
-        setIsLoading(false);
-    };
-
-    /* -----------------------------
-        FINAL LOGIN (STEP 3)
-    ------------------------------*/
-    const loginUser = async () => {
-        setIsLoading(true);
-        setMessage("");
-
-        const res = await fetch("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ username, password }),
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-            onLoginSuccess(data.user);
-            handleClose();
-        } else {
-            setMessage(data.message);
-        }
-
-        setIsLoading(false);
-    };
-
-    /* -----------------------------
-        SIGNUP
-    ------------------------------*/
-    const signupUser = async () => {
-        setIsLoading(true);
-        setMessage("");
-
-        const res = await fetch("/api/signup", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-        });
-
-        const data = await res.json();
-
-        if (res.ok) {
-            setMessage("Signup successful! You can now sign in.");
-            setActiveTab("login");
-        } else {
-            setMessage(data.message);
-        }
-
-        setIsLoading(false);
-    };
-
-    /* -----------------------------
-        RESET & CLOSE MODAL
-    ------------------------------*/
-    const handleClose = () => {
-        setUsername("");
-        setPassword("");
-        setOtp("");
-        setMessage("");
-        setStep(1);
-        onClose();
-    };
 
     return (
         <>
-            <div
-                className="modal d-block"
-                tabIndex="-1"
-                role="dialog"
-                onClick={handleClose}
-            >
-                <div
-                    className="modal-dialog modal-dialog-centered"
-                    role="document"
-                    onClick={(e) => e.stopPropagation()}
-                >
+            <div className="modal d-block" onClick={onClose}>
+                <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
                     <div className="modal-content">
-                        <div className="modal-body px-4 pt-0 pb-4">
+                        <div className="modal-body">
 
                             {/* TABS */}
-                            <ul
-                                className="nav nav-tabs nav-fill mb-4"
-                                role="tablist"
-                                style={{ borderBottom: "2px solid #A7CCDE" }}
-                            >
+                            <ul className="nav nav-tabs mb-3">
                                 <li className="nav-item">
-                                    <button
+                                    <button 
                                         className={`nav-link ${activeTab === "login" ? "active" : ""}`}
-                                        onClick={() => { setActiveTab("login"); setStep(1); }}
-                                        style={{
-                                            color: activeTab === "login" ? "#302C9A" : "#6c757d",
-                                            fontWeight: activeTab === "login" ? "600" : "400",
-                                        }}
+                                        onClick={() => setActiveTab("login")}
                                     >
-                                        Sign In
+                                        Login
                                     </button>
                                 </li>
-
                                 <li className="nav-item">
-                                    <button
+                                    <button 
                                         className={`nav-link ${activeTab === "signup" ? "active" : ""}`}
                                         onClick={() => setActiveTab("signup")}
-                                        style={{
-                                            color: activeTab === "signup" ? "#302C9A" : "#6c757d",
-                                            fontWeight: activeTab === "signup" ? "600" : "400",
-                                        }}
                                     >
-                                        Sign Up
+                                        Signup
                                     </button>
                                 </li>
                             </ul>
 
-                            {/* ERROR / STATUS MESSAGE */}
+                            {/* MESSAGE BOX */}
                             {message && (
-                                <div
-                                    className="alert"
-                                    style={{
-                                        backgroundColor: "rgba(230, 142, 141, 0.1)",
-                                        color: "#E68E8D",
-                                        border: "1px solid #E68E8D",
-                                        borderRadius: "8px",
-                                    }}
-                                >
-                                    {message}
+                                <div className="alert alert-warning">{message}</div>
+                            )}
+
+                            {/* RECENT LOGINS */}
+                            {activeTab === "login" && recentLogins.length > 0 && (
+                                <div style={{ marginBottom: "10px" }}>
+                                    <label style={{ fontWeight: "600" }}>Previous Logins:</label>
+                                    {recentLogins.map((item, idx) => (
+                                        <div 
+                                            key={idx}
+                                            style={{ cursor: "pointer", padding: "5px" }}
+                                            onClick={() => handleRecentLoginClick(item)}
+                                        >
+                                            {item.username}
+                                        </div>
+                                    ))}
                                 </div>
                             )}
 
-                            {/* SIGN UP FORM */}
-                            {activeTab === "signup" && (
+                            {/* LOGIN FORM */}
+                            {activeTab === "login" && (
                                 <>
-                                    <label className="form-label" style={{ color: "#302C9A", fontWeight: "500" }}>Email</label>
-                                    <input
-                                        type="email"
-                                        className="form-control mb-3"
-                                        placeholder="Enter email"
+                                    {/* Username */}
+                                    <input 
+                                        className="form-control mb-2"
+                                        placeholder="Username"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
                                     />
 
-                                    <label className="form-label" style={{ color: "#302C9A", fontWeight: "500" }}>Password</label>
-                                    <input
+                                    {/* Password */}
+                                    <input 
+                                        className="form-control mb-2"
+                                        placeholder="Password"
                                         type="password"
-                                        className="form-control mb-4"
-                                        placeholder="Enter password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    />
+
+                                    <div className="form-check mb-2">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox"
+                                            onChange={(e) => setCookiesAllowed(e.target.checked)}
+                                        />
+                                        <label className="form-check-label">
+                                            Remember me / allow cookies
+                                        </label>
+                                    </div>
+
+                                    {/* Business Login Toggle */}
+                                    <div className="form-check mb-3">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox" 
+                                            checked={isBusiness}
+                                            onChange={() => setIsBusiness(!isBusiness)}
+                                        />
+                                        <label className="form-check-label">
+                                            Business Login
+                                        </label>
+                                    </div>
+
+                                    <button 
+                                        className="btn btn-primary w-100"
+                                        onClick={handleRequestOtp}
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? "Sending OTP..." : "Login → Send OTP"}
+                                    </button>
+
+                                    <p 
+                                      style={{ 
+                                        color: '#302C9A',
+                                        cursor: 'pointer',
+                                        marginTop:'8px',
+                                        textAlign:'right'
+                                      }}
+                                      onClick={() => setActiveTab("forgot")}
+                                    >
+                                      Forgot Password?
+                                    </p>
+                                </>
+                            )}
+
+                            {/* OTP SCREEN */}
+                            {activeTab === "otp" && (
+                                <>
+                                    <input
+                                        className="form-control mb-3"
+                                        placeholder="Enter 6-digit OTP"
+                                        value={otp}
+                                        onChange={(e) => setOtp(e.target.value)}
+                                    />
+
+                                    <button
+                                        className="btn btn-success w-100"
+                                        onClick={handleVerifyOtp}
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? "Verifying OTP..." : "Verify OTP & Login"}
+                                    </button>
+                                </>
+                            )}
+
+                            {/* SIGNUP SCREEN */}
+                            {activeTab === "signup" && (
+                                <>
+                                    <input 
+                                        className="form-control mb-2"
+                                        placeholder="Username"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                    />
+                                    <input 
+                                        className="form-control mb-2"
+                                        placeholder="Email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                    <input 
+                                        className="form-control mb-3"
+                                        placeholder="Password"
+                                        type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                     />
 
                                     <button
                                         className="btn btn-primary w-100"
-                                        onClick={signupUser}
+                                        onClick={handleSignup}
                                         disabled={isLoading}
                                     >
-                                        {isLoading ? "Signing Up..." : "Sign Up"}
+                                        {isLoading ? "Signing up..." : "Signup"}
                                     </button>
                                 </>
                             )}
 
-                            {/* LOGIN (3 STEPS) */}
-                            {activeTab === "login" && (
-                                <>
-
-                                    {/* STEP 1 — Email */}
-                                    {step === 1 && (
-                                        <>
-                                            <label className="form-label">Email</label>
-                                            <input
-                                                type="email"
-                                                className="form-control mb-3"
-                                                placeholder="Enter email"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
-                                            />
-
-                                            <button
-                                                className="btn btn-primary w-100"
-                                                onClick={sendOTP}
-                                                disabled={isLoading}
-                                            >
-                                                {isLoading ? "Sending..." : "Send OTP"}
-                                            </button>
-                                        </>
-                                    )}
-
-                                    {/* STEP 2 — OTP */}
-                                    {step === 2 && (
-                                        <>
-                                            <label className="form-label">OTP</label>
-                                            <input
-                                                type="text"
-                                                className="form-control mb-3"
-                                                placeholder="Enter OTP"
-                                                value={otp}
-                                                onChange={(e) => setOtp(e.target.value)}
-                                            />
-
-                                            <button
-                                                className="btn btn-primary w-100"
-                                                onClick={verifyOTP}
-                                                disabled={isLoading}
-                                            >
-                                                {isLoading ? "Verifying..." : "Verify OTP"}
-                                            </button>
-                                        </>
-                                    )}
-
-                                    {/* STEP 3 — Password */}
-                                    {step === 3 && (
-                                        <>
-                                            <label className="form-label">Password</label>
-                                            <input
-                                                type="password"
-                                                className="form-control mb-3"
-                                                placeholder="Enter password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                            />
-
-                                            <button
-                                                className="btn btn-primary w-100"
-                                                onClick={loginUser}
-                                                disabled={isLoading}
-                                            >
-                                                {isLoading ? "Logging In..." : "Login"}
-                                            </button>
-                                        </>
-                                    )}
-                                </>
-                            )}
 
                         </div>
                     </div>
                 </div>
             </div>
+
             <div className="modal-backdrop show"></div>
         </>
     );
 };
 
 export default AuthModal;
-
