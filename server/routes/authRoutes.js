@@ -1,77 +1,72 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
 
-const authController = require('../controllers/authController');
-const punchesController = require('../controllers/punchesController');
-const storeController = require('../controllers/storeController');
-const routeController = require('../controllers/routeController');
-const visitController = require('../controllers/visitController');
-const routeStartController = require('../controllers/routeStartController');
-const savedStoresController = require('../controllers/savedStoresController');
-const nearbyEligibleStoresController = require('../controllers/nearbyEligibleStoresController');
-const auth = require("../middleware/auth");
-const express = require('express');
-const router = express.Router();
-const auth = require("../middleware/auth");
+// Controllers
+const authController = require("../controllers/authController");
+const punchesController = require("../controllers/punchesController");
+const storeController = require("../controllers/storeController");
+const routeController = require("../controllers/routeController");
+const visitController = require("../controllers/visitController");
+const routeStartController = require("../controllers/routeStartController");
+const savedStoresController = require("../controllers/savedStoresController");
+const nearbyEligibleStoresController = require("../controllers/nearbyEligibleStoresController");
 
-const authController = require('../controllers/authController');
-
-router.get("/secure-data", auth, controllerFunction);
-
-router.post('/login', authController.login);
-router.post('/signup', authController.signup);
-router.post('/business/login', authController.businessLogin);
-router.post('/business/signup', authController.businessSignup);
-router.post('/change-password', authController.changePassword);
-
-router.post('/punch', punchesController.punch);
-
-router.get('/stores/nearby', storeController.getNearbyStores);
-router.post('/stores', storeController.newStore);
-
-router.post('/routes', routeController.newRoute);
-router.get('/routes/nearby', routeController.getNearbyRoutes);
-
-router.post('/visits', visitController.createVisit);
-router.get('/visits/store-stats', visitController.getStoreVisitStats);
-router.get('/visits/route-progress', visitController.getRouteVisitProgress);
-
-router.post('/route-starts', routeStartController.startRoute);
-router.put('/route-starts/leave', routeStartController.leaveRoute);
-router.get('/users/:userId/route-starts', routeStartController.getUserRouteStarts);
-
-router.post('/saved-stores/toggle', savedStoresController.toggleSavedStore);
-router.get('/saved-stores/:userId', savedStoresController.getUserSavedStores);
-router.get('/saved-stores/:userId/:storeId', savedStoresController.checkStoreSaved);
-
-router.get('/nearby-eligible-stores', nearbyEligibleStoresController.getNearbyEligibleStores);
-router.post("/send-otp", authController.sendOTP);
-router.post("/verify-otp", authController.verifyOTP);
+/* ===============================
+   AUTH ROUTES (NO AUTH REQUIRED)
+================================*/
 
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
-router.post("/businessSignup", authController.businessSignup);
-router.post("/businessLogin", authController.businessLogin);
-
-router.post("/changePassword", authController.changePassword);
-router.post("/logout", authController.logout);
-router.post("/send-otp", authController.sendOTP);
-router.post("/verify-otp", authController.verifyOTP);
-router.post("/login", authController.login);
-router.post("/signup", authController.signup);
-
-
-router.post("/business/login", authController.businessLogin);
 router.post("/business/signup", authController.businessSignup);
+router.post("/business/login", authController.businessLogin);
+
+router.post("/send-otp", authController.sendOTP);
+router.post("/verify-otp", authController.verifyOTP);
+
 router.post("/forgot-password", authController.forgotPassword);
 router.post("/verify-reset-otp", authController.verifyResetOtp);
 router.post("/reset-password", authController.resetPassword);
 
-
-router.post("/change-password", authController.changePassword);
 router.post("/logout", authController.logout);
 
+/* ===============================
+   PROTECTED ROUTES (AUTH REQUIRED)
+================================*/
+
+// Secure testing route
+router.get("/secure-data", auth, (req, res) => {
+    res.json({ message: "Secure data accessed", user: req.user });
+});
+
+// Punches
+router.post("/punch", auth, punchesController.punch);
+
+// Stores
+router.get("/stores/nearby", auth, storeController.getNearbyStores);
+router.post("/stores", auth, storeController.newStore);
+
+// Routes
+router.post("/routes", auth, routeController.newRoute);
+router.get("/routes/nearby", auth, routeController.getNearbyRoutes);
+
+// Visits
+router.post("/visits", auth, visitController.createVisit);
+router.get("/visits/store-stats", auth, visitController.getStoreVisitStats);
+router.get("/visits/route-progress", auth, visitController.getRouteVisitProgress);
+
+// Route Starts
+router.post("/route-starts", auth, routeStartController.startRoute);
+router.put("/route-starts/leave", auth, routeStartController.leaveRoute);
+router.get("/users/:userId/route-starts", auth, routeStartController.getUserRouteStarts);
+
+// Saved Stores
+router.post("/saved-stores/toggle", auth, savedStoresController.toggleSavedStore);
+router.get("/saved-stores/:userId", auth, savedStoresController.getUserSavedStores);
+router.get("/saved-stores/:userId/:storeId", auth, savedStoresController.checkStoreSaved);
+
+// Nearby eligible stores
+router.get("/nearby-eligible-stores", auth, nearbyEligibleStoresController.getNearbyEligibleStores);
 
 module.exports = router;
