@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const BusinessAuthModal = ({ show, onClose, onLoginSuccess }) => {
   const [activeTab, setActiveTab] = useState('login');
@@ -16,6 +17,8 @@ const BusinessAuthModal = ({ show, onClose, onLoginSuccess }) => {
 
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   if (!show) return null;
 
@@ -92,7 +95,12 @@ const BusinessAuthModal = ({ show, onClose, onLoginSuccess }) => {
           if (data.business && onLoginSuccess) {
             onLoginSuccess(data.business);
           }
+
+          // close modal
           handleClose();
+
+          // navigate to punches page (client-side)
+          navigate('/business/punches');
         } else {
           // successful signup → show pending message, keep modal open
           setMessage(
@@ -248,208 +256,4 @@ const BusinessAuthModal = ({ show, onClose, onLoginSuccess }) => {
                           (e.target.style.borderColor = '#6AB7AD')
                         }
                         onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <label
-                        htmlFor="business-email"
-                        className="form-label"
-                        style={{ color: '#302C9A', fontWeight: '500' }}
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="business-email"
-                        placeholder="business@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required={activeTab === 'signup'}
-                        autoComplete="email"
-                        style={{
-                          borderColor: '#A7CCDE',
-                          borderRadius: '8px',
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = '#6AB7AD')
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <label
-                        htmlFor="business-phone"
-                        className="form-label"
-                        style={{ color: '#302C9A', fontWeight: '500' }}
-                      >
-                        Phone
-                      </label>
-                      <input
-                        type="tel"
-                        className="form-control"
-                        id="business-phone"
-                        placeholder="Business phone number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required={activeTab === 'signup'}
-                        style={{
-                          borderColor: '#A7CCDE',
-                          borderRadius: '8px',
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = '#6AB7AD')
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <label
-                        htmlFor="business-address"
-                        className="form-label"
-                        style={{ color: '#302C9A', fontWeight: '500' }}
-                      >
-                        Business Address
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="business-address"
-                        placeholder="Street, city, state, ZIP"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        required={activeTab === 'signup'}
-                        style={{
-                          borderColor: '#A7CCDE',
-                          borderRadius: '8px',
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = '#6AB7AD')
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
-                    </div>
-                  </>
-                )}
-
-                {/* Password + confirm */}
-                <div className="mb-3">
-                  <label
-                    htmlFor="business-password"
-                    className="form-label"
-                    style={{ color: '#302C9A', fontWeight: '500' }}
-                  >
-                    {activeTab === 'login'
-                      ? 'Password'
-                      : 'Create Password'}
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="business-password"
-                    placeholder={
-                      activeTab === 'login'
-                        ? 'Enter password'
-                        : 'Create a strong password'
-                    }
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    autoComplete={
-                      activeTab === 'login'
-                        ? 'current-password'
-                        : 'new-password'
-                    }
-                    style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                    onFocus={(e) =>
-                      (e.target.style.borderColor = '#6AB7AD')
-                    }
-                    onBlur={(e) =>
-                      (e.target.style.borderColor = '#A7CCDE')
-                    }
-                  />
-                </div>
-
-                {activeTab === 'signup' && (
-                  <div className="mb-4">
-                    <label
-                      htmlFor="business-confirm-password"
-                      className="form-label"
-                      style={{ color: '#302C9A', fontWeight: '500' }}
-                    >
-                      Confirm Password
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="business-confirm-password"
-                      placeholder="Re-enter password"
-                      value={confirmPassword}
-                      onChange={(e) =>
-                        setConfirmPassword(e.target.value)
-                      }
-                      required={activeTab === 'signup'}
-                      autoComplete="new-password"
-                      style={{
-                        borderColor: '#A7CCDE',
-                        borderRadius: '8px',
-                      }}
-                      onFocus={(e) =>
-                        (e.target.style.borderColor = '#6AB7AD')
-                      }
-                      onBlur={(e) =>
-                        (e.target.style.borderColor = '#A7CCDE')
-                      }
-                    />
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100"
-                  disabled={isLoading}
-                  style={{
-                    borderRadius: '8px',
-                    padding: '12px',
-                    fontWeight: '500',
-                  }}
-                >
-                  {isLoading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-2"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      {activeTab === 'login'
-                        ? 'Signing In...'
-                        : 'Signing Up...'}
-                    </>
-                  ) : activeTab === 'login' ? (
-                    'Sign In'
-                  ) : (
-                    'Sign Up'
-                  )}
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="modal-backdrop show"></div>
-    </>
-  );
-};
-
-export default BusinessAuthModal;
+                          (e.t
