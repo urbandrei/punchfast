@@ -58,17 +58,20 @@ const App = () => {
   };
 
   const handleBusinessLoginSuccess = (businessData) => {
-    if (businessData?.username) {
-      try {
-        localStorage.setItem('pf_business_username', businessData.username);
-      } catch (e) {
-        console.error('Error saving business username:', e);
-      }
-      setBusinessUser({ username: businessData.username });
+  if (businessData?.username) {
+    try {
+      localStorage.setItem('pf_business_username', businessData.username);
+    } catch (e) {
+      console.error('Error saving business username:', e);
     }
-    setShowBusinessAuthModal(false);
-  
-  };
+    setBusinessUser({ username: businessData.username });
+  }
+
+  setShowBusinessAuthModal(false);
+
+  window.location.href = '/business/punches';
+};
+
 
   const handleBusinessSignOut = () => {
     setBusinessUser(null);
