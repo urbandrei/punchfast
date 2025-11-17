@@ -65,6 +65,9 @@ router.post("/signup", authController.signup);
 
 router.post("/business/login", authController.businessLogin);
 router.post("/business/signup", authController.businessSignup);
+router.post("/forgot-password", authController.forgotPassword);
+router.post("/verify-reset-otp", authController.verifyResetOtp);
+router.post("/reset-password", authController.resetPassword);
 
 
 router.post("/change-password", authController.changePassword);
