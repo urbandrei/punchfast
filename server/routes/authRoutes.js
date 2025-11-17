@@ -11,6 +11,11 @@ const routeStartController = require('../controllers/routeStartController');
 const savedStoresController = require('../controllers/savedStoresController');
 const nearbyEligibleStoresController = require('../controllers/nearbyEligibleStoresController');
 const auth = require("../middleware/auth");
+const express = require('express');
+const router = express.Router();
+const auth = require("../middleware/auth");
+
+const authController = require('../controllers/authController');
 
 router.get("/secure-data", auth, controllerFunction);
 
@@ -51,6 +56,18 @@ router.post("/businessSignup", authController.businessSignup);
 router.post("/businessLogin", authController.businessLogin);
 
 router.post("/changePassword", authController.changePassword);
+router.post("/logout", authController.logout);
+router.post("/send-otp", authController.sendOTP);
+router.post("/verify-otp", authController.verifyOTP);
+router.post("/login", authController.login);
+router.post("/signup", authController.signup);
+
+
+router.post("/business/login", authController.businessLogin);
+router.post("/business/signup", authController.businessSignup);
+
+
+router.post("/change-password", authController.changePassword);
 router.post("/logout", authController.logout);
 
 
