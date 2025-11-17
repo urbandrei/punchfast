@@ -1,23 +1,30 @@
+const express = require('express');
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+require('dotenv').config();
 const app = express();
 const sequelize = require('./config/database');
-const authRoutes = require('./routes/authRoutes');
 require('./models/associations');
-
-const PORT = process.env.PORT || 5000;app.use(cookieParser());
-
-app.use('/api', authRoutes);
+const authRoutes = require('./routes/authRoutes');
+const PORT = process.env.PORT || 5000;
+app.use(express.json());
+app.use(cors({
+    origin: true,        
+    credentials: true     
+}));
+app.use(cookieParser());
+app.use('/api', authRoutes);  
 const startServer = async () => {
-  try {
-    await sequelize.authenticate();
-      console.log('Database connection has been established successfully.');
-      await sequelize.sync(); 
-      app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
+    try {
+        await sequelize.authenticate();
+        console.log('Database connected.');
+        await sequelize.sync();  // sync new email columns
+        console.log('Database synced successfully.');
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Database connection error:', error);
+    }
 };
-
 startServer();
