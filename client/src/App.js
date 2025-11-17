@@ -58,20 +58,16 @@ const App = () => {
   };
 
   const handleBusinessLoginSuccess = (businessData) => {
-  if (businessData?.username) {
-    try {
-      localStorage.setItem('pf_business_username', businessData.username);
-    } catch (e) {
-      console.error('Error saving business username:', e);
+    if (businessData?.username) {
+      try {
+        localStorage.setItem('pf_business_username', businessData.username);
+      } catch (e) {
+        console.error('Error saving business username:', e);
+      }
+      setBusinessUser({ username: businessData.username });
     }
-    setBusinessUser({ username: businessData.username });
-  }
-
-  setShowBusinessAuthModal(false);
-
-  window.location.href = '/business/punches';
-};
-
+    setShowBusinessAuthModal(false);
+  };
 
   const handleBusinessSignOut = () => {
     setBusinessUser(null);
@@ -125,7 +121,7 @@ const App = () => {
 
       const notifiedStores = getNotifiedStores();
       const newStores = data.stores.filter(
-        store => !notifiedStores.includes(store.id)
+        (store) => !notifiedStores.includes(store.id)
       );
 
       if (newStores.length > 0) {
@@ -268,7 +264,7 @@ const App = () => {
             path="/newroute"
             element={<NewRoute onLoginSuccess={() => handleLogin(true)} />}
           />
-              
+
           <Route
             path="/business/punches"
             element={<BusinessPunches business={businessUser} />}
