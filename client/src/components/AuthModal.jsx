@@ -1,93 +1,170 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 const AuthModal = ({ show, onClose, onLoginSuccess }) => {
-    const [activeTab, setActiveTab] = useState('login');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
+    const [activeTab, setActiveTab] = useState("login");
+
+    // Login state
+    const [step, setStep] = useState(1); // 1=email, 2=otp, 3=password
+    const [username, setUsername] = useState("");
+    const [otp, setOtp] = useState("");
+    const [password, setPassword] = useState("");
+
+    const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setMessage('');
-
-        const endpoint = activeTab === 'login' ? '/api/login' : '/api/signup';
-
-        try {
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                onLoginSuccess(data.user);
-                onClose();
-                setUsername('');
-                setPassword('');
-                setMessage('');
-            } else {
-                setMessage(data.message || 'An error occurred. Please try again.');
-            }
-        } catch (error) {
-            console.error('Authentication error:', error);
-            setMessage('An error occurred. Please try again.');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleTabChange = (tab) => {
-        setActiveTab(tab);
-        setMessage('');
-        setUsername('');
-        setPassword('');
-    };
-
-    const handleClose = () => {
-        setUsername('');
-        setPassword('');
-        setMessage('');
-        onClose();
-    };
 
     if (!show) return null;
 
+    /* -----------------------------
+        SEND OTP (STEP 1)
+    ------------------------------*/
+    const sendOTP = async () => {
+        setIsLoading(true);
+        setMessage("");
+
+        const res = await fetch("/api/send-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username }),
+        });
+
+        const data = await res.json();
+        setMessage(data.message);
+
+        if (data.success) {
+            setStep(2);
+        }
+
+        setIsLoading(false);
+    };
+
+    /* -----------------------------
+        VERIFY OTP (STEP 2)
+    ------------------------------*/
+    const verifyOTP = async () => {
+        setIsLoading(true);
+        setMessage("");
+
+        const res = await fetch("/api/verify-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, otp }),
+        });
+
+        const data = await res.json();
+        setMessage(data.message);
+
+        if (data.success) {
+            setStep(3);
+        }
+
+        setIsLoading(false);
+    };
+
+    /* -----------------------------
+        FINAL LOGIN (STEP 3)
+    ------------------------------*/
+    const loginUser = async () => {
+        setIsLoading(true);
+        setMessage("");
+
+        const res = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            onLoginSuccess(data.user);
+            handleClose();
+        } else {
+            setMessage(data.message);
+        }
+
+        setIsLoading(false);
+    };
+
+    /* -----------------------------
+        SIGNUP
+    ------------------------------*/
+    const signupUser = async () => {
+        setIsLoading(true);
+        setMessage("");
+
+        const res = await fetch("/api/signup", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            setMessage("Signup successful! You can now sign in.");
+            setActiveTab("login");
+        } else {
+            setMessage(data.message);
+        }
+
+        setIsLoading(false);
+    };
+
+    /* -----------------------------
+        RESET & CLOSE MODAL
+    ------------------------------*/
+    const handleClose = () => {
+        setUsername("");
+        setPassword("");
+        setOtp("");
+        setMessage("");
+        setStep(1);
+        onClose();
+    };
+
     return (
         <>
-            <div className="modal d-block" tabIndex="-1" role="dialog" onClick={handleClose}>
-                <div className="modal-dialog modal-dialog-centered" role="document" onClick={(e) => e.stopPropagation()}>
+            <div
+                className="modal d-block"
+                tabIndex="-1"
+                role="dialog"
+                onClick={handleClose}
+            >
+                <div
+                    className="modal-dialog modal-dialog-centered"
+                    role="document"
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <div className="modal-content">
                         <div className="modal-body px-4 pt-0 pb-4">
-                            <ul className="nav nav-tabs nav-fill mb-4" role="tablist" style={{ borderBottom: '2px solid #A7CCDE' }}>
-                                <li className="nav-item" role="presentation">
+
+                            {/* TABS */}
+                            <ul
+                                className="nav nav-tabs nav-fill mb-4"
+                                role="tablist"
+                                style={{ borderBottom: "2px solid #A7CCDE" }}
+                            >
+                                <li className="nav-item">
                                     <button
-                                        className={`nav-link ${activeTab === 'login' ? 'active' : ''}`}
-                                        onClick={() => handleTabChange('login')}
-                                        type="button"
+                                        className={`nav-link ${activeTab === "login" ? "active" : ""}`}
+                                        onClick={() => { setActiveTab("login"); setStep(1); }}
                                         style={{
-                                            color: activeTab === 'login' ? '#302C9A' : '#6c757d',
-                                            borderColor: activeTab === 'login' ? '#A7CCDE #A7CCDE #fff' : 'transparent',
-                                            fontWeight: activeTab === 'login' ? '600' : '400'
+                                            color: activeTab === "login" ? "#302C9A" : "#6c757d",
+                                            fontWeight: activeTab === "login" ? "600" : "400",
                                         }}
                                     >
                                         Sign In
                                     </button>
                                 </li>
-                                <li className="nav-item" role="presentation">
+
+                                <li className="nav-item">
                                     <button
-                                        className={`nav-link ${activeTab === 'signup' ? 'active' : ''}`}
-                                        onClick={() => handleTabChange('signup')}
-                                        type="button"
+                                        className={`nav-link ${activeTab === "signup" ? "active" : ""}`}
+                                        onClick={() => setActiveTab("signup")}
                                         style={{
-                                            color: activeTab === 'signup' ? '#302C9A' : '#6c757d',
-                                            borderColor: activeTab === 'signup' ? '#A7CCDE #A7CCDE #fff' : 'transparent',
-                                            fontWeight: activeTab === 'signup' ? '600' : '400'
+                                            color: activeTab === "signup" ? "#302C9A" : "#6c757d",
+                                            fontWeight: activeTab === "signup" ? "600" : "400",
                                         }}
                                     >
                                         Sign Up
@@ -95,68 +172,124 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
                                 </li>
                             </ul>
 
+                            {/* ERROR / STATUS MESSAGE */}
                             {message && (
-                                <div className="alert" role="alert" style={{
-                                    backgroundColor: 'rgba(230, 142, 141, 0.1)',
-                                    color: '#E68E8D',
-                                    border: '1px solid #E68E8D',
-                                    borderRadius: '8px'
-                                }}>
+                                <div
+                                    className="alert"
+                                    style={{
+                                        backgroundColor: "rgba(230, 142, 141, 0.1)",
+                                        color: "#E68E8D",
+                                        border: "1px solid #E68E8D",
+                                        borderRadius: "8px",
+                                    }}
+                                >
                                     {message}
                                 </div>
                             )}
 
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label htmlFor="modal-username" className="form-label" style={{ color: '#302C9A', fontWeight: '500' }}>Username</label>
+                            {/* SIGN UP FORM */}
+                            {activeTab === "signup" && (
+                                <>
+                                    <label className="form-label" style={{ color: "#302C9A", fontWeight: "500" }}>Email</label>
                                     <input
-                                        type="text"
-                                        className="form-control"
-                                        id="modal-username"
-                                        placeholder="Enter username"
+                                        type="email"
+                                        className="form-control mb-3"
+                                        placeholder="Enter email"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
-                                        required
-                                        autoComplete="username"
-                                        style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                                        onFocus={(e) => e.target.style.borderColor = '#6AB7AD'}
-                                        onBlur={(e) => e.target.style.borderColor = '#A7CCDE'}
                                     />
-                                </div>
 
-                                <div className="mb-4">
-                                    <label htmlFor="modal-password" className="form-label" style={{ color: '#302C9A', fontWeight: '500' }}>Password</label>
+                                    <label className="form-label" style={{ color: "#302C9A", fontWeight: "500" }}>Password</label>
                                     <input
                                         type="password"
-                                        className="form-control"
-                                        id="modal-password"
+                                        className="form-control mb-4"
                                         placeholder="Enter password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        autoComplete={activeTab === 'login' ? 'current-password' : 'new-password'}
-                                        style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                                        onFocus={(e) => e.target.style.borderColor = '#6AB7AD'}
-                                        onBlur={(e) => e.target.style.borderColor = '#A7CCDE'}
                                     />
-                                </div>
 
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary w-100"
-                                    disabled={isLoading}
-                                    style={{ borderRadius: '8px', padding: '12px', fontWeight: '500' }}
-                                >
-                                    {isLoading ? (
+                                    <button
+                                        className="btn btn-primary w-100"
+                                        onClick={signupUser}
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? "Signing Up..." : "Sign Up"}
+                                    </button>
+                                </>
+                            )}
+
+                            {/* LOGIN (3 STEPS) */}
+                            {activeTab === "login" && (
+                                <>
+
+                                    {/* STEP 1 — Email */}
+                                    {step === 1 && (
                                         <>
-                                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                            {activeTab === 'login' ? 'Signing In...' : 'Signing Up...'}
+                                            <label className="form-label">Email</label>
+                                            <input
+                                                type="email"
+                                                className="form-control mb-3"
+                                                placeholder="Enter email"
+                                                value={username}
+                                                onChange={(e) => setUsername(e.target.value)}
+                                            />
+
+                                            <button
+                                                className="btn btn-primary w-100"
+                                                onClick={sendOTP}
+                                                disabled={isLoading}
+                                            >
+                                                {isLoading ? "Sending..." : "Send OTP"}
+                                            </button>
                                         </>
-                                    ) : (
-                                        activeTab === 'login' ? 'Sign In' : 'Sign Up'
                                     )}
-                                </button>
-                            </form>
+
+                                    {/* STEP 2 — OTP */}
+                                    {step === 2 && (
+                                        <>
+                                            <label className="form-label">OTP</label>
+                                            <input
+                                                type="text"
+                                                className="form-control mb-3"
+                                                placeholder="Enter OTP"
+                                                value={otp}
+                                                onChange={(e) => setOtp(e.target.value)}
+                                            />
+
+                                            <button
+                                                className="btn btn-primary w-100"
+                                                onClick={verifyOTP}
+                                                disabled={isLoading}
+                                            >
+                                                {isLoading ? "Verifying..." : "Verify OTP"}
+                                            </button>
+                                        </>
+                                    )}
+
+                                    {/* STEP 3 — Password */}
+                                    {step === 3 && (
+                                        <>
+                                            <label className="form-label">Password</label>
+                                            <input
+                                                type="password"
+                                                className="form-control mb-3"
+                                                placeholder="Enter password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                            />
+
+                                            <button
+                                                className="btn btn-primary w-100"
+                                                onClick={loginUser}
+                                                disabled={isLoading}
+                                            >
+                                                {isLoading ? "Logging In..." : "Login"}
+                                            </button>
+                                        </>
+                                    )}
+                                </>
+                            )}
+
                         </div>
                     </div>
                 </div>
@@ -167,3 +300,4 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
 };
 
 export default AuthModal;
+
