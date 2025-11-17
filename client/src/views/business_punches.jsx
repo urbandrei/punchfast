@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const GOAL = 10; // keep in sync with backend default
 
@@ -12,7 +13,6 @@ const BusinessPunches = ({ business }) => {
   useEffect(() => {
     if (business && business.username) {
       setBusinessId(business.username);
-      // keep in storage so a refresh / other pages can see it
       localStorage.setItem("pf_business_username", business.username);
       return;
     }
@@ -33,10 +33,22 @@ const BusinessPunches = ({ business }) => {
     setPunches(null);
     setRemaining(null);
 
-    if (!businessId) {
+    const effectiveBusinessId =
+      businessId ||
+      (business && business.username) ||
+      localStorage.getItem("pf_business_email") ||
+      localStorage.getItem("pf_business_username") ||
+      "";
+
+    if (!effectiveBusinessId) {
       setStatus("No business session found. Please sign in again.");
       return;
     }
+
+    if (!businessId && effectiveBusinessId) {
+      setBusinessId(effectiveBusinessId);
+    }
+
     if (!customerUsername.trim()) {
       setStatus("Please enter a customer username.");
       return;
@@ -48,8 +60,7 @@ const BusinessPunches = ({ business }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           customer_username: customerUsername.trim(),
-          // backend expects business_username
-          business_username: businessId,
+          business_username: effectiveBusinessId,
         }),
       });
 
@@ -72,7 +83,7 @@ const BusinessPunches = ({ business }) => {
           ? null
           : Math.max(GOAL - newPunches, 0);
 
-      setStatus(data.message || "Punch recorded");
+      setStatus(data.message || "Punch recorded.");
       setPunches(newPunches);
       setRemaining(newRemaining);
     } catch (err) {
@@ -81,15 +92,38 @@ const BusinessPunches = ({ business }) => {
     }
   }
 
+  const headerBusinessLabel =
+    businessId || (business && business.username) || "Business";
+
   return (
     <div className="container py-4">
-      <h2 className="text-center mb-3" style={{ color: "#302C9A" }}>
-        Punchfast Business Portal
-      </h2>
+      {/* Header row with Dashboard button */}
+      <div
+        className="d-flex justify-content-between align-items-center mb-3"
+        style={{ gap: "12px" }}
+      >
+        <h2
+          className="mb-0"
+          style={{ color: "#302C9A" }}
+        >
+          Punchfast Business Portal
+        </h2>
+        <Link
+          to="/business/dashboard"
+          className="btn btn-primary"
+          style={{
+            borderRadius: "25px",
+            padding: "8px 20px",
+            fontWeight: 500,
+          }}
+        >
+          Dashboard
+        </Link>
+      </div>
 
-      {businessId ? (
+      {headerBusinessLabel ? (
         <div className="alert alert-success text-center">
-          You are signed in as <b>{businessId}</b>.
+          You are signed in as <b>{headerBusinessLabel}</b>.
         </div>
       ) : (
         <div className="alert alert-warning text-center">
@@ -98,7 +132,7 @@ const BusinessPunches = ({ business }) => {
         </div>
       )}
 
-      <div className="row justify-content-center">
+      <div className="row justify-content-center mt-2">
         <div className="col-12 col-md-8 col-lg-6">
           <div className="card shadow-sm">
             <div className="card-body">
@@ -141,7 +175,6 @@ const BusinessPunches = ({ business }) => {
             </div>
           </div>
 
-  
         </div>
       </div>
     </div>
