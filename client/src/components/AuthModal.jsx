@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 
 const AuthModal = ({ show, onClose, onLoginSuccess }) => {
-    const [activeTab, setActiveTab] = useState("login"); 
+    const [activeTab, setActiveTab] = useState("login");
     const [username, setUsername] = useState("");
-    const [email, setEmail] = useState(""); 
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [otp, setOtp] = useState("");
+
+    const [resetOtp, setResetOtp] = useState("");
+    const [newPassword, setNewPassword] = useState("");
 
     const [isBusiness, setIsBusiness] = useState(false);
     const [message, setMessage] = useState("");
@@ -14,13 +17,15 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
     const [recentLogins, setRecentLogins] = useState([]);
     const [cookiesAllowed, setCookiesAllowed] = useState(false);
 
-    // Load remembered logins
+    /* Load stored logins */
     useEffect(() => {
         const saved = JSON.parse(localStorage.getItem("recentLogins")) || [];
         setRecentLogins(saved);
     }, []);
 
     const rememberLogin = (username, password) => {
+        if (!cookiesAllowed) return;
+
         const saved = JSON.parse(localStorage.getItem("recentLogins")) || [];
 
         const exists = saved.find((u) => u.username === username);
@@ -31,6 +36,9 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
         }
     };
 
+    /* =========================
+       LOGIN → SEND OTP 
+    ==========================*/
     const handleRequestOtp = async () => {
         setIsLoading(true);
         setMessage("");
@@ -57,6 +65,9 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
         setIsLoading(false);
     };
 
+    /* =========================
+       VERIFY LOGIN OTP 
+    ==========================*/
     const handleVerifyOtp = async () => {
         setIsLoading(true);
 
@@ -74,9 +85,7 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
             } else {
                 setMessage("Logged in!");
 
-                if (cookiesAllowed) {
-                    rememberLogin(username, password);
-                }
+                rememberLogin(username, password);
 
                 onLoginSuccess(data.user);
                 onClose();
@@ -89,6 +98,9 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
         setIsLoading(false);
     };
 
+    /* =========================
+       SIGN UP
+    ==========================*/
     const handleSignup = async () => {
         setIsLoading(true);
 
@@ -105,7 +117,7 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
 
             if (!res.ok) setMessage(data.message);
             else {
-                setMessage("Signup successful. You can log in now.");
+                setMessage("Signup successful! Please login.");
                 setActiveTab("login");
             }
         } catch (err) {
@@ -120,6 +132,88 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
         setPassword(item.password);
     };
 
+    /* =========================
+        FORGOT PASSWORD
+    ==========================*/
+
+    const handleForgotPassword = async () => {
+        setIsLoading(true);
+
+        try {
+            const res = await fetch("/api/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) setMessage(data.message);
+            else {
+                setMessage("OTP sent to your email.");
+                setActiveTab("resetOtp");
+            }
+        } catch (err) {
+            setMessage("Server error.");
+        }
+
+        setIsLoading(false);
+    };
+
+    const handleVerifyResetOtp = async () => {
+        setIsLoading(true);
+
+        try {
+            const res = await fetch("/api/verify-reset-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, otp: resetOtp })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) setMessage(data.message);
+            else {
+                setMessage("OTP verified. Enter new password.");
+                setActiveTab("resetPassword");
+            }
+        } catch (err) {
+            setMessage("Server error.");
+        }
+
+        setIsLoading(false);
+    };
+
+    const handleResetPassword = async () => {
+        setIsLoading(true);
+
+        try {
+            const res = await fetch("/api/reset-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    username,
+                    newPassword
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) setMessage(data.message);
+            else {
+                setMessage("Password reset successful.");
+                setActiveTab("login");
+            }
+
+        } catch (err) {
+            setMessage("Server error.");
+        }
+
+        setIsLoading(false);
+    };
+
+    /* ========================= */
+
     if (!show) return null;
 
     return (
@@ -132,7 +226,7 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
                             {/* TABS */}
                             <ul className="nav nav-tabs mb-3">
                                 <li className="nav-item">
-                                    <button 
+                                    <button
                                         className={`nav-link ${activeTab === "login" ? "active" : ""}`}
                                         onClick={() => setActiveTab("login")}
                                     >
@@ -140,7 +234,7 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
                                     </button>
                                 </li>
                                 <li className="nav-item">
-                                    <button 
+                                    <button
                                         className={`nav-link ${activeTab === "signup" ? "active" : ""}`}
                                         onClick={() => setActiveTab("signup")}
                                     >
@@ -149,21 +243,18 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
                                 </li>
                             </ul>
 
-                            {/* MESSAGE BOX */}
                             {message && (
                                 <div className="alert alert-warning">{message}</div>
                             )}
 
                             {/* RECENT LOGINS */}
                             {activeTab === "login" && recentLogins.length > 0 && (
-                                <div style={{ marginBottom: "10px" }}>
-                                    <label style={{ fontWeight: "600" }}>Previous Logins:</label>
+                                <div>
+                                    <strong>Previous Logins:</strong>
                                     {recentLogins.map((item, idx) => (
-                                        <div 
-                                            key={idx}
-                                            style={{ cursor: "pointer", padding: "5px" }}
-                                            onClick={() => handleRecentLoginClick(item)}
-                                        >
+                                        <div key={idx}
+                                             style={{ cursor: "pointer", padding: "5px" }}
+                                             onClick={() => handleRecentLoginClick(item)}>
                                             {item.username}
                                         </div>
                                     ))}
@@ -173,122 +264,145 @@ const AuthModal = ({ show, onClose, onLoginSuccess }) => {
                             {/* LOGIN FORM */}
                             {activeTab === "login" && (
                                 <>
-                                    {/* Username */}
-                                    <input 
-                                        className="form-control mb-2"
-                                        placeholder="Username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
+                                    <input className="form-control mb-2"
+                                           placeholder="Username"
+                                           value={username}
+                                           onChange={(e) => setUsername(e.target.value)}
                                     />
 
-                                    {/* Password */}
-                                    <input 
-                                        className="form-control mb-2"
-                                        placeholder="Password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                    <input className="form-control mb-2"
+                                           placeholder="Password"
+                                           type="password"
+                                           value={password}
+                                           onChange={(e) => setPassword(e.target.value)}
                                     />
 
                                     <div className="form-check mb-2">
-                                        <input 
-                                            className="form-check-input" 
-                                            type="checkbox"
-                                            onChange={(e) => setCookiesAllowed(e.target.checked)}
-                                        />
-                                        <label className="form-check-label">
-                                            Remember me / allow cookies
-                                        </label>
+                                        <input className="form-check-input"
+                                               type="checkbox"
+                                               onChange={(e) => setCookiesAllowed(e.target.checked)} />
+                                        <label>Allow Cookies / Remember Me</label>
                                     </div>
 
-                                    {/* Business Login Toggle */}
                                     <div className="form-check mb-3">
-                                        <input 
-                                            className="form-check-input" 
-                                            type="checkbox" 
-                                            checked={isBusiness}
-                                            onChange={() => setIsBusiness(!isBusiness)}
-                                        />
-                                        <label className="form-check-label">
-                                            Business Login
-                                        </label>
+                                        <input className="form-check-input"
+                                               type="checkbox"
+                                               checked={isBusiness}
+                                               onChange={() => setIsBusiness(!isBusiness)} />
+                                        <label>Business Login</label>
                                     </div>
 
-                                    <button 
-                                        className="btn btn-primary w-100"
-                                        onClick={handleRequestOtp}
-                                        disabled={isLoading}
-                                    >
-                                        {isLoading ? "Sending OTP..." : "Login → Send OTP"}
+                                    <button className="btn btn-primary w-100"
+                                            onClick={handleRequestOtp}
+                                            disabled={isLoading}>
+                                        {isLoading ? "Sending OTP..." : "Send OTP"}
                                     </button>
 
-                                    <p 
-                                      style={{ 
-                                        color: '#302C9A',
-                                        cursor: 'pointer',
-                                        marginTop:'8px',
-                                        textAlign:'right'
-                                      }}
-                                      onClick={() => setActiveTab("forgot")}
-                                    >
-                                      Forgot Password?
+                                    <p style={{ textAlign: "right", cursor: "pointer", color: "#302C9A" }}
+                                       onClick={() => setActiveTab("forgot")}>
+                                        Forgot Password?
                                     </p>
                                 </>
                             )}
 
-                            {/* OTP SCREEN */}
+                            {/* OTP LOGIN */}
                             {activeTab === "otp" && (
                                 <>
-                                    <input
-                                        className="form-control mb-3"
-                                        placeholder="Enter 6-digit OTP"
-                                        value={otp}
-                                        onChange={(e) => setOtp(e.target.value)}
+                                    <input className="form-control mb-3"
+                                           placeholder="Enter OTP"
+                                           value={otp}
+                                           onChange={(e) => setOtp(e.target.value)}
                                     />
 
-                                    <button
-                                        className="btn btn-success w-100"
-                                        onClick={handleVerifyOtp}
-                                        disabled={isLoading}
-                                    >
-                                        {isLoading ? "Verifying OTP..." : "Verify OTP & Login"}
+                                    <button className="btn btn-success w-100"
+                                            onClick={handleVerifyOtp}
+                                            disabled={isLoading}>
+                                        {isLoading ? "Verifying..." : "Verify OTP"}
                                     </button>
                                 </>
                             )}
 
-                            {/* SIGNUP SCREEN */}
+                            {/* SIGNUP */}
                             {activeTab === "signup" && (
                                 <>
-                                    <input 
-                                        className="form-control mb-2"
-                                        placeholder="Username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                    />
-                                    <input 
-                                        className="form-control mb-2"
-                                        placeholder="Email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
-                                    <input 
-                                        className="form-control mb-3"
-                                        placeholder="Password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                    <input className="form-control mb-2"
+                                           placeholder="Username"
+                                           value={username}
+                                           onChange={(e) => setUsername(e.target.value)}
                                     />
 
-                                    <button
-                                        className="btn btn-primary w-100"
-                                        onClick={handleSignup}
-                                        disabled={isLoading}
-                                    >
+                                    <input className="form-control mb-2"
+                                           placeholder="Email"
+                                           value={email}
+                                           onChange={(e) => setEmail(e.target.value)}
+                                    />
+
+                                    <input className="form-control mb-3"
+                                           placeholder="Password"
+                                           type="password"
+                                           value={password}
+                                           onChange={(e) => setPassword(e.target.value)}
+                                    />
+
+                                    <button className="btn btn-primary w-100"
+                                            onClick={handleSignup}
+                                            disabled={isLoading}>
                                         {isLoading ? "Signing up..." : "Signup"}
                                     </button>
                                 </>
                             )}
 
+                            {/* FORGOT PASSWORD */}
+                            {activeTab === "forgot" && (
+                                <>
+                                    <input className="form-control mb-2"
+                                           placeholder="Enter username"
+                                           value={username}
+                                           onChange={(e) => setUsername(e.target.value)}
+                                    />
+
+                                    <button className="btn btn-primary w-100"
+                                            onClick={handleForgotPassword}
+                                            disabled={isLoading}>
+                                        {isLoading ? "Sending OTP..." : "Send OTP"}
+                                    </button>
+                                </>
+                            )}
+
+                            {/* RESET OTP */}
+                            {activeTab === "resetOtp" && (
+                                <>
+                                    <input className="form-control mb-2"
+                                           placeholder="Enter OTP"
+                                           value={resetOtp}
+                                           onChange={(e) => setResetOtp(e.target.value)}
+                                    />
+
+                                    <button className="btn btn-success w-100"
+                                            onClick={handleVerifyResetOtp}
+                                            disabled={isLoading}>
+                                        {isLoading ? "Verifying..." : "Verify OTP"}
+                                    </button>
+                                </>
+                            )}
+
+                            {/* RESET PASSWORD */}
+                            {activeTab === "resetPassword" && (
+                                <>
+                                    <input className="form-control mb-3"
+                                           placeholder="Enter new password"
+                                           type="password"
+                                           value={newPassword}
+                                           onChange={(e) => setNewPassword(e.target.value)}
+                                    />
+
+                                    <button className="btn btn-success w-100"
+                                            onClick={handleResetPassword}
+                                            disabled={isLoading}>
+                                        {isLoading ? "Saving..." : "Reset Password"}
+                                    </button>
+                                </>
+                            )}
 
                         </div>
                     </div>
