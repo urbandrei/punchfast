@@ -5,12 +5,17 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator');
 
-const otpStore = {}; 
+// TEMP IN-MEMORY STORE (reset on restart)
+const otpStore = {};
+
+/* ============================================
+   SEND OTP
+============================================ */
 exports.sendOTP = async (req, res) => {
     const { username } = req.body;
 
     if (!username) {
-        return res.status(400).json({ message: "Username required" });
+        return res.status(400).json({ message: "Username (Email) required" });
     }
 
     const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
@@ -27,12 +32,12 @@ exports.sendOTP = async (req, res) => {
 
         await transporter.sendMail({
             from: "PunchFast Login",
-            to: username, // username is email
+            to: username,
             subject: "Your OTP Code",
             text: `Your OTP code is: ${otp}`
         });
 
-        return res.json({ success: true, message: "OTP sent!" });
+        return res.json({ success: true, message: "OTP sent to email!" });
 
     } catch (err) {
         console.log("Email error:", err);
@@ -40,6 +45,9 @@ exports.sendOTP = async (req, res) => {
     }
 };
 
+/* ============================================
+   VERIFY OTP
+============================================ */
 exports.verifyOTP = async (req, res) => {
     const { username, otp } = req.body;
 
@@ -51,20 +59,28 @@ exports.verifyOTP = async (req, res) => {
         return res.status(400).json({ message: "Invalid OTP" });
     }
 
-    delete otpStore[username];
-    return res.json({ success: true });
+    // Mark OTP as “verified”
+    otpStore[username] = "VERIFIED";
+
+    return res.json({ success: true, message: "OTP Verified!" });
 };
 
+/* ============================================
+   LOGIN (ONLY AFTER OTP VERIFIED)
+============================================ */
 exports.login = async (req, res) => {
     const { username, password } = req.body;
 
     try {
+        if (otpStore[username] !== "VERIFIED") {
+            return res.status(401).json({ message: "OTP verification required" });
+        }
+
         const user = await User.findOne({ where: { username } });
         if (!user) return res.status(400).json({ message: "Invalid credentials." });
 
         const match = await bcrypt.compare(password, user.password);
         if (!match) return res.status(400).json({ message: "Invalid credentials." });
-
 
         const token = jwt.sign(
             { id: user.id, username: user.username },
@@ -79,6 +95,8 @@ exports.login = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
 
+        delete otpStore[username];
+
         return res.status(200).json({
             message: "Login successful!",
             user: { id: user.id, username: user.username }
@@ -90,10 +108,11 @@ exports.login = async (req, res) => {
     }
 };
 
-
-
+/* ============================================
+   SIGNUP
+============================================ */
 exports.signup = async (req, res) => {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
 
     try {
         const existing = await User.findOne({ where: { username } });
@@ -103,7 +122,7 @@ exports.signup = async (req, res) => {
 
         const hashed = await bcrypt.hash(password, 10);
 
-        const newUser = await User.create({ username, password: hashed });
+        const newUser = await User.create({ username, email, password: hashed });
 
         return res.status(201).json({
             message: 'Signup successful!',
@@ -116,8 +135,9 @@ exports.signup = async (req, res) => {
     }
 };
 
-
-
+/* ============================================
+   BUSINESS LOGIN / SIGNUP (NO OTP HERE)
+============================================ */
 exports.businessLogin = async (req, res) => {
     const { username, password } = req.body;
 
@@ -152,7 +172,6 @@ exports.businessLogin = async (req, res) => {
     }
 };
 
-
 exports.businessSignup = async (req, res) => {
     const { username, password } = req.body;
 
@@ -176,8 +195,9 @@ exports.businessSignup = async (req, res) => {
     }
 };
 
-
-
+/* ============================================
+   CHANGE PASSWORD / LOGOUT
+============================================ */
 exports.changePassword = async (req, res) => {
     const { userId, currentPassword, newPassword } = req.body;
 
