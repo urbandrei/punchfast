@@ -1,294 +1,118 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
 
 const BusinessDashboard = ({ business }) => {
-  const [goal, setGoal] = useState(business?.goal || 10);
-  const [rewardText, setRewardText] = useState(business?.rewardText || 'Free item on goal');
-  const [offerLoading, setOfferLoading] = useState(false);
-  const [offerMessage, setOfferMessage] = useState('');
-
-  
-  const [stats, setStats] = useState({
-    totalCustomers: 0,
-    totalPunches: 0,
-    completedCards: 0,
-    todayPunches: 0
-  });
-  const [statsLoading, setStatsLoading] = useState(false);
-  const [statsError, setStatsError] = useState('');
-
-  const username = business?.username;
+  const [businessId, setBusinessId] = useState(business?.username || "");
 
   useEffect(() => {
-    if (!username) return;
+    if (business && business.username) {
+      setBusinessId(business.username);
+      // keep it in localStorage for refreshes / direct URL visits
+      localStorage.setItem("pf_business_username", business.username);
+      return;
+    }
 
-    const fetchOffer = async () => {
-      try {
-        setOfferLoading(true);
-        setOfferMessage('');
-        const res = await fetch(`/api/business-offer?username=${encodeURIComponent(username)}`);
-        if (!res.ok) return;
-        const data = await res.json();
-        if (typeof data.goal !== 'undefined') setGoal(data.goal);
-        if (typeof data.rewardText !== 'undefined') setRewardText(data.rewardText);
-      } catch (err) {
-        console.error('Error fetching business offer:', err);
-      } finally {
-        setOfferLoading(false);
-      }
-    };
+    const saved =
+      localStorage.getItem("pf_business_email") ||
+      localStorage.getItem("pf_business_username") ||
+      "";
 
-    const fetchStats = async () => {
-      try {
-        setStatsLoading(true);
-        setStatsError('');
-      
-        const res = await fetch(`/api/business/stats?username=${encodeURIComponent(username)}`);
-        if (!res.ok) {
-          setStatsError('Could not load stats');
-          return;
-        }
-        const data = await res.json();
-        setStats({
-          totalCustomers: data.totalCustomers ?? 0,
-          totalPunches: data.totalPunches ?? 0,
-          completedCards: data.completedCards ?? 0,
-          todayPunches: data.todayPunches ?? 0
-        });
-      } catch (err) {
-        console.error('Error fetching stats:', err);
-        setStatsError('Could not load stats');
-      } finally {
-        setStatsLoading(false);
-      }
-    };
+    if (saved && !businessId) {
+      setBusinessId(saved);
+    }
+  }, [business, businessId]);
 
-    fetchOffer();
-    fetchStats();
-  }, [username]);
-
-  if (!business) {
+  if (!businessId) {
     return (
-      <div className="container" style={{ marginTop: '40px' }}>
+      <div className="container" style={{ marginTop: "40px" }}>
         <div
+          className="card shadow-sm mx-auto"
           style={{
-            textAlign: 'center',
-            padding: '40px',
-            backgroundColor: 'white',
-            borderRadius: '12px',
-            border: '2px solid #A7CCDE'
+            maxWidth: "600px",
+            borderRadius: "16px",
+            padding: "32px 24px",
           }}
         >
-          <h2 style={{ color: '#302C9A', marginBottom: '16px' }}>Business Dashboard</h2>
-          <p style={{ color: '#6AB7AD', marginBottom: '0' }}>
-            Please sign in as a business to view your dashboard.
+          <h2
+            className="text-center mb-3"
+            style={{ color: "#302C9A", margin: 0 }}
+          >
+            Business Dashboard
+          </h2>
+          <p
+            className="text-center mt-2"
+            style={{ color: "#6AB7AD", marginBottom: 0 }}
+          >
+            Please sign in as a business using the{" "}
+            <b>Business Sign In</b> button in the top bar to view your
+            dashboard.
           </p>
         </div>
       </div>
     );
   }
 
-  const handleOfferSubmit = async (e) => {
-    e.preventDefault();
-    setOfferMessage('');
-    setOfferLoading(true);
-
-    try {
-      const res = await fetch('/api/business-offer', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username,
-          goal,
-          rewardText
-        })
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        setOfferMessage(data.message || 'Failed to update offer');
-      } else {
-        setOfferMessage('Offer updated successfully!');
-      }
-    } catch (err) {
-      console.error('Error updating offer:', err);
-      setOfferMessage('Failed to update offer');
-    } finally {
-      setOfferLoading(false);
-      setTimeout(() => setOfferMessage(''), 3000);
-    }
-  };
-
   return (
-    <div className="container" style={{ marginTop: '40px', marginBottom: '40px' }}>
-      {/* Header with Punches link */}
+    <div className="container" style={{ marginTop: "40px" }}>
       <div
-        className="d-flex justify-content-between align-items-center mb-4"
-        style={{ gap: '12px' }}
+        className="card shadow-sm mx-auto"
+        style={{
+          maxWidth: "700px",
+          borderRadius: "16px",
+          padding: "32px 24px",
+        }}
       >
-        <div>
-          <h2 style={{ color: '#302C9A', margin: 0 }}>Business Dashboard</h2>
-          <p style={{ color: '#6AB7AD', margin: 0, fontSize: '0.95em' }}>
-            Signed in as <strong>{username}</strong>
-          </p>
-        </div>
-
-        <Link
-          to="/business"
-          className="btn btn-primary"
-          style={{
-            borderRadius: '25px',
-            padding: '8px 20px',
-            fontWeight: 500
-          }}
+        <h2
+          className="text-center mb-3"
+          style={{ color: "#302C9A", margin: 0 }}
         >
-          Punches
-        </Link>
-      </div>
-
-      {/* Stats section */}
-      <div className="row g-3 mb-4">
-        <div className="col-6 col-md-3">
-          <div
-            className="card shadow-sm h-100"
-            style={{ borderRadius: '12px', padding: '16px' }}
-          >
-            <div style={{ fontSize: '0.9em', color: '#6AB7AD' }}>Total Customers</div>
-            <div style={{ fontSize: '1.6em', fontWeight: '600', color: '#302C9A' }}>
-              {statsLoading ? '…' : stats.totalCustomers}
-            </div>
-          </div>
-        </div>
-        <div className="col-6 col-md-3">
-          <div
-            className="card shadow-sm h-100"
-            style={{ borderRadius: '12px', padding: '16px' }}
-          >
-            <div style={{ fontSize: '0.9em', color: '#6AB7AD' }}>Total Punches</div>
-            <div style={{ fontSize: '1.6em', fontWeight: '600', color: '#302C9A' }}>
-              {statsLoading ? '…' : stats.totalPunches}
-            </div>
-          </div>
-        </div>
-        <div className="col-6 col-md-3">
-          <div
-            className="card shadow-sm h-100"
-            style={{ borderRadius: '12px', padding: '16px' }}
-          >
-            <div style={{ fontSize: '0.9em', color: '#6AB7AD' }}>Completed Cards</div>
-            <div style={{ fontSize: '1.6em', fontWeight: '600', color: '#302C9A' }}>
-              {statsLoading ? '…' : stats.completedCards}
-            </div>
-          </div>
-        </div>
-        <div className="col-6 col-md-3">
-          <div
-            className="card shadow-sm h-100"
-            style={{ borderRadius: '12px', padding: '16px' }}
-          >
-            <div style={{ fontSize: '0.9em', color: '#6AB7AD' }}>Punches Today</div>
-            <div style={{ fontSize: '1.6em', fontWeight: '600', color: '#302C9A' }}>
-              {statsLoading ? '…' : stats.todayPunches}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {statsError && (
-        <div
-          className="alert"
-          style={{
-            backgroundColor: 'rgba(230, 142, 141, 0.1)',
-            border: '1px solid #E68E8D',
-            color: '#E68E8D',
-            borderRadius: '8px',
-            fontSize: '0.9em'
-          }}
+          Business Dashboard
+        </h2>
+        <p
+          className="text-center mb-4"
+          style={{ color: "#6AB7AD", fontSize: "0.95rem" }}
         >
-          {statsError}
-        </div>
-      )}
-
-      {/* Offer config */}
-      <div className="card shadow-sm" style={{ borderRadius: '12px', padding: '20px' }}>
-        <h4 style={{ color: '#302C9A', marginBottom: '16px' }}>Offer Settings</h4>
-        <p style={{ color: '#6AB7AD', fontSize: '0.95em' }}>
-          Configure how many punches are needed for a reward and what the reward is.
+          Signed in as <b>{businessId}</b>.
         </p>
 
-        <form onSubmit={handleOfferSubmit}>
-          <div className="row g-3">
-            <div className="col-12 col-md-4">
-              <label
-                htmlFor="goal"
-                className="form-label"
-                style={{ color: '#302C9A', fontWeight: 500 }}
-              >
-                Punches to goal
-              </label>
-              <input
-                id="goal"
-                type="number"
-                min="1"
-                max="50"
-                className="form-control"
-                value={goal}
-                onChange={(e) => setGoal(Number(e.target.value) || 1)}
-                disabled={offerLoading}
-                style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                onFocus={(e) => (e.target.style.borderColor = '#6AB7AD')}
-                onBlur={(e) => (e.target.style.borderColor = '#A7CCDE')}
-              />
-            </div>
-
-            <div className="col-12 col-md-8">
-              <label
-                htmlFor="rewardText"
-                className="form-label"
-                style={{ color: '#302C9A', fontWeight: 500 }}
-              >
-                Reward description
-              </label>
-              <input
-                id="rewardText"
-                type="text"
-                maxLength={140}
-                className="form-control"
-                value={rewardText}
-                onChange={(e) => setRewardText(e.target.value)}
-                disabled={offerLoading}
-                style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                onFocus={(e) => (e.target.style.borderColor = '#6AB7AD')}
-                onBlur={(e) => (e.target.style.borderColor = '#A7CCDE')}
-                placeholder="e.g. Free coffee or 20% off order"
-              />
-            </div>
-          </div>
-
-          <div className="d-flex justify-content-end mt-3">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={offerLoading}
-              style={{ borderRadius: '8px', padding: '10px 20px', fontWeight: 500 }}
-            >
-              {offerLoading ? 'Saving…' : 'Save Offer'}
-            </button>
-          </div>
-
-          {offerMessage && (
+        <div className="row g-3">
+          <div className="col-12 col-md-6">
             <div
-              className="mt-3"
+              className="p-3 h-100"
               style={{
-                color: offerMessage.includes('successfully') ? '#2d7a6e' : '#E68E8D',
-                fontSize: '0.9em'
+                borderRadius: "12px",
+                border: "1px solid #A7CCDE",
+                backgroundColor: "#ffffff",
               }}
             >
-              {offerMessage}
+              <h5 style={{ color: "#302C9A" }} className="mb-1">
+                Punchcard Summary
+              </h5>
+              <p className="text-muted mb-0" style={{ fontSize: "0.9rem" }}>
+                Dashboard wiring is ready. Once we add a stats API, we’ll show
+                total customers, total punches, and rewards here.
+              </p>
             </div>
-          )}
-        </form>
+          </div>
+
+          <div className="col-12 col-md-6">
+            <div
+              className="p-3 h-100"
+              style={{
+                borderRadius: "12px",
+                border: "1px solid #A7CCDE",
+                backgroundColor: "#ffffff",
+              }}
+            >
+              <h5 style={{ color: "#302C9A" }} className="mb-1">
+                Coming soon
+              </h5>
+              <p className="text-muted mb-0" style={{ fontSize: "0.9rem" }}>
+                Future metrics: visits per day, top customers, and redemption
+                rates.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
