@@ -4,13 +4,13 @@ import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
 import VisitNotificationModal from './components/VisitNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
+import BusinessAuthModal from './components/BusinessAuthModal';
 import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
 import NewRoute from './views/new_route';
-import BusinessAuthModal from './components/BusinessAuthModal';
-import BusinessPunches from './views/business_punches';      
-import BusinessDashboard from './views/business_dashboard';   
+import BusinessPunches from './views/business_punches';
+import BusinessDashboard from './views/business_dashboard';
 
 const SESSION_STORAGE_KEY = 'punchfast_notified_stores';
 
@@ -18,14 +18,31 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  const [businessUser, setBusinessUser] = useState(null);              
-  const [showBusinessAuthModal, setShowBusinessAuthModal] = useState(false); 
-
+  // customer auth modal
   const [showAuthModal, setShowAuthModal] = useState(false);
+  // business auth modal
+  const [showBusinessAuthModal, setShowBusinessAuthModal] = useState(false);
+
+  const [businessUser, setBusinessUser] = useState(null);
+
   const [showVisitModal, setShowVisitModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [nearbyStores, setNearbyStores] = useState([]);
   const locationCheckInterval = useRef(null);
+
+  useEffect(() => {
+    try {
+      const stored =
+        localStorage.getItem('pf_business_email') ||
+        localStorage.getItem('pf_business_username');
+
+      if (stored) {
+        setBusinessUser({ username: stored });
+      }
+    } catch (e) {
+      console.error('Error reading business session from storage:', e);
+    }
+  }, []);
 
   const handleLogin = (status, userData = null) => {
     setIsLoggedIn(status);
@@ -40,12 +57,28 @@ const App = () => {
     }
   };
 
-
   const handleBusinessLoginSuccess = (businessData) => {
-    setBusinessUser(businessData);
+    if (businessData?.username) {
+      try {
+        localStorage.setItem('pf_business_username', businessData.username);
+      } catch (e) {
+        console.error('Error saving business username:', e);
+      }
+      setBusinessUser({ username: businessData.username });
+    }
     setShowBusinessAuthModal(false);
-    // simple redirect – no router refactor needed
-    window.location.href = '/business/punches';
+  
+  };
+
+  const handleBusinessSignOut = () => {
+    setBusinessUser(null);
+    try {
+      localStorage.removeItem('pf_business_username');
+      localStorage.removeItem('pf_business_email');
+    } catch (e) {
+      console.error('Error clearing business storage:', e);
+    }
+    window.location.href = '/';
   };
 
   const getNotifiedStores = () => {
@@ -160,9 +193,6 @@ const App = () => {
       locationCheckInterval.current = null;
     }
     sessionStorage.removeItem(SESSION_STORAGE_KEY);
-
-    // also clear business session
-    setBusinessUser(null);
   };
 
   return (
@@ -171,10 +201,12 @@ const App = () => {
         <Navbar
           isLoggedIn={isLoggedIn}
           currentUser={currentUser}
+          business={businessUser}
           onShowAuth={() => setShowAuthModal(true)}
           onShowBusinessAuth={() => setShowBusinessAuthModal(true)}
           onChangePassword={() => setShowChangePasswordModal(true)}
           onSignOut={handleSignOut}
+          onBusinessSignOut={handleBusinessSignOut}
         />
 
         <AuthModal
@@ -205,7 +237,6 @@ const App = () => {
         />
 
         <Routes>
-          {/* Customer-facing routes */}
           <Route
             path="/"
             element={
@@ -234,8 +265,7 @@ const App = () => {
             path="/newroute"
             element={<NewRoute onLoginSuccess={() => handleLogin(true)} />}
           />
-
-          {/* Business-facing routes */}
+              
           <Route
             path="/business/punches"
             element={<BusinessPunches business={businessUser} />}
