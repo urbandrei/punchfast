@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
 import VisitNotificationModal from './components/VisitNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
+import CookieConsent from './components/CookieConsent';   // ⭐ ADDED
+
 import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
@@ -20,11 +23,12 @@ const App = () => {
   const [nearbyStores, setNearbyStores] = useState([]);
   const locationCheckInterval = useRef(null);
 
+  // 🔐 LOGIN HANDLER
   const handleLogin = (status, userData = null) => {
     setIsLoggedIn(status);
-    if (userData) {
+    if (status && userData) {
       setCurrentUser(userData);
-    } else if (!status) {
+    } else {
       setCurrentUser(null);
       if (locationCheckInterval.current) {
         clearInterval(locationCheckInterval.current);
@@ -33,6 +37,9 @@ const App = () => {
     }
   };
 
+  // ===========================
+  // STORE NOTIFICATION FUNCTIONS
+  // ===========================
   const getNotifiedStores = () => {
     try {
       const stored = sessionStorage.getItem(SESSION_STORAGE_KEY);
@@ -53,6 +60,9 @@ const App = () => {
     }
   };
 
+  // ===========================
+  // LOCATION CHECK
+  // ===========================
   const checkNearbyStores = async (latitude, longitude) => {
     if (!isLoggedIn || !currentUser?.id) return;
 
@@ -62,20 +72,15 @@ const App = () => {
       );
 
       if (!res.ok) {
-        console.error('Failed to fetch nearby stores: ');
+        console.error('Failed to fetch nearby stores');
         return;
       }
 
       const data = await res.json();
+      if (!data.stores || data.stores.length === 0) return;
 
-      if (!data.stores || data.stores.length === 0) {
-        return;
-      }
-
-      const notifiedStores = getNotifiedStores();
-      const newStores = data.stores.filter(
-        store => !notifiedStores.includes(store.id)
-      );
+      const notified = getNotifiedStores();
+      const newStores = data.stores.filter((store) => !notified.includes(store.id));
 
       if (newStores.length > 0) {
         setNearbyStores(newStores);
@@ -91,14 +96,12 @@ const App = () => {
     checkNearbyStores(latitude, longitude);
   };
 
-  const handleLocationError = (error) => {
-    console.error('Location error:', error);
+  const handleLocationError = (err) => {
+    console.error('Location error:', err);
   };
 
   useEffect(() => {
-    if (!isLoggedIn || !currentUser) {
-      return;
-    }
+    if (!isLoggedIn || !currentUser) return;
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -124,32 +127,42 @@ const App = () => {
     };
   }, [isLoggedIn, currentUser]);
 
-  const handleVisit = (storeIds) => {
-    addNotifiedStores(storeIds);
-  };
-
-  const handleNotVisiting = (storeIds) => {
-    addNotifiedStores(storeIds);
-  };
+  // ===========================
+  // VISIT MODAL HANDLERS
+  // ===========================
+  const handleVisit = (storeIds) => addNotifiedStores(storeIds);
+  const handleNotVisiting = (storeIds) => addNotifiedStores(storeIds);
 
   const handleCloseVisitModal = () => {
     setShowVisitModal(false);
     setNearbyStores([]);
   };
 
+  // ===========================
+  // SIGN OUT
+  // ===========================
   const handleSignOut = () => {
     setIsLoggedIn(false);
     setCurrentUser(null);
+
     if (locationCheckInterval.current) {
       clearInterval(locationCheckInterval.current);
       locationCheckInterval.current = null;
     }
+
     sessionStorage.removeItem(SESSION_STORAGE_KEY);
+
+    fetch("/api/logout", { method: "POST" }).catch(() => {});
   };
 
   return (
     <Router>
       <div>
+        
+        {/* ⭐ COOKIE CONSENT POPUP */}
+        <CookieConsent />
+
+        {/* NAVBAR */}
         <Navbar
           isLoggedIn={isLoggedIn}
           currentUser={currentUser}
@@ -158,12 +171,14 @@ const App = () => {
           onSignOut={handleSignOut}
         />
 
+        {/* AUTH MODAL */}
         <AuthModal
           show={showAuthModal}
           onClose={() => setShowAuthModal(false)}
           onLoginSuccess={(userData) => handleLogin(true, userData)}
         />
 
+        {/* VISIT MODAL */}
         <VisitNotificationModal
           show={showVisitModal}
           stores={nearbyStores}
@@ -173,12 +188,14 @@ const App = () => {
           onClose={handleCloseVisitModal}
         />
 
+        {/* CHANGE PASSWORD */}
         <ChangePasswordModal
           show={showChangePasswordModal}
           onClose={() => setShowChangePasswordModal(false)}
           userId={currentUser?.id}
         />
 
+        {/* ROUTES */}
         <Routes>
           <Route path="/" element={<Home isLogin={isLoggedIn} user={currentUser} onShowAuth={() => setShowAuthModal(true)} />} />
           <Route path="/dashboard" element={<Dashboard isLogin={isLoggedIn} user={currentUser} onShowAuth={() => setShowAuthModal(true)} />} />
