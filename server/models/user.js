@@ -13,6 +13,14 @@ const User = sequelize.define('User', {
         allowNull: false,
     },
 });
+resetOtp: {
+    type: DataTypes.STRING,
+    allowNull: true,
+},
+resetOtpExpires: {
+    type: DataTypes.DATE,
+    allowNull: true,
+},
 
 User.beforeCreate(async (user) => {
     const salt = await bcrypt.genSalt(10);
