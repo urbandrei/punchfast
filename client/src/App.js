@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
-import AuthModal from './components/AuthModal';
+import AuthModal from "./components/AuthModal";
 import VisitNotificationModal from './components/VisitNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
 import CookieConsent from './components/CookieConsent';   // ⭐ ADDED
