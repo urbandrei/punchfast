@@ -5,27 +5,27 @@ const sequelize = require('./config/database');
 
 async function ingestData() {
     try {
-        console.log("🔄 Connecting to database...");
+        console.log(" Connecting to database...");
         await sequelize.authenticate();
-        console.log("✅ Connected to database.");
+        console.log(" Connected to database.");
 
         const filePath = path.join(__dirname, "../stores.json");
 
-        console.log("📄 Loading JSON:", filePath);
+        console.log(" Loading JSON:", filePath);
         const jsonData = fs.readFileSync(filePath, "utf8");
 
         const data = JSON.parse(jsonData);
 
         if (!data.elements || data.elements.length === 0) {
-            console.log("❌ No store elements found in JSON file.");
+            console.log(" No store elements found in JSON file.");
             return;
         }
 
         let countInserted = 0;
         let countSkipped = 0;
 
-        console.log(`📌 Found ${data.elements.length} raw store records.`);
-        console.log("🚀 Starting ingestion...\n");
+        console.log(` Found ${data.elements.length} raw store records.`);
+        console.log(" Starting ingestion...\n");
 
         for (const item of data.elements) {
             // Must have name + coordinates
@@ -74,19 +74,19 @@ async function ingestData() {
             countInserted++;
 
             if (countInserted % 50 === 0) {
-                console.log(`⬆️ Inserted ${countInserted} stores so far...`);
+                console.log(` Inserted ${countInserted} stores so far...`);
             }
         }
 
-        console.log("\n✨ DONE!");
-        console.log(`✅ Inserted: ${countInserted}`);
-        console.log(`⚠️ Skipped (duplicates/invalid): ${countSkipped}`);
+        console.log("\n DONE!");
+        console.log(` Inserted: ${countInserted}`);
+        console.log(` Skipped (duplicates/invalid): ${countSkipped}`);
 
     } catch (err) {
-        console.error("❌ Error during ingestion:", err);
+        console.error(" Error during ingestion:", err);
     } finally {
         await sequelize.close();
-        console.log("🔌 Database connection closed.");
+        console.log(" Database connection closed.");
     }
 }
 
