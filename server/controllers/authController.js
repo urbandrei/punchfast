@@ -134,6 +134,41 @@ exports.signup = async (req, res) => {
         return res.status(500).json({ message: "Server error" });
     }
 };
+exports.forgotPassword = async (req, res) => {
+    const { username } = req.body;
+
+    const user = await User.findOne({ where: { username } });
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+
+    user.resetOtp = otp;
+    user.resetOtpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    await user.save();
+
+    try {
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        await transporter.sendMail({
+            from: "PunchFast Support",
+            to: username,
+            subject: "Password Reset OTP",
+            text: `Your password reset OTP is: ${otp}`,
+        });
+
+        return res.json({ success: true, message: "OTP sent to your email" });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Email error" });
+    }
+};
 
 /* ============================================
    BUSINESS LOGIN / SIGNUP (NO OTP HERE)
