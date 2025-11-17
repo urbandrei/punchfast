@@ -1,67 +1,94 @@
 const fs = require('fs');
+const path = require('path');
 const Store = require('./models/store');
 const sequelize = require('./config/database');
-async function dataIngestion(stores) {
-    try {
-        console.log(`Starting ingestion of ${stores.length} stores...`);
-        const uniqueStores = [];
-        const seen = new Set();
 
-        for (const store of stores) {
-            if (!seen.has(store.name)) {
-                uniqueStores.push(store);
-                seen.add(store.name);
-            }
+async function ingestData() {
+    try {
+        console.log("🔄 Connecting to database...");
+        await sequelize.authenticate();
+        console.log("✅ Connected to database.");
+
+        const filePath = path.join(__dirname, "../stores.json");
+
+        console.log("📄 Loading JSON:", filePath);
+        const jsonData = fs.readFileSync(filePath, "utf8");
+
+        const data = JSON.parse(jsonData);
+
+        if (!data.elements || data.elements.length === 0) {
+            console.log("❌ No store elements found in JSON file.");
+            return;
         }
 
-        console.log(`After deduplication: ${uniqueStores.length} stores.`);
-        await Store.bulkCreate(uniqueStores, { ignoreDuplicates: true });
+        let countInserted = 0;
+        let countSkipped = 0;
 
-        console.log("Data ingestion completed successfully.");
-    } catch (error) {
-        console.error("Error during data ingestion:", error);
-    }
-}
+        console.log(`📌 Found ${data.elements.length} raw store records.`);
+        console.log("🚀 Starting ingestion...\n");
 
-async function start() {
-    try {
-        await sequelize.authenticate();
-        console.log("Database connected.");
+        for (const item of data.elements) {
+            // Must have name + coordinates
+            if (!item.tags || !item.tags.name || !item.lat || !item.lon) {
+                countSkipped++;
+                continue;
+            }
 
-        await sequelize.sync();
-        console.log("Database synced.");
-
-        const jsonData = fs.readFileSync('./stores.json', 'utf8');
-        const data = JSON.parse(jsonData);
-        const stores = [];
-        for (let i = 0; i < data.elements.length; i++) {
-            const elem = data.elements[i];
-            if (!elem.tags || !elem.tags.name || !elem.lat || !elem.lon) continue;
-            let address = "unknown";
+            // Build address
+            let address = "Unknown";
             if (
-                elem.tags["addr:housenumber"] &&
-                elem.tags["addr:street"] &&
-                elem.tags["addr:city"] &&
-                elem.tags["addr:state"] &&
-                elem.tags["addr:postcode"]
+                item.tags["addr:housenumber"] &&
+                item.tags["addr:street"] &&
+                item.tags["addr:city"] &&
+                item.tags["addr:state"] &&
+                item.tags["addr:postcode"]
             ) {
                 address =
-                    `${elem.tags["addr:housenumber"]} ` +
-                    `${elem.tags["addr:street"]}, ` +
-                    `${elem.tags["addr:city"]}, ` +
-                    `${elem.tags["addr:state"]} ` +
-                    `${elem.tags["addr:postcode"]}`;
+                    `${item.tags["addr:housenumber"]} ${item.tags["addr:street"]}, ` +
+                    `${item.tags["addr:city"]}, ${item.tags["addr:state"]} ` +
+                    `${item.tags["addr:postcode"]}`;
             }
-            stores.push({
-                name: elem.tags.name,
-                address,
-                latitude: elem.lat,
-                longitude: elem.lon,
+
+            const name = item.tags.name;
+            const latitude = item.lat;
+            const longitude = item.lon;
+
+            // Check if store already exists
+            const exists = await Store.findOne({
+                where: { name, latitude, longitude }
             });
+
+            if (exists) {
+                countSkipped++;
+                continue;
+            }
+
+            // Insert store
+            await Store.create({
+                name,
+                address,
+                latitude,
+                longitude
+            });
+
+            countInserted++;
+
+            if (countInserted % 50 === 0) {
+                console.log(`⬆️ Inserted ${countInserted} stores so far...`);
+            }
         }
-        await dataIngestion(stores);
-    } catch (error) {
-        console.error("Error reading/parsing JSON or DB error:", error);
+
+        console.log("\n✨ DONE!");
+        console.log(`✅ Inserted: ${countInserted}`);
+        console.log(`⚠️ Skipped (duplicates/invalid): ${countSkipped}`);
+
+    } catch (err) {
+        console.error("❌ Error during ingestion:", err);
+    } finally {
+        await sequelize.close();
+        console.log("🔌 Database connection closed.");
     }
 }
-start();
+
+ingestData();
+
