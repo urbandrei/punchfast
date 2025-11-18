@@ -2,6 +2,7 @@ const Store = require('../models/store');
 const sequelize = require('../config/database');
 const { QueryTypes } = require('sequelize');
 const { searchAndAddStores } = require('../logic/searchForStores');
+const { calculateDistance } = require('../utils/haversine');
 
 exports.newStore = async (req, res) => {
     const { name, address, longitude, latitude } = req.body;
@@ -35,27 +36,41 @@ exports.getNearbyStores = async (req, res) => {
             return res.status(400).json({ message: searchResult.error });
         }
 
-        const tableName = (typeof Store.getTableName === 'function') ? Store.getTableName() : 'Stores';
-
-        const distanceExpr = `6371 * acos(LEAST(1, cos(radians(:lat)) * cos(radians("latitude")) * cos(radians("longitude") - radians(:lng)) + sin(radians(:lat)) * sin(radians("latitude"))))`;
-
-        const sql = `
-            SELECT "id", "name", "address", "latitude", "longitude", ${distanceExpr} AS distance_km
-            FROM "${tableName}"
-            WHERE "latitude" IS NOT NULL AND "longitude" IS NOT NULL
-              AND ${distanceExpr} <= :radius
-            ORDER BY distance_km ASC
-            LIMIT :limit;
-        `;
-
-        const stores = await sequelize.query(sql, {
-            replacements: { lat: latitude, lng: longitude, radius, limit },
-            type: QueryTypes.SELECT,
+        // Fetch all stores with coordinates
+        const allStores = await Store.findAll({
+            where: {
+                latitude: { [sequelize.Sequelize.Op.ne]: null },
+                longitude: { [sequelize.Sequelize.Op.ne]: null }
+            },
+            attributes: ['id', 'name', 'address', 'latitude', 'longitude']
         });
 
+        // Calculate distance for each store and filter by radius
+        const storesWithDistance = allStores
+            .map(store => {
+                const distance_km = calculateDistance(
+                    latitude,
+                    longitude,
+                    parseFloat(store.latitude),
+                    parseFloat(store.longitude),
+                    'km'
+                );
+                return {
+                    id: store.id,
+                    name: store.name,
+                    address: store.address,
+                    latitude: store.latitude,
+                    longitude: store.longitude,
+                    distance_km
+                };
+            })
+            .filter(store => store.distance_km <= radius)
+            .sort((a, b) => a.distance_km - b.distance_km)
+            .slice(0, limit);
+
         return res.status(200).json({
-            count: stores.length,
-            stores,
+            count: storesWithDistance.length,
+            stores: storesWithDistance,
             searchInfo: {
                 newStoresAdded: searchResult.totalStoresFound,
                 areasSearched: searchResult.searchResults.length

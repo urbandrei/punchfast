@@ -1,20 +1,8 @@
 const { User, Store, RouteStart, Route, RouteStore, Visit, SavedStore } = require('../models/associations');
 const { Op } = require('sequelize');
+const { calculateDistance } = require('../utils/haversine');
 
 const PROXIMITY_RANGE_METERS = 15;
-
-function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371000;
-    const O1 = lat1 * Math.PI / 180;
-    const O2 = lat2 * Math.PI / 180;
-    const rad_lat = (lat2 - lat1) * Math.PI / 180;
-    const rad_lon = (lon2 - lon1) * Math.PI / 180;
-
-    const a = Math.sin(rad_lat / 2) * Math.sin(rad_lat / 2) + Math.cos(O1) * Math.cos(O2) * Math.sin(rad_lon / 2) * Math.sin(rad_lon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    return R * c;
-}
 
 exports.getNearbyEligibleStores = async (req, res) => {
     const { userId, latitude, longitude } = req.query;
@@ -84,7 +72,8 @@ exports.getNearbyEligibleStores = async (req, res) => {
                 userLat,
                 userLon,
                 parseFloat(store.latitude),
-                parseFloat(store.longitude)
+                parseFloat(store.longitude),
+                'm'
             );
 
             return distance <= PROXIMITY_RANGE_METERS;

@@ -1,5 +1,6 @@
 const { Route, Store, RouteStore } = require('../models/associations');
 const { Op } = require('sequelize');
+const { calculateDistance } = require('../utils/haversine');
 
 exports.newRoute = async (req, res) => {
     const { name, routeType, stores } = req.body;
@@ -49,25 +50,28 @@ exports.getNearbyRoutes = async (req, res) => {
     }
 
     try {
-        const sequelize = require('../config/database');
-        const { QueryTypes } = require('sequelize');
-
-        const tableName = (typeof Store.getTableName === 'function') ? Store.getTableName() : 'Stores';
-        const distanceExpr = `6371 * acos(LEAST(1, cos(radians(:lat)) * cos(radians("latitude")) * cos(radians("longitude") - radians(:lng)) + sin(radians(:lat)) * sin(radians("latitude"))))`;
-
-        const sql = `
-            SELECT "id"
-            FROM "${tableName}"
-            WHERE "latitude" IS NOT NULL AND "longitude" IS NOT NULL
-              AND ${distanceExpr} <= :radius;
-        `;
-
-        const nearbyStores = await sequelize.query(sql, {
-            replacements: { lat: latitude, lng: longitude, radius },
-            type: QueryTypes.SELECT,
+        // Fetch all stores with coordinates
+        const allStores = await Store.findAll({
+            where: {
+                latitude: { [Op.ne]: null },
+                longitude: { [Op.ne]: null }
+            },
+            attributes: ['id', 'latitude', 'longitude']
         });
 
-        const nearbyStoreIds = nearbyStores.map(s => s.id);
+        // Filter stores by radius using JavaScript distance calculation
+        const nearbyStoreIds = allStores
+            .filter(store => {
+                const distance_km = calculateDistance(
+                    latitude,
+                    longitude,
+                    parseFloat(store.latitude),
+                    parseFloat(store.longitude),
+                    'km'
+                );
+                return distance_km <= radius;
+            })
+            .map(s => s.id);
 
         if (nearbyStoreIds.length === 0) {
             return res.status(200).json({ count: 0, routes: [] });
