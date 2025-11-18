@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-const GOAL = 10; // keep in sync with backend default
 
 const BusinessPunches = ({ business }) => {
   const [businessId, setBusinessId] = useState(business?.username || "");
@@ -9,6 +6,10 @@ const BusinessPunches = ({ business }) => {
   const [status, setStatus] = useState("");
   const [punches, setPunches] = useState(null);
   const [remaining, setRemaining] = useState(null);
+
+  const [goal, setGoal] = useState(10);
+  const [reward, setReward] = useState("");
+  const [rewardMessage, setRewardMessage] = useState("");
 
   useEffect(() => {
     if (business && business.username) {
@@ -27,11 +28,85 @@ const BusinessPunches = ({ business }) => {
     }
   }, [business, businessId]);
 
+  useEffect(() => {
+    if (!businessId) return;
+
+    try {
+      const key = `pf_business_settings_${businessId}`;
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (typeof parsed.goal === "number" && parsed.goal > 0) {
+          setGoal(parsed.goal);
+        } else {
+          setGoal(10);
+        }
+        if (typeof parsed.reward === "string") {
+          setReward(parsed.reward);
+        } else {
+          setReward("");
+        }
+      } else {
+        setGoal(10);
+        setReward("");
+      }
+    } catch (e) {
+      console.error("Error reading business settings:", e);
+      setGoal(10);
+      setReward("");
+    }
+  }, [businessId]);
+
+  // update daily / monthly / lifetime stats + top customers (this month)
+  const updateStatsAfterPunch = (bizId, customer) => {
+    if (!bizId || !customer) return;
+
+    try {
+      const key = `pf_business_stats_${bizId}`;
+      const stored = localStorage.getItem(key);
+      let stats = stored ? JSON.parse(stored) : {};
+
+      const now = new Date();
+      const todayKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
+      const monthKey = todayKey.slice(0, 7); // YYYY-MM
+
+      if (stats.dailyDate !== todayKey) {
+        stats.dailyDate = todayKey;
+        stats.dailyTotal = 0;
+      }
+
+      if (stats.monthKey !== monthKey) {
+        stats.monthKey = monthKey;
+        stats.monthlyTotal = 0;
+        stats.monthlyCustomers = {};
+      }
+
+      stats.dailyTotal = (stats.dailyTotal || 0) + 1;
+      stats.monthlyTotal = (stats.monthlyTotal || 0) + 1;
+      stats.lifetimeTotal = (stats.lifetimeTotal || 0) + 1;
+
+      if (!stats.monthlyCustomers) {
+        stats.monthlyCustomers = {};
+      }
+
+      const trimmed = customer.trim();
+      if (trimmed) {
+        const currentCount = stats.monthlyCustomers[trimmed] || 0;
+        stats.monthlyCustomers[trimmed] = currentCount + 1;
+      }
+
+      localStorage.setItem(key, JSON.stringify(stats));
+    } catch (e) {
+      console.error("Error updating business stats:", e);
+    }
+  };
+
   async function handleRegister(e) {
     e.preventDefault();
     setStatus("");
     setPunches(null);
     setRemaining(null);
+    setRewardMessage("");
 
     const effectiveBusinessId =
       businessId ||
@@ -76,16 +151,38 @@ const BusinessPunches = ({ business }) => {
       const newPunches =
         typeof data.punches === "number" ? data.punches : null;
 
+      const effectiveGoal =
+        typeof goal === "number"
+          ? goal
+          : parseInt(goal, 10) > 0
+          ? parseInt(goal, 10)
+          : 10;
+
       const newRemaining =
-        typeof data.remaining === "number"
-          ? data.remaining
-          : newPunches == null
+        newPunches == null
           ? null
-          : Math.max(GOAL - newPunches, 0);
+          : Math.max(effectiveGoal - newPunches, 0);
 
       setStatus(data.message || "Punch recorded.");
       setPunches(newPunches);
       setRemaining(newRemaining);
+
+      // reward message when goal is reached
+      if (
+        newPunches != null &&
+        effectiveGoal > 0 &&
+        newPunches >= effectiveGoal
+      ) {
+        const rewardText = (reward && reward.trim()) || "a reward";
+        setRewardMessage(
+          `Goal reached! ${customerUsername.trim()} is now eligible for ${rewardText}.`
+        );
+      } else {
+        setRewardMessage("");
+      }
+
+      // update local stats (daily/monthly/top customers)
+      updateStatsAfterPunch(effectiveBusinessId, customerUsername);
     } catch (err) {
       console.error(err);
       setStatus("Network error");
@@ -146,6 +243,12 @@ const BusinessPunches = ({ business }) => {
                 <div className="alert alert-info mt-3">{status}</div>
               )}
 
+              {rewardMessage && (
+                <div className="alert alert-success mt-3">
+                  {rewardMessage}
+                </div>
+              )}
+
               {punches !== null && (
                 <div className="mt-2">
                   <p className="mb-1">
@@ -153,7 +256,7 @@ const BusinessPunches = ({ business }) => {
                     {punches === 1 ? "" : "es"} at your store.
                   </p>
                   <p className="text-muted mb-0">
-                    Remaining to goal ({GOAL}): <b>{remaining}</b>
+                    Remaining to goal ({goal}): <b>{remaining}</b>
                   </p>
                 </div>
               )}
