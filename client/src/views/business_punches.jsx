@@ -7,6 +7,7 @@ const BusinessPunches = ({ business }) => {
   const [punches, setPunches] = useState(null);
   const [remaining, setRemaining] = useState(null);
 
+  // dynamic goal and reward loaded from dashboard settings
   const [goal, setGoal] = useState(10);
   const [reward, setReward] = useState("");
   const [rewardMessage, setRewardMessage] = useState("");
@@ -28,6 +29,7 @@ const BusinessPunches = ({ business }) => {
     }
   }, [business, businessId]);
 
+  // load per-business settings (goal + reward) from localStorage
   useEffect(() => {
     if (!businessId) return;
 
@@ -177,18 +179,24 @@ const BusinessPunches = ({ business }) => {
         }
       }
 
-      setStatus(data.message || "Punch recorded.");
-      setPunches(displayPunches);
-      setRemaining(displayRemaining);
+      // Build the status / reward messages
+      let statusText = data.message || "Punch recorded.";
 
       if (shouldReward) {
         const rewardText = (reward && reward.trim()) || "a reward";
+
+        statusText = `Goal reached! Eligible for ${rewardText}.`;
+
         setRewardMessage(
           `Goal reached! ${customerUsername.trim()} is now eligible for ${rewardText}.`
         );
       } else {
         setRewardMessage("");
       }
+
+      setStatus(statusText);
+      setPunches(displayPunches);
+      setRemaining(displayRemaining);
 
       // update local stats (daily/monthly/top customers)
       updateStatsAfterPunch(effectiveBusinessId, customerUsername);
