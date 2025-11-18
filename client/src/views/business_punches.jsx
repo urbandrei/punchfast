@@ -148,31 +148,40 @@ const BusinessPunches = ({ business }) => {
         return;
       }
 
-      const newPunches =
+      // total punches from backend (lifetime)
+      const lifetimePunches =
         typeof data.punches === "number" ? data.punches : null;
 
+      const rawGoal =
+        typeof goal === "number" ? goal : parseInt(goal, 10);
       const effectiveGoal =
-        typeof goal === "number"
-          ? goal
-          : parseInt(goal, 10) > 0
-          ? parseInt(goal, 10)
-          : 10;
+        Number.isNaN(rawGoal) || rawGoal <= 0 ? 1 : rawGoal;
 
-      const newRemaining =
-        newPunches == null
-          ? null
-          : Math.max(effectiveGoal - newPunches, 0);
+      let displayPunches = lifetimePunches;
+      let displayRemaining = null;
+      let shouldReward = false;
+
+      if (lifetimePunches != null) {
+        const mod = lifetimePunches % effectiveGoal;
+
+        if (mod === 0 && lifetimePunches > 0) {
+          // Just hit a multiple of the goal:
+          // show reward and reset progress toward next reward
+          displayPunches = 0;
+          displayRemaining = effectiveGoal;
+          shouldReward = true;
+        } else {
+          // Progress within current punchcard cycle
+          displayPunches = mod;
+          displayRemaining = effectiveGoal - mod;
+        }
+      }
 
       setStatus(data.message || "Punch recorded.");
-      setPunches(newPunches);
-      setRemaining(newRemaining);
+      setPunches(displayPunches);
+      setRemaining(displayRemaining);
 
-      // reward message when goal is reached
-      if (
-        newPunches != null &&
-        effectiveGoal > 0 &&
-        newPunches >= effectiveGoal
-      ) {
+      if (shouldReward) {
         const rewardText = (reward && reward.trim()) || "a reward";
         setRewardMessage(
           `Goal reached! ${customerUsername.trim()} is now eligible for ${rewardText}.`
@@ -253,11 +262,13 @@ const BusinessPunches = ({ business }) => {
                 <div className="mt-2">
                   <p className="mb-1">
                     <b>{customerUsername}</b> now has <b>{punches}</b> punch
-                    {punches === 1 ? "" : "es"} at your store.
+                    {punches === 1 ? "" : "es"} toward the next reward.
                   </p>
-                  <p className="text-muted mb-0">
-                    Remaining to goal ({goal}): <b>{remaining}</b>
-                  </p>
+                  {remaining !== null && (
+                    <p className="text-muted mb-0">
+                      Remaining to goal ({goal}): <b>{remaining}</b>
+                    </p>
+                  )}
                 </div>
               )}
             </div>
