@@ -1,28 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import '../index.css';
 
 const Navbar = ({
   isLoggedIn,
   currentUser,
-  business,             
+  business,
   onShowAuth,
   onShowBusinessAuth,
   onChangePassword,
-  onSignOut,             
-  onBusinessSignOut      
+  onSignOut,
+  onBusinessSignOut
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const isBusinessLoggedIn = !!business?.username;
+  const location = useLocation();
 
   let rightControls;
 
   if (isBusinessLoggedIn) {
+    const onBusinessDashboard = location.pathname === '/business/dashboard';
+    const primaryLabel = onBusinessDashboard ? 'Punches' : 'Dashboard';
+    const primaryPath = onBusinessDashboard
+      ? '/business/punches'
+      : '/business/dashboard';
+
     rightControls = (
       <>
-        <Link to="/business/dashboard" className="nav-bar-button">
-          Dashboard
+        <Link to={primaryPath} className="nav-bar-button">
+          {primaryLabel}
         </Link>
         <button
           className="nav-bar-button"
