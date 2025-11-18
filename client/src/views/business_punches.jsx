@@ -97,28 +97,13 @@ const BusinessPunches = ({ business }) => {
 
   return (
     <div className="container py-4">
-      {/* Header row with Dashboard button */}
       <div
         className="d-flex justify-content-between align-items-center mb-3"
         style={{ gap: "12px" }}
       >
-        <h2
-          className="mb-0"
-          style={{ color: "#302C9A" }}
-        >
+        <h2 className="mb-0" style={{ color: "#302C9A" }}>
           Punchfast Business Portal
         </h2>
-        <Link
-          to="/business/dashboard"
-          className="btn btn-primary"
-          style={{
-            borderRadius: "25px",
-            padding: "8px 20px",
-            fontWeight: 500,
-          }}
-        >
-          Dashboard
-        </Link>
       </div>
 
       {headerBusinessLabel ? (
@@ -174,7 +159,6 @@ const BusinessPunches = ({ business }) => {
               )}
             </div>
           </div>
-
         </div>
       </div>
     </div>
