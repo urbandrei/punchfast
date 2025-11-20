@@ -1,0 +1,3253 @@
+{
+    "version": 0.6,
+    "generator": "Overpass API 0.7.62.8 e802775f",
+    "osm3s": {
+        "timestamp_osm_base": "2025-10-17T05:28:18Z",
+        "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+    },
+    "elements": [
+        {
+            "type": "node",
+            "id": 944649483,
+            "lat": 41.140498,
+            "lon": -81.3564348,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1443",
+                "addr:postcode": "44240-3847",
+                "addr:state": "OH",
+                "addr:street": "South Water Street",
+                "alt_name": "Dairy Queen",
+                "amenity": "fast_food",
+                "brand": "DQ Grill & Chill",
+                "brand:wikidata": "Q1141226",
+                "cuisine": "ice_cream;burger",
+                "name": "DQ Grill & Chill",
+                "phone": "+1 330-678-0246",
+                "takeaway": "yes",
+                "website": "https://www.dairyqueen.com/locations/oh/kent/1443-s-water-st/14304"
+            }
+        },
+        {
+            "type": "node",
+            "id": 1909606906,
+            "lat": 41.1019995,
+            "lon": -81.3459376,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "4118",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "State Highway 43",
+                "amenity": "restaurant",
+                "brand": "Pizza Hut",
+                "brand:wikidata": "Q191615",
+                "cuisine": "pizza",
+                "name": "Pizza Hut",
+                "phone": "+1 330-677-6767",
+                "website": "https://locations.pizzahut.com/oh/kent/4118-state-hwy-43"
+            }
+        },
+        {
+            "type": "node",
+            "id": 1909606958,
+            "lat": 41.1005633,
+            "lon": -81.3434773,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "4068",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "State Route 43",
+                "amenity": "fast_food",
+                "brand": "Subway",
+                "brand:wikidata": "Q244457",
+                "cuisine": "sandwich",
+                "name": "Subway",
+                "opening_hours": "08:00-21:00",
+                "phone": "+1 330-346-0204",
+                "takeaway": "yes",
+                "website": "https://restaurants.subway.com/united-states/oh/kent/4068-sr-43"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2419993489,
+            "lat": 41.1476665,
+            "lon": -81.3429495,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "indoor": "room",
+                "level": "-1",
+                "name": "The Porch",
+                "website": "https://www.kent.edu/dining/student-center-lower-level",
+                "wifi": "free"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2424924290,
+            "lat": 41.1476721,
+            "lon": -81.3431531,
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "cafe",
+                "cuisine": "coffee_shop",
+                "indoor": "yes",
+                "internet_access": "yes",
+                "level": "-1",
+                "name": "Jazzman's Cyber Cafe",
+                "smoking": "no",
+                "source": "Survey",
+                "website": "https://www.kent.edu/dining/student-center-lower-level",
+                "wifi": "free"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2434607393,
+            "lat": 41.1478389,
+            "lon": -81.3431676,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "cuisine": "indian",
+                "delivery": "no",
+                "indoor": "yes",
+                "level": "1",
+                "name": "The Tandoori Oven",
+                "opening_hours": "Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off",
+                "source": "Survey",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/kent-markets"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2434607395,
+            "lat": 41.147842,
+            "lon": -81.3431991,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "american",
+                "delivery": "no",
+                "indoor": "yes",
+                "level": "1",
+                "name": "Fresh Inspirations",
+                "opening_hours": "Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/kent-markets"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2434607396,
+            "lat": 41.1478641,
+            "lon": -81.343231,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "cuisine": "italian",
+                "delivery": "no",
+                "indoor": "yes",
+                "level": "1",
+                "name": "Olives",
+                "opening_hours": "Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/kent-markets"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2434607397,
+            "lat": 41.1479334,
+            "lon": -81.3432271,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "indoor": "yes",
+                "level": "1",
+                "name": "Market Deli",
+                "opening_hours": "Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off",
+                "shop": "deli",
+                "website": "https://www.kent.edu/dining/kent-markets"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2434607398,
+            "lat": 41.1479035,
+            "lon": -81.3432489,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "cuisine": "burger;american",
+                "delivery": "no",
+                "indoor": "yes",
+                "level": "1",
+                "name": "Market Grill",
+                "opening_hours": "Mo-Th 08:00-20:00; Fr 08:00-14:00; PH off",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/kent-markets"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2439068995,
+            "lat": 41.14998,
+            "lon": -81.3467233,
+            "tags": {
+                "amenity": "restaurant",
+                "description": "University dining hall",
+                "name": "DI Dining Facility",
+                "operator": "Kent State University",
+                "website": "https://www.kent.edu/dining/design-innovation-dining"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2451963743,
+            "lat": 41.1543431,
+            "lon": -81.3526364,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "fast_food",
+                "brand": "Penn Station",
+                "brand:wikidata": "Q7163311",
+                "cuisine": "sandwich",
+                "name": "Penn Station",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2451974646,
+            "lat": 41.1545653,
+            "lon": -81.3523579,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "pizza",
+                "name": "Bruno's Authentic Pizza"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2452321502,
+            "lat": 41.141413,
+            "lon": -81.3402224,
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "restaurant",
+                "cuisine": "ice_cream",
+                "indoor": "yes",
+                "level": "0",
+                "name": "Summit Street Cafe",
+                "website": "https://www.kent.edu/dining/summit-street-cafe-1"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2452437694,
+            "lat": 41.1472973,
+            "lon": -81.3482523,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "cafe",
+                "cuisine": "sandwich",
+                "internet_access": "yes",
+                "name": "snackshop",
+                "note": "Name stylized to all lowercase letters. SnackShop or Snackshop is wrong.",
+                "old_name": "Schwartz Cafe"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2548226142,
+            "lat": 41.1528204,
+            "lon": -81.3565359,
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "restaurant",
+                "cuisine": "israeli;mediterranean",
+                "diet:vegan": "yes",
+                "diet:vegetarian": "yes",
+                "name": "Laziza",
+                "website": "http://www.yourlaziza.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2793595631,
+            "lat": 41.1528372,
+            "lon": -81.3571555,
+            "tags": {
+                "amenity": "cafe",
+                "cuisine": "coffee_shop",
+                "internet_access": "yes",
+                "name": "Tree City Coffee"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2793595633,
+            "lat": 41.1529687,
+            "lon": -81.3568737,
+            "tags": {
+                "addr:housenumber": "175",
+                "addr:postcode": "44240",
+                "addr:street": "East Erie Street",
+                "amenity": "restaurant",
+                "cuisine": "breakfast",
+                "name": "The Fruit Stand",
+                "opening_hours": "Mo-Su 09:00-19:00",
+                "phone": "3304747186",
+                "website": "https://thefruitstandohio.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2793639793,
+            "lat": 41.1525332,
+            "lon": -81.3567518,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "italian",
+                "diet:vegetarian": "yes",
+                "name": "Bricco"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2793641019,
+            "lat": 41.1525483,
+            "lon": -81.3572834,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "burger",
+                "diet:vegetarian": "yes",
+                "name": "Barflyy"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2793641021,
+            "lat": 41.1525315,
+            "lon": -81.3579691,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "mexican",
+                "diet:vegetarian": "yes",
+                "name": "Fresco"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2794798756,
+            "lat": 41.1536252,
+            "lon": -81.3566513,
+            "tags": {
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "brand": "Buffalo Wild Wings",
+                "brand:wikidata": "Q509255",
+                "cuisine": "wings",
+                "name": "Buffalo Wild Wings"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2794798757,
+            "lat": 41.1536266,
+            "lon": -81.3567479,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "176",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "addr:unit": "B",
+                "amenity": "bar",
+                "name": "Beware of the Leopard"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2794798758,
+            "lat": 41.1539359,
+            "lon": -81.3567855,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "165",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "fast_food",
+                "brand": "Jimmy John's",
+                "brand:wikidata": "Q1689380",
+                "cuisine": "sandwich",
+                "indoor_seating": "yes",
+                "name": "Jimmy John's",
+                "official_name": "Jimmy John's Gourmet Sandwiches",
+                "outdoor_seating": "no",
+                "phone": "+1 330-677-4200",
+                "takeaway": "yes",
+                "website": "https://locations.jimmyjohns.com/oh/kent/sandwiches-653.html"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2797783440,
+            "lat": 41.1536211,
+            "lon": -81.3577054,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "118",
+                "addr:postcode": "44240",
+                "addr:street": "East Main Street",
+                "amenity": "restaurant",
+                "cuisine": "turkish",
+                "indoor_seating": "yes",
+                "name": "Troy Grille",
+                "opening_hours": "Mo-Sa 12:00-20:00",
+                "outdoor_seating": "yes",
+                "smoking": "no",
+                "website": "https://troygrille.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2797880782,
+            "lat": 41.1525594,
+            "lon": -81.3574648,
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "restaurant",
+                "cuisine": "pizza",
+                "name": "Georgio's"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2797880785,
+            "lat": 41.1523381,
+            "lon": -81.3579905,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "104",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "South Water Street",
+                "amenity": "restaurant",
+                "brand": "D.P. Dough",
+                "brand:wikidata": "Q22008973",
+                "cuisine": "calzone",
+                "delivery": "yes",
+                "diet:vegetarian": "yes",
+                "name": "D.P. Dough",
+                "phone": "+1-330-346-0620",
+                "smoking": "no",
+                "takeaway": "yes",
+                "website": "https://www.dpdough.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2797880787,
+            "lat": 41.1520437,
+            "lon": -81.3579949,
+            "tags": {
+                "addr:city": "kent",
+                "addr:housenumber": "116",
+                "addr:street": "South Water Street",
+                "amenity": "restaurant",
+                "cuisine": "mexican",
+                "name": "Barrio",
+                "website": "https://barrio-tacos.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2797880792,
+            "lat": 41.1516279,
+            "lon": -81.3579994,
+            "tags": {
+                "addr:postcode": "44240",
+                "amenity": "pub",
+                "check_date": "2024-10-12",
+                "cuisine": "sandwich",
+                "name": "Panini's",
+                "opening_hours": "Mo-Su 11:00-02:30",
+                "phone": "3309686204",
+                "website": "https://paninisgrill.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 2805301230,
+            "lat": 41.1544382,
+            "lon": -81.3527689,
+            "tags": {
+                "amenity": "bar",
+                "name": "101 Bottles of Beer on the Wall"
+            }
+        },
+        {
+            "type": "node",
+            "id": 3079567204,
+            "lat": 41.1512356,
+            "lon": -81.343008,
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "fast_food",
+                "cuisine": "mexican",
+                "delivery": "no",
+                "drive_through": "no",
+                "indoor": "yes",
+                "level": "0",
+                "name": "Burrito-Del-Rey",
+                "smoking": "outside",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/prentice-hall"
+            }
+        },
+        {
+            "type": "node",
+            "id": 3792873512,
+            "lat": 41.154223,
+            "lon": -81.3521214,
+            "tags": {
+                "name": "Stahl's Bakery Delicatessen",
+                "note": "This was out of view in the photo I took. Please correct for actual location in the strip mall.",
+                "shop": "deli"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4207984188,
+            "lat": 41.1537027,
+            "lon": -81.3363531,
+            "tags": {
+                "amenity": "fast_food",
+                "brand": "Hungry Howie's",
+                "brand:wikidata": "Q16985303",
+                "cuisine": "pizza",
+                "delivery": "yes",
+                "drive_through": "no",
+                "name": "Hungry Howie's",
+                "official_name": "Hungry Howie's Flavor Crust Pizza",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4207985773,
+            "lat": 41.1545238,
+            "lon": -81.3352562,
+            "tags": {
+                "amenity": "fast_food",
+                "brand": "Little Caesars",
+                "brand:wikidata": "Q1393809",
+                "cuisine": "pizza",
+                "name": "Little Caesars",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4207992806,
+            "lat": 41.1550385,
+            "lon": -81.3339994,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "chinese",
+                "name": "Evergreen Buffet"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4207992807,
+            "lat": 41.1550303,
+            "lon": -81.3339182,
+            "tags": {
+                "amenity": "fast_food",
+                "brand": "East of Chicago Pizza",
+                "brand:wikidata": "Q5329751",
+                "cuisine": "pizza",
+                "name": "East of Chicago Pizza",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4207992809,
+            "lat": 41.1550344,
+            "lon": -81.3337342,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "thai",
+                "name": "Wild Papaya"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4207995156,
+            "lat": 41.1543005,
+            "lon": -81.3318853,
+            "tags": {
+                "amenity": "fast_food",
+                "name": "Juice And Smoothie Bar"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4209764278,
+            "lat": 41.1560597,
+            "lon": -81.3328198,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1709",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "fast_food",
+                "brand": "Subway",
+                "brand:wikidata": "Q244457",
+                "cuisine": "sandwich",
+                "indoor_seating": "yes",
+                "name": "Subway",
+                "opening_hours": "Mo-Su 09:00-22:00",
+                "outdoor_seating": "no",
+                "phone": "+1 330-673-7821",
+                "takeaway": "yes",
+                "website": "https://restaurants.subway.com/united-states/oh/kent/1709-e-main-st"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4210133405,
+            "lat": 41.1398047,
+            "lon": -81.3593519,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "chinese",
+                "name": "China City"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4213156597,
+            "lat": 41.1407408,
+            "lon": -81.3565772,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1413",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "South Water Street",
+                "amenity": "fast_food",
+                "brand": "Domino's",
+                "brand:wikidata": "Q839466",
+                "cuisine": "pizza",
+                "name": "Domino's",
+                "opening_hours": "Mo-Th 10:30-24:00; Fr-Sa 10:30-01:00; Su 10:30-24:00",
+                "phone": "+1 330-673-6360",
+                "ref": "2401",
+                "short_name": "Domino's",
+                "takeaway": "yes",
+                "website": "https://pizza.dominos.com/ohio/kent/1413-s-water-street"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4213311240,
+            "lat": 41.1528386,
+            "lon": -81.3589169,
+            "tags": {
+                "amenity": "bar",
+                "check_date": "2024-10-12",
+                "name": "Venice Cafe"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4213311241,
+            "lat": 41.1528396,
+            "lon": -81.3587714,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "name": "Erie Street Kitchen",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4216151265,
+            "lat": 41.1392415,
+            "lon": -81.3147062,
+            "tags": {
+                "access": "private",
+                "amenity": "fast_food",
+                "cuisine": "american",
+                "delivery": "no",
+                "drive_through": "no",
+                "level": "0",
+                "name": "The Sideline",
+                "operator": "Kent State University",
+                "takeaway": "only"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4216151266,
+            "lat": 41.138866,
+            "lon": -81.3146988,
+            "tags": {
+                "access": "private",
+                "amenity": "fast_food",
+                "cuisine": "american",
+                "delivery": "no",
+                "drive_through": "no",
+                "level": "0",
+                "name": "The Sideline",
+                "operator": "Kent State University",
+                "takeaway": "only"
+            }
+        },
+        {
+            "type": "node",
+            "id": 4240759678,
+            "lat": 41.1511393,
+            "lon": -81.3428199,
+            "tags": {
+                "amenity": "fast_food",
+                "cuisine": "sandwich",
+                "drive_through": "no",
+                "takeaway": "only"
+            }
+        },
+        {
+            "type": "node",
+            "id": 5163597149,
+            "lat": 41.1523998,
+            "lon": -81.3569235,
+            "tags": {
+                "amenity": "public_bookcase"
+            }
+        },
+        {
+            "type": "node",
+            "id": 5163597150,
+            "lat": 41.1522838,
+            "lon": -81.3569247,
+            "tags": {
+                "amenity": "public_bookcase"
+            }
+        },
+        {
+            "type": "node",
+            "id": 5351450530,
+            "lat": 41.1504636,
+            "lon": -81.3598898,
+            "tags": {
+                "amenity": "restaurant",
+                "name": "The Pub"
+            }
+        },
+        {
+            "type": "node",
+            "id": 6273390919,
+            "lat": 41.1557543,
+            "lon": -81.3329402,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "chinese",
+                "indoor_seating": "yes",
+                "name": "Chinese Food",
+                "outdoor_seating": "no"
+            }
+        },
+        {
+            "type": "node",
+            "id": 6273390920,
+            "lat": 41.1556495,
+            "lon": -81.332948,
+            "tags": {
+                "amenity": "bar",
+                "indoor_seating": "yes",
+                "name": "Laundry 101",
+                "note": "This is both a self-service laundromat and a bar",
+                "outdoor_seating": "no",
+                "shop": "laundry"
+            }
+        },
+        {
+            "type": "node",
+            "id": 6370267704,
+            "lat": 41.1555135,
+            "lon": -81.3656701,
+            "tags": {
+                "amenity": "public_bookcase",
+                "opening_hours": "24/7",
+                "public_bookcase:type": "reading_box"
+            }
+        },
+        {
+            "type": "node",
+            "id": 9322604292,
+            "lat": 41.1541413,
+            "lon": -81.3448428,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1005",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "cafe",
+                "branch": "Kent, East Main St and Luther",
+                "brand": "Starbucks",
+                "brand:wikidata": "Q37158",
+                "cuisine": "coffee_shop",
+                "name": "Starbucks",
+                "official_name": "Starbucks Coffee",
+                "phone": "+1 330-677-7329",
+                "ref": "1023516",
+                "takeaway": "yes",
+                "website": "https://www.starbucks.com/store-locator/store/1023516/kent-east-main-st-and-luther-1005-e-main-street-kent-oh-442402815-us"
+            }
+        },
+        {
+            "type": "node",
+            "id": 9366644583,
+            "lat": 41.1546731,
+            "lon": -81.3606596,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "310",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "Park Avenue",
+                "amenity": "pub",
+                "microbrewery": "yes",
+                "name": "Bell Tower Brewing Co.",
+                "phone": "+1-330-663-2355",
+                "website": "https://belltowerbrewing.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 9675979053,
+            "lat": 41.1530492,
+            "lon": -81.3900843,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1295",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "West Main Street",
+                "brand": "Speedway",
+                "brand:wikidata": "Q7575683",
+                "name": "Speedway",
+                "ref": "9303",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "node",
+            "id": 9676077465,
+            "lat": 41.1093254,
+            "lon": -81.3481045,
+            "tags": {
+                "addr:city": "Brimfield",
+                "addr:housenumber": "4397",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "Street Route 43",
+                "name": "Kent Marathon",
+                "ref": "454",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "node",
+            "id": 9676077466,
+            "lat": 41.1098562,
+            "lon": -81.3481632,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "4415",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "State Route 43",
+                "name": "Kent Bp",
+                "ref": "443",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "node",
+            "id": 9676077471,
+            "lat": 41.1056761,
+            "lon": -81.3478392,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "4261",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "State Route 43",
+                "brand": "Speedway",
+                "brand:wikidata": "Q7575683",
+                "name": "Speedway",
+                "ref": "3632",
+                "shop": "convenience",
+                "website": "https://www.speedway.com/locations/OH/Kent/4261-State-Route-43"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10235832899,
+            "lat": 41.1534744,
+            "lon": -81.3568918,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "164",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "addr:unit": "B",
+                "amenity": "restaurant",
+                "cuisine": "mexican",
+                "indoor_seating": "yes",
+                "name": "Federales",
+                "outdoor_seating": "yes",
+                "smoking": "no",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10235832900,
+            "lat": 41.1535158,
+            "lon": -81.3568918,
+            "tags": {
+                "amenity": "restaurant"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10235832901,
+            "lat": 41.1535594,
+            "lon": -81.3568932,
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "restaurant",
+                "smoking": "no"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10286063629,
+            "lat": 41.1608408,
+            "lon": -81.3594266,
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "836",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "North Mantua Street",
+                "amenity": "cafe",
+                "cuisine": "bubble_tea",
+                "name": "HA!TEA Bubble Tea House",
+                "opening_hours": "Mo-Sa 11:00-22:00; Su 11:30-21:30",
+                "outdoor_seating": "no"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577879,
+            "lat": 41.1530014,
+            "lon": -81.3588297,
+            "tags": {
+                "amenity": "bar",
+                "check_date": "2024-10-12",
+                "name": "Dominick's"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577881,
+            "lat": 41.1529997,
+            "lon": -81.3583524,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "pizza",
+                "diet:vegetarian": "yes",
+                "name": "Guy's Pizza"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577882,
+            "lat": 41.1531481,
+            "lon": -81.3583551,
+            "tags": {
+                "amenity": "bar",
+                "name": "Water Street Tavern and Cajun Dave's"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577883,
+            "lat": 41.153135,
+            "lon": -81.3587742,
+            "tags": {
+                "amenity": "restaurant",
+                "check_date": "2024-10-12",
+                "cuisine": "american;burger;fries",
+                "internet_access": "wlan",
+                "name": "Ray's Place",
+                "opening_hours": "Mo-Sa 11:00-02:30; Su 12:00-00:30"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577884,
+            "lat": 41.1532927,
+            "lon": -81.3583697,
+            "tags": {
+                "amenity": "bar",
+                "name": "Firefly Hookah Lounge"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577885,
+            "lat": 41.153327,
+            "lon": -81.3587064,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "mexican",
+                "diet:vegetarian": "yes",
+                "name": "Taco Tonto's",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577886,
+            "lat": 41.1536169,
+            "lon": -81.3585613,
+            "tags": {
+                "amenity": "bar",
+                "name": "The Loft"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577887,
+            "lat": 41.1536226,
+            "lon": -81.3584579,
+            "tags": {
+                "amenity": "bar",
+                "name": "The Zephyr"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10302577888,
+            "lat": 41.1536112,
+            "lon": -81.3583479,
+            "tags": {
+                "addr:housenumber": "108",
+                "addr:postcode": "44240",
+                "addr:street": "South Water Street",
+                "amenity": "restaurant",
+                "cuisine": "sandwich",
+                "name": "Franklin Square Deli",
+                "opening_hours": "Mo-Su 11:00-17:00",
+                "phone": "3306732942",
+                "website": "http://www.franklinsquaredeli.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10305009818,
+            "lat": 41.1534319,
+            "lon": -81.3562341,
+            "tags": {
+                "amenity": "pub",
+                "name": "EuroGyro",
+                "restaurant": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10305009900,
+            "lat": 41.1528851,
+            "lon": -81.3580017,
+            "tags": {
+                "amenity": "bar",
+                "name": "157 Lounge"
+            }
+        },
+        {
+            "type": "node",
+            "id": 10555125020,
+            "lat": 41.1465097,
+            "lon": -81.3586891,
+            "tags": {
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "node",
+            "id": 11251472237,
+            "lat": 41.1542797,
+            "lon": -81.3579231,
+            "tags": {
+                "addr:housenumber": "123",
+                "addr:postcode": "44240",
+                "addr:street": "North Water Street",
+                "amenity": "restaurant",
+                "diet:vegetarian": "yes",
+                "name": "Grazers",
+                "opening_hours": "Mo-Th, Sa 11:00-17:00; Fr 11:00-19:00",
+                "phone": "3309686612",
+                "website": "https://www.grazerskent.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 11251497738,
+            "lat": 41.155734,
+            "lon": -81.3578739,
+            "tags": {
+                "addr:housenumber": "257",
+                "addr:postcode": "44240",
+                "addr:street": "North Water Street",
+                "amenity": "bar",
+                "contact:facebook": "100083987360468",
+                "contact:instagram": "barluccikent",
+                "name": "Bar Lucci",
+                "opening_hours": "Tu-Th 18:00-01:00; Fr-Su 18:00-02:30; Mo 18:00-00:00",
+                "website": "https://www.barluccikent.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 11251511637,
+            "lat": 41.1536265,
+            "lon": -81.3579498,
+            "tags": {
+                "addr:housenumber": "100E",
+                "addr:postcode": "44240",
+                "addr:street": "East Main Street",
+                "amenity": "restaurant",
+                "cuisine": "japanese;malaysian",
+                "indoor_seating": "yes",
+                "name": "Pacific East",
+                "opening_hours": "Mo-Th 11:00-15:00, 17:00-21:30; Fr 11:00-15:00, 17:00-22:30; Su 15:30-21:30; Sa 12:00-15:00, 17:00-22:30",
+                "outdoor_seating": "no",
+                "phone": "2342635018",
+                "website": "https://www.pacificeastkent.com/"
+            }
+        },
+        {
+            "type": "node",
+            "id": 11335171166,
+            "lat": 41.1105283,
+            "lon": -81.3480547,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "mexican",
+                "indoor_seating": "yes",
+                "outdoor_seating": "yes"
+            }
+        },
+        {
+            "type": "node",
+            "id": 12297192135,
+            "lat": 41.152992,
+            "lon": -81.3571839,
+            "tags": {
+                "amenity": "restaurant",
+                "cuisine": "italian",
+                "name": "Belleria"
+            }
+        },
+        {
+            "type": "way",
+            "id": 200164774,
+            "center": {
+                "lat": 41.1535766,
+                "lon": -81.3515283
+            },
+            "nodes": [
+                2101605233,
+                2101605220,
+                2101605282,
+                2101605328,
+                2101605233
+            ],
+            "tags": {
+                "amenity": "cafe",
+                "building": "yes",
+                "cuisine": "coffee_shop;bagel",
+                "name": "Cleveland Bagel Co",
+                "takeaway": "yes",
+                "website": "http://clebagelco.com/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 231986919,
+            "center": {
+                "lat": 41.1540211,
+                "lon": -81.3515024
+            },
+            "nodes": [
+                2403095383,
+                2403095385,
+                3099826022,
+                2403095387,
+                2403095389,
+                2403095391,
+                4216716843,
+                2403095383
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "439",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "fast_food",
+                "branch": "East Main St",
+                "brand": "Papa John's",
+                "brand:wikidata": "Q2759586",
+                "building": "yes",
+                "check_date": "2024-10-12",
+                "cuisine": "pizza",
+                "lit": "yes",
+                "name": "Papa John's",
+                "opening_hours": "Mo-Th 10:00-01:00; Fr-Sa 10:00-02:00; Su 10:00-24:00",
+                "phone": "+1 330-678-0050",
+                "takeaway": "yes",
+                "website": "https://locations.papajohns.com/united-states/oh/44240/kent/439-e-main-st"
+            }
+        },
+        {
+            "type": "way",
+            "id": 232486863,
+            "center": {
+                "lat": 41.1609808,
+                "lon": -81.3591199
+            },
+            "nodes": [
+                2408332684,
+                2408332685,
+                4258035190,
+                10286063640,
+                10286063639,
+                10286063638,
+                10286063641,
+                2408332686,
+                2408332688,
+                2408332684
+            ],
+            "tags": {
+                "brand": "Circle K",
+                "brand:wikidata": "Q3268010",
+                "building": "yes",
+                "lit": "yes",
+                "name": "Circle K",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "way",
+            "id": 232486865,
+            "center": {
+                "lat": 41.1590882,
+                "lon": -81.3604255
+            },
+            "nodes": [
+                2408332701,
+                2408332702,
+                2408332703,
+                2408332705,
+                2408332706,
+                10286040284,
+                10286040282,
+                10286040281,
+                10286040283,
+                2408332708,
+                10286040290,
+                10286040287,
+                10286040288,
+                10286040289,
+                10286040286,
+                10286040285,
+                2408332701
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "600",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "North Mantua Street",
+                "atm": "yes",
+                "brand": "Sheetz",
+                "brand:wikidata": "Q7492551",
+                "building": "retail",
+                "delivery": "yes",
+                "internet_access": "wlan",
+                "lit": "yes",
+                "name": "Sheetz",
+                "opening_hours": "24/7",
+                "phone": "+1 330-346-0059",
+                "ref": "452",
+                "shop": "convenience",
+                "website": "https://orders.sheetz.com/findasheetz/store/452"
+            }
+        },
+        {
+            "type": "way",
+            "id": 234797651,
+            "center": {
+                "lat": 41.1541625,
+                "lon": -81.3495906
+            },
+            "nodes": [
+                2429308333,
+                2429308337,
+                2429308341,
+                2429308345,
+                2429308333
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "605",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "fast_food",
+                "brand": "Chipotle",
+                "brand:wikidata": "Q465751",
+                "building": "yes",
+                "check_date": "2024-10-12",
+                "cuisine": "mexican",
+                "name": "Chipotle",
+                "official_name": "Chipotle Mexican Grill",
+                "phone": "+1 234-282-7107",
+                "takeaway": "yes",
+                "website": "https://locations.chipotle.com/oh/kent/605-e-main-st"
+            }
+        },
+        {
+            "type": "way",
+            "id": 234797653,
+            "center": {
+                "lat": 41.1540413,
+                "lon": -81.3488573
+            },
+            "nodes": [
+                2429308357,
+                2429308361,
+                2429308365,
+                2429308368,
+                2429308357
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "623",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "fast_food",
+                "branch": "Kent",
+                "brand": "Five Guys",
+                "brand:wikidata": "Q1131810",
+                "building": "yes",
+                "cuisine": "burger",
+                "delivery": "no",
+                "drive_through": "no",
+                "indoor_seating": "yes",
+                "internet_access": "no",
+                "name": "Five Guys",
+                "official_name": "Five Guys Burgers and Fries",
+                "opening_hours": "11:00-22:00; PH off",
+                "outdoor_seating": "yes",
+                "phone": "+1 330-673-6666",
+                "ref": "OH-1086",
+                "roof:colour": "red",
+                "takeaway": "yes",
+                "website": "https://restaurants.fiveguys.com/623-east-main-street"
+            }
+        },
+        {
+            "type": "way",
+            "id": 234797655,
+            "center": {
+                "lat": 41.1541045,
+                "lon": -81.3507274
+            },
+            "nodes": [
+                2429308398,
+                3099827836,
+                3099827831,
+                2429308430,
+                2429308436,
+                2429308439,
+                2429308398
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "515",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "fast_food",
+                "brand": "Wendy's",
+                "brand:wikidata": "Q550258",
+                "building": "yes",
+                "cuisine": "burger",
+                "internet_access": "wlan",
+                "lit": "yes",
+                "name": "Wendy's",
+                "opening_hours": "07:00-22:00",
+                "opening_hours:drive_through": "Mo-Su 06:30-01:00",
+                "phone": "+1 330-673-1326",
+                "takeaway": "yes",
+                "website": "https://locations.wendys.com/united-states/oh/kent/515-e-main-street"
+            }
+        },
+        {
+            "type": "way",
+            "id": 235201036,
+            "center": {
+                "lat": 41.1382097,
+                "lon": -81.3133935
+            },
+            "nodes": [
+                2432755738,
+                2432755739,
+                10301310872,
+                10301310873,
+                10301310871,
+                2432755742,
+                2432755744,
+                10301310869,
+                10301310874,
+                10301310870,
+                2432755738
+            ],
+            "tags": {
+                "amenity": "fast_food",
+                "building": "yes",
+                "cuisine": "american",
+                "delivery": "no",
+                "drive_through": "no",
+                "name": "The Endzone",
+                "note": "Concession Building",
+                "operator": "Kent State University",
+                "takeaway": "only"
+            }
+        },
+        {
+            "type": "way",
+            "id": 235306315,
+            "center": {
+                "lat": 41.1540139,
+                "lon": -81.3462884
+            },
+            "nodes": [
+                2433871995,
+                2433871996,
+                2433871997,
+                2433871998,
+                2433871995
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "building": "yes",
+                "name": "Campus Market",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "way",
+            "id": 235306316,
+            "center": {
+                "lat": 41.1540296,
+                "lon": -81.3472661
+            },
+            "nodes": [
+                2433871999,
+                2433872000,
+                2433872001,
+                2433872002,
+                2433871999
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "4098",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "Maplecrest Parkway",
+                "amenity": "fast_food",
+                "brand": "Taco Bell",
+                "brand:wikidata": "Q752941",
+                "building": "yes",
+                "cuisine": "tex-mex",
+                "name": "Taco Bell",
+                "phone": "+1 330-677-8887",
+                "takeaway": "yes",
+                "website": "https://locations.tacobell.com/oh/kent/805-e-main-street.html"
+            }
+        },
+        {
+            "type": "way",
+            "id": 235306317,
+            "center": {
+                "lat": 41.1540011,
+                "lon": -81.3460246
+            },
+            "nodes": [
+                2433872003,
+                2433872004,
+                2433872005,
+                2433872006,
+                2433872007,
+                2433872008,
+                2433872003
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "fast_food",
+                "building": "yes",
+                "cuisine": "mediterranean",
+                "lit": "yes",
+                "name": "Main Street Continental Grill"
+            }
+        },
+        {
+            "type": "way",
+            "id": 235375935,
+            "center": {
+                "lat": 41.1529733,
+                "lon": -81.3591623
+            },
+            "nodes": [
+                2434419778,
+                2434419779,
+                2435445735,
+                2435445736,
+                2434419789,
+                2434419778
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "152",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "Franklin Avenue",
+                "amenity": "restaurant",
+                "building": "yes",
+                "building:colour": "red",
+                "building:material": "brick",
+                "check_date": "2024-10-12",
+                "cuisine": "american;breakfast",
+                "description": "Old train station. It used to be the Pufferbelly restaurant, then Treno Ristorante. Over Easy moved in in 2021.",
+                "historic": "building",
+                "name": "Over Easy At The Depot",
+                "old_name": "The Pufferbelly",
+                "opening_hours": "08:00-14:30",
+                "outdoor_seating": "yes",
+                "phone": "+1-330-678-9900",
+                "roof:colour": "black",
+                "roof:shape": "hipped"
+            }
+        },
+        {
+            "type": "way",
+            "id": 241964491,
+            "center": {
+                "lat": 41.1562448,
+                "lon": -81.3577609
+            },
+            "nodes": [
+                4971277659,
+                2495329298,
+                10968108857,
+                2495329299,
+                2495329300,
+                4971277659
+            ],
+            "tags": {
+                "amenity": "cafe",
+                "building": "yes",
+                "cuisine": "coffee_shop",
+                "name": "Bent Tree Coffee Roasters"
+            }
+        },
+        {
+            "type": "way",
+            "id": 245938647,
+            "center": {
+                "lat": 41.1547439,
+                "lon": -81.3254441
+            },
+            "nodes": [
+                2530385410,
+                2530385411,
+                2530385412,
+                11141704266,
+                2530385413,
+                2530385414,
+                2530385415,
+                2530385410
+            ],
+            "tags": {
+                "amenity": "pub",
+                "building": "yes",
+                "name": "Guaca-Mole's Mexican Grill & Cantina"
+            }
+        },
+        {
+            "type": "way",
+            "id": 245938649,
+            "center": {
+                "lat": 41.1555491,
+                "lon": -81.3269015
+            },
+            "nodes": [
+                2530385424,
+                2530385425,
+                2530385426,
+                2530385427,
+                2530385424
+            ],
+            "tags": {
+                "amenity": "restaurant",
+                "building": "retail",
+                "cuisine": "japanese",
+                "indoor_seating": "yes",
+                "name": "Toko Japanese Steakhouse",
+                "outdoor_seating": "no"
+            }
+        },
+        {
+            "type": "way",
+            "id": 245938650,
+            "center": {
+                "lat": 41.1555507,
+                "lon": -81.3260772
+            },
+            "nodes": [
+                2530385428,
+                2530385429,
+                2530385430,
+                2530385431,
+                2530385428
+            ],
+            "tags": {
+                "amenity": "restaurant",
+                "building": "retail",
+                "cuisine": "indian",
+                "indoor_seating": "yes",
+                "name": "Singh Biryani",
+                "outdoor_seating": "no",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 246483237,
+            "center": {
+                "lat": 41.1338941,
+                "lon": -81.3546343
+            },
+            "nodes": [
+                2535202777,
+                2535202783,
+                2535202785,
+                2535202787,
+                2535202789,
+                2535202791,
+                2535202793,
+                2535202795,
+                2535202796,
+                2535202798,
+                2535202800,
+                2535202802,
+                2535202804,
+                2535202806,
+                2535202808,
+                2535202810,
+                2535202777
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "restaurant",
+                "building": "yes",
+                "cuisine": "american",
+                "name": "Mike's Place",
+                "website": "https://www.mikesplacerestaurant.com/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 246483244,
+            "center": {
+                "lat": 41.1330435,
+                "lon": -81.35268
+            },
+            "nodes": [
+                2535202877,
+                2535202879,
+                10272416749,
+                10272416754,
+                10272416747,
+                10272416753,
+                10272416752,
+                10272416750,
+                10272416751,
+                10272416748,
+                2535202877
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "restaurant",
+                "brand": "Bob Evans",
+                "brand:wikidata": "Q4932386",
+                "building": "commercial",
+                "cuisine": "american",
+                "name": "Bob Evans"
+            }
+        },
+        {
+            "type": "way",
+            "id": 249401154,
+            "center": {
+                "lat": 41.1554305,
+                "lon": -81.3578604
+            },
+            "nodes": [
+                2560080471,
+                2560080475,
+                2560080479,
+                2560080482,
+                2560080471
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "237",
+                "addr:postcode": "44240",
+                "addr:street": "North Water Street",
+                "amenity": "cafe",
+                "building": "yes",
+                "cuisine": "coffee_shop",
+                "email": "ScribblesCoffeeCompany@gmail.com",
+                "internet_access": "yes",
+                "name": "Scribbles Coffee Company",
+                "opening_hours": "Mo-Su 07:00-17:00",
+                "phone": "+1-330-346-0337",
+                "takeaway": "yes",
+                "toilets": "yes",
+                "website": "https://www.scribblescoffeecompany.com/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 249402020,
+            "center": {
+                "lat": 41.1612705,
+                "lon": -81.3580664
+            },
+            "nodes": [
+                2560100591,
+                2560100593,
+                2560100596,
+                2560100602,
+                2560100598,
+                2560100591
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "911",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "North Mantua Street",
+                "amenity": "restaurant",
+                "building": "yes",
+                "cuisine": "american",
+                "name": "River Merchant",
+                "opening_hours": "Su-Th 11:00-21:00; Fr-Sa 11:00-22:00",
+                "website": "https://therivermerchantkent.com/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 259457813,
+            "center": {
+                "lat": 41.1541233,
+                "lon": -81.361322
+            },
+            "nodes": [
+                2648707943,
+                2648707944,
+                10236576911,
+                10236576916,
+                10236576915,
+                10236576912,
+                2648707947,
+                3058292510,
+                2648707948,
+                10236576910,
+                10236576914,
+                10236576913,
+                10236576909,
+                2648707943
+            ],
+            "tags": {
+                "amenity": "restaurant",
+                "building": "yes",
+                "internet_access": "wlan",
+                "name": "Wild Goats Cafe",
+                "opening_hours": "Mo-Sa 07:00-20:30, Su 08:00-14:30",
+                "phone": "+1-330-677-2326",
+                "website": "https://wildgoatscafe.com/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 274459856,
+            "center": {
+                "lat": 41.1550033,
+                "lon": -81.3320871
+            },
+            "nodes": [
+                2791748436,
+                2791748437,
+                2791748438,
+                2791748439,
+                2791748436
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1715",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "State Route 59",
+                "amenity": "restaurant",
+                "brand": "Pizza Hut",
+                "brand:wikidata": "Q191615",
+                "building": "yes",
+                "cuisine": "pizza",
+                "name": "Pizza Hut",
+                "phone": "+1 330-678-0000",
+                "website": "https://locations.pizzahut.com/oh/kent/1715-state-route-59"
+            }
+        },
+        {
+            "type": "way",
+            "id": 274460229,
+            "center": {
+                "lat": 41.1503022,
+                "lon": -81.3566265
+            },
+            "nodes": [
+                2791751151,
+                12038565879,
+                10309612093,
+                12038565881,
+                12038565880,
+                10309612101,
+                10309612102,
+                10309612092,
+                10309612100,
+                10309612097,
+                10309612096,
+                10309612099,
+                10309612095,
+                10309612094,
+                10309612098,
+                2791751154,
+                2791751151
+            ],
+            "tags": {
+                "amenity": "bar",
+                "building": "yes",
+                "name": "Board & Bevy"
+            }
+        },
+        {
+            "type": "way",
+            "id": 300296181,
+            "center": {
+                "lat": 41.1541761,
+                "lon": -81.3302393
+            },
+            "nodes": [
+                3043908010,
+                3043908011,
+                3043908012,
+                3043908013,
+                3043908014,
+                3043908015,
+                3043908010
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1762",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "atm": "yes",
+                "brand": "Sheetz",
+                "brand:wikidata": "Q7492551",
+                "building": "yes",
+                "delivery": "yes",
+                "name": "Sheetz",
+                "opening_hours": "Mo-Su 09:00+",
+                "phone": "+1 330-673-3060",
+                "ref": "390",
+                "shop": "convenience",
+                "website": "https://orders.sheetz.com/findasheetz/store/390"
+            }
+        },
+        {
+            "type": "way",
+            "id": 300743764,
+            "center": {
+                "lat": 41.1372808,
+                "lon": -81.3548468
+            },
+            "nodes": [
+                3048459824,
+                3048459825,
+                3048459826,
+                3048459827,
+                3048459828,
+                3048459829,
+                3048459830,
+                3048459831,
+                3048459832,
+                3048464133,
+                3048464134,
+                3048464135,
+                3048459824
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1575",
+                "addr:postcode": "44240-4441",
+                "addr:state": "OH",
+                "addr:street": "South Water Street",
+                "amenity": "fast_food",
+                "brand": "Burger King",
+                "brand:wikidata": "Q177054",
+                "building": "yes",
+                "check_date": "2023-11-09",
+                "cuisine": "burger",
+                "delivery": "yes",
+                "drive_through": "yes",
+                "internet_access": "wlan",
+                "name": "Burger King",
+                "opening_hours": "Mo-Fr 06:00-22:00; Sa-Su 07:00-22:00",
+                "phone": "+1 330-673-6211",
+                "ref": "1017",
+                "takeaway": "yes",
+                "website": "https://www.bk.com/store-locator/store/restaurant_521"
+            }
+        },
+        {
+            "type": "way",
+            "id": 300785131,
+            "center": {
+                "lat": 41.1424234,
+                "lon": -81.3582062
+            },
+            "nodes": [
+                3048722258,
+                11260164683,
+                3048722259,
+                3048722260,
+                3048722261,
+                11260164678,
+                11260164656,
+                3048722258
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1280",
+                "addr:postcode": "44240-3844",
+                "addr:state": "OH",
+                "addr:street": "South Water Street",
+                "amenity": "fast_food",
+                "brand": "McDonald's",
+                "brand:wikidata": "Q38076",
+                "building": "yes",
+                "cuisine": "burger",
+                "drive_through": "yes",
+                "indoor_seating": "yes",
+                "internet_access": "wlan",
+                "name": "McDonald's",
+                "opening_hours": "Mo-Su,PH 06:00-23:00",
+                "outdoor_seating": "no",
+                "phone": "+1 330-678-8665",
+                "takeaway": "yes",
+                "website": "https://www.mcdonalds.com/us/en-us/location/1310.html"
+            }
+        },
+        {
+            "type": "way",
+            "id": 300845253,
+            "center": {
+                "lat": 41.1544621,
+                "lon": -81.3360363
+            },
+            "nodes": [
+                3049388092,
+                3049388093,
+                3049388094,
+                3049388095,
+                3049388092
+            ],
+            "tags": {
+                "amenity": "restaurant",
+                "building": "yes",
+                "cuisine": "german",
+                "name": "Henry Wahner's"
+            }
+        },
+        {
+            "type": "way",
+            "id": 300846371,
+            "center": {
+                "lat": 41.15322,
+                "lon": -81.3911112
+            },
+            "nodes": [
+                3049323319,
+                3049323320,
+                3049323321,
+                3049323322,
+                3049323319
+            ],
+            "tags": {
+                "amenity": "restaurant",
+                "building": "yes",
+                "cuisine": "ice_cream",
+                "name": "Stoddard's Ice Cream"
+            }
+        },
+        {
+            "type": "way",
+            "id": 300876816,
+            "center": {
+                "lat": 41.159881,
+                "lon": -81.3595894
+            },
+            "nodes": [
+                3049683510,
+                10286043504,
+                10286043503,
+                10286043502,
+                4258820693,
+                4258820694,
+                4258820695,
+                10286043508,
+                10286043506,
+                10286043505,
+                10286043507,
+                3049683510
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "802",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "North Mantua Street",
+                "amenity": "restaurant",
+                "building": "yes",
+                "name": "Blind Squirrel Pub",
+                "phone": "+1 234-233-1952",
+                "website": "https://blindsquirrelpub.com/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 303368261,
+            "center": {
+                "lat": 41.1538323,
+                "lon": -81.3358786
+            },
+            "nodes": [
+                10302565210,
+                3077226461,
+                3077226460,
+                3077226459,
+                3077226462,
+                10302565209,
+                10302565211,
+                10302565212,
+                10302565210
+            ],
+            "tags": {
+                "amenity": "pub",
+                "building": "yes",
+                "name": "Rockne's"
+            }
+        },
+        {
+            "type": "way",
+            "id": 303368263,
+            "center": {
+                "lat": 41.1536617,
+                "lon": -81.337192
+            },
+            "nodes": [
+                3077226467,
+                3077226468,
+                3077226469,
+                3077226470,
+                3077226467
+            ],
+            "tags": {
+                "brand": "BP Shop",
+                "brand:wikidata": "Q152057",
+                "building": "yes",
+                "name": "BP Shop",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "way",
+            "id": 418200176,
+            "center": {
+                "lat": 41.1540639,
+                "lon": -81.3502634
+            },
+            "nodes": [
+                4186485628,
+                5840051142,
+                5840051144,
+                5840051143,
+                5840051141,
+                4186485629,
+                4186485630,
+                5840051145,
+                5840051146,
+                4186485631,
+                4186485628
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "525",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "alt_name": "Dunkin' Donuts",
+                "amenity": "fast_food",
+                "brand": "Dunkin'",
+                "brand:wikidata": "Q847743",
+                "building": "retail",
+                "cuisine": "donut;coffee_shop",
+                "drive_through": "yes",
+                "name": "Dunkin'",
+                "opening_hours": "Mo-Fr 05:00-21:00; Sa-Su 06:00-21:00",
+                "phone": "+1 330-548-5936",
+                "ref": "350599",
+                "takeaway": "yes",
+                "website": "https://locations.dunkindonuts.com/en/oh/kent/527-east-main-st/350599"
+            }
+        },
+        {
+            "type": "way",
+            "id": 418353839,
+            "center": {
+                "lat": 41.1511658,
+                "lon": -81.3430019
+            },
+            "nodes": [
+                2103150917,
+                4187856315,
+                4187856319,
+                2103150890,
+                2103150909,
+                2103150847,
+                2429540699,
+                2512825382,
+                2103150875,
+                4187856320,
+                4187856322,
+                4187856323,
+                4187856324,
+                4187856325,
+                4187856326,
+                4187856321,
+                2103150917
+            ],
+            "tags": {
+                "amenity": "cafe",
+                "area": "yes",
+                "cuisine": "american",
+                "indoor": "yes",
+                "internet_access": "yes",
+                "level": "0",
+                "name": "Prentice Cafe",
+                "room": "dining",
+                "website": "https://www.kent.edu/dining/prentice-hall"
+            }
+        },
+        {
+            "type": "way",
+            "id": 420980121,
+            "center": {
+                "lat": 41.1483959,
+                "lon": -81.345185
+            },
+            "nodes": [
+                4208412118,
+                4208412103,
+                4208412093,
+                4208412116,
+                4208412118
+            ],
+            "tags": {
+                "amenity": "cafe",
+                "area": "yes",
+                "cuisine": "coffee_shop",
+                "description": "The Bean Scene at Olson brews Starbucks brand Coffee, and is often simply referred to by Kent State Students as \"Starbucks\".",
+                "indoor": "room",
+                "internet_access": "wlan",
+                "internet_access:ssid": "FLASHZONE",
+                "level": "0",
+                "local_name": "Starbucks",
+                "name": "The Bean Scene at Olson",
+                "room": "cafe",
+                "website": "https://www.kent.edu/dining/olson-hall-0",
+                "wheelchair": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421058930,
+            "center": {
+                "lat": 41.1474253,
+                "lon": -81.3437916
+            },
+            "nodes": [
+                4208960658,
+                4210869993,
+                4210869994,
+                4208960659,
+                4208960666,
+                4208960663,
+                4214065483,
+                4208960658
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1",
+                "addr:postcode": "44243",
+                "addr:state": "OH",
+                "addr:street": "Midway Drive",
+                "addr:unit": "104",
+                "alt_name": "Einstein Brothers Bagels",
+                "amenity": "fast_food",
+                "branch": "Kent State University",
+                "brand": "Einstein Bros. Bagels",
+                "brand:wikidata": "Q5349788",
+                "cuisine": "bagel",
+                "description": "Einstein Bros Bagels sells bakery treats, coffee, and other breakfast food.",
+                "indoor": "room",
+                "level": "0",
+                "local_name": "Einstein Bagel Bros",
+                "name": "Einstein Bros. Bagels",
+                "opening_hours": "Mo-Fr 07:00-15:00; Sa-Su 08:30-15:00",
+                "room": "restaurant",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/hub"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421058931,
+            "center": {
+                "lat": 41.1474856,
+                "lon": -81.3437124
+            },
+            "nodes": [
+                4208960659,
+                4208960666,
+                4208960664,
+                4208960665,
+                4208960659
+            ],
+            "tags": {
+                "amenity": "fast_food",
+                "area": "yes",
+                "cuisine": "mexican",
+                "delivery": "no",
+                "description": "Wholly Habaneros is a Mexican Grill.",
+                "indoor": "room",
+                "level": "0",
+                "name": "Wholly Habaneros",
+                "room": "restaurant",
+                "smoking": "no",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/hub"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421058932,
+            "center": {
+                "lat": 41.1475709,
+                "lon": -81.3436326
+            },
+            "nodes": [
+                4208960660,
+                4208966768,
+                4210869989,
+                4208960664,
+                4208960665,
+                4210869990,
+                4208960660
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "fast_food",
+                "brand": "Subway",
+                "brand:wikidata": "Q244457",
+                "cuisine": "sandwich",
+                "delivery": "no",
+                "description": "Subways sells sandwiches and related items.",
+                "fixme:atp": "no ATP match, check if still exists",
+                "indoor": "yes",
+                "level": "0",
+                "name": "Subway",
+                "room": "restaurant",
+                "smoking": "no",
+                "source": "Survey",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/hub"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421060203,
+            "center": {
+                "lat": 41.1476338,
+                "lon": -81.3435838
+            },
+            "nodes": [
+                4208960660,
+                4208960661,
+                4208966769,
+                4208966767,
+                4208966768,
+                4208960660
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "fast_food",
+                "area": "yes",
+                "cuisine": "asian;chinese",
+                "delivery": "no",
+                "description": "Wow Bao sells Asian food (Thai, Chinese, and Japanese)",
+                "drive_through": "no",
+                "indoor": "yes",
+                "level": "0",
+                "name": "Wow Bao",
+                "official_name": "Wow Bao - Noodles, Rice & Hot Asian Buns",
+                "smoking": "no",
+                "source": "survey",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/hub",
+                "wheelchair": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421060204,
+            "center": {
+                "lat": 41.1476205,
+                "lon": -81.3435429
+            },
+            "nodes": [
+                4208960661,
+                4208966769,
+                4208966770,
+                4208966771,
+                4208960661
+            ],
+            "tags": {
+                "amenity": "fast_food",
+                "area": "yes",
+                "cuisine": "sushi",
+                "delivery": "no",
+                "drive_through": "no",
+                "indoor": "yes",
+                "level": "0",
+                "name": "Sushi with Gusto",
+                "smoking": "no",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/hub"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421060205,
+            "center": {
+                "lat": 41.1476031,
+                "lon": -81.3435129
+            },
+            "nodes": [
+                4208966771,
+                4208966770,
+                4208966772,
+                4210870003,
+                4208966771
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "fast_food",
+                "area": "yes",
+                "cuisine": "pizza;american",
+                "delivery": "no",
+                "drive_through": "no",
+                "indoor": "yes",
+                "level": "0",
+                "name": "The Slice - Pizza Salad & More",
+                "smoking": "no",
+                "source": "Survey 14 January 2014",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/hub",
+                "wheelchair": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421060206,
+            "center": {
+                "lat": 41.1475495,
+                "lon": -81.3434576
+            },
+            "nodes": [
+                4208966774,
+                4208966775,
+                4208966776,
+                4208966777,
+                4208966774
+            ],
+            "tags": {
+                "amenity": "fast_food",
+                "area": "yes",
+                "brand": "Auntie Anne's",
+                "brand:wikidata": "Q4822010",
+                "cuisine": "pretzel",
+                "delivery": "no",
+                "drive_through": "no",
+                "indoor": "yes",
+                "level": "0",
+                "name": "Auntie Anne's",
+                "smoking": "no",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/hub"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421063313,
+            "center": {
+                "lat": 41.1475446,
+                "lon": -81.3430745
+            },
+            "nodes": [
+                4208985118,
+                4210881383,
+                4208960669,
+                4208985127,
+                4208985128,
+                4208985129,
+                4208985116,
+                4208985123,
+                4208985126,
+                4208985125,
+                4208985124,
+                4208985117,
+                4208985120,
+                4208985121,
+                4208985122,
+                4208991417,
+                4208985118
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "cuisine": "american;steak_house;international",
+                "delivery": "no",
+                "indoor": "room",
+                "level": "2",
+                "name": "Schwebel Garden Room",
+                "note": "In memory of Joseph and Dora Schwebel",
+                "opening_hours": "Mo-Fr 11:00-14:00; PH off",
+                "outdoor_seating": "yes",
+                "phone": "+1-330-672-2583",
+                "ref": "337",
+                "room": "restaurant",
+                "short_name": "Schwebel Room",
+                "smoking": "no",
+                "takeaway": "no",
+                "website": "https://www.kent.edu/dining/schwebel-room"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421080419,
+            "center": {
+                "lat": 41.1485048,
+                "lon": -81.3467894
+            },
+            "nodes": [
+                2402942884,
+                4209127262,
+                2402942882,
+                2402942883,
+                2402942884
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "cafe",
+                "indoor": "area",
+                "internet_access": "yes",
+                "level": "0",
+                "name": "Food 4 Thought",
+                "wheelchair": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421174735,
+            "center": {
+                "lat": 41.146775,
+                "lon": -81.3425186
+            },
+            "nodes": [
+                4206233832,
+                4209874296,
+                4209874297,
+                4209874298,
+                4206233832
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "alt_name": "Starbucks",
+                "amenity": "cafe",
+                "area": "yes",
+                "cuisine": "coffee_shop",
+                "designation": "Free",
+                "indoor": "area",
+                "internet_access": "yes",
+                "level": "0",
+                "name": "The Bean Scene",
+                "smoking": "no",
+                "source": "Survey",
+                "website": "https://www.kent.edu/dining/library",
+                "wifi": "free"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421565214,
+            "center": {
+                "lat": 41.1413717,
+                "lon": -81.3576347
+            },
+            "nodes": [
+                4213150238,
+                4213150239,
+                4213150240,
+                4213150241,
+                4213150238
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1330",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "South Water Street",
+                "amenity": "fast_food",
+                "brand": "Subway",
+                "brand:wikidata": "Q244457",
+                "building": "yes",
+                "cuisine": "sandwich",
+                "indoor_seating": "yes",
+                "name": "Subway",
+                "opening_hours": "08:30-21:30",
+                "outdoor_seating": "no",
+                "phone": "+1 330-346-0245",
+                "takeaway": "yes",
+                "website": "https://restaurants.subway.com/united-states/oh/kent/1330-s-water-st"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421571594,
+            "center": {
+                "lat": 41.1525868,
+                "lon": -81.3459089
+            },
+            "nodes": [
+                4213222756,
+                4213222757,
+                4213222758,
+                4213222759,
+                4240253105,
+                4213222756
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "amenity": "restaurant",
+                "cuisine": "american",
+                "indoor": "room",
+                "level": "2",
+                "name": "Food 4 Thought Cyber Cafe",
+                "opening_hours": "Mo-Th 08:00-20:00; Fr 08:00-15:00; PH off",
+                "ref": "213",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421573854,
+            "center": {
+                "lat": 41.1458323,
+                "lon": -81.3361592
+            },
+            "nodes": [
+                4213251214,
+                4213251215,
+                4213251216,
+                4213251217,
+                4213251214
+            ],
+            "tags": {
+                "amenity": "restaurant",
+                "area": "yes",
+                "cuisine": "american",
+                "description": "The Ice Arena Snack Bar, Open in season.",
+                "indoor": "yes",
+                "level": "0",
+                "name": "Snack Bar"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421657494,
+            "center": {
+                "lat": 41.1477184,
+                "lon": -81.3428272
+            },
+            "nodes": [
+                4214016092,
+                4214016091,
+                4214086869,
+                4214086862,
+                4214016092
+            ],
+            "tags": {
+                "indoor": "room",
+                "level": "0",
+                "name": "The Kent Market",
+                "operator": "Kent State University",
+                "shop": "deli",
+                "website": "https://www.kent.edu/dining/kent-markets"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421660426,
+            "center": {
+                "lat": 41.1490647,
+                "lon": -81.3477496
+            },
+            "nodes": [
+                4214120933,
+                4214120934,
+                4214120935,
+                4214120936,
+                4214120933
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "amenity": "cafe",
+                "area": "yes",
+                "indoor": "room",
+                "level": "1",
+                "name": "Deltasig Cafe"
+            }
+        },
+        {
+            "type": "way",
+            "id": 421943877,
+            "center": {
+                "lat": 41.1515937,
+                "lon": -81.3466902
+            },
+            "nodes": [
+                4216799688,
+                4216805789,
+                4216805790,
+                4216805791,
+                4216799688
+            ],
+            "tags": {
+                "amenity": "cafe",
+                "area": "yes",
+                "cuisine": "coffee_shop",
+                "indoor": "area",
+                "internet_access": "yes",
+                "level": "0",
+                "name": "Jazzman's",
+                "smoking": "no",
+                "website": "https://www.kent.edu/dining/oscar-ritchie"
+            }
+        },
+        {
+            "type": "way",
+            "id": 422064938,
+            "center": {
+                "lat": 41.1476569,
+                "lon": -81.3391688
+            },
+            "nodes": [
+                4217898353,
+                4217898346,
+                4217898354,
+                4217898355,
+                4217898353
+            ],
+            "tags": {
+                "area": "yes",
+                "indoor": "area",
+                "level": "0",
+                "name": "Boars Head",
+                "shop": "deli",
+                "website": "https://www.kent.edu/dining/eastway-center"
+            }
+        },
+        {
+            "type": "way",
+            "id": 422064939,
+            "center": {
+                "lat": 41.1476779,
+                "lon": -81.3392938
+            },
+            "nodes": [
+                4217898355,
+                4217898356,
+                4217898357,
+                4217898354,
+                4217898355
+            ],
+            "tags": {
+                "amenity": "cafe",
+                "area": "yes",
+                "cuisine": "coffee_shop",
+                "indoor": "area",
+                "internet_access": "yes",
+                "level": "0",
+                "name": "Jazzman's",
+                "smoking": "no",
+                "source": "Survey",
+                "website": "https://www.kent.edu/dining/eastway-center",
+                "wifi": "free"
+            }
+        },
+        {
+            "type": "way",
+            "id": 422065422,
+            "center": {
+                "lat": 41.1476664,
+                "lon": -81.3394497
+            },
+            "nodes": [
+                2108724321,
+                4067980520,
+                4067980512,
+                4067980521,
+                4067980522,
+                4067980523,
+                4067980524,
+                4067980525,
+                4067980526,
+                4067980527,
+                2108724373,
+                4067980530,
+                4217898345,
+                4217900107,
+                4217900108,
+                4217900109,
+                4217898349,
+                2108724429,
+                4217900116,
+                4217898346,
+                4217898353,
+                2108724430,
+                4217898352,
+                4067980510,
+                2108724321
+            ],
+            "tags": {
+                "amenity": "cafe",
+                "area": "yes",
+                "cuisine": "american",
+                "internet_access": "yes",
+                "name": "Eastway Cafe",
+                "smoking": "no",
+                "website": "https://www.kent.edu/dining/eastway-center"
+            }
+        },
+        {
+            "type": "way",
+            "id": 422065641,
+            "center": {
+                "lat": 41.1494756,
+                "lon": -81.3376556
+            },
+            "nodes": [
+                2492854550,
+                2492854554,
+                4186441627,
+                4217903646,
+                4217903647,
+                2492854550
+            ],
+            "tags": {
+                "amenity": "fast_food",
+                "area": "yes",
+                "cuisine": "american;pizza;fries;burger;sandwich",
+                "delivery": "yes",
+                "drive_through": "no",
+                "indoor": "room",
+                "level": "0",
+                "name": "Rosies Diner",
+                "room": "restaurant",
+                "smoking": "no",
+                "takeaway": "yes",
+                "website": "https://www.kent.edu/dining/tri-towers-rotunda",
+                "wheelchair": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 422065642,
+            "center": {
+                "lat": 41.1495714,
+                "lon": -81.3377016
+            },
+            "nodes": [
+                4217903646,
+                4217903649,
+                4217903648,
+                2492854559,
+                4186441628,
+                2492854557,
+                4186441627,
+                4217903646
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:state": "OH",
+                "indoor": "room",
+                "level": "0",
+                "name": "Rosies Rations",
+                "opening_hours": "24/7",
+                "operator": "Kent State University",
+                "shop": "convenience",
+                "website": "https://www.kent.edu/dining/tri-towers-rotunda"
+            }
+        },
+        {
+            "type": "way",
+            "id": 441370210,
+            "center": {
+                "lat": 41.1645415,
+                "lon": -81.3856758
+            },
+            "nodes": [
+                4391263299,
+                4391263300,
+                4391263301,
+                4391263302,
+                4391263299
+            ],
+            "tags": {
+                "building": "yes",
+                "name": "Safeway",
+                "operator": "Safeway",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "way",
+            "id": 476366380,
+            "center": {
+                "lat": 41.1414404,
+                "lon": -81.3659282
+            },
+            "nodes": [
+                4699647052,
+                4699647053,
+                4699647054,
+                4699647055,
+                4699647052
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "425",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "Cherry Street",
+                "amenity": "restaurant",
+                "building": "yes",
+                "cuisine": "mexican",
+                "name": "The Battleground",
+                "phone": "+13305489019",
+                "website": "https://battlegroundbar.com/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 476373475,
+            "center": {
+                "lat": 41.1048459,
+                "lon": -81.3477393
+            },
+            "nodes": [
+                1909606939,
+                4699709694,
+                4699709695,
+                4699709696,
+                1909606939
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "4223",
+                "addr:postcode": "44240-6917",
+                "addr:state": "OH",
+                "addr:street": "State Route 43",
+                "amenity": "fast_food",
+                "brand": "McDonald's",
+                "brand:wikidata": "Q38076",
+                "building": "yes",
+                "cuisine": "burger",
+                "drive_through": "yes",
+                "internet_access": "wlan",
+                "name": "McDonald's",
+                "opening_hours": "05:00-23:00",
+                "phone": "+1 330-678-5800",
+                "takeaway": "yes",
+                "website": "https://www.mcdonalds.com/us/en-us/location/31878.html"
+            }
+        },
+        {
+            "type": "way",
+            "id": 476373478,
+            "center": {
+                "lat": 41.1051274,
+                "lon": -81.3465327
+            },
+            "nodes": [
+                1909606945,
+                4699709715,
+                4699709716,
+                4699709708,
+                4699709709,
+                4699709710,
+                4699709711,
+                4699709712,
+                4699709713,
+                4699709714,
+                1909606945
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "4244",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "State Route 43",
+                "amenity": "fast_food",
+                "brand": "Wendy's",
+                "brand:wikidata": "Q550258",
+                "building": "yes",
+                "check_date": "2023-11-09",
+                "cuisine": "burger",
+                "drive_through": "yes",
+                "name": "Wendy's",
+                "opening_hours": "07:00-22:00",
+                "opening_hours:drive_through": "Mo-Su 06:30-00:00",
+                "phone": "+1 330-678-3726",
+                "takeaway": "yes",
+                "website": "https://locations.wendys.com/united-states/oh/kent/4244-state-route-43"
+            }
+        },
+        {
+            "type": "way",
+            "id": 586987222,
+            "center": {
+                "lat": 41.1514631,
+                "lon": -81.3846817
+            },
+            "nodes": [
+                5607581558,
+                5607581559,
+                5607581560,
+                5607581561,
+                5607581562,
+                5607581563,
+                5607581558
+            ],
+            "tags": {
+                "amenity": "restaurant",
+                "building": "yes",
+                "cuisine": "pizza",
+                "name": "Guido’s Pizza"
+            }
+        },
+        {
+            "type": "way",
+            "id": 587068722,
+            "center": {
+                "lat": 41.1512925,
+                "lon": -81.3826655
+            },
+            "nodes": [
+                5608339812,
+                5608339813,
+                5608339814,
+                5608339815,
+                5608339816,
+                5608339817,
+                5608339818,
+                5608339819,
+                5608339812
+            ],
+            "tags": {
+                "amenity": "fast_food",
+                "brand": "A&W",
+                "brand:wikidata": "Q277641",
+                "building": "yes",
+                "cuisine": "burger",
+                "name": "A&W",
+                "takeaway": "yes",
+                "website": "https://awrestaurants.com/locations/ohio/kent/1124-w-main-street/"
+            }
+        },
+        {
+            "type": "way",
+            "id": 619591455,
+            "center": {
+                "lat": 41.1003643,
+                "lon": -81.3450829
+            },
+            "nodes": [
+                5854926636,
+                5854926637,
+                5854926638,
+                5854926639,
+                5854926640,
+                5854926641,
+                5854926642,
+                5854926643,
+                5854926644,
+                5854926645,
+                5854926646,
+                5854926647,
+                5854926636
+            ],
+            "tags": {
+                "brand": "Circle K",
+                "brand:wikidata": "Q3268010",
+                "building": "yes",
+                "check_date": "2023-11-09",
+                "name": "Circle K",
+                "shop": "convenience"
+            }
+        },
+        {
+            "type": "way",
+            "id": 656631184,
+            "center": {
+                "lat": 41.155302,
+                "lon": -81.3287416
+            },
+            "nodes": [
+                6150796615,
+                9270379995,
+                9270379996,
+                6150796616,
+                9270379997,
+                9270379998,
+                9270379999,
+                9270380000,
+                9270380001,
+                9270380002,
+                6150796617,
+                9270380003,
+                9270380004,
+                9270380005,
+                9270380006,
+                9270380007,
+                9270380008,
+                9270380009,
+                9270380010,
+                6150796618,
+                9270379993,
+                9270379994,
+                6150796615
+            ],
+            "tags": {
+                "amenity": "fast_food",
+                "brand": "Raising Cane's",
+                "brand:wikidata": "Q7285144",
+                "building": "retail",
+                "cuisine": "chicken",
+                "drive_through": "yes",
+                "name": "Raising Cane's",
+                "official_name": "Raising Cane's Chicken Fingers",
+                "takeaway": "yes"
+            }
+        },
+        {
+            "type": "way",
+            "id": 1186062189,
+            "center": {
+                "lat": 41.1494527,
+                "lon": -81.3473791
+            },
+            "nodes": [
+                11016586128,
+                11016586129,
+                11016586135,
+                4156716278,
+                4156716271,
+                4156716317,
+                11016586130,
+                11016586131,
+                11016586132,
+                11016586133,
+                2087681876,
+                11016586128
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "475",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "Terrace Drive",
+                "amenity": "cafe",
+                "branch": "Kent State University Esplanad",
+                "brand": "Starbucks",
+                "brand:wikidata": "Q37158",
+                "building": "yes",
+                "cuisine": "coffee_shop",
+                "name": "Starbucks",
+                "official_name": "Starbucks Coffee",
+                "phone": "+1 330-672-3000",
+                "ref": "1021745",
+                "takeaway": "yes",
+                "website": "https://www.starbucks.com/store-locator/store/1021745/kent-state-university-esplanad-475-terrace-drive-kent-oh-44240-us"
+            }
+        },
+        {
+            "type": "way",
+            "id": 1192111752,
+            "center": {
+                "lat": 41.1352358,
+                "lon": -81.3539464
+            },
+            "nodes": [
+                11067134006,
+                11067134007,
+                11067134008,
+                11067134009,
+                11067134010,
+                11067134011,
+                11067134006
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1625",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "South Water Street",
+                "alt_name": "Dunkin' Donuts",
+                "amenity": "fast_food",
+                "brand": "Dunkin'",
+                "brand:wikidata": "Q847743",
+                "building": "yes",
+                "cuisine": "donut;coffee_shop",
+                "drive_through": "yes",
+                "name": "Dunkin'",
+                "opening_hours": "Mo-Fr 05:00-21:00; Sa-Su 06:00-21:00",
+                "phone": "+1 330-548-5788",
+                "ref": "358786",
+                "takeaway": "yes",
+                "website": "https://locations.dunkindonuts.com/en/oh/kent/1625-s-water-st/358786"
+            }
+        },
+        {
+            "type": "way",
+            "id": 1195992430,
+            "center": {
+                "lat": 41.1553595,
+                "lon": -81.3280132
+            },
+            "nodes": [
+                11098812389,
+                11098812388,
+                11098812387,
+                11098812386,
+                11098812389
+            ],
+            "tags": {
+                "addr:city": "Kent",
+                "addr:housenumber": "1821",
+                "addr:postcode": "44240",
+                "addr:state": "OH",
+                "addr:street": "East Main Street",
+                "amenity": "fast_food",
+                "brand": "Arby's",
+                "brand:wikidata": "Q630866",
+                "building": "retail",
+                "check_date": "2024-06-21",
+                "cuisine": "sandwich",
+                "drive_through": "yes",
+                "name": "Arby's",
+                "official_name": "Arby's",
+                "opening_hours": "10:00-24:00",
+                "phone": "+1 330-673-2433",
+                "takeaway": "yes",
+                "website": "https://www.arbys.com/locations/us/oh/kent/1821-e-main-st/store-8189/"
+            }
+        }
+    ]
+}
