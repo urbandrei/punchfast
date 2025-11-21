@@ -1,145 +1,64 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import '../index.css';
+import React, { useState, useEffect } from "react";
+import AuthModal from "./components/AuthModal";
+import ChangePasswordModal from "./components/ChangePasswordModal";
+import axios from "axios";
 
-const Navbar = ({
-  isLoggedIn,
-  currentUser,
-  business,
-  onShowAuth,
-  onShowBusinessAuth,
-  onChangePassword,
-  onSignOut,
-  onBusinessSignOut
-}) => {
-  const [showDropdown, setShowDropdown] = useState(false);
+export default function Navbar() {
+    const [authModal, setAuthModal] = useState(false);
+    const [passwordModal, setPasswordModal] = useState(false);
+    const [user, setUser] = useState(null);
 
-  const isBusinessLoggedIn = !!business?.username;
-  const location = useLocation();
+    const API = "https://punchfast-backend.onrender.com/api";
 
-  let rightControls;
+    const checkLogin = async () => {
+        try {
+            const res = await axios.get(`${API}/me`, { withCredentials: true });
+            if (res.data?.user) setUser(res.data.user);
+        } catch {}
+    };
 
-  if (isBusinessLoggedIn) {
-    const onBusinessDashboard = location.pathname === '/business/dashboard';
-    const primaryLabel = onBusinessDashboard ? 'Punches' : 'Dashboard';
-    const primaryPath = onBusinessDashboard
-      ? '/business/punches'
-      : '/business/dashboard';
+    const logout = async () => {
+        await axios.post(`${API}/logout`, {}, { withCredentials: true });
+        setUser(null);
+    };
 
-    rightControls = (
-      <>
-        <Link to={primaryPath} className="nav-bar-button">
-          {primaryLabel}
-        </Link>
-        <button
-          className="nav-bar-button"
-          onClick={onBusinessSignOut}
-        >
-          Logout
-        </button>
-      </>
+    useEffect(() => {
+        checkLogin();
+    }, []);
+
+    return (
+        <nav className="navbar">
+            <div className="nav-title">Punchfast</div>
+
+            <div className="nav-right">
+                {!user ? (
+                    <button className="signin-btn" onClick={() => setAuthModal(true)}>
+                        Sign In
+                    </button>
+                ) : (
+                    <>
+                        <span className="user-tag">Hi, {user.username}</span>
+                        <button className="small-btn" onClick={() => setPasswordModal(true)}>
+                            Change Password
+                        </button>
+                        <button className="small-btn red" onClick={logout}>
+                            Logout
+                        </button>
+                    </>
+                )}
+            </div>
+
+            {authModal ? (
+                <AuthModal
+                    onClose={() => setAuthModal(false)}
+                    onLoginSuccess={(u) => setUser(u)}
+                />
+            ) : null}
+
+            {passwordModal ? (
+                <ChangePasswordModal onClose={() => setPasswordModal(false)} />
+            ) : null}
+        </nav>
     );
-  } else if (isLoggedIn) {
-    rightControls = (
-      <>
-        <Link to="/dashboard" className="nav-bar-button">
-          Dashboard
-        </Link>
-        <div style={{ position: 'relative' }}>
-          <button
-            onClick={() => setShowDropdown(!showDropdown)}
-            className="nav-bar-button"
-          >
-            Welcome back, {currentUser?.username}! ▼
-          </button>
-          {showDropdown && (
-            <>
-              <div
-                style={{
-                  position: 'fixed',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  zIndex: 999
-                }}
-                onClick={() => setShowDropdown(false)}
-              />
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '100%',
-                  right: 0,
-                  marginTop: '8px',
-                  backgroundColor: 'white',
-                  borderRadius: '8px',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-                  minWidth: '180px',
-                  zIndex: 1000,
-                  overflow: 'hidden'
-                }}
-              >
-                <button
-                  onClick={() => {
-                    setShowDropdown(false);
-                    onChangePassword();
-                  }}
-                  className="nav-bar-dropdown"
-                >
-                  Change Password
-                </button>
-                <button
-                  onClick={() => {
-                    setShowDropdown(false);
-                    onSignOut();
-                  }}
-                  className="nav-bar-dropdown"
-                >
-                  Sign Out
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </>
-    );
-  } else {
-    rightControls = (
-      <>
-        <button
-          className="nav-bar-button"
-          onClick={onShowAuth}
-        >
-          Customer Sign In
-        </button>
-        <button
-          className="nav-bar-button"
-          onClick={onShowBusinessAuth}
-        >
-          Business Sign In
-        </button>
-      </>
-    );
-  }
+}
 
-  return (
-    <nav
-      className="navbar navbar-expand-lg mb-4"
-      style={{
-        backgroundColor: '#6AB7AD',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-      }}
-    >
-      <div className="nav-bar-content">
-        <Link to="/" className="nav-bar-brand">
-          Punchfast
-        </Link>
-        <div className="d-flex gap-3 ms-auto align-items-center">
-          {rightControls}
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-export default Navbar;
