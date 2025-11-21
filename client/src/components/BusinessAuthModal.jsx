@@ -1,469 +1,335 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
 
-const BusinessAuthModal = ({ show, onClose, onLoginSuccess }) => {
-  const [activeTab, setActiveTab] = useState('login');
+export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
+    const API = "https://punchfast-backend.onrender.com/api";
 
-  // shared login/signup username + password
-  const [username, setUsername] = useState('');
+    const [mode, setMode] = useState("login"); 
+    const [otpStage, setOtpStage] = useState(false); 
 
-  // signup-only fields
-  const [legalName, setLegalName] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [legalName, setLegalName] = useState("");
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+    const [otp, setOtp] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+    if (!show) return null;
 
-  if (!show) return null;
+    const resetAll = () => {
+        setUsername("");
+        setEmail("");
+        setLegalName("");
+        setAddress("");
+        setPhone("");
+        setPassword("");
+        setConfirmPassword("");
+        setOtp("");
+        setOtpStage(false);
+        setError("");
+    };
 
-  const resetFields = () => {
-    setUsername('');
-    setLegalName('');
-    setEmail('');
-    setAddress('');
-    setPhone('');
-    setPassword('');
-    setConfirmPassword('');
-    setMessage('');
-  };
+    const closeModal = () => {
+        resetAll();
+        onClose();
+    };
 
-  const handleClose = () => {
-    resetFields();
-    onClose();
-  };
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    resetFields();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setMessage('');
-
-    // Basic validation for signup tab
-    if (activeTab === 'signup') {
-      if (
-        !username ||
-        !legalName ||
-        !email ||
-        !address ||
-        !phone ||
-        !password ||
-        !confirmPassword
-      ) {
-        setIsLoading(false);
-        setMessage('Please fill in all required fields.');
-        return;
-      }
-      if (password !== confirmPassword) {
-        setIsLoading(false);
-        setMessage('Passwords do not match.');
-        return;
-      }
-    }
-
-    const endpoint =
-      activeTab === 'login' ? '/api/business/login' : '/api/business/signup';
-
-    // payload: keep username/password for compatibility; extra fields for signup
-    const payload =
-      activeTab === 'login'
-        ? { username, password }
-        : {
-            username,
-            password,
-            legalName,
-            email,
-            address,
-            phone,
-          };
-
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        if (activeTab === 'login') {
-          // successful business login
-          if (data.business && onLoginSuccess) {
-            onLoginSuccess(data.business);
-          }
-
-          // close modal
-          handleClose();
-
-          // navigate to punches page (client-side)
-          navigate('/business/punches');
-        } else {
-          // successful signup: show pending message, keep modal open
-          setMessage(
-            data.message ||
-              'Application submitted. Your business is pending approval.'
-          );
-          // clear only passwords so they can re-enter if needed
-          setPassword('');
-          setConfirmPassword('');
+    // --------------------------
+    // BUSINESS SIGNUP → SEND OTP
+    // --------------------------
+    const sendSignupOtp = async () => {
+        if (!username || !email || !password || !confirmPassword || !legalName || !address || !phone) {
+            setError("All fields are required");
+            return;
         }
-      } else {
-        setMessage(data.message || 'An error occurred. Please try again.');
-      }
-    } catch (error) {
-      console.error('Business auth error:', error);
-      setMessage('An error occurred. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
 
-  return (
-    <>
-      <div
-        className="modal d-block"
-        tabIndex="-1"
-        role="dialog"
-        onClick={handleClose}
-      >
-        <div
-          className="modal-dialog modal-dialog-centered"
-          role="document"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="modal-content">
-            <div className="modal-body px-4 pt-0 pb-4">
-              {/* Tabs header, styled like AuthModal */}
-              <ul
-                className="nav nav-tabs nav-fill mb-4"
-                role="tablist"
-                style={{ borderBottom: '2px solid #A7CCDE' }}
-              >
-                <li className="nav-item" role="presentation">
-                  <button
-                    className={`nav-link ${
-                      activeTab === 'login' ? 'active' : ''
-                    }`}
-                    onClick={() => handleTabChange('login')}
-                    type="button"
-                    style={{
-                      color:
-                        activeTab === 'login' ? '#302C9A' : '#6c757d',
-                      borderColor:
-                        activeTab === 'login'
-                          ? '#A7CCDE #A7CCDE #fff'
-                          : 'transparent',
-                      fontWeight: activeTab === 'login' ? '600' : '400',
-                    }}
-                  >
-                    Business Sign In
-                  </button>
-                </li>
-                <li className="nav-item" role="presentation">
-                  <button
-                    className={`nav-link ${
-                      activeTab === 'signup' ? 'active' : ''
-                    }`}
-                    onClick={() => handleTabChange('signup')}
-                    type="button"
-                    style={{
-                      color:
-                        activeTab === 'signup' ? '#302C9A' : '#6c757d',
-                      borderColor:
-                        activeTab === 'signup'
-                          ? '#A7CCDE #A7CCDE #fff'
-                          : 'transparent',
-                      fontWeight: activeTab === 'signup' ? '600' : '400',
-                    }}
-                  >
-                    Business Sign Up
-                  </button>
-                </li>
-              </ul>
+        setLoading(true);
+        setError("");
 
-              {message && (
-                <div
-                  className="alert"
-                  role="alert"
-                  style={{
-                    backgroundColor: 'rgba(230, 142, 141, 0.1)',
-                    color: '#E68E8D',
-                    border: '1px solid #E68E8D',
-                    borderRadius: '8px',
-                  }}
-                >
-                  {message}
-                </div>
-              )}
+        try {
+            const res = await axios.post(`${API}/business/signup/send-otp`, {
+                username,
+                email,
+                password,
+                legalName,
+                address,
+                phone
+            });
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label
-                    htmlFor="business-username"
-                    className="form-label"
-                    style={{ color: '#302C9A', fontWeight: '500' }}
-                  >
-                    Business Username
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="business-username"
-                    placeholder="Choose a username for your business"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    autoComplete="username"
-                    style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                    onFocus={(e) =>
-                      (e.target.style.borderColor = '#6AB7AD')
-                    }
-                    onBlur={(e) =>
-                      (e.target.style.borderColor = '#A7CCDE')
-                    }
-                  />
-                </div>
+            if (res.data.success) {
+                setOtpStage(true);
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Error sending OTP");
+        }
 
-                {activeTab === 'signup' && (
-                  <>
-                    <div className="mb-3">
-                      <label
-                        htmlFor="business-legal-name"
-                        className="form-label"
-                        style={{ color: '#302C9A', fontWeight: '500' }}
-                      >
-                        Legal Business Name
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="business-legal-name"
-                        placeholder="Exact legal name"
-                        value={legalName}
-                        onChange={(e) => setLegalName(e.target.value)}
-                        required={activeTab === 'signup'}
-                        style={{
-                          borderColor: '#A7CCDE',
-                          borderRadius: '8px',
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = '#6AB7AD')
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
+        setLoading(false);
+    };
+
+    // --------------------------
+    // VERIFY SIGNUP OTP
+    // --------------------------
+    const verifySignupOtp = async () => {
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(`${API}/business/signup/verify-otp`, {
+                username,
+                otp
+            });
+
+            if (res.data.success) {
+                alert("Business registration complete! You may now login.");
+                setMode("login");
+                resetAll();
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Invalid OTP");
+        }
+
+        setLoading(false);
+    };
+
+    // --------------------------
+    // BUSINESS LOGIN
+    // --------------------------
+    const login = async () => {
+        if (!username || !password) {
+            setError("Enter username and password");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(
+                `${API}/business/login`,
+                { username, password },
+                { withCredentials: true }
+            );
+
+            if (res.data.success) {
+                onLoginSuccess(res.data.business);
+                closeModal();
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Login failed");
+        }
+
+        setLoading(false);
+    };
+
+    // --------------------------
+    // FORGOT PASSWORD → SEND OTP
+    // --------------------------
+    const sendForgotOtp = async () => {
+        if (!username) {
+            setError("Enter business username");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(`${API}/business/forgot-password`, {
+                username
+            });
+
+            if (res.data.success) {
+                setMode("verifyForgot");
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to send OTP");
+        }
+
+        setLoading(false);
+    };
+
+    // --------------------------
+    // VERIFY FORGOT PASSWORD OTP
+    // --------------------------
+    const verifyForgotOtp = async () => {
+        if (!otp) {
+            setError("Enter OTP");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(`${API}/business/forgot-password/verify`, {
+                username,
+                otp
+            });
+
+            if (res.data.success) {
+                setMode("reset");
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Invalid OTP");
+        }
+
+        setLoading(false);
+    };
+
+    // --------------------------
+    // RESET PASSWORD (after OTP)
+    // --------------------------
+    const resetPassword = async () => {
+        if (!password || !confirmPassword) {
+            setError("Enter password");
+            return;
+        }
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(`${API}/business/reset-password`, {
+                username,
+                newPassword: password
+            });
+
+            if (res.data.success) {
+                alert("Password reset successful.");
+                setMode("login");
+                resetAll();
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to reset");
+        }
+
+        setLoading(false);
+    };
+
+    // ---------------------------------------
+    // RENDER UI
+    // ---------------------------------------
+    return (
+        <div className="modal-bg">
+            <div className="auth-modal">
+                <button className="close-btn" onClick={closeModal}>✖</button>
+
+                {(mode === "login" || mode === "signup") && (
+                    <div className="tabs">
+                        <button
+                            className={mode === "login" ? "active" : ""}
+                            onClick={() => { setMode("login"); resetAll(); }}
+                        >
+                            Business Login
+                        </button>
+
+                        <button
+                            className={mode === "signup" ? "active" : ""}
+                            onClick={() => { setMode("signup"); resetAll(); }}
+                        >
+                            Business Signup
+                        </button>
                     </div>
-
-                    <div className="mb-3">
-                      <label
-                        htmlFor="business-email"
-                        className="form-label"
-                        style={{ color: '#302C9A', fontWeight: '500' }}
-                      >
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="business-email"
-                        placeholder="business@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required={activeTab === 'signup'}
-                        autoComplete="email"
-                        style={{
-                          borderColor: '#A7CCDE',
-                          borderRadius: '8px',
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = '#6AB7AD')
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <label
-                        htmlFor="business-phone"
-                        className="form-label"
-                        style={{ color: '#302C9A', fontWeight: '500' }}
-                      >
-                        Phone
-                      </label>
-                      <input
-                        type="tel"
-                        className="form-control"
-                        id="business-phone"
-                        placeholder="Business phone number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        required={activeTab === 'signup'}
-                        style={{
-                          borderColor: '#A7CCDE',
-                          borderRadius: '8px',
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = '#6AB7AD')
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <label
-                        htmlFor="business-address"
-                        className="form-label"
-                        style={{ color: '#302C9A', fontWeight: '500' }}
-                      >
-                        Business Address
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="business-address"
-                        placeholder="Street, city, state, ZIP"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        required={activeTab === 'signup'}
-                        style={{
-                          borderColor: '#A7CCDE',
-                          borderRadius: '8px',
-                        }}
-                        onFocus={(e) =>
-                          (e.target.style.borderColor = '#6AB7AD')
-                        }
-                        onBlur={(e) =>
-                          (e.target.style.borderColor = '#A7CCDE')
-                        }
-                      />
-                    </div>
-                  </>
                 )}
 
-                {/* Password + confirm */}
-                <div className="mb-3">
-                  <label
-                    htmlFor="business-password"
-                    className="form-label"
-                    style={{ color: '#302C9A', fontWeight: '500' }}
-                  >
-                    {activeTab === 'login'
-                      ? 'Password'
-                      : 'Create Password'}
-                  </label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="business-password"
-                    placeholder={
-                      activeTab === 'login'
-                        ? 'Enter password'
-                        : 'Create a strong password'
-                    }
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    autoComplete={
-                      activeTab === 'login'
-                        ? 'current-password'
-                        : 'new-password'
-                    }
-                    style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                    onFocus={(e) =>
-                      (e.target.style.borderColor = '#6AB7AD')
-                    }
-                    onBlur={(e) =>
-                      (e.target.style.borderColor = '#A7CCDE')
-                    }
-                  />
-                </div>
+                {error && <div className="error-box">{error}</div>}
 
-                {activeTab === 'signup' && (
-                  <div className="mb-4">
-                    <label
-                      htmlFor="business-confirm-password"
-                      className="form-label"
-                      style={{ color: '#302C9A', fontWeight: '500' }}
-                    >
-                      Confirm Password
-                    </label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="business-confirm-password"
-                      placeholder="Re-enter password"
-                      value={confirmPassword}
-                      onChange={(e) =>
-                        setConfirmPassword(e.target.value)
-                      }
-                      required={activeTab === 'signup'}
-                      autoComplete="new-password"
-                      style={{
-                        borderColor: '#A7CCDE',
-                        borderRadius: '8px',
-                      }}
-                      onFocus={(e) =>
-                        (e.target.style.borderColor = '#6AB7AD')
-                      }
-                      onBlur={(e) =>
-                        (e.target.style.borderColor = '#A7CCDE')
-                      }
-                    />
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-100"
-                  disabled={isLoading}
-                  style={{
-                    borderRadius: '8px',
-                    padding: '12px',
-                    fontWeight: '500',
-                  }}
-                >
-                  {isLoading ? (
+                {/* LOGIN */}
+                {mode === "login" && (
                     <>
-                      <span
-                        className="spinner-border spinner-border-sm me-2"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      {activeTab === 'login'
-                        ? 'Signing In...'
-                        : 'Signing Up...'}
-                    </>
-                  ) : activeTab === 'login' ? (
-                    'Sign In'
-                  ) : (
-                    'Sign Up'
-                  )}
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="modal-backdrop show"></div>
-    </>
-  );
-};
+                        <input placeholder="Business Username" value={username} onChange={e => setUsername(e.target.value)} />
+                        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
 
-export default BusinessAuthModal;
+                        <button className="blue-btn" onClick={login} disabled={loading}>
+                            {loading ? "Loading..." : "Login"}
+                        </button>
+
+                        <button className="link-btn" onClick={() => setMode("forgot")}>
+                            Forgot Password?
+                        </button>
+                    </>
+                )}
+
+                {/* SIGNUP (NO OTP YET) */}
+                {mode === "signup" && !otpStage && (
+                    <>
+                        <input placeholder="Business Username" value={username} onChange={e => setUsername(e.target.value)} />
+                        <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+                        <input placeholder="Legal Business Name" value={legalName} onChange={e => setLegalName(e.target.value)} />
+                        <input placeholder="Business Address" value={address} onChange={e => setAddress(e.target.value)} />
+                        <input placeholder="Phone" value={phone} onChange={e => setPhone(e.target.value)} />
+
+                        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+
+                        <button className="blue-btn" onClick={sendSignupOtp} disabled={loading}>
+                            {loading ? "Sending OTP..." : "Send OTP"}
+                        </button>
+                    </>
+                )}
+
+                {/* SIGNUP OTP */}
+                {mode === "signup" && otpStage && (
+                    <>
+                        <input placeholder="Enter OTP" value={otp} onChange={e => setOtp(e.target.value)} />
+
+                        <button className="blue-btn" onClick={verifySignupOtp} disabled={loading}>
+                            {loading ? "Verifying..." : "Verify OTP"}
+                        </button>
+
+                        <button className="link-btn" onClick={sendSignupOtp}>
+                            Resend OTP
+                        </button>
+                    </>
+                )}
+
+                {/* FORGOT PASSWORD */}
+                {mode === "forgot" && (
+                    <>
+                        <input placeholder="Enter Business Username" value={username} onChange={e => setUsername(e.target.value)} />
+
+                        <button className="blue-btn" onClick={sendForgotOtp} disabled={loading}>
+                            {loading ? "Sending..." : "Send OTP"}
+                        </button>
+                    </>
+                )}
+
+                {/* VERIFY OTP FOR FORGOT PASSWORD */}
+                {mode === "verifyForgot" && (
+                    <>
+                        <input placeholder="Enter OTP" value={otp} onChange={e => setOtp(e.target.value)} />
+
+                        <button className="blue-btn" onClick={verifyForgotOtp} disabled={loading}>
+                            {loading ? "Checking..." : "Verify OTP"}
+                        </button>
+                    </>
+                )}
+
+                {/* RESET PASSWORD */}
+                {mode === "reset" && (
+                    <>
+                        <input type="password" placeholder="New Password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+
+                        <button className="blue-btn" onClick={resetPassword} disabled={loading}>
+                            {loading ? "Saving..." : "Reset Password"}
+                        </button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+}
