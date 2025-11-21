@@ -26,3 +26,4 @@ const Visit = sequelize.define('Visit', {
 });
 
 module.exports = Visit;
+
