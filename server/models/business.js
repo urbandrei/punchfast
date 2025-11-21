@@ -1,38 +1,38 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
-const bcrypt = require('bcryptjs');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+const bcrypt = require("bcryptjs");
 
-const Business = sequelize.define('Business', {
+const Business = sequelize.define(
+  "Business",
+  {
     username: {
-        type: DataTypes.STRING,
-        unique: true,
-        allowNull: false,
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
     },
-
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-
-    status: {
-        type: DataTypes.ENUM('pending', 'approved'),
-        allowNull: false,
-        defaultValue: 'pending'
-    },
-
-    goal: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 10
+      type: DataTypes.STRING,
+      allowNull: false,
     }
-}, {
-    hooks: {
-        beforeCreate: async (business) => {
-            business.username = business.username.toLowerCase().trim();
-            const salt = await bcrypt.genSalt(10);
-            business.password = await bcrypt.hash(business.password, salt);
-        }
-    }
+  },
+  {
+    tableName: "businesses",
+  }
+);
+
+Business.beforeCreate(async (b) => {
+  b.password = await bcrypt.hash(b.password, 10);
+});
+
+Business.beforeUpdate(async (b) => {
+  if (b.changed("password")) {
+    b.password = await bcrypt.hash(b.password, 10);
+  }
 });
 
 module.exports = Business;
