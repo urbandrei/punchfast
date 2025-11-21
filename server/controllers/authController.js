@@ -1,231 +1,178 @@
-const User = require('../models/user');
-const Business = require('../models/business');
-const bcrypt = require('bcryptjs');
+const User = require("../models/user");
+const Business = require("../models/business");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const otpGenerator = require("otp-generator");
 
-// --- helper to normalize usernames/usernames/emails ---
-function normalizeName(value) {
-  return String(value || '').trim().toLowerCase();
+const loginOtpStore = {};
+const resetOtpStore = {};
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+async function sendOtpEmail(to, otp, subject) {
+  return transporter.sendMail({
+    from: "PunchFast Login System",
+    to,
+    subject,
+    text: `Your OTP code is: ${otp}`
+  });
 }
 
-/**
- * Customer login
- */
-exports.login = async (req, res) => {
-  const rawUsername = req.body?.username;
-  const username = normalizeName(rawUsername);
+exports.requestLoginOtp = async (req, res) => {
+  const { username, password, isBusiness } = req.body;
 
   try {
-    const user = await User.findOne({ where: { username } });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials.' });
+    const Model = isBusiness ? Business : User;
+    const account = await Model.findOne({ where: { username } });
+    if (!account) return res.status(400).json({ message: "Username not found" });
 
-    const isMatch = await bcrypt.compare(req.body.password || '', user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials.' });
+    const match = await bcrypt.compare(password, account.password);
+    if (!match) return res.status(400).json({ message: "Incorrect password" });
 
-    return res.status(200).json({
-      message: 'Login successful!',
-      user: { id: user.id, username: user.username }
-    });
-  } catch (error) {
-    console.error('Login error:', error);
-    return res.status(500).json({ message: 'Server error' });
+    const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+    loginOtpStore[username] = otp;
+
+    await sendOtpEmail(account.email, otp, "Your Login OTP");
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-/**
- * Customer signup
- */
+exports.verifyLoginOtp = async (req, res) => {
+  const { username, otp } = req.body;
+
+  try {
+    const stored = loginOtpStore[username];
+    if (!stored) return res.status(400).json({ message: "OTP expired" });
+    if (stored !== otp) return res.status(400).json({ message: "Invalid OTP" });
+
+    delete loginOtpStore[username];
+
+    let user =
+      (await User.findOne({ where: { username } })) ||
+      (await Business.findOne({ where: { username } }));
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+
+    res.json({ success: true, user: { id: user.id, username: user.username } });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 exports.signup = async (req, res) => {
-  const rawUsername = req.body?.username;
-  const username = normalizeName(rawUsername);
-  const password = req.body?.password || '';
+  const { username, email, password } = req.body;
 
   try {
-    const existingUser = await User.findOne({ where: { username } });
-    if (existingUser) return res.status(400).json({ message: 'Username already in use.' });
+    const exists = await User.findOne({ where: { username } });
+    if (exists) return res.status(400).json({ message: "Username exists" });
 
-    const newUser = await User.create({ username, password });
-    return res.status(201).json({
-      message: 'Signup successful!',
-      user: { id: newUser.id, username: newUser.username }
-    });
-  } catch (error) {
-    console.error('Signup error:', error);
-    return res.status(500).json({ message: 'Server error' });
+    const emailExists = await User.findOne({ where: { email } });
+    if (emailExists) return res.status(400).json({ message: "Email exists" });
+
+    await User.create({ username, email, password });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-/**
- * Customer change password
- */
-exports.changePassword = async (req, res) => {
-  const { userId, currentPassword, newPassword } = req.body || {};
-
-  if (!userId || !currentPassword || !newPassword) {
-    return res.status(400).json({ message: 'Missing required fields.' });
-  }
+exports.businessSignup = async (req, res) => {
+  const { username, email, password } = req.body;
 
   try {
-    const user = await User.findByPk(userId);
-    if (!user) return res.status(404).json({ message: 'User not found.' });
+    const exists = await Business.findOne({ where: { username } });
+    if (exists) return res.status(400).json({ message: "Username exists" });
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Current password is incorrect.' });
+    const emailExists = await Business.findOne({ where: { email } });
+    if (emailExists) return res.status(400).json({ message: "Email exists" });
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
+    await Business.create({ username, email, password });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.forgotPassword = async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const user =
+      (await User.findOne({ where: { username } })) ||
+      (await Business.findOne({ where: { username } }));
+
+    if (!user) return res.status(400).json({ message: "Username not found" });
+
+    const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false });
+    resetOtpStore[username] = otp;
+
+    await sendOtpEmail(user.email, otp, "Password Reset OTP");
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.verifyResetOtp = (req, res) => {
+  const { username, otp } = req.body;
+
+  if (!resetOtpStore[username]) {
+    return res.status(400).json({ message: "OTP expired" });
+  }
+  if (resetOtpStore[username] !== otp) {
+    return res.status(400).json({ message: "Invalid OTP" });
+  }
+
+  res.json({ success: true });
+};
+
+exports.resetPassword = async (req, res) => {
+  const { username, newPassword } = req.body;
+
+  try {
+    const user =
+      (await User.findOne({ where: { username } })) ||
+      (await Business.findOne({ where: { username } }));
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
 
-    return res.status(200).json({ message: 'Password changed successfully!' });
-  } catch (error) {
-    console.error('Change password error:', error);
-    return res.status(500).json({ message: 'Server error' });
+    delete resetOtpStore[username];
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 };
 
-/**
- * Business signup (pending by default)
- */
-exports.businessSignup = async (req, res) => {
-  const rawUsername = req.body?.username;
-  const username = normalizeName(rawUsername);
-  const password = req.body?.password || '';
-
-  try {
-    const existingBusiness = await Business.findOne({ where: { username } });
-    if (existingBusiness) {
-      return res.status(400).json({ message: 'Username already in use.' });
-    }
-
-    const newBusiness = await Business.create({
-      username,
-      password,
-      status: 'pending',
-      goal: 10,
-      rewardText: 'Free item on goal'
-    });
-
-    return res.status(201).json({
-      message: 'Application submitted. Pending approval.',
-      business: {
-        id: newBusiness.id,
-        username: newBusiness.username,
-        status: newBusiness.status
-      }
-    });
-  } catch (error) {
-    console.error('Business signup error:', error);
-    return res.status(500).json({ message: 'Server error' });
-  }
+exports.logout = (req, res) => {
+  res.clearCookie("token");
+  res.json({ success: true });
 };
 
-/**
- * Business login (must be approved)
- */
-exports.businessLogin = async (req, res) => {
-  const rawUsername = req.body?.username;
-  const username = normalizeName(rawUsername);
-  const password = req.body?.password || '';
-
-  try {
-    const business = await Business.findOne({ where: { username } });
-    if (!business) return res.status(400).json({ message: 'Invalid credentials.' });
-
-    const isMatch = await bcrypt.compare(password, business.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials.' });
-
-    if (business.status !== 'approved') {
-      return res.status(403).json({ message: 'Your application is pending approval.' });
-    }
-
-    return res.status(200).json({
-      message: 'Login successful!',
-      business: {
-        id: business.id,
-        username: business.username,
-        goal: business.goal,
-        rewardText: business.rewardText
-      }
-    });
-  } catch (error) {
-    console.error('Business login error:', error);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
-
-/**
- * POST /api/approve-business
- * header: x-admin-token: ADMIN_TOKEN
- */
-exports.approveBusiness = async (req, res) => {
-  try {
-    const token = req.headers['x-admin-token'] || '';
-    if (token !== process.env.ADMIN_TOKEN) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    const rawUsername = req.body?.username;
-    const username = normalizeName(rawUsername);
-    if (!username) return res.status(400).json({ message: 'Missing username' });
-
-    const biz = await Business.findOne({ where: { username } });
-    if (!biz) return res.status(404).json({ message: 'Business not found' });
-
-    biz.status = 'approved';
-    await biz.save();
-
-    return res.json({ message: 'Approved', username: biz.username });
-  } catch (e) {
-    console.error('approveBusiness error:', e);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
-
-/**
- * GET /api/business-offer?username=...
- */
-exports.getBusinessOffer = async (req, res) => {
-  try {
-    const rawUsername = req.query?.username;
-    const username = normalizeName(rawUsername);
-    const biz = await Business.findOne({ where: { username } });
-
-    if (!biz) return res.status(404).json({ message: 'Business not found' });
-
-    return res.json({ goal: biz.goal, rewardText: biz.rewardText });
-  } catch (e) {
-    console.error('getBusinessOffer error:', e);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
-
-/**
- * PUT /api/business-offer  { username, goal?, rewardText? }
- */
-exports.updateBusinessOffer = async (req, res) => {
-  try {
-    const rawUsername = req.body?.username;
-    const username = normalizeName(rawUsername);
-    const { goal, rewardText } = req.body || {};
-
-    const biz = await Business.findOne({ where: { username } });
-    if (!biz) return res.status(404).json({ message: 'Business not found' });
-
-    if (goal !== undefined) {
-      biz.goal = Math.max(1, parseInt(goal, 10) || 10);
-    }
-    if (rewardText !== undefined) {
-      biz.rewardText = String(rewardText).slice(0, 140);
-    }
-
-    await biz.save();
-
-    return res.json({
-      message: 'Offer updated',
-      goal: biz.goal,
-      rewardText: biz.rewardText
-    });
-  } catch (e) {
-    console.error('updateBusinessOffer error:', e);
-    return res.status(500).json({ message: 'Server error' });
-  }
-};
