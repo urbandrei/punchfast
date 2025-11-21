@@ -1,169 +1,236 @@
-import { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
-const AuthModal = ({ show, onClose, onLoginSuccess }) => {
-    const [activeTab, setActiveTab] = useState('login');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+export default function AuthModal({ onClose, onLoginSuccess }) {
+    const [tab, setTab] = useState("login");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setMessage('');
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-        const endpoint = activeTab === 'login' ? '/api/login' : '/api/signup';
+    const [otp, setOtp] = useState("");
+    const [otpStage, setOtpStage] = useState(false);
+
+    const [isBusiness, setIsBusiness] = useState(false);
+
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+
+    const API = "https://punchfast-backend.onrender.com/api";  
+    // ⚠️ Replace with your own backend URL if needed
+
+    const handleSignup = async () => {
+        setError("");
+        setLoading(true);
 
         try {
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
+            const endpoint = isBusiness ? "/business/signup" : "/signup";
+
+            const res = await axios.post(`${API}${endpoint}`, {
+                username,
+                email,
+                password,
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                onLoginSuccess(data.user);
-                onClose();
-                setUsername('');
-                setPassword('');
-                setMessage('');
-            } else {
-                setMessage(data.message || 'An error occurred. Please try again.');
+            if (res.data.success) {
+                alert("Signup successful! You can now login.");
+                setTab("login");
+                setUsername("");
+                setEmail("");
+                setPassword("");
             }
-        } catch (error) {
-            console.error('Authentication error:', error);
-            setMessage('An error occurred. Please try again.');
-        } finally {
-            setIsLoading(false);
+        } catch (err) {
+            setError(err.response?.data?.message || "Signup failed");
         }
+        setLoading(false);
     };
 
-    const handleTabChange = (tab) => {
-        setActiveTab(tab);
-        setMessage('');
-        setUsername('');
-        setPassword('');
+    const handleSendOtp = async () => {
+        setError("");
+        setLoading(true);
+
+        try {
+            const res = await axios.post(
+                `${API}/request-login-otp`,
+                { username, password, isBusiness },
+                { withCredentials: true }
+            );
+
+            if (res.data.success) {
+                setOtpStage(true);
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Server error");
+        }
+
+        setLoading(false);
     };
 
-    const handleClose = () => {
-        setUsername('');
-        setPassword('');
-        setMessage('');
-        onClose();
-    };
+    const handleVerifyOtp = async () => {
+        setError("");
+        setLoading(true);
 
-    if (!show) return null;
+        try {
+            const res = await axios.post(
+                `${API}/verify-login-otp`,
+                { username, otp },
+                { withCredentials: true }
+            );
+
+            if (res.data.success) {
+                onLoginSuccess(res.data.user);
+                onClose();
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Invalid OTP");
+        }
+
+        setLoading(false);
+    };
 
     return (
-        <>
-            <div className="modal d-block" tabIndex="-1" role="dialog" onClick={handleClose}>
-                <div className="modal-dialog modal-dialog-centered" role="document" onClick={(e) => e.stopPropagation()}>
-                    <div className="modal-content">
-                        <div className="modal-body px-4 pt-0 pb-4">
-                            <ul className="nav nav-tabs nav-fill mb-4" role="tablist" style={{ borderBottom: '2px solid #A7CCDE' }}>
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className={`nav-link ${activeTab === 'login' ? 'active' : ''}`}
-                                        onClick={() => handleTabChange('login')}
-                                        type="button"
-                                        style={{
-                                            color: activeTab === 'login' ? '#302C9A' : '#6c757d',
-                                            borderColor: activeTab === 'login' ? '#A7CCDE #A7CCDE #fff' : 'transparent',
-                                            fontWeight: activeTab === 'login' ? '600' : '400'
-                                        }}
-                                    >
-                                        Sign In
-                                    </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className={`nav-link ${activeTab === 'signup' ? 'active' : ''}`}
-                                        onClick={() => handleTabChange('signup')}
-                                        type="button"
-                                        style={{
-                                            color: activeTab === 'signup' ? '#302C9A' : '#6c757d',
-                                            borderColor: activeTab === 'signup' ? '#A7CCDE #A7CCDE #fff' : 'transparent',
-                                            fontWeight: activeTab === 'signup' ? '600' : '400'
-                                        }}
-                                    >
-                                        Sign Up
-                                    </button>
-                                </li>
-                            </ul>
+        <div className="modal-bg">
+            <div className="auth-modal">
+                <button className="close-btn" onClick={onClose}>✖</button>
 
-                            {message && (
-                                <div className="alert" role="alert" style={{
-                                    backgroundColor: 'rgba(230, 142, 141, 0.1)',
-                                    color: '#E68E8D',
-                                    border: '1px solid #E68E8D',
-                                    borderRadius: '8px'
-                                }}>
-                                    {message}
-                                </div>
-                            )}
+                {/* Tabs */}
+                <div className="tabs">
+                    <button
+                        className={tab === "login" ? "active" : ""}
+                        onClick={() => {
+                            setTab("login");
+                            setOtpStage(false);
+                            setError("");
+                        }}
+                    >
+                        Login
+                    </button>
 
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label htmlFor="modal-username" className="form-label" style={{ color: '#302C9A', fontWeight: '500' }}>Username</label>
+                    <button
+                        className={tab === "signup" ? "active" : ""}
+                        onClick={() => {
+                            setTab("signup");
+                            setOtpStage(false);
+                            setError("");
+                        }}
+                    >
+                        Signup
+                    </button>
+                </div>
+
+                {error && <div className="error-box">{error}</div>}
+
+                {/* LOGIN SECTION */}
+                {tab === "login" && (
+                    <>
+                        {!otpStage ? (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="Username"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                />
+
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+
+                                <label>
                                     <input
-                                        type="text"
-                                        className="form-control"
-                                        id="modal-username"
-                                        placeholder="Enter username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        required
-                                        autoComplete="username"
-                                        style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                                        onFocus={(e) => e.target.style.borderColor = '#6AB7AD'}
-                                        onBlur={(e) => e.target.style.borderColor = '#A7CCDE'}
-                                    />
-                                </div>
-
-                                <div className="mb-4">
-                                    <label htmlFor="modal-password" className="form-label" style={{ color: '#302C9A', fontWeight: '500' }}>Password</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="modal-password"
-                                        placeholder="Enter password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        autoComplete={activeTab === 'login' ? 'current-password' : 'new-password'}
-                                        style={{ borderColor: '#A7CCDE', borderRadius: '8px' }}
-                                        onFocus={(e) => e.target.style.borderColor = '#6AB7AD'}
-                                        onBlur={(e) => e.target.style.borderColor = '#A7CCDE'}
-                                    />
-                                </div>
+                                        type="checkbox"
+                                        checked={isBusiness}
+                                        onChange={() => setIsBusiness(!isBusiness)}
+                                    />{" "}
+                                    Business Login
+                                </label>
 
                                 <button
-                                    type="submit"
-                                    className="btn btn-primary w-100"
-                                    disabled={isLoading}
-                                    style={{ borderRadius: '8px', padding: '12px', fontWeight: '500' }}
+                                    className="blue-btn"
+                                    onClick={handleSendOtp}
+                                    disabled={loading}
                                 >
-                                    {isLoading ? (
-                                        <>
-                                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                                            {activeTab === 'login' ? 'Signing In...' : 'Signing Up...'}
-                                        </>
-                                    ) : (
-                                        activeTab === 'login' ? 'Sign In' : 'Sign Up'
-                                    )}
+                                    {loading ? "Sending OTP..." : "Send OTP"}
                                 </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="modal-backdrop show"></div>
-        </>
-    );
-};
+                            </>
+                        ) : (
+                            <>
+                                <input
+                                    type="text"
+                                    placeholder="Enter OTP"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                />
 
-export default AuthModal;
+                                <button
+                                    className="blue-btn"
+                                    onClick={handleVerifyOtp}
+                                    disabled={loading}
+                                >
+                                    {loading ? "Verifying..." : "Verify OTP"}
+                                </button>
+
+                                <button
+                                    className="link-btn"
+                                    onClick={() => {
+                                        setOtpStage(false);
+                                        setOtp("");
+                                    }}
+                                >
+                                    Resend?
+                                </button>
+                            </>
+                        )}
+                    </>
+                )}
+
+                {/* SIGNUP SECTION */}
+                {tab === "signup" && (
+                    <>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+
+                        <label>
+                            <input
+                                type="checkbox"
+                                checked={isBusiness}
+                                onChange={() => setIsBusiness(!isBusiness)}
+                            />{" "}
+                            Business Signup
+                        </label>
+
+                        <button
+                            className="blue-btn"
+                            onClick={handleSignup}
+                            disabled={loading}
+                        >
+                            {loading ? "Please wait..." : "Signup"}
+                        </button>
+                    </>
+                )}
+            </div>
+        </div>
+    );
+}
+
