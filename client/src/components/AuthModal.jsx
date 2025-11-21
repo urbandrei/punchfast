@@ -1,85 +1,83 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function AuthModal({ onClose, onLoginSuccess }) {
-    const [tab, setTab] = useState("login");
+export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
+    const API = "https://punchfast-backend.onrender.com/api";
+
+    const [mode, setMode] = useState("login"); // login | signup | forgot | verifyForgot | reset
+    const [otpStage, setOtpStage] = useState(false); // signup OTP stage
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     const [otp, setOtp] = useState("");
-    const [otpStage, setOtpStage] = useState(false);
-
-    const [isBusiness, setIsBusiness] = useState(false);
-
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const API = "https://punchfast-backend.onrender.com/api";  
-    // ⚠️ Replace with your own backend URL if needed
+    if (!show) return null;
 
-    const handleSignup = async () => {
+    const resetAll = () => {
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setOtp("");
         setError("");
-        setLoading(true);
-
-        try {
-            const endpoint = isBusiness ? "/business/signup" : "/signup";
-
-            const res = await axios.post(`${API}${endpoint}`, {
-                username,
-                email,
-                password,
-            });
-
-            if (res.data.success) {
-                alert("Signup successful! You can now login.");
-                setTab("login");
-                setUsername("");
-                setEmail("");
-                setPassword("");
-            }
-        } catch (err) {
-            setError(err.response?.data?.message || "Signup failed");
-        }
         setLoading(false);
+        setOtpStage(false);
     };
 
-    const handleSendOtp = async () => {
-        setError("");
+    const closeModal = () => {
+        resetAll();
+        onClose();
+    };
+
+    const sendSignupOtp = async () => {
+        if (!username || !email || !password || !confirmPassword) {
+            setError("All fields are required");
+            return;
+        }
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
         setLoading(true);
+        setError("");
 
         try {
-            const res = await axios.post(
-                `${API}/request-login-otp`,
-                { username, password, isBusiness },
-                { withCredentials: true }
-            );
+            const res = await axios.post(`${API}/signup/send-otp`, {
+                username,
+                email,
+                password
+            });
 
             if (res.data.success) {
                 setOtpStage(true);
             }
         } catch (err) {
-            setError(err.response?.data?.message || "Server error");
+            setError(err.response?.data?.message || "Failed to send OTP");
         }
 
         setLoading(false);
     };
 
-    const handleVerifyOtp = async () => {
-        setError("");
+    const verifySignupOtp = async () => {
         setLoading(true);
+        setError("");
 
         try {
-            const res = await axios.post(
-                `${API}/verify-login-otp`,
-                { username, otp },
-                { withCredentials: true }
-            );
+            const res = await axios.post(`${API}/signup/verify-otp`, {
+                username,
+                otp
+            });
 
             if (res.data.success) {
-                onLoginSuccess(res.data.user);
-                onClose();
+                alert("Account created! You can now login.");
+                setMode("login");
+                resetAll();
             }
         } catch (err) {
             setError(err.response?.data?.message || "Invalid OTP");
@@ -88,144 +86,209 @@ export default function AuthModal({ onClose, onLoginSuccess }) {
         setLoading(false);
     };
 
+    const login = async () => {
+        if (!username || !password) {
+            setError("Enter username and password");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(
+                `${API}/login`,
+                { username, password },
+                { withCredentials: true }
+            );
+
+            if (res.data.success) {
+                onLoginSuccess(res.data.user);
+                closeModal();
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Login failed");
+        }
+
+        setLoading(false);
+    };
+
+    const sendForgotOtp = async () => {
+        if (!username) {
+            setError("Enter username");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(`${API}/forgot-password`, {
+                username
+            });
+
+            if (res.data.success) {
+                setMode("verifyForgot");
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Error sending OTP");
+        }
+
+        setLoading(false);
+    };
+
+    const verifyForgotOtp = async () => {
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(`${API}/forgot-password/verify`, {
+                username,
+                otp
+            });
+
+            if (res.data.success) {
+                setMode("reset");
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Invalid OTP");
+        }
+
+        setLoading(false);
+    };
+
+    const resetPassword = async () => {
+        if (!password || !confirmPassword) {
+            setError("Enter password");
+            return;
+        }
+        if (password !== confirmPassword) {
+            setError("Passwords do not match");
+            return;
+        }
+
+        setLoading(true);
+        setError("");
+
+        try {
+            const res = await axios.post(`${API}/reset-password`, {
+                username,
+                newPassword: password
+            });
+
+            if (res.data.success) {
+                alert("Password changed!");
+                setMode("login");
+                resetAll();
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || "Failed to reset");
+        }
+
+        setLoading(false);
+    };
+
     return (
         <div className="modal-bg">
             <div className="auth-modal">
-                <button className="close-btn" onClick={onClose}>✖</button>
+                <button className="close-btn" onClick={closeModal}>✖</button>
 
-                {/* Tabs */}
-                <div className="tabs">
-                    <button
-                        className={tab === "login" ? "active" : ""}
-                        onClick={() => {
-                            setTab("login");
-                            setOtpStage(false);
-                            setError("");
-                        }}
-                    >
-                        Login
-                    </button>
+                {/* TABS */}
+                {(mode === "login" || mode === "signup") && (
+                    <div className="tabs">
+                        <button
+                            className={mode === "login" ? "active" : ""}
+                            onClick={() => { setMode("login"); resetAll(); }}
+                        >
+                            Login
+                        </button>
 
-                    <button
-                        className={tab === "signup" ? "active" : ""}
-                        onClick={() => {
-                            setTab("signup");
-                            setOtpStage(false);
-                            setError("");
-                        }}
-                    >
-                        Signup
-                    </button>
-                </div>
+                        <button
+                            className={mode === "signup" ? "active" : ""}
+                            onClick={() => { setMode("signup"); resetAll(); }}
+                        >
+                            Signup
+                        </button>
+                    </div>
+                )}
 
                 {error && <div className="error-box">{error}</div>}
 
-                {/* LOGIN SECTION */}
-                {tab === "login" && (
+                {/* LOGIN */}
+                {mode === "login" && (
                     <>
-                        {!otpStage ? (
-                            <>
-                                <input
-                                    type="text"
-                                    placeholder="Username"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
+                        <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
+                        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
 
-                                <input
-                                    type="password"
-                                    placeholder="Password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                        <button className="blue-btn" onClick={login} disabled={loading}>
+                            {loading ? "Loading..." : "Login"}
+                        </button>
 
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={isBusiness}
-                                        onChange={() => setIsBusiness(!isBusiness)}
-                                    />{" "}
-                                    Business Login
-                                </label>
-
-                                <button
-                                    className="blue-btn"
-                                    onClick={handleSendOtp}
-                                    disabled={loading}
-                                >
-                                    {loading ? "Sending OTP..." : "Send OTP"}
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                <input
-                                    type="text"
-                                    placeholder="Enter OTP"
-                                    value={otp}
-                                    onChange={(e) => setOtp(e.target.value)}
-                                />
-
-                                <button
-                                    className="blue-btn"
-                                    onClick={handleVerifyOtp}
-                                    disabled={loading}
-                                >
-                                    {loading ? "Verifying..." : "Verify OTP"}
-                                </button>
-
-                                <button
-                                    className="link-btn"
-                                    onClick={() => {
-                                        setOtpStage(false);
-                                        setOtp("");
-                                    }}
-                                >
-                                    Resend?
-                                </button>
-                            </>
-                        )}
+                        <button className="link-btn" onClick={() => setMode("forgot")}>
+                            Forgot Password?
+                        </button>
                     </>
                 )}
 
-                {/* SIGNUP SECTION */}
-                {tab === "signup" && (
+                {/* SIGNUP */}
+                {mode === "signup" && !otpStage && (
                     <>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
+                        <input placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
+                        <input placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+                        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
 
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                        <button className="blue-btn" onClick={sendSignupOtp} disabled={loading}>
+                            {loading ? "Sending OTP..." : "Send OTP"}
+                        </button>
+                    </>
+                )}
 
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                {/* SIGNUP OTP */}
+                {mode === "signup" && otpStage && (
+                    <>
+                        <input placeholder="Enter OTP" value={otp} onChange={e => setOtp(e.target.value)} />
 
-                        <label>
-                            <input
-                                type="checkbox"
-                                checked={isBusiness}
-                                onChange={() => setIsBusiness(!isBusiness)}
-                            />{" "}
-                            Business Signup
-                        </label>
+                        <button className="blue-btn" onClick={verifySignupOtp} disabled={loading}>
+                            {loading ? "Verifying..." : "Verify OTP"}
+                        </button>
 
-                        <button
-                            className="blue-btn"
-                            onClick={handleSignup}
-                            disabled={loading}
-                        >
-                            {loading ? "Please wait..." : "Signup"}
+                        <button className="link-btn" onClick={sendSignupOtp}>
+                            Resend OTP
+                        </button>
+                    </>
+                )}
+
+                {/* FORGOT PASSWORD */}
+                {mode === "forgot" && (
+                    <>
+                        <input placeholder="Enter Username" value={username} onChange={e => setUsername(e.target.value)} />
+
+                        <button className="blue-btn" onClick={sendForgotOtp} disabled={loading}>
+                            {loading ? "Sending..." : "Send OTP"}
+                        </button>
+                    </>
+                )}
+
+                {/* VERIFY FORGOT OTP */}
+                {mode === "verifyForgot" && (
+                    <>
+                        <input placeholder="Enter OTP" value={otp} onChange={e => setOtp(e.target.value)} />
+
+                        <button className="blue-btn" onClick={verifyForgotOtp} disabled={loading}>
+                            {loading ? "Checking..." : "Verify OTP"}
+                        </button>
+                    </>
+                )}
+
+                {/* RESET PASSWORD */}
+                {mode === "reset" && (
+                    <>
+                        <input type="password" placeholder="New Password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input type="password" placeholder="Confirm Password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+
+                        <button className="blue-btn" onClick={resetPassword} disabled={loading}>
+                            {loading ? "Saving..." : "Reset Password"}
                         </button>
                     </>
                 )}
@@ -233,4 +296,5 @@ export default function AuthModal({ onClose, onLoginSuccess }) {
         </div>
     );
 }
+
 
