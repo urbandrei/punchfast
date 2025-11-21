@@ -26,3 +26,4 @@ const Search = sequelize.define('Search', {
 });
 
 module.exports = Search;
+
