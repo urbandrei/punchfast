@@ -21,9 +21,13 @@ const Business = sequelize.define('Business', {
     hooks: {
         beforeCreate: async (business) => {
             business.password = await bcrypt.hash(business.password, 10);
+        },
+        beforeUpdate: async (business) => {
+            if (business.changed('password')) {
+                business.password = await bcrypt.hash(business.password, 10);
+            }
         }
     }
 });
 
 module.exports = Business;
-
