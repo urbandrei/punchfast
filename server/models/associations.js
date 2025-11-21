@@ -35,21 +35,18 @@ Store.belongsToMany(Route, {
     as: 'routes'
 });
 
-// Direct access to junction table
 Route.hasMany(RouteStore, { foreignKey: 'routeId', as: 'routeStores' });
 RouteStore.belongsTo(Route, { foreignKey: 'routeId', as: 'route' });
 
 Store.hasMany(RouteStore, { foreignKey: 'storeId', as: 'routeStores' });
 RouteStore.belongsTo(Store, { foreignKey: 'storeId', as: 'store' });
 
-// SavedStore associations
 User.hasMany(SavedStore, { foreignKey: 'userId', as: 'savedStores' });
 SavedStore.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 Store.hasMany(SavedStore, { foreignKey: 'storeId', as: 'savedByUsers' });
 SavedStore.belongsTo(Store, { foreignKey: 'storeId', as: 'store' });
 
-// Many-to-many relationship through SavedStore
 User.belongsToMany(Store, {
     through: SavedStore,
     foreignKey: 'userId',
@@ -76,3 +73,4 @@ module.exports = {
     Search,
     SavedStore
 };
+
