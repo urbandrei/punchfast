@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import AuthModal from "./components/AuthModal.jsx";
 
-import VisitNotificationModal from './components/VisitNotificationModal';
-import ChangePasswordModal from './components/ChangePasswordModal';
-import BusinessAuthModal from "./components/BusinessAuthModal.jsx";
+// FIXED imports — EXACT filenames
+import Navbar from './components/Navbar.jsx';
+import AuthModal from './components/AuthModal.jsx';
+import BusinessAuthModal from './components/BusinessAuthModal.jsx';
+import VisitNotificationModal from './components/VisitNotificationModal.jsx';
+import ChangePasswordModal from './components/ChangePasswordModal.jsx';
 
-import Home from './views/home';
-import Dashboard from './views/dashboard';
-import NewStore from './views/new_store';
-import NewRoute from './views/new_route';
-import BusinessPunches from './views/business_punches';
-import BusinessDashboard from './views/business_dashboard';
+// FIXED view imports — EXACT filenames
+import Home from './views/home.jsx';
+import Dashboard from './views/dashboard.jsx';
+import NewStore from './views/new_store.jsx';
+import NewRoute from './views/new_route.jsx';
+import BusinessPunches from './views/business_punches.jsx';
+import BusinessDashboard from './views/business_dashboard.jsx';
 
 const SESSION_STORAGE_KEY = 'punchfast_notified_stores';
 
@@ -20,15 +22,13 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // customer auth modal
   const [showAuthModal, setShowAuthModal] = useState(false);
-  // business auth modal
   const [showBusinessAuthModal, setShowBusinessAuthModal] = useState(false);
-
   const [businessUser, setBusinessUser] = useState(null);
 
   const [showVisitModal, setShowVisitModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+
   const [nearbyStores, setNearbyStores] = useState([]);
   const locationCheckInterval = useRef(null);
 
@@ -42,7 +42,7 @@ const App = () => {
         setBusinessUser({ username: stored });
       }
     } catch (e) {
-      console.error('Error reading business session from storage:', e);
+      console.error('Error reading business session:', e);
     }
   }, []);
 
@@ -110,18 +110,14 @@ const App = () => {
         `/api/nearby-eligible-stores?userId=${currentUser.id}&latitude=${latitude}&longitude=${longitude}`
       );
 
-      if (!res.ok) {
-        console.error('Failed to fetch nearby stores: ');
-        return;
-      }
+      if (!res.ok) return;
 
       const data = await res.json();
 
-      if (!data.stores || data.stores.length === 0) {
-        return;
-      }
+      if (!data.stores || data.stores.length === 0) return;
 
       const notifiedStores = getNotifiedStores();
+
       const newStores = data.stores.filter(
         (store) => !notifiedStores.includes(store.id)
       );
@@ -140,19 +136,13 @@ const App = () => {
     checkNearbyStores(latitude, longitude);
   };
 
-  const handleLocationError = (error) => {
-    console.error('Location error:', error);
-  };
-
   useEffect(() => {
-    if (!isLoggedIn || !currentUser) {
-      return;
-    }
+    if (!isLoggedIn || !currentUser) return;
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         handleLocationUpdate,
-        handleLocationError
+        (err) => console.error('Location error:', err)
       );
     }
 
@@ -160,7 +150,7 @@ const App = () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           handleLocationUpdate,
-          handleLocationError
+          (err) => console.error('Location error:', err)
         );
       }
     }, 60000);
@@ -173,29 +163,6 @@ const App = () => {
     };
   }, [isLoggedIn, currentUser]);
 
-  const handleVisit = (storeIds) => {
-    addNotifiedStores(storeIds);
-  };
-
-  const handleNotVisiting = (storeIds) => {
-    addNotifiedStores(storeIds);
-  };
-
-  const handleCloseVisitModal = () => {
-    setShowVisitModal(false);
-    setNearbyStores([]);
-  };
-
-  const handleSignOut = () => {
-    setIsLoggedIn(false);
-    setCurrentUser(null);
-    if (locationCheckInterval.current) {
-      clearInterval(locationCheckInterval.current);
-      locationCheckInterval.current = null;
-    }
-    sessionStorage.removeItem(SESSION_STORAGE_KEY);
-  };
-
   return (
     <Router>
       <div>
@@ -206,7 +173,7 @@ const App = () => {
           onShowAuth={() => setShowAuthModal(true)}
           onShowBusinessAuth={() => setShowBusinessAuthModal(true)}
           onChangePassword={() => setShowChangePasswordModal(true)}
-          onSignOut={handleSignOut}
+          onSignOut={() => handleLogin(false)}
           onBusinessSignOut={handleBusinessSignOut}
         />
 
@@ -226,9 +193,12 @@ const App = () => {
           show={showVisitModal}
           stores={nearbyStores}
           userId={currentUser?.id}
-          onVisit={handleVisit}
-          onNotVisiting={handleNotVisiting}
-          onClose={handleCloseVisitModal}
+          onVisit={addNotifiedStores}
+          onNotVisiting={addNotifiedStores}
+          onClose={() => {
+            setShowVisitModal(false);
+            setNearbyStores([]);
+          }}
         />
 
         <ChangePasswordModal
@@ -240,37 +210,23 @@ const App = () => {
         <Routes>
           <Route
             path="/"
-            element={
-              <Home
-                isLogin={isLoggedIn}
-                user={currentUser}
-                onShowAuth={() => setShowAuthModal(true)}
-              />
-            }
+            element={<Home isLogin={isLoggedIn} user={currentUser} />}
           />
+
           <Route
             path="/dashboard"
-            element={
-              <Dashboard
-                isLogin={isLoggedIn}
-                user={currentUser}
-                onShowAuth={() => setShowAuthModal(true)}
-              />
-            }
+            element={<Dashboard isLogin={isLoggedIn} user={currentUser} />}
           />
-          <Route
-            path="/newstore"
-            element={<NewStore onLoginSuccess={() => handleLogin(true)} />}
-          />
-          <Route
-            path="/newroute"
-            element={<NewRoute onLoginSuccess={() => handleLogin(true)} />}
-          />
+
+          <Route path="/newstore" element={<NewStore />} />
+
+          <Route path="/newroute" element={<NewRoute />} />
 
           <Route
             path="/business/punches"
             element={<BusinessPunches business={businessUser} />}
           />
+
           <Route
             path="/business/dashboard"
             element={<BusinessDashboard business={businessUser} />}
@@ -284,3 +240,4 @@ const App = () => {
 };
 
 export default App;
+
