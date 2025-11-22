@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-}
-
 export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
     const API = "https://punchfast-backend.onrender.com/api";
 
@@ -272,7 +270,7 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
                     </>
                 )}
 
-                {/* VERIFY FORGOT OTP */}
+                {/* VERIFY FORGOT PASSWORD OTP */}
                 {mode === "verifyForgot" && (
                     <>
                         <input placeholder="Enter OTP" value={otp} onChange={e => setOtp(e.target.value)} />
@@ -298,5 +296,6 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         </div>
     );
 }
+
 
 
