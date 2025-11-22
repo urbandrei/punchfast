@@ -5,7 +5,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
     const API = "https://punchfast-backend.onrender.com/api";
 
     const [mode, setMode] = useState("login"); 
-    const [otpStage, setOtpStage] = useState(false); 
+    const [otpStage, setOtpStage] = useState(false);
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
 
     if (!show) return null;
 
-    const resetAll = () => {
+    const reset = () => {
         setUsername("");
         setEmail("");
         setLegalName("");
@@ -32,10 +32,11 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
         setOtp("");
         setOtpStage(false);
         setError("");
+        setLoading(false);
     };
 
-    const closeModal = () => {
-        resetAll();
+    const close = () => {
+        reset();
         onClose();
     };
 
@@ -43,7 +44,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
     // BUSINESS SIGNUP → SEND OTP
     // --------------------------
     const sendSignupOtp = async () => {
-        if (!username || !email || !password || !confirmPassword || !legalName || !address || !phone) {
+        if (!username || !email || !legalName || !address || !phone || !password || !confirmPassword) {
             setError("All fields are required");
             return;
         }
@@ -57,17 +58,10 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
 
         try {
             const res = await axios.post(`${API}/business/signup/send-otp`, {
-                username,
-                email,
-                password,
-                legalName,
-                address,
-                phone
+                username, email, password, legalName, address, phone
             });
 
-            if (res.data.success) {
-                setOtpStage(true);
-            }
+            if (res.data.success) setOtpStage(true);
         } catch (err) {
             setError(err.response?.data?.message || "Error sending OTP");
         }
@@ -84,14 +78,13 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
 
         try {
             const res = await axios.post(`${API}/business/signup/verify-otp`, {
-                username,
-                otp
+                username, otp
             });
 
             if (res.data.success) {
-                alert("Business registration complete! You may now login.");
+                alert("Business account created! You may now login.");
                 setMode("login");
-                resetAll();
+                reset();
             }
         } catch (err) {
             setError(err.response?.data?.message || "Invalid OTP");
@@ -101,7 +94,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
     };
 
     // --------------------------
-    // BUSINESS LOGIN
+    // LOGIN
     // --------------------------
     const login = async () => {
         if (!username || !password) {
@@ -121,7 +114,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
 
             if (res.data.success) {
                 onLoginSuccess(res.data.business);
-                closeModal();
+                close();
             }
         } catch (err) {
             setError(err.response?.data?.message || "Login failed");
@@ -135,7 +128,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
     // --------------------------
     const sendForgotOtp = async () => {
         if (!username) {
-            setError("Enter business username");
+            setError("Enter username");
             return;
         }
 
@@ -143,13 +136,9 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
         setError("");
 
         try {
-            const res = await axios.post(`${API}/business/forgot-password`, {
-                username
-            });
+            const res = await axios.post(`${API}/business/forgot-password`, { username });
 
-            if (res.data.success) {
-                setMode("verifyForgot");
-            }
+            if (res.data.success) setMode("verifyForgot");
         } catch (err) {
             setError(err.response?.data?.message || "Failed to send OTP");
         }
@@ -158,7 +147,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
     };
 
     // --------------------------
-    // VERIFY FORGOT PASSWORD OTP
+    // VERIFY OTP FOR RESET
     // --------------------------
     const verifyForgotOtp = async () => {
         if (!otp) {
@@ -171,13 +160,10 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
 
         try {
             const res = await axios.post(`${API}/business/forgot-password/verify`, {
-                username,
-                otp
+                username, otp
             });
 
-            if (res.data.success) {
-                setMode("reset");
-            }
+            if (res.data.success) setMode("reset");
         } catch (err) {
             setError(err.response?.data?.message || "Invalid OTP");
         }
@@ -186,7 +172,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
     };
 
     // --------------------------
-    // RESET PASSWORD (after OTP)
+    // RESET PASSWORD
     // --------------------------
     const resetPassword = async () => {
         if (!password || !confirmPassword) {
@@ -208,37 +194,39 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
             });
 
             if (res.data.success) {
-                alert("Password reset successful.");
+                alert("Password changed!");
                 setMode("login");
-                resetAll();
+                reset();
             }
         } catch (err) {
-            setError(err.response?.data?.message || "Failed to reset");
+            setError(err.response?.data?.message || "Reset failed");
         }
 
         setLoading(false);
     };
 
-    // ---------------------------------------
-    // RENDER UI
-    // ---------------------------------------
+    // -------------------------------------------------
+    // UI RENDER
+    // -------------------------------------------------
     return (
         <div className="modal-bg">
             <div className="auth-modal">
-                <button className="close-btn" onClick={closeModal}>✖</button>
 
+                <button className="close-btn" onClick={close}>✖</button>
+
+                {/* TABS */}
                 {(mode === "login" || mode === "signup") && (
                     <div className="tabs">
                         <button
                             className={mode === "login" ? "active" : ""}
-                            onClick={() => { setMode("login"); resetAll(); }}
+                            onClick={() => { setMode("login"); reset(); }}
                         >
                             Business Login
                         </button>
 
                         <button
                             className={mode === "signup" ? "active" : ""}
-                            onClick={() => { setMode("signup"); resetAll(); }}
+                            onClick={() => { setMode("signup"); reset(); }}
                         >
                             Business Signup
                         </button>
@@ -299,7 +287,7 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
                 {/* FORGOT PASSWORD */}
                 {mode === "forgot" && (
                     <>
-                        <input placeholder="Enter Business Username" value={username} onChange={e => setUsername(e.target.value)} />
+                        <input placeholder="Business Username" value={username} onChange={e => setUsername(e.target.value)} />
 
                         <button className="blue-btn" onClick={sendForgotOtp} disabled={loading}>
                             {loading ? "Sending..." : "Send OTP"}
@@ -307,10 +295,10 @@ export default function BusinessAuthModal({ show, onClose, onLoginSuccess }) {
                     </>
                 )}
 
-                {/* VERIFY OTP FOR FORGOT PASSWORD */}
+                {/* VERIFY FORGOT OTP */}
                 {mode === "verifyForgot" && (
                     <>
-                        <input placeholder="Enter OTP" value={otp} onChange={e => setOtp(e.target.value)} />
+                        <input placeholder="OTP" value={otp} onChange={e => setOtp(e.target.value)} />
 
                         <button className="blue-btn" onClick={verifyForgotOtp} disabled={loading}>
                             {loading ? "Checking..." : "Verify OTP"}
