@@ -2,11 +2,15 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
 const Store = sequelize.define("Store", {
-    name: { type: DataTypes.STRING, allowNull: false },
-    address: { type: DataTypes.STRING },
-    latitude: { type: DataTypes.FLOAT },
-    longitude: { type: DataTypes.FLOAT }
+    name: DataTypes.STRING,
+    address: DataTypes.STRING,
+    businessId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: "Businesses",
+            key: "id"
+        }
+    }
 });
 
 module.exports = Store;
-
