@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
+export default function AuthModal({ show, onClose, onLoginSuccess }) {
     const API = "https://punchfast-backend.onrender.com/api";
 
     const [mode, setMode] = useState("login"); // login | signup | forgot | verifyForgot | reset
@@ -34,6 +34,9 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         onClose();
     };
 
+    // -------------------------
+    // SIGNUP → SEND OTP
+    // -------------------------
     const sendSignupOtp = async () => {
         if (!username || !email || !password || !confirmPassword) {
             setError("All fields are required");
@@ -64,6 +67,9 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         setLoading(false);
     };
 
+    // -------------------------
+    // VERIFY SIGNUP OTP
+    // -------------------------
     const verifySignupOtp = async () => {
         setLoading(true);
         setError("");
@@ -86,6 +92,9 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         setLoading(false);
     };
 
+    // -------------------------
+    // LOGIN
+    // -------------------------
     const login = async () => {
         if (!username || !password) {
             setError("Enter username and password");
@@ -113,6 +122,9 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         setLoading(false);
     };
 
+    // -------------------------
+    // FORGOT PASSWORD → SEND OTP
+    // -------------------------
     const sendForgotOtp = async () => {
         if (!username) {
             setError("Enter username");
@@ -137,7 +149,15 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         setLoading(false);
     };
 
+    // -------------------------
+    // VERIFY FORGOT-PASSWORD OTP
+    // -------------------------
     const verifyForgotOtp = async () => {
+        if (!otp) {
+            setError("Enter OTP");
+            return;
+        }
+
         setLoading(true);
         setError("");
 
@@ -157,6 +177,9 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         setLoading(false);
     };
 
+    // -------------------------
+    // RESET PASSWORD
+    // -------------------------
     const resetPassword = async () => {
         if (!password || !confirmPassword) {
             setError("Enter password");
@@ -177,23 +200,25 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
             });
 
             if (res.data.success) {
-                alert("Password changed!");
+                alert("Password updated successfully!");
                 setMode("login");
                 resetAll();
             }
         } catch (err) {
-            setError(err.response?.data?.message || "Failed to reset");
+            setError(err.response?.data?.message || "Failed to reset password");
         }
 
         setLoading(false);
     };
 
+    // -------------------------
+    // RENDER UI
+    // -------------------------
     return (
         <div className="modal-bg">
             <div className="auth-modal">
                 <button className="close-btn" onClick={closeModal}>✖</button>
 
-                {/* TABS */}
                 {(mode === "login" || mode === "signup") && (
                     <div className="tabs">
                         <button
@@ -270,7 +295,7 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
                     </>
                 )}
 
-                {/* VERIFY FORGOT PASSWORD OTP */}
+                {/* VERIFY FORGOT OTP */}
                 {mode === "verifyForgot" && (
                     <>
                         <input placeholder="Enter OTP" value={otp} onChange={e => setOtp(e.target.value)} />
@@ -296,6 +321,7 @@ export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
         </div>
     );
 }
+
 
 
 
