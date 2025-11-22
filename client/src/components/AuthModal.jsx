@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-export default function AuthModal() {
-  return null;
+
 }
 
 export default function UserAuthModal({ show, onClose, onLoginSuccess }) {
