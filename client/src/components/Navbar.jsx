@@ -1,72 +1,63 @@
-import React, { useState, useEffect } from "react";
-import AuthModal from "./AuthModal.jsx";
-import ChangePasswordModal from "./ChangePasswordModal.jsx";
-import axios from "axios";
+import React from "react";
 
-export default function Navbar() {
-    const [authModal, setAuthModal] = useState(false);
-    const [passwordModal, setPasswordModal] = useState(false);
-    const [user, setUser] = useState(null);
-
-    const API = "https://punchfast-backend.onrender.com/api";
-
-    const checkLogin = async () => {
-        try {
-            const res = await axios.get(`${API}/me`, { withCredentials: true });
-            if (res.data?.user) setUser(res.data.user);
-        } catch (err) {
-            console.error("Login check failed:", err);
-        }
-    };
-
-    const logout = async () => {
-        try {
-            await axios.post(`${API}/logout`, {}, { withCredentials: true });
-            setUser(null);
-        } catch (err) {
-            console.error("Logout failed:", err);
-        }
-    };
-
-    useEffect(() => {
-        checkLogin();
-    }, []);
-
+export default function Navbar({
+    isLoggedIn,
+    currentUser,
+    business,
+    onShowAuth,
+    onShowBusinessAuth,
+    onChangePassword,
+    onSignOut,
+    onBusinessSignOut
+}) {
     return (
         <nav className="navbar">
             <div className="nav-title">Punchfast</div>
 
             <div className="nav-right">
-                {!user ? (
-                    <button className="signin-btn" onClick={() => setAuthModal(true)}>
-                        Sign In
-                    </button>
-                ) : (
+
+                {/* ---------------- CUSTOMER NOT LOGGED IN ---------------- */}
+                {!isLoggedIn && !business && (
                     <>
-                        <span className="user-tag">Hi, {user.username}</span>
-                        <button className="small-btn" onClick={() => setPasswordModal(true)}>
+                        <button className="signin-btn" onClick={onShowAuth}>
+                            User Sign In
+                        </button>
+
+                        <button className="signin-btn" onClick={onShowBusinessAuth}>
+                            Business Sign In
+                        </button>
+                    </>
+                )}
+
+                {/* ---------------- CUSTOMER LOGGED IN ---------------- */}
+                {isLoggedIn && currentUser && (
+                    <>
+                        <span className="user-tag">Hi, {currentUser.username}</span>
+
+                        <button className="small-btn" onClick={onChangePassword}>
                             Change Password
                         </button>
-                        <button className="small-btn red" onClick={logout}>
+
+                        <button className="small-btn red" onClick={onSignOut}>
+                            Logout
+                        </button>
+                    </>
+                )}
+
+                {/* ---------------- BUSINESS LOGGED IN ---------------- */}
+                {business && !isLoggedIn && (
+                    <>
+                        <span className="user-tag">Biz: {business.username}</span>
+
+                        <button className="small-btn red" onClick={onBusinessSignOut}>
                             Logout
                         </button>
                     </>
                 )}
             </div>
-
-            {authModal && (
-                <AuthModal
-                    show={authModal}
-                    onClose={() => setAuthModal(false)}
-                    onLoginSuccess={(u) => setUser(u)}
-                />
-            )}
-
-            {passwordModal && (
-                <ChangePasswordModal show={passwordModal} onClose={() => setPasswordModal(false)} />
-            )}
         </nav>
     );
 }
+
 
 
