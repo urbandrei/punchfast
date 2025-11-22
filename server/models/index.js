@@ -1,38 +1,24 @@
-const { Sequelize } = require("sequelize");
-const path = require("path");
+const sequelize = require("../config/database");
 
-// Load DB config from environment
-const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
-    {
-        host: process.env.DB_HOST || "db",
-        dialect: "postgres",
-        logging: false,
-    }
-);
-
-// Import all models
 const User = require("./User");
 const Business = require("./Business");
-const Visit = require("./Visit");
 const Store = require("./Store");
+const Visit = require("./Visit");
 
-// Initialize models with sequelize instance
-User.initModel(sequelize);
-Business.initModel(sequelize);
-Visit.initModel(sequelize);
-Store.initModel(sequelize);
+// Associations
+Business.hasMany(Store, { foreignKey: "businessId" });
+Store.belongsTo(Business, { foreignKey: "businessId" });
 
-// Run associations
-require("./associations")(sequelize);
+User.hasMany(Visit, { foreignKey: "userId" });
+Visit.belongsTo(User, { foreignKey: "userId" });
+
+Store.hasMany(Visit, { foreignKey: "storeId" });
+Visit.belongsTo(Store, { foreignKey: "storeId" });
 
 module.exports = {
     sequelize,
     User,
     Business,
-    Visit,
     Store,
+    Visit,
 };
-
