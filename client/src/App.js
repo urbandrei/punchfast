@@ -5,7 +5,8 @@ import AuthModal from "./components/AuthModal.jsx";
 
 import VisitNotificationModal from './components/VisitNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
-import BusinessAuthModal from './components/BusinessAuthModal';
+import BusinessAuthModal from "./components/BusinessAuthModal.jsx";
+
 import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
