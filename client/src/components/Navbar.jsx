@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import AuthModal from "./components/AuthModal";
-import ChangePasswordModal from "./components/ChangePasswordModal";
+import AuthModal from "./AuthModal.jsx";
+import ChangePasswordModal from "./ChangePasswordModal.jsx";
 import axios from "axios";
 
 export default function Navbar() {
@@ -14,12 +14,18 @@ export default function Navbar() {
         try {
             const res = await axios.get(`${API}/me`, { withCredentials: true });
             if (res.data?.user) setUser(res.data.user);
-        } catch {}
+        } catch (err) {
+            console.error("Login check failed:", err);
+        }
     };
 
     const logout = async () => {
-        await axios.post(`${API}/logout`, {}, { withCredentials: true });
-        setUser(null);
+        try {
+            await axios.post(`${API}/logout`, {}, { withCredentials: true });
+            setUser(null);
+        } catch (err) {
+            console.error("Logout failed:", err);
+        }
     };
 
     useEffect(() => {
@@ -48,17 +54,19 @@ export default function Navbar() {
                 )}
             </div>
 
-            {authModal ? (
+            {authModal && (
                 <AuthModal
+                    show={authModal}
                     onClose={() => setAuthModal(false)}
                     onLoginSuccess={(u) => setUser(u)}
                 />
-            ) : null}
+            )}
 
-            {passwordModal ? (
-                <ChangePasswordModal onClose={() => setPasswordModal(false)} />
-            ) : null}
+            {passwordModal && (
+                <ChangePasswordModal show={passwordModal} onClose={() => setPasswordModal(false)} />
+            )}
         </nav>
     );
 }
+
 
