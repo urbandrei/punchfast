@@ -9,7 +9,8 @@ const {
     RouteStore,
     Search,
     SavedStore
-} = require('./index');
+} = require('./index.js');
+
 
 User.hasMany(Visit, { foreignKey: 'userId' });
 Visit.belongsTo(User, { foreignKey: 'userId' });
