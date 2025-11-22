@@ -1,41 +1,28 @@
-const express = require('express');
-const cookieParser = require("cookie-parser");
+require("dotenv").config();
+const express = require("express");
 const cors = require("cors");
-require('dotenv').config();
+const cookieParser = require("cookie-parser");
+
+const { sequelize } = require("./models");
 
 const app = express();
-const sequelize = require('./config/database');
-require('./models/associations');
-
-const authRoutes = require('./routes/authRoutes');
-
-const PORT = process.env.PORT || 5000;
-
 app.use(express.json());
-
-app.use(cors({
-    origin: true,
-    credentials: true
-}));
-
 app.use(cookieParser());
+app.use(
+    cors({
+        origin: "*",
+        credentials: true,
+    })
+);
 
-app.use('/api/auth', authRoutes);
+// Load routes
+app.use("/api", require("./routes/api"));
 
-const startServer = async () => {
-    try {
-        await sequelize.authenticate();
-        await sequelize.sync();
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
-    } catch (error) {
-        console.error('Database connection error:', error);
-    }
-};
+// Start server
+sequelize.sync().then(() => {
+    console.log(" Database synced");
 
-startServer();
-
-
-
-
+    app.listen(5000, () => {
+        console.log(" Backend running on port 5000");
+    });
+});
