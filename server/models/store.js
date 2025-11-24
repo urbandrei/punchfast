@@ -18,6 +18,17 @@ const Store = sequelize.define('Store', {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
+
+
+    cuisine: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+
+    city: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
 });
 
 

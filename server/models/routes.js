@@ -10,6 +10,21 @@ const Route = sequelize.define('Route', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+
+    // Optional search fields (OK to keep)
+    cuisine: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+
+    city: {
+        type: DataTypes.STRING,
+        allowNull: true
+    }
+
+}, 
+{
+    timestamps: true
 });
 
 module.exports = Route;
