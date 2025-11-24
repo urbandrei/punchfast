@@ -12,7 +12,23 @@ const User = sequelize.define('User', {
     password: {
         type: DataTypes.STRING,
         allowNull: false,
+    },
+
+    visits: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+    },
+
+    routes_started: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+    },
+
+    routes_completed: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
     }
+
 }, {
     hooks: {
         beforeCreate: async (user) => {

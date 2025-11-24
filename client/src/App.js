@@ -11,6 +11,7 @@ import NewStore from './views/new_store';
 import NewRoute from './views/new_route';
 import BusinessPunches from './views/business_punches';
 import BusinessDashboard from './views/business_dashboard';
+import Achievements from "./views/achievements";
 
 const SESSION_STORAGE_KEY = 'punchfast_notified_stores';
 
@@ -246,6 +247,7 @@ const App = () => {
               />
             }
           />
+
           <Route
             path="/dashboard"
             element={
@@ -256,24 +258,33 @@ const App = () => {
               />
             }
           />
+
           <Route
             path="/newstore"
             element={<NewStore onLoginSuccess={() => handleLogin(true)} />}
           />
+
           <Route
             path="/newroute"
             element={<NewRoute onLoginSuccess={() => handleLogin(true)} />}
           />
 
           <Route
+            path="/achievements"
+            element={<Achievements />}
+          />
+
+          <Route
             path="/business/punches"
             element={<BusinessPunches business={businessUser} />}
           />
+
           <Route
             path="/business/dashboard"
             element={<BusinessDashboard business={businessUser} />}
           />
 
+          {/* Catch-all redirect */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

@@ -10,43 +10,56 @@ exports.createVisit = async (req, res) => {
 
     try {
         const user = await User.findByPk(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
         const store = await Store.findByPk(storeId);
-        if (!store) {
-            return res.status(404).json({ message: 'Store not found' });
-        }
+        if (!store) return res.status(404).json({ message: 'Store not found' });
 
         const visitData = { userId, storeId };
-        if (visitDate) {
-            visitData.visitDate = new Date(visitDate);
-        }
-
+        if (visitDate) visitData.visitDate = new Date(visitDate);
         const visit = await Visit.create(visitData);
+
+        user.visits += 1;
+        await user.save();
+
+        const unlockedAchievements = [];
+
+        const achievements = await Achievement.findAll();
+
+        for (let ach of achievements) {
+            const alreadyUnlocked = await UserAchievement.findOne({
+                where: { userId, achievementId: ach.id }
+            });
+
+            if (!alreadyUnlocked) {
+                if (
+                    (ach.type === "visits" && user.visits >= ach.condition)
+                ) {
+                    await UserAchievement.create({ userId, achievementId: ach.id });
+                    unlockedAchievements.push(ach);
+                }
+            }
+        }
 
         const completeVisit = await Visit.findByPk(visit.id, {
             include: [
-                {
-                    model: User,
-                    as: 'user',
-                    attributes: ['id', 'username']
-                },
-                {
-                    model: Store,
-                    as: 'store',
-                    attributes: ['id', 'name', 'address', 'latitude', 'longitude']
-                }
+                { model: User, as: 'user', attributes: ['id', 'username'] },
+                { model: Store, as: 'store', attributes: ['id', 'name', 'address', 'latitude', 'longitude'] }
             ]
         });
 
-        return res.status(201).json({ message: 'Visit created', visit: completeVisit });
+        return res.status(201).json({
+            message: 'Visit created',
+            visit: completeVisit,
+            unlockedAchievements     
+        });
+
     } catch (error) {
         console.error('Visit creation error:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
+
 
 exports.getStoreVisitStats = async (req, res) => {
     const { userId, storeId } = req.query;
@@ -56,12 +69,10 @@ exports.getStoreVisitStats = async (req, res) => {
     }
 
     try {
-        // Get total visit count
         const totalVisits = await Visit.count({
             where: { userId, storeId }
         });
 
-        // Get today's visits
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
@@ -96,7 +107,6 @@ exports.getRouteVisitProgress = async (req, res) => {
     }
 
     try {
-        // Get the route start to find when user joined the route
         const routeStart = await RouteStart.findOne({
             where: { userId, routeId },
             order: [['startDate', 'DESC']]
@@ -106,7 +116,6 @@ exports.getRouteVisitProgress = async (req, res) => {
             return res.status(200).json({ visitedStoreIds: [] });
         }
 
-        // Get visits to any store since the route was started
         const visits = await Visit.findAll({
             where: {
                 userId,

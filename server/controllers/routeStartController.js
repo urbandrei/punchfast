@@ -1,4 +1,6 @@
 const { User, Route, RouteStart, Store, RouteStore } = require('../models/associations');
+const { Achievement, UserAchievement } = require('../models/associations');
+
 
 exports.startRoute = async (req, res) => {
     const { userId, routeId, startDate } = req.body;
@@ -9,9 +11,7 @@ exports.startRoute = async (req, res) => {
 
     try {
         const user = await User.findByPk(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
         const route = await Route.findByPk(routeId, {
             include: [{
@@ -23,13 +23,9 @@ exports.startRoute = async (req, res) => {
             order: [[{ model: Store, as: 'stores' }, RouteStore, 'order', 'ASC']]
         });
 
-        if (!route) {
-            return res.status(404).json({ message: 'Route not found' });
-        }
+        if (!route) return res.status(404).json({ message: 'Route not found' });
 
-        const existingRouteStart = await RouteStart.findOne({
-            where: { userId, routeId }
-        });
+        const existingRouteStart = await RouteStart.findOne({ where: { userId, routeId } });
 
         let routeStart;
 
@@ -44,10 +40,29 @@ exports.startRoute = async (req, res) => {
             routeStart = existingRouteStart;
         } else {
             const routeStartData = { userId, routeId };
-            if (startDate) {
-                routeStartData.startDate = new Date(startDate);
-            }
+            if (startDate) routeStartData.startDate = new Date(startDate);
             routeStart = await RouteStart.create(routeStartData);
+        }
+
+        user.routes_started += 1;
+        await user.save();
+
+        const unlocked = [];
+
+        const travelerAchievement = await Achievement.findOne({
+            where: { type: 'routes_started', condition: 1 }
+        });
+
+        const already = await UserAchievement.findOne({
+            where: { userId, achievementId: travelerAchievement.id }
+        });
+
+        if (!already && user.routes_started >= 1) {
+            await UserAchievement.create({
+                userId,
+                achievementId: travelerAchievement.id
+            });
+            unlocked.push(travelerAchievement);
         }
 
         const result = {
@@ -60,23 +75,31 @@ exports.startRoute = async (req, res) => {
                 id: route.id,
                 name: route.name,
                 routeType: route.routeType,
-                stores: route.stores.map(store => ({
-                    id: store.id,
-                    name: store.name,
-                    address: store.address,
-                    latitude: store.latitude,
-                    longitude: store.longitude,
-                    order: store.RouteStore.order
-                })).sort((a, b) => a.order - b.order)
+                stores: route.stores
+                    .map(s => ({
+                        id: s.id,
+                        name: s.name,
+                        address: s.address,
+                        latitude: s.latitude,
+                        longitude: s.longitude,
+                        order: s.RouteStore.order
+                    }))
+                    .sort((a, b) => a.order - b.order)
             }
         };
 
-        return res.status(201).json({ message: 'Route started', routeStart: result });
+        return res.status(201).json({
+            message: 'Route started',
+            routeStart: result,
+            unlockedAchievements: unlocked          
+        });
+
     } catch (error) {
         console.error('Route start error:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
+
 
 exports.getUserRouteStarts = async (req, res) => {
     const { userId } = req.params;
@@ -139,9 +162,7 @@ exports.leaveRoute = async (req, res) => {
     }
 
     try {
-        const routeStart = await RouteStart.findOne({
-            where: { userId, routeId }
-        });
+        const routeStart = await RouteStart.findOne({ where: { userId, routeId } });
 
         if (!routeStart) {
             return res.status(404).json({ message: 'Route start not found' });
@@ -153,8 +174,35 @@ exports.leaveRoute = async (req, res) => {
 
         routeStart.status = 'left';
         await routeStart.save();
+        
+        const user = await User.findByPk(userId);
+        user.routes_completed += 1;
+        await user.save();
 
-        return res.status(200).json({ message: 'Successfully left the route', routeStart });
+        const unlocked = [];
+
+        const rmAchievement = await Achievement.findOne({
+            where: { type: 'routes_completed', condition: 5 }
+        });
+
+        const already = await UserAchievement.findOne({
+            where: { userId, achievementId: rmAchievement.id }
+        });
+
+        if (!already && user.routes_completed >= 5) {
+            await UserAchievement.create({
+                userId,
+                achievementId: rmAchievement.id
+            });
+            unlocked.push(rmAchievement);
+        }
+
+        return res.status(200).json({
+            message: 'Successfully left the route',
+            routeStart,
+            unlockedAchievements: unlocked     
+        });
+
     } catch (error) {
         console.error('Error leaving route:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });
