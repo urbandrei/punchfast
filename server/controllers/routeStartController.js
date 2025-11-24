@@ -110,14 +110,17 @@ exports.getUserRouteStarts = async (req, res) => {
             include: [
                 {
                     model: Route,
-                    as: 'route',
+                    as: 'startRoute',
                     attributes: ['id', 'name', 'routeType'],
-                    include: [{
-                        model: Store,
-                        as: 'stores',
-                        through: { attributes: ['order'] },
-                        attributes: ['id', 'name', 'address', 'latitude', 'longitude']
-                    }]
+                    include: 
+                    [
+                        {
+                            model: Store,
+                            as: 'routeStoresList',
+                            through: { attributes: ['order'] },
+                            attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+                        }
+                    ]
                 }
             ],
             order: [

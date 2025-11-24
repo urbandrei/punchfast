@@ -284,7 +284,6 @@ const App = () => {
             element={<BusinessDashboard business={businessUser} />}
           />
 
-          {/* Catch-all redirect */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

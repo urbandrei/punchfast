@@ -59,14 +59,14 @@ exports.getUserSavedStores = async (req, res) => {
             include: [
                 {
                     model: Store,
-                    as: 'store',
+                    as: 'savedStore',   // <-- CORRECT ALIAS
                     attributes: ['id', 'name', 'address', 'latitude', 'longitude']
                 }
             ],
             order: [['createdAt', 'DESC']]
         });
 
-        const stores = savedStores.map(saved => saved.store);
+        const stores = savedStores.map(entry => entry.savedStore);
 
         return res.status(200).json({
             count: stores.length,

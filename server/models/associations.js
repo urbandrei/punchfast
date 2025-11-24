@@ -12,9 +12,6 @@ const SavedStore = require('./savedStore');
 const Achievement = require('./achievement');
 const UserAchievement = require('./userachievement');
 
-/* -------------------------------------------------
-   VISITS
----------------------------------------------------*/
 
 User.hasMany(Visit, { foreignKey: 'userId', as: 'userVisits' });
 Visit.belongsTo(User, { foreignKey: 'userId', as: 'visitUser' });
