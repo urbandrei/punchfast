@@ -26,7 +26,7 @@ exports.newRoute = async (req, res) => {
         const completeRoute = await Route.findByPk(newRoute.id, {
             include: [{
                 model: Store,
-                as: 'stores',
+                as: 'routeStoresList',
                 through: { attributes: ['order'] },
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
             }]
@@ -89,13 +89,13 @@ exports.getNearbyRoutes = async (req, res) => {
             where: { id: { [Op.in]: routeIds } },
             include: [{
                 model: Store,
-                as: 'stores',
+                as: 'routeStoresList',
                 through: { attributes: ['order'] },
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
             }],
             order: [
                 ['id', 'ASC'],
-                [{ model: Store, as: 'stores' }, RouteStore, 'order', 'ASC']
+                [{ model: Store, as: 'routeStoresList' }, RouteStore, 'order', 'ASC']
             ]
         });
 
@@ -103,7 +103,7 @@ exports.getNearbyRoutes = async (req, res) => {
             id: route.id,
             name: route.name,
             routeType: route.routeType,
-            stores: route.stores.map(store => ({
+            stores: route.routeStoresList.map(store => ({
                 id: store.id,
                 name: store.name,
                 address: store.address,

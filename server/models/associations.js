@@ -12,26 +12,17 @@ const SavedStore = require('./savedStore');
 const Achievement = require('./achievement');
 const UserAchievement = require('./userachievement');
 
-
 User.hasMany(Visit, { foreignKey: 'userId', as: 'userVisits' });
 Visit.belongsTo(User, { foreignKey: 'userId', as: 'visitUser' });
 
 Store.hasMany(Visit, { foreignKey: 'storeId', as: 'storeVisits' });
 Visit.belongsTo(Store, { foreignKey: 'storeId', as: 'visitStore' });
 
-/* -------------------------------------------------
-   ROUTE STARTS
----------------------------------------------------*/
-
 User.hasMany(RouteStart, { foreignKey: 'userId', as: 'userRouteStarts' });
 RouteStart.belongsTo(User, { foreignKey: 'userId', as: 'routeStartUser' });
 
 Route.hasMany(RouteStart, { foreignKey: 'routeId', as: 'routeStarts' });
 RouteStart.belongsTo(Route, { foreignKey: 'routeId', as: 'startRoute' });
-
-/* -------------------------------------------------
-   ROUTE ↔ STORE MANY-TO-MANY
----------------------------------------------------*/
 
 Route.belongsToMany(Store, {
     through: RouteStore,
@@ -47,16 +38,11 @@ Store.belongsToMany(Route, {
     as: 'storeRoutesList'
 });
 
-/* Direct access */
 Route.hasMany(RouteStore, { foreignKey: 'routeId', as: 'routeStoreEntries' });
 RouteStore.belongsTo(Route, { foreignKey: 'routeId', as: 'routeEntry' });
 
 Store.hasMany(RouteStore, { foreignKey: 'storeId', as: 'routeStoreEntries' });
 RouteStore.belongsTo(Store, { foreignKey: 'storeId', as: 'storeEntry' });
-
-/* -------------------------------------------------
-   SAVED STORES
----------------------------------------------------*/
 
 User.hasMany(SavedStore, { foreignKey: 'userId', as: 'savedStoreEntries' });
 SavedStore.belongsTo(User, { foreignKey: 'userId', as: 'savedByUser' });
@@ -64,19 +50,11 @@ SavedStore.belongsTo(User, { foreignKey: 'userId', as: 'savedByUser' });
 Store.hasMany(SavedStore, { foreignKey: 'storeId', as: 'savedStoreUsers' });
 SavedStore.belongsTo(Store, { foreignKey: 'storeId', as: 'savedStore' });
 
-/* -------------------------------------------------
-   ACHIEVEMENTS
----------------------------------------------------*/
-
 User.hasMany(UserAchievement, { foreignKey: 'userId', as: 'earnedAchievements' });
 UserAchievement.belongsTo(User, { foreignKey: 'userId', as: 'achievementUser' });
 
 Achievement.hasMany(UserAchievement, { foreignKey: 'achievementId', as: 'achievementProgress' });
 UserAchievement.belongsTo(Achievement, { foreignKey: 'achievementId', as: 'achievementData' });
-
-/* -------------------------------------------------
-   EXPORT
----------------------------------------------------*/
 
 module.exports = {
     User,

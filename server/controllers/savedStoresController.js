@@ -59,7 +59,7 @@ exports.getUserSavedStores = async (req, res) => {
             include: [
                 {
                     model: Store,
-                    as: 'savedStore',   // <-- CORRECT ALIAS
+                    as: 'savedStore',   
                     attributes: ['id', 'name', 'address', 'latitude', 'longitude']
                 }
             ],

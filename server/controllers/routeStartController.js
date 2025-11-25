@@ -1,6 +1,4 @@
-const { User, Route, RouteStart, Store, RouteStore } = require('../models/associations');
-const { Achievement, UserAchievement } = require('../models/associations');
-
+const { User, Route, RouteStart, Store, RouteStore, Achievement, UserAchievement } = require('../models/associations');
 
 exports.startRoute = async (req, res) => {
     const { userId, routeId, startDate } = req.body;
@@ -14,13 +12,17 @@ exports.startRoute = async (req, res) => {
         if (!user) return res.status(404).json({ message: 'User not found' });
 
         const route = await Route.findByPk(routeId, {
-            include: [{
-                model: Store,
-                as: 'stores',
-                through: { attributes: ['order'] },
-                attributes: ['id', 'name', 'address', 'latitude', 'longitude']
-            }],
-            order: [[{ model: Store, as: 'stores' }, RouteStore, 'order', 'ASC']]
+            include: [
+                {
+                    model: Store,
+                    as: 'routeStoresList',
+                    through: { attributes: ['order'] },
+                    attributes: ['id', 'name', 'address', 'latitude', 'longitude']
+                }
+            ],
+            order: [
+                [{ model: Store, as: 'routeStoresList' }, RouteStore, 'order', 'ASC']
+            ]
         });
 
         if (!route) return res.status(404).json({ message: 'Route not found' });
@@ -39,9 +41,9 @@ exports.startRoute = async (req, res) => {
             await existingRouteStart.save();
             routeStart = existingRouteStart;
         } else {
-            const routeStartData = { userId, routeId };
-            if (startDate) routeStartData.startDate = new Date(startDate);
-            routeStart = await RouteStart.create(routeStartData);
+            const payload = { userId, routeId };
+            if (startDate) payload.startDate = new Date(startDate);
+            routeStart = await RouteStart.create(payload);
         }
 
         user.routes_started += 1;
@@ -53,16 +55,18 @@ exports.startRoute = async (req, res) => {
             where: { type: 'routes_started', condition: 1 }
         });
 
-        const already = await UserAchievement.findOne({
-            where: { userId, achievementId: travelerAchievement.id }
-        });
-
-        if (!already && user.routes_started >= 1) {
-            await UserAchievement.create({
-                userId,
-                achievementId: travelerAchievement.id
+        if (travelerAchievement) {
+            const already = await UserAchievement.findOne({
+                where: { userId, achievementId: travelerAchievement.id }
             });
-            unlocked.push(travelerAchievement);
+
+            if (!already && user.routes_started >= 1) {
+                await UserAchievement.create({
+                    userId,
+                    achievementId: travelerAchievement.id
+                });
+                unlocked.push(travelerAchievement);
+            }
         }
 
         const result = {
@@ -75,15 +79,15 @@ exports.startRoute = async (req, res) => {
                 id: route.id,
                 name: route.name,
                 routeType: route.routeType,
-                stores: route.stores
-                    .map(s => ({
-                        id: s.id,
-                        name: s.name,
-                        address: s.address,
-                        latitude: s.latitude,
-                        longitude: s.longitude,
-                        order: s.RouteStore.order
-                    }))
+                stores: route.routeStoresList.map(store => ({
+                    id: store.id,
+                    name: store.name,
+                    address: store.address,
+                    latitude: store.latitude,
+                    longitude: store.longitude,
+                    order: store.RouteStore.order
+                }))
+
                     .sort((a, b) => a.order - b.order)
             }
         };
@@ -100,7 +104,6 @@ exports.startRoute = async (req, res) => {
     }
 };
 
-
 exports.getUserRouteStarts = async (req, res) => {
     const { userId } = req.params;
 
@@ -112,8 +115,7 @@ exports.getUserRouteStarts = async (req, res) => {
                     model: Route,
                     as: 'startRoute',
                     attributes: ['id', 'name', 'routeType'],
-                    include: 
-                    [
+                    include: [
                         {
                             model: Store,
                             as: 'routeStoresList',
@@ -125,7 +127,7 @@ exports.getUserRouteStarts = async (req, res) => {
             ],
             order: [
                 ['startDate', 'DESC'],
-                [{ model: Route, as: 'route' }, { model: Store, as: 'stores' }, RouteStore, 'order', 'ASC']
+                [{ model: Route, as: 'startRoute' }, { model: Store, as: 'routeStoresList' }, RouteStore, 'order', 'ASC']
             ]
         });
 
@@ -136,17 +138,19 @@ exports.getUserRouteStarts = async (req, res) => {
             startDate: rs.startDate,
             status: rs.status,
             route: {
-                id: rs.route.id,
-                name: rs.route.name,
-                routeType: rs.route.routeType,
-                stores: rs.route.stores.map(store => ({
-                    id: store.id,
-                    name: store.name,
-                    address: store.address,
-                    latitude: store.latitude,
-                    longitude: store.longitude,
-                    order: store.RouteStore.order
-                })).sort((a, b) => a.order - b.order)
+                id: rs.startRoute.id,
+                name: rs.startRoute.name,
+                routeType: rs.startRoute.routeType,
+                stores: rs.startRoute.routeStoresList
+                    .map(store => ({
+                        id: store.id,
+                        name: store.name,
+                        address: store.address,
+                        latitude: store.latitude,
+                        longitude: store.longitude,
+                        order: store.RouteStore.order
+                    }))
+                    .sort((a, b) => a.order - b.order)
             }
         }));
 
@@ -177,7 +181,7 @@ exports.leaveRoute = async (req, res) => {
 
         routeStart.status = 'left';
         await routeStart.save();
-        
+
         const user = await User.findByPk(userId);
         user.routes_completed += 1;
         await user.save();
@@ -188,16 +192,18 @@ exports.leaveRoute = async (req, res) => {
             where: { type: 'routes_completed', condition: 5 }
         });
 
-        const already = await UserAchievement.findOne({
-            where: { userId, achievementId: rmAchievement.id }
-        });
-
-        if (!already && user.routes_completed >= 5) {
-            await UserAchievement.create({
-                userId,
-                achievementId: rmAchievement.id
+        if (rmAchievement) {
+            const already = await UserAchievement.findOne({
+                where: { userId, achievementId: rmAchievement.id }
             });
-            unlocked.push(rmAchievement);
+
+            if (!already && user.routes_completed >= 5) {
+                await UserAchievement.create({
+                    userId,
+                    achievementId: rmAchievement.id
+                });
+                unlocked.push(rmAchievement);
+            }
         }
 
         return res.status(200).json({
