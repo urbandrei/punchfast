@@ -23,4 +23,11 @@ const sequelize = process.env.DATABASE_URL
       }
     );
 
+// Log which database configuration is being used
+if (process.env.DATABASE_URL) {
+    console.log('Database config: Using DATABASE_URL (remote database)');
+} else {
+    console.log('Database config: Using individual env vars (local database)');
+}
+
 module.exports = sequelize;
