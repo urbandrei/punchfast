@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const app = express();
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
@@ -13,10 +14,21 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use('/api', authRoutes);
-app.use('/api/achievements', achievementRoutes);  
+app.use('/api/achievements', achievementRoutes);
 app.use('/api/routes', routeRoutes);
-app.use('/api/saved-stores', savedStoreRoutes);   
-app.use('/api/route-starts', routeStartRoutes);              
+app.use('/api/saved-stores', savedStoreRoutes);
+app.use('/api/route-starts', routeStartRoutes);
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, '../client/build');
+  app.use(express.static(buildPath));
+
+  // Catch-all for client-side routing
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+}
 
 const startServer = async () => {
   try {
