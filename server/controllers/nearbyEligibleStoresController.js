@@ -49,10 +49,10 @@ exports.getNearbyEligibleStores = async (req, res) => {
             },
             include: [{
                 model: Route,
-                as: 'route',
+                as: 'startRoute',
                 include: [{
                     model: Store,
-                    as: 'stores',
+                    as: 'routeStoresList',
                     attributes: ['id', 'name', 'address', 'latitude', 'longitude']
                 }]
             }]
@@ -68,8 +68,8 @@ exports.getNearbyEligibleStores = async (req, res) => {
 
         // Add route stores
         activeRouteStarts.forEach(routeStart => {
-            if (routeStart.route && routeStart.route.stores) {
-                routeStart.route.stores.forEach(store => {
+            if (routeStart.startRoute && routeStart.startRoute.routeStoresList) {
+                routeStart.startRoute.routeStoresList.forEach(store => {
                     storeMap.set(store.id, store);
                 });
             }

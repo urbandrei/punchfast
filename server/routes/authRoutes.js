@@ -9,6 +9,14 @@ const routeStartController = require('../controllers/routeStartController');
 const savedStoresController = require('../controllers/savedStoresController');
 const nearbyEligibleStoresController = require('../controllers/nearbyEligibleStoresController');
 
+// Health check endpoint for Render
+router.get('/', (req, res) => {
+    res.status(200).json({
+        status: 'healthy',
+        timestamp: new Date().toISOString()
+    });
+});
+
 // ---- auth (customers) ----
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);
