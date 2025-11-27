@@ -4,8 +4,8 @@ services:
     env: node
     region: oregon
     plan: free
-    buildCommand: chmod +x run.sh && cd client && npm install && npm run build && cd ../server && npm install
-    startCommand: cd server && NODE_ENV=production node index.js
+    buildCommand: chmod +x run.sh && cd client && yarn build && cd ../server && yarn install --production
+    startCommand: cd server && NODE_ENV=production yarn start
     envVars:
       - key: NODE_ENV
         value: production

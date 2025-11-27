@@ -8,19 +8,17 @@ echo "=========================================="
 # Install backend dependencies
 echo "📦 Installing backend dependencies..."
 cd server
-npm install --production
+yarn install --production
 cd ..
 
 # Install and build frontend
-echo "📦 Installing frontend dependencies..."
+echo "📦 Installing frontend dependencies and building..."
 cd client
-npm install
-echo "🏗️  Building React frontend..."
-npm run build
+yarn build
 echo "✅ React build completed"
 cd ..
 
 # Start server
 echo "🚀 Starting backend server..."
 cd server
-NODE_ENV=production node index.js
+yarn start

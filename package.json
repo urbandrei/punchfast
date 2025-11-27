@@ -1,0 +1,25 @@
+{
+  "name": "punchfast",
+  "version": "1.0.0",
+  "description": "Rewards platform for smaller businesses",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "start": "concurrently \"yarn start:server\" \"yarn start:client\"",
+    "start:client": "cd client && yarn start",
+    "start:server": "cd server && yarn start",
+    "build": "cd client && yarn build",
+    "install:all": "yarn install && cd client && yarn install && cd ../server && yarn install",
+    "clean": "rm -rf client/node_modules server/node_modules client/build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "yarn": ">=1.22.0"
+  }
+}
