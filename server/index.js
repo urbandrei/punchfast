@@ -25,25 +25,11 @@ app.use('/api/route-starts', routeStartRoutes);
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../client/build');
-  const fs = require('fs');
-
-  console.log('Production mode - serving static files from:', buildPath);
-  console.log('Build directory exists:', fs.existsSync(buildPath));
-
-  if (fs.existsSync(buildPath)) {
-    const files = fs.readdirSync(buildPath);
-    console.log('Files in build directory:', files);
-  }
-
   app.use(express.static(buildPath));
 
   // Catch-all for client-side routing
   app.get('*', (req, res) => {
-    const indexPath = path.join(buildPath, 'index.html');
-    console.log('Catch-all route hit for:', req.path);
-    console.log('Serving index.html from:', indexPath);
-    console.log('index.html exists:', fs.existsSync(indexPath));
-    res.sendFile(indexPath);
+    res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
 
