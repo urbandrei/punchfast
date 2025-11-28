@@ -8,9 +8,10 @@
     "server"
   ],
   "scripts": {
-    "start": "concurrently \"yarn start:server\" \"yarn start:client\"",
-    "start:client": "cd client && yarn start",
-    "start:server": "cd server && yarn start",
+    "start": "cd server && NODE_ENV=production node index.js",
+    "dev": "concurrently \"yarn dev:client\" \"yarn dev:server\"",
+    "dev:client": "cd client && yarn start",
+    "dev:server": "cd server && yarn start",
     "build": "cd client && yarn build",
     "install:all": "yarn install && cd client && yarn install && cd ../server && yarn install",
     "clean": "rm -rf client/node_modules server/node_modules client/build"
