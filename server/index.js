@@ -27,8 +27,8 @@ if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../client/build');
   app.use(express.static(buildPath));
 
-  // Catch-all for client-side routing
-  app.get('*', (req, res) => {
+  // Catch-all for client-side routing (Express 5 compatible)
+  app.use((req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
