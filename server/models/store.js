@@ -296,6 +296,20 @@ const Store = sequelize.define('Store', {
         allowNull: false,
         defaultValue: 'active',
     },
+
+    // ===== Enrichment Tracking =====
+    enrichment_status: {
+        type: DataTypes.ENUM('unchanged', 'geocoded', 'reverse_geocoded', 'address_completed', 'failed'),
+        allowNull: false,
+        defaultValue: 'unchanged',
+    },
+    enrichment_attempted_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+    },
+
+    // ===== Timestamps =====
     created_at: {
         type: DataTypes.DATE,
         allowNull: false,

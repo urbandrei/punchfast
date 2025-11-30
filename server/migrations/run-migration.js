@@ -1,9 +1,9 @@
 const sequelize = require('../config/database');
-const migration = require('./20251130181900-add-cuisine-tracking');
+const migration = require('./20251130190000-add-enrichment-status');
 
 async function runMigration() {
     try {
-        console.log('Running migration: add-cuisine-tracking');
+        console.log('Running migration: add-enrichment-status');
         await migration.up(sequelize.getQueryInterface(), sequelize.Sequelize);
         console.log('Migration completed successfully!');
         process.exit(0);

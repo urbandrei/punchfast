@@ -1,5 +1,6 @@
 const { Search, Store } = require('../models/associations');
 const { generateRoutesFromNewStores } = require('./clustering/clusterGenerator');
+const { waitForAvailableSlot } = require('./overpassRateLimiter');
 
 function getBoundingSquare(centerLat, centerLng, radiusKm) {
 	if (radiusKm <= 0) {
@@ -119,6 +120,14 @@ async function searchWithBoundingBox(centerLat, centerLng, radiusKm) {
 
 async function getStoresFromOsm(lowerLeftCoords, upperRightCoords) {
     const overpassUrl = "https://overpass-api.de/api/interpreter";
+
+    // Check rate limits and wait if necessary
+    try {
+        await waitForAvailableSlot();
+    } catch (error) {
+        console.error('[Overpass] ✗ Rate limit timeout:', error.message);
+        return null; // Return null to skip this query
+    }
 
     const [minLat, minLon] = lowerLeftCoords;
     const [maxLat, maxLon] = upperRightCoords;

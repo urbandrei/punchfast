@@ -10,6 +10,7 @@ const achievementRoutes = require('./routes/achievementRoutes');
 const routeRoutes = require('./routes/routeRoutes');
 const savedStoreRoutes = require('./routes/savedStoreRoutes');
 const routeStartRoutes = require('./routes/routeStartRoutes');
+const enrichmentService = require('./services/storeEnrichmentService');
 
 require('./models/associations');
 
@@ -43,6 +44,19 @@ process.on('uncaughtException', (error) => {
     process.exit(1);
 });
 
+// Graceful shutdown handler for enrichment service
+process.on('SIGINT', () => {
+    console.log('\nReceived SIGINT, shutting down gracefully...');
+    enrichmentService.stop();
+    process.exit(0);
+});
+
+process.on('SIGTERM', () => {
+    console.log('\nReceived SIGTERM, shutting down gracefully...');
+    enrichmentService.stop();
+    process.exit(0);
+});
+
 const startServer = async () => {
   try {
     console.log('Starting server initialization...');
@@ -54,6 +68,9 @@ const startServer = async () => {
 
     await sequelize.sync({ alter: true });
     console.log('Database sync completed.');
+
+    // Start background enrichment service
+    enrichmentService.start();
 
     app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
