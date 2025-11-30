@@ -7,7 +7,6 @@ const Navbar = ({
   currentUser,
   business,
   onShowAuth,
-  onShowBusinessAuth,
   onChangePassword,
   onSignOut,
   onBusinessSignOut
@@ -105,20 +104,12 @@ const Navbar = ({
     );
   } else {
     rightControls = (
-      <>
-        <button
-          className="nav-bar-button"
-          onClick={onShowAuth}
-        >
-          Customer Sign In
-        </button>
-        <button
-          className="nav-bar-button"
-          onClick={onShowBusinessAuth}
-        >
-          Business Sign In
-        </button>
-      </>
+      <button
+        className="nav-bar-button"
+        onClick={onShowAuth}
+      >
+        Sign In
+      </button>
     );
   }
 

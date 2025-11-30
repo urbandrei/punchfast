@@ -40,9 +40,11 @@ exports.newRoute = async (req, res) => {
 };
 
 exports.getNearbyRoutes = async (req, res) => {
-    const latitude = parseFloat(req.query.lat ?? req.body.lat);
-    const longitude = parseFloat(req.query.lng ?? req.body.lng);
-    const radius = parseFloat(req.query.radius ?? req.body.radius ?? 5);
+    const latitude = parseFloat(req.query.lat ?? req.body?.lat);
+    const longitude = parseFloat(req.query.lng ?? req.body?.lng);
+    const radius = parseFloat(req.query.radius ?? req.body?.radius ?? 10000);
+    const limit = parseInt(req.query.limit ?? req.body?.limit ?? 15, 10);
+    const offset = parseInt(req.query.offset ?? req.body?.offset ?? 0, 10);
 
     if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
         return res.status(400).json({ message: 'Invalid or missing latitude/longitude' });
@@ -52,38 +54,30 @@ exports.getNearbyRoutes = async (req, res) => {
         const sequelize = require('../config/database');
         const { QueryTypes } = require('sequelize');
 
-        const tableName = (typeof Store.getTableName === 'function') ? Store.getTableName() : 'Stores';
-        const distanceExpr = `6371 * acos(LEAST(1, cos(radians(:lat)) * cos(radians("latitude")) * cos(radians("longitude") - radians(:lng)) + sin(radians(:lat)) * sin(radians("latitude"))))`;
+        const distanceExpr = `6371 * acos(LEAST(1, cos(radians(:lat)) * cos(radians(s."latitude")) * cos(radians(s."longitude") - radians(:lng)) + sin(radians(:lat)) * sin(radians(s."latitude"))))`;
 
         const sql = `
-            SELECT "id"
-            FROM "${tableName}"
-            WHERE "latitude" IS NOT NULL AND "longitude" IS NOT NULL
-              AND ${distanceExpr} <= :radius;
+            SELECT r."id" as route_id, ${distanceExpr} AS distance_km
+            FROM "Routes" r
+            INNER JOIN "RouteStores" rs ON r."id" = rs."routeId" AND rs."order" = 1
+            INNER JOIN "Stores" s ON rs."storeId" = s."id"
+            WHERE s."latitude" IS NOT NULL AND s."longitude" IS NOT NULL
+              AND ${distanceExpr} <= :radius
+            ORDER BY distance_km ASC
+            LIMIT :limit
+            OFFSET :offset;
         `;
 
-        const nearbyStores = await sequelize.query(sql, {
-            replacements: { lat: latitude, lng: longitude, radius },
+        const nearbyRoutes = await sequelize.query(sql, {
+            replacements: { lat: latitude, lng: longitude, radius, limit, offset },
             type: QueryTypes.SELECT,
         });
 
-        const nearbyStoreIds = nearbyStores.map(s => s.id);
-
-        if (nearbyStoreIds.length === 0) {
-            return res.status(200).json({ count: 0, routes: [] });
+        if (nearbyRoutes.length === 0) {
+            return res.status(200).json({ count: 0, routes: [], hasMore: false });
         }
 
-        const routeStores = await RouteStore.findAll({
-            where: { storeId: { [Op.in]: nearbyStoreIds } },
-            attributes: ['routeId'],
-            group: ['routeId']
-        });
-
-        const routeIds = [...new Set(routeStores.map(rs => rs.routeId))];
-
-        if (routeIds.length === 0) {
-            return res.status(200).json({ count: 0, routes: [] });
-        }
+        const routeIds = nearbyRoutes.map(r => r.route_id);
 
         const routes = await Route.findAll({
             where: { id: { [Op.in]: routeIds } },
@@ -94,12 +88,14 @@ exports.getNearbyRoutes = async (req, res) => {
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
             }],
             order: [
-                ['id', 'ASC'],
                 [{ model: Store, as: 'routeStoresList' }, RouteStore, 'order', 'ASC']
             ]
         });
 
-        const result = routes.map(route => ({
+        const routeMap = new Map(routes.map(r => [r.id, r]));
+        const orderedRoutes = routeIds.map(id => routeMap.get(id)).filter(r => r);
+
+        const result = orderedRoutes.map(route => ({
             id: route.id,
             name: route.name,
             routeType: route.routeType,
@@ -113,7 +109,11 @@ exports.getNearbyRoutes = async (req, res) => {
             })).sort((a, b) => a.order - b.order)
         }));
 
-        return res.status(200).json({ count: result.length, routes: result });
+        return res.status(200).json({
+            count: result.length,
+            routes: result,
+            hasMore: result.length === limit
+        });
     } catch (error) {
         console.error('Error fetching nearby routes:', error);
         return res.status(500).json({ message: 'Server error', error: error.message });

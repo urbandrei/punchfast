@@ -1,80 +1,220 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import RouteCard from '../components/routeCard';
 import StoreCard from '../components/storeCard';
+import MapView from '../components/MapView';
 
-const Home = ({ isLogin , user, onShowAuth}) => {
-    const [stores, setStores] = useState([]);
-    const [routes, setRoutes] = useState([]);
+const Home = ({ isLogin, user, onShowAuth }) => {
+    // Separate state for each view type
+    const [storesData, setStoresData] = useState({
+        items: [],
+        offset: 0,
+        hasMore: true,
+        loading: false
+    });
+    const [routesData, setRoutesData] = useState({
+        items: [],
+        offset: 0,
+        hasMore: true,
+        loading: false
+    });
     const [userRouteStarts, setUserRouteStarts] = useState([]);
-    const [storesLoading, setStoresLoading] = useState(true);
-    const [routesLoading, setRoutesLoading] = useState(true);
     const [storesError, setStoresError] = useState(null);
     const [routesError, setRoutesError] = useState(null);
-    const [radius, setRadius] = useState(100);
-    const [storeAmount, setStoreAmount] = useState(100);
 
-    useEffect(() => {
-        const fetchNearby = async (lat, lng) => {
-            try {
-                const res = await fetch(`/api/stores/nearby?lat=${lat}&lng=${lng}&radius=${radius}&limit=${storeAmount}`);
-                if (!res.ok) throw new Error('Failed to fetch stores');
-                const data = await res.json();
-                setStores(data.stores || []);
-            } catch (err) {
-                console.error(err);
-                setStoresError('Could not load nearby stores');
-            } finally {
-                setStoresLoading(false);
-            }
-        };
+    // Real-time location tracking
+    const [currentLocation, setCurrentLocation] = useState(null);
+    const [locationWatchId, setLocationWatchId] = useState(null);
 
-        const fetchNearbyRoutes = async (lat, lng) => {
-            try {
-                const res = await fetch(`/api/routes/nearby?lat=${lat}&lng=${lng}&radius=${radius}`);
-                if (!res.ok) throw new Error('Failed to fetch routes');
-                const data = await res.json();
-                setRoutes(data.routes || []);
-            } catch (err) {
-                console.error(err);
-                setRoutesError('Could not load nearby routes');
-            } finally {
-                setRoutesLoading(false);
-            }
-        };
+    // Map/list interaction state
+    const [viewType, setViewType] = useState('routes');
+    const [selectedId, setSelectedId] = useState(null);
+    const [cuisineFilter, setCuisineFilter] = useState('all');
+    const [availableCuisines, setAvailableCuisines] = useState([]);
 
-        const fetchUserRouteStarts = async () => {
-            if (!isLogin || !user?.id) return;
+    // Scroll positions for each view
+    const [storesScrollPos, setStoresScrollPos] = useState(0);
+    const [routesScrollPos, setRoutesScrollPos] = useState(0);
 
-            try {
-                const res = await fetch(`/api/users/${user.id}/route-starts`);
-                if (!res.ok) throw new Error('Failed to fetch user route starts');
-                const data = await res.json();
-                setUserRouteStarts(data.routeStarts || []);
-            } catch (err) {
-                console.error('Error fetching user route starts:', err);
-            }
-        };
+    const listRef = useRef(null);
 
-        if (navigator && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                    fetchNearby(pos.coords.latitude, pos.coords.longitude);
-                    fetchNearbyRoutes(pos.coords.latitude, pos.coords.longitude);
-                },
-                () => {
-                    fetchNearby(40.7128, -74.0060);
-                    fetchNearbyRoutes(40.7128, -74.0060);
-                },
-                { timeout: 5000 }
+    // Helper function: Calculate distance using Haversine formula
+    const calculateDistance = (lat1, lng1, lat2, lng2) => {
+        const R = 6371;
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLng = (lng2 - lng1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng/2) * Math.sin(dLng/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    };
+
+    // Helper function: Sort items by distance from current location
+    const sortByDistance = (items, location) => {
+        if (!location) return items;
+        return items.map(item => ({
+            ...item,
+            distance: calculateDistance(
+                location.lat,
+                location.lng,
+                parseFloat(item.latitude || item.stores?.[0]?.latitude),
+                parseFloat(item.longitude || item.stores?.[0]?.longitude)
+            )
+        })).sort((a, b) => a.distance - b.distance);
+    };
+
+    // Load initial items for a view type
+    const loadInitialItems = async (type, location) => {
+        const endpoint = type === 'stores' ? 'stores' : 'routes';
+        const setData = type === 'stores' ? setStoresData : setRoutesData;
+        const setError = type === 'stores' ? setStoresError : setRoutesError;
+
+        setData(prev => ({ ...prev, loading: true }));
+
+        try {
+            const res = await fetch(
+                `/api/${endpoint}/nearby?lat=${location.lat}&lng=${location.lng}&limit=15&offset=0`
             );
-        } else {
-            fetchNearby(40.7128, -74.0060);
-            fetchNearbyRoutes(40.7128, -74.0060);
+            const data = await res.json();
+
+            setData({
+                items: data[endpoint] || [],
+                offset: 15,
+                hasMore: (data[endpoint] || []).length === 15,
+                loading: false
+            });
+            setError(null);
+        } catch (err) {
+            console.error(`Error loading ${type}:`, err);
+            setError(`Could not load nearby ${type}`);
+            setData(prev => ({ ...prev, loading: false }));
         }
+    };
 
+    // Load more items for infinite scroll
+    const loadMoreItems = async (type) => {
+        const endpoint = type === 'stores' ? 'stores' : 'routes';
+        const data = type === 'stores' ? storesData : routesData;
+        const setData = type === 'stores' ? setStoresData : setRoutesData;
+        const setError = type === 'stores' ? setStoresError : setRoutesError;
+
+        if (!currentLocation || !data.hasMore || data.loading || data.items.length >= 100) return;
+
+        setData(prev => ({ ...prev, loading: true }));
+
+        try {
+            const res = await fetch(
+                `/api/${endpoint}/nearby?lat=${currentLocation.lat}&lng=${currentLocation.lng}&limit=15&offset=${data.offset}`
+            );
+            const newData = await res.json();
+            const newItems = newData[endpoint] || [];
+
+            setData(prev => ({
+                items: [...prev.items, ...newItems],
+                offset: prev.offset + 15,
+                hasMore: newItems.length === 15 && (prev.items.length + newItems.length) < 100,
+                loading: false
+            }));
+            setError(null);
+        } catch (err) {
+            console.error(`Error loading more ${type}:`, err);
+            setError(`Could not load more ${type}`);
+            setData(prev => ({ ...prev, loading: false }));
+        }
+    };
+
+    // Fetch user route starts
+    const fetchUserRouteStarts = async () => {
+        if (!isLogin || !user?.id) return;
+
+        try {
+            const res = await fetch(`/api/users/${user.id}/route-starts`);
+            if (!res.ok) throw new Error('Failed to fetch user route starts');
+            const data = await res.json();
+            setUserRouteStarts(data.routeStarts || []);
+        } catch (err) {
+            console.error('Error fetching user route starts:', err);
+        }
+    };
+
+    // Set up real-time location tracking
+    useEffect(() => {
+        if (navigator.geolocation) {
+            const watchId = navigator.geolocation.watchPosition(
+                (position) => {
+                    const newLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    setCurrentLocation(newLocation);
+
+                    // Load initial data on first location update
+                    if (!storesData.items.length && !storesData.loading) {
+                        loadInitialItems('stores', newLocation);
+                    }
+                    if (!routesData.items.length && !routesData.loading) {
+                        loadInitialItems('routes', newLocation);
+                    }
+                },
+                (error) => {
+                    console.error('Location error:', error);
+                    // Fall back to Berlin
+                    const fallbackLocation = { lat: 52.5200, lng: 13.4050 };
+                    setCurrentLocation(fallbackLocation);
+                    if (!storesData.items.length && !storesData.loading) {
+                        loadInitialItems('stores', fallbackLocation);
+                    }
+                    if (!routesData.items.length && !routesData.loading) {
+                        loadInitialItems('routes', fallbackLocation);
+                    }
+                },
+                { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
+            );
+            setLocationWatchId(watchId);
+
+            return () => navigator.geolocation.clearWatch(watchId);
+        } else {
+            // No geolocation support - use fallback
+            const fallbackLocation = { lat: 52.5200, lng: 13.4050 };
+            setCurrentLocation(fallbackLocation);
+            loadInitialItems('stores', fallbackLocation);
+            loadInitialItems('routes', fallbackLocation);
+        }
+    }, []);
+
+    // Fetch user route starts when user logs in
+    useEffect(() => {
         fetchUserRouteStarts();
-
     }, [isLogin, user]);
+
+    // Extract unique cuisines when routes/stores change
+    useEffect(() => {
+        const cuisines = new Set();
+
+        routesData.items.forEach(route => {
+            if (route.routeType) {
+                cuisines.add(route.routeType);
+            }
+        });
+
+        storesData.items.forEach(store => {
+            if (store.cuisine) cuisines.add(store.cuisine);
+            if (store.amenity) cuisines.add(store.amenity);
+            if (store.shop) cuisines.add(store.shop);
+        });
+
+        setAvailableCuisines(Array.from(cuisines).sort());
+    }, [routesData.items, storesData.items]);
+
+    // Scroll to selected item when selectedId changes
+    useEffect(() => {
+        if (!selectedId || !listRef.current) return;
+
+        const itemElement = document.getElementById(`item-${selectedId}`);
+        if (itemElement) {
+            itemElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }, [selectedId]);
 
     const handleJoinRoute = async (routeId, routeName) => {
         if (!isLogin) {
@@ -131,81 +271,290 @@ const Home = ({ isLogin , user, onShowAuth}) => {
         }
     };
 
+    const handleMarkerClick = (id, type) => {
+        setSelectedId(id);
+        // Optionally switch view type to match clicked item
+        if (type === 'store' && viewType !== 'stores') {
+            setViewType('stores');
+        } else if (type === 'route' && viewType !== 'routes') {
+            setViewType('routes');
+        }
+    };
+
+    const handleItemClick = (id) => {
+        setSelectedId(id);
+    };
+
+    const handleCuisineChange = (e) => {
+        setCuisineFilter(e.target.value);
+        setSelectedId(null); // Clear selection when filter changes
+    };
+
+    const handleViewTypeChange = (type) => {
+        setViewType(type);
+        setSelectedId(null);
+
+        // Restore scroll position for the new view
+        setTimeout(() => {
+            if (listRef.current) {
+                listRef.current.scrollTop = type === 'stores' ? storesScrollPos : routesScrollPos;
+            }
+        }, 0);
+    };
+
+    const handleScroll = (e) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.target;
+        const data = viewType === 'stores' ? storesData : routesData;
+
+        // Save scroll position
+        if (viewType === 'stores') {
+            setStoresScrollPos(scrollTop);
+        } else {
+            setRoutesScrollPos(scrollTop);
+        }
+
+        // Check if within 5 items of bottom (assume ~150px per item)
+        const itemHeight = 150;
+        const itemsFromBottom = (scrollHeight - scrollTop - clientHeight) / itemHeight;
+
+        if (itemsFromBottom < 5 && data.hasMore && !data.loading && data.items.length < 100) {
+            loadMoreItems(viewType);
+        }
+    };
+
+    // Filter items based on cuisine filter
+    const filteredRoutes = cuisineFilter === 'all'
+        ? routesData.items
+        : routesData.items.filter(r => r.routeType === cuisineFilter);
+
+    const filteredStores = cuisineFilter === 'all'
+        ? storesData.items
+        : storesData.items.filter(s =>
+            s.cuisine === cuisineFilter ||
+            s.amenity === cuisineFilter ||
+            s.shop === cuisineFilter
+        );
+
     return (
-            <div className="container stores-container">
-                <div className="page-header">
-                    <a href="/newroute" className="btn pull-right" style={{
-                        backgroundColor: '#302C9A',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        padding: '8px 16px'
-                    }}>
-                        <span className="glyphicon glyphicon-plus"></span>
-                    </a>
-                    <h1 className="h3" style={{ color: '#302C9A' }}>Routes</h1>
-                </div>
+        <div style={{
+            position: 'fixed',
+            top: '70px',
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden'
+        }}>
+            {/* Map container - 50% height */}
+            <div style={{ height: '50%', position: 'relative' }}>
+                <MapView
+                    stores={filteredStores}
+                    routes={filteredRoutes}
+                    viewType={viewType}
+                    selectedId={selectedId}
+                    onMarkerClick={handleMarkerClick}
+                    cuisineFilter={cuisineFilter}
+                />
+            </div>
 
-                <div>
-                    {routesLoading && <p>Loading nearby routes...</p>}
-                    {routesError && <p className="text-danger">{routesError}</p>}
-                    {!routesLoading && routes.length === 0 && <p>No routes found nearby.</p>}
+            {/* List container - scrollable, fills remaining space minus option bars (100px) */}
+            <div
+                ref={listRef}
+                onScroll={handleScroll}
+                style={{
+                    flex: 1,
+                    overflowY: 'auto',
+                    overflowX: 'hidden',
+                    paddingBottom: '110px',
+                    backgroundColor: '#f8f9fa'
+                }}
+            >
+                <div className="container">
+                    {viewType === 'routes' ? (
+                        <div>
+                            {routesData.loading && routesData.items.length === 0 && <p>Loading nearby routes...</p>}
+                            {routesError && <p className="text-danger">{routesError}</p>}
+                            {!routesData.loading && filteredRoutes.length === 0 && routesData.items.length === 0 && (
+                                <p>No routes found {cuisineFilter !== 'all' ? `for ${cuisineFilter}` : 'nearby'}.</p>
+                            )}
+                            {!routesData.loading && filteredRoutes.length === 0 && routesData.items.length > 0 && (
+                                <p>No routes found for {cuisineFilter}.</p>
+                            )}
 
-                    <div style={{ marginTop: '20px' }}>
-                        {routes.map((route) => {
-                            const userRouteStart = userRouteStarts.find(
-                                rs => rs.routeId === route.id && rs.status === 'active'
-                            );
-                            const isActive = !!userRouteStart;
+                            <div style={{ marginTop: '20px' }}>
+                                {filteredRoutes.map((route) => {
+                                    const userRouteStart = userRouteStarts.find(
+                                        rs => rs.routeId === route.id && rs.status === 'active'
+                                    );
+                                    const isActive = !!userRouteStart;
+                                    const isSelected = selectedId === route.id;
 
-                            return (
-                                <RouteCard
-                                    key={route.id}
-                                    routeId={route.id}
-                                    routeName={route.name}
-                                    isActive={isActive}
-                                    onJoinClick={() => handleJoinRoute(route.id, route.name)}
-                                    onLeaveClick={() => handleLeaveRoute(route.id, route.name)}
-                                    stores={route.stores || []}
-                                    userId={user?.id}
-                                    onShowAuth={onShowAuth}
-                                />
-                            );
-                        })}
-                    </div>
-                </div>
-                <div className="page-header">
-                    <a href="/newstore" className="btn pull-right" style={{
-                        backgroundColor: '#302C9A',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        padding: '8px 16px'
-                    }}>
-                        <span className="glyphicon glyphicon-plus"></span>
-                    </a>
-                    <h1 className="h3" style={{ color: '#302C9A' }}>Stores</h1>
-                </div>
+                                    return (
+                                        <div key={route.id} id={`item-${route.id}`}>
+                                            <RouteCard
+                                                routeId={route.id}
+                                                routeName={route.name}
+                                                isActive={isActive}
+                                                isSelected={isSelected}
+                                                onJoinClick={() => handleJoinRoute(route.id, route.name)}
+                                                onLeaveClick={() => handleLeaveRoute(route.id, route.name)}
+                                                onCardClick={() => handleItemClick(route.id)}
+                                                stores={route.stores || []}
+                                                userId={user?.id}
+                                                onShowAuth={onShowAuth}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                                {routesData.loading && routesData.items.length > 0 && (
+                                    <p style={{ textAlign: 'center', padding: '20px' }}>Loading more routes...</p>
+                                )}
+                                {!routesData.hasMore && routesData.items.length > 0 && (
+                                    <p style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+                                        {routesData.items.length >= 100 ? 'Showing 100 routes (max)' : 'No more routes to load'}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <div>
+                            {storesData.loading && storesData.items.length === 0 && <p>Loading nearby stores...</p>}
+                            {storesError && <p className="text-danger">{storesError}</p>}
+                            {!storesData.loading && filteredStores.length === 0 && storesData.items.length === 0 && (
+                                <p>No stores found {cuisineFilter !== 'all' ? `for ${cuisineFilter}` : 'nearby'}.</p>
+                            )}
+                            {!storesData.loading && filteredStores.length === 0 && storesData.items.length > 0 && (
+                                <p>No stores found for {cuisineFilter}.</p>
+                            )}
 
-                <div>
-                    {storesLoading && <p>Loading nearby stores…</p>}
-                    {storesError && <p className="text-danger">{storesError}</p>}
-                    {!storesLoading && stores.length === 0 && <p>No stores found nearby.</p>}
+                            <div style={{ marginTop: '20px' }}>
+                                {filteredStores.map((store) => {
+                                    const isSelected = selectedId === store.id;
 
-                    {stores.map((s) => (
-                        <StoreCard
-                            key={s.id}
-                            storeId={s.id}
-                            storeName={s.name}
-                            latitude={s.latitude}
-                            longitude={s.longitude}
-                            userId={user?.id}
-                            onShowAuth={onShowAuth}
-                        />
-                    ))}
+                                    return (
+                                        <div key={store.id} id={`item-${store.id}`}>
+                                            <StoreCard
+                                                storeId={store.id}
+                                                storeName={store.name}
+                                                latitude={store.latitude}
+                                                longitude={store.longitude}
+                                                isSelected={isSelected}
+                                                onCardClick={() => handleItemClick(store.id)}
+                                                userId={user?.id}
+                                                onShowAuth={onShowAuth}
+                                            />
+                                        </div>
+                                    );
+                                })}
+                                {storesData.loading && storesData.items.length > 0 && (
+                                    <p style={{ textAlign: 'center', padding: '20px' }}>Loading more stores...</p>
+                                )}
+                                {!storesData.hasMore && storesData.items.length > 0 && (
+                                    <p style={{ textAlign: 'center', padding: '20px', color: '#666' }}>
+                                        {storesData.items.length >= 100 ? 'Showing 100 stores (max)' : 'No more stores to load'}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
+            {/* Option bars - fixed at bottom */}
+            <div style={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1000
+            }}>
+                {/* Cuisine filter bar */}
+                <div style={{
+                    padding: '12px 0',
+                    backgroundColor: '#f8f9fa',
+                    borderTop: '1px solid #dee2e6'
+                }}>
+                    <div className="container" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px'
+                    }}>
+                        <label htmlFor="cuisine-filter" style={{ fontWeight: 'bold', minWidth: '100px' }}>
+                            Filter by type:
+                        </label>
+                        <select
+                            id="cuisine-filter"
+                            value={cuisineFilter}
+                            onChange={handleCuisineChange}
+                            style={{
+                                flex: 1,
+                                padding: '8px 12px',
+                                borderRadius: '4px',
+                                border: '1px solid #ced4da',
+                                fontSize: '14px'
+                            }}
+                        >
+                            <option value="all">All Types</option>
+                            {availableCuisines.map(cuisine => (
+                                <option key={cuisine} value={cuisine}>
+                                    {cuisine.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                {/* View toggle bar */}
+                <div style={{
+                    padding: '12px 0',
+                    backgroundColor: '#302C9A'
+                }}>
+                    <div className="container" style={{
+                        display: 'flex',
+                        gap: '12px',
+                        justifyContent: 'center'
+                    }}>
+                        <button
+                            onClick={() => handleViewTypeChange('routes')}
+                            style={{
+                                flex: 1,
+                                maxWidth: '200px',
+                                padding: '10px 20px',
+                                backgroundColor: viewType === 'routes' ? 'white' : 'transparent',
+                                color: viewType === 'routes' ? '#302C9A' : 'white',
+                                border: viewType === 'routes' ? 'none' : '2px solid white',
+                                borderRadius: '6px',
+                                fontSize: '16px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            Routes
+                        </button>
+                        <button
+                            onClick={() => handleViewTypeChange('stores')}
+                            style={{
+                                flex: 1,
+                                maxWidth: '200px',
+                                padding: '10px 20px',
+                                backgroundColor: viewType === 'stores' ? 'white' : 'transparent',
+                                color: viewType === 'stores' ? '#302C9A' : 'white',
+                                border: viewType === 'stores' ? 'none' : '2px solid white',
+                                borderRadius: '6px',
+                                fontSize: '16px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            Stores
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import AuthModal from './components/AuthModal';
+import UnifiedAuthModal from './components/UnifiedAuthModal';
 import VisitNotificationModal from './components/VisitNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
-import BusinessAuthModal from './components/BusinessAuthModal';
 import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
@@ -19,10 +18,8 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // customer auth modal
+  // unified auth modal
   const [showAuthModal, setShowAuthModal] = useState(false);
-  // business auth modal
-  const [showBusinessAuthModal, setShowBusinessAuthModal] = useState(false);
 
   const [businessUser, setBusinessUser] = useState(null);
 
@@ -67,7 +64,15 @@ const App = () => {
       }
       setBusinessUser({ username: businessData.username });
     }
-    setShowBusinessAuthModal(false);
+  };
+
+  const handleUnifiedLoginSuccess = (userData, type) => {
+    if (type === 'customer') {
+      handleLogin(true, userData);
+    } else if (type === 'business') {
+      handleBusinessLoginSuccess(userData);
+    }
+    setShowAuthModal(false);
   };
 
   const handleBusinessSignOut = () => {
@@ -203,22 +208,16 @@ const App = () => {
           currentUser={currentUser}
           business={businessUser}
           onShowAuth={() => setShowAuthModal(true)}
-          onShowBusinessAuth={() => setShowBusinessAuthModal(true)}
           onChangePassword={() => setShowChangePasswordModal(true)}
           onSignOut={handleSignOut}
           onBusinessSignOut={handleBusinessSignOut}
         />
 
-        <AuthModal
+        <UnifiedAuthModal
           show={showAuthModal}
           onClose={() => setShowAuthModal(false)}
-          onLoginSuccess={(userData) => handleLogin(true, userData)}
-        />
-
-        <BusinessAuthModal
-          show={showBusinessAuthModal}
-          onClose={() => setShowBusinessAuthModal(false)}
-          onLoginSuccess={handleBusinessLoginSuccess}
+          onLoginSuccess={handleUnifiedLoginSuccess}
+          initialAuthType="customer"
         />
 
         <VisitNotificationModal

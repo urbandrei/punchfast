@@ -18,8 +18,10 @@ const RouteCard = ({
   routeId,
   routeName = "Test Route",
   isActive = false,
+  isSelected = false,
   onJoinClick,
   onLeaveClick,
+  onCardClick,
   stores = [],
   userId,
   onShowAuth
@@ -157,7 +159,16 @@ const RouteCard = ({
   const visitedCount = visitedStoreIds.length;
 
   return (
-    <div className="route-card-container">
+    <div
+      className="route-card-container"
+      onClick={onCardClick}
+      style={{
+        cursor: 'pointer',
+        border: isSelected ? '3px solid #FF5722' : '1px solid #dee2e6',
+        backgroundColor: isSelected ? '#fff5f3' : 'white',
+        transition: 'all 0.2s'
+      }}
+    >
       <div className="route-card-header">
         <h2 className="route-card-title">{routeName}</h2>
         <button

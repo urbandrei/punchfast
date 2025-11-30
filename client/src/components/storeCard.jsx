@@ -6,6 +6,8 @@ const StoreCard = ({
   storeName,
   latitude,
   longitude,
+  isSelected = false,
+  onCardClick,
   userId,
   onShowAuth
 }) => {
@@ -67,7 +69,16 @@ const StoreCard = ({
   };
 
   return (
-    <div className="store-card-container">
+    <div
+      className="store-card-container"
+      onClick={onCardClick}
+      style={{
+        cursor: 'pointer',
+        border: isSelected ? '3px solid #FF5722' : '1px solid #dee2e6',
+        backgroundColor: isSelected ? '#fff5f3' : 'white',
+        transition: 'all 0.2s'
+      }}
+    >
       <div className="store-card-content">
         <div className="store-card-main">
           <span className="store-card-name">{storeName}</span>
