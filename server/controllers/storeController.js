@@ -2,16 +2,57 @@ const Store = require('../models/store');
 const sequelize = require('../config/database');
 const { QueryTypes } = require('sequelize');
 const { searchAndAddStores } = require('../logic/searchForStores');
+const { attemptCuisineClassification } = require('../logic/aiCuisineClassifier');
 
 exports.newStore = async (req, res) => {
-    const { name, address, longitude, latitude } = req.body;
+    const { name, address, longitude, latitude, website, cuisine } = req.body;
     if (!name || !address || typeof latitude === 'undefined' || typeof longitude === 'undefined') {
         return res.status(400).json({ message: 'Missing required fields: name, address, latitude, longitude' });
     }
 
     try {
-        const newStore = await Store.create({ name, address, latitude, longitude });
-        return res.status(201).json({ message: 'Store created', store: { id: newStore.id, name: newStore.name, address: newStore.address, latitude: newStore.latitude, longitude: newStore.longitude } });
+        // Prepare base store data
+        const baseStoreData = {
+            name,
+            address,
+            latitude,
+            longitude,
+            website: website || null,
+            cuisine: cuisine || null
+        };
+
+        // Attempt AI cuisine classification (synchronous during store creation)
+        const classificationMetadata = await attemptCuisineClassification(baseStoreData);
+
+        // Merge classification results with store data
+        const storeDataWithCuisine = {
+            ...baseStoreData,
+            ...classificationMetadata
+        };
+
+        // Create store with all metadata
+        const newStore = await Store.create(storeDataWithCuisine);
+
+        // Log AI classification outcome for monitoring
+        if (classificationMetadata.cuisine_source) {
+            console.log(`Store ${newStore.id}: cuisine_source=${classificationMetadata.cuisine_source}` +
+                       (classificationMetadata.cuisine ? `, cuisine=${classificationMetadata.cuisine}` : '') +
+                       (classificationMetadata.cuisine_confidence ? `, confidence=${classificationMetadata.cuisine_confidence}` : ''));
+        }
+
+        return res.status(201).json({
+            message: 'Store created',
+            store: {
+                id: newStore.id,
+                name: newStore.name,
+                address: newStore.address,
+                latitude: newStore.latitude,
+                longitude: newStore.longitude,
+                cuisine: newStore.cuisine,
+                cuisine_source: newStore.cuisine_source,
+                cuisine_confidence: newStore.cuisine_confidence
+            }
+        });
     } catch (error) {
         console.error('Store creation error:', error);
         return res.status(500).json({ message: 'Server error' });

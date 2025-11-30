@@ -122,6 +122,29 @@ const Store = sequelize.define('Store', {
         type: DataTypes.STRING,
         allowNull: true,
     },
+
+    // ===== AI Cuisine Classification Metadata =====
+    cuisine_source: {
+        type: DataTypes.ENUM('manual', 'osm', 'ai_autofilled', 'ai_failed', 'no_website'),
+        allowNull: true,
+        defaultValue: null,
+    },
+    cuisine_confidence: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+        defaultValue: null,
+    },
+    cuisine_ai_error: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null,
+    },
+    cuisine_classified_at: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+    },
+
     brand: {
         type: DataTypes.STRING,
         allowNull: true,

@@ -249,6 +249,10 @@ async function convertData(data) {
             // Business hours & service
             opening_hours: tags.opening_hours || null,
             cuisine: tags.cuisine || null,
+            cuisine_source: tags.cuisine ? 'osm' : null,
+            cuisine_confidence: null,
+            cuisine_ai_error: null,
+            cuisine_classified_at: null,
             brand: tags.brand || null,
             brand_wikidata: tags["brand:wikidata"] || null,
             operator: tags.operator || null,
