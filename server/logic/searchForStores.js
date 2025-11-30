@@ -1,4 +1,5 @@
 const { Search, Store } = require('../models/associations');
+const { generateRoutesFromNewStores } = require('./clustering/clusterGenerator');
 
 function getBoundingSquare(centerLat, centerLng, radiusKm) {
 	if (radiusKm <= 0) {
@@ -327,11 +328,24 @@ async function searchAndAddStores(centerLat, centerLng, radiusKm) {
 		}
 	}
 
+	let clusteringResults = null;
+	if (totalStoresAdded > 0) {
+		try {
+			clusteringResults = await generateRoutesFromNewStores(
+				result.newBoundingBox,
+				result.remainderBoxes
+			);
+		} catch (error) {
+			console.error('Auto-clustering failed:', error);
+		}
+	}
+
 	return {
 		newBoundingBox: result.newBoundingBox,
 		remainderBoxes: result.remainderBoxes,
 		searchResults: results,
-		totalStoresFound: totalStoresAdded
+		totalStoresFound: totalStoresAdded,
+		clustering: clusteringResults
 	};
 }
 
