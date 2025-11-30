@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Burger King</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+      /* improve onetrust cookie button contrast for a11y */
+      #onetrust-pc-btn-handler {
+        color: black !important; 
+        border-color: black !important;
+      }
+    </style>
+    <!-- OneTrust Cookies Consent Notice start for www.bk.com -->
+    <script
+      type="text/javascript"
+      src="https://cdn.cookielaw.org/consent/1aad1bfb-17b6-4023-aa99-6f60a365e4b5/OtAutoBlock.js"
+     data-ot-ignore></script>
+    <script
+      src="https://cdn.cookielaw.org/scripttemplates/otSDKStub.js"
+      type="text/javascript"
+      charset="UTF-8"
+      data-domain-script="1aad1bfb-17b6-4023-aa99-6f60a365e4b5"
+     data-ot-ignore></script>
+    <script type="text/javascript" src="/oneTrust.js" data-ot-ignore></script>
+    <!-- OneTrust Cookies Consent Notice end for www.bk.com -->
+    <script>
+      // The message "ttq not defined" in the context of TikTok typically indicates
+      // an issue with the TikTok Pixel implementation, particularly when using
+      // Google Tag Manager. The ttq object is part of the TikTok Pixel JavaScript library
+      // which is used to track user actions and send data to TikTok for advertising and analytics purposes.
+      // When library is not loaded properly, the error "ttq not defined" is thrown.
+      // This script is a workaround to prevent the error from happening.
+      (function (w) {
+        var t = w.ttq = w.ttq || [];
+        t.methods = ["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+        t.setAndDefer = function (obj, m) { obj[m] = function () { t.push([m].concat([].slice.call(arguments, 0))); }; };
+        for (var i = 0; i < t.methods.length; i++) t.setAndDefer(t, t.methods[i]);
+      })(window);
+      // create a true global identifier for classic scripts that call bare `ttq`
+      var ttq = window.ttq;
+    </script>
+    <script>
+      (function (w) {
+        if (w.snaptr) return;
+        function q(){ (q.q = q.q || []).push(arguments); }
+        q.q = [];
+        w.snaptr = q;
+      })(window);
+      var snaptr = window.snaptr;  // optional
+    </script>
+  <meta name="theme-color" content="#F8F1E7">
+<link rel="icon" href="/favicon.ico" /></head>
+
+  <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- The root element for your Expo app. -->
+    <div id="root"></div>
+  <script src="/_expo/static/js/web/index-47cba66c807b63e702a1f65c6f613ec4.js" defer data-ot-ignore></script>
+</body>
+</html>
