@@ -16,9 +16,26 @@ const Achievement = sequelize.define('Achievement', {
         allowNull: false
     },
     condition: {
-        type: DataTypes.INTEGER,   
+        type: DataTypes.INTEGER,
         allowNull: false
+    },
+
+    // ===== Timestamps =====
+    created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
     }
+}, {
+    tableName: 'Achievements',
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
 });
 
 module.exports = Achievement;

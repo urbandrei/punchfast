@@ -59,9 +59,25 @@ const User = sequelize.define('User', {
     lastLoginIp: {
         type: DataTypes.STRING,
         allowNull: true,
+    },
+
+    // ===== Timestamps =====
+    created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
     }
 
 }, {
+    tableName: 'Users',
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     hooks: {
         beforeCreate: async (user) => {
             user.username = user.username.toLowerCase().trim();

@@ -17,8 +17,24 @@ const SavedStore = sequelize.define('SavedStore', {
             model: 'Stores',
             key: 'id'
         }
+    },
+
+    // ===== Timestamps =====
+    created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
     }
 }, {
+    tableName: 'SavedStores',
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     indexes: [
         {
             unique: true,

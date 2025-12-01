@@ -16,8 +16,24 @@ const Punchcard = sequelize.define('Punchcard', {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0
+    },
+
+    // ===== Timestamps =====
+    created_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
     }
 }, {
+    tableName: 'Punchcards',
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     hooks: {
         beforeValidate: (card) => {
             if (card.customer_username)

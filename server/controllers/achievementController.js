@@ -90,10 +90,10 @@ exports.getNewlyUnlocked = async (req, res) => {
         });
 
         const achievements = newlyUnlocked.map(ua => ({
-            id: ua.achievement.id,
-            name: ua.achievement.name,
-            description: ua.achievement.description,
-            type: ua.achievement.type,
+            id: ua.achievementData.id,
+            name: ua.achievementData.name,
+            description: ua.achievementData.description,
+            type: ua.achievementData.type,
             unlockedAt: ua.unlockedAt,
             userAchievementId: ua.id
         }));
