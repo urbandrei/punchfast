@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import RouteCard from '../components/routeCard';
 import StoreCard from '../components/storeCard';
 import MapView from '../components/MapView';
+import SkeletonCard from '../components/SkeletonCard';
+import ErrorDisplay from '../components/ErrorDisplay';
 
 const Home = ({ isLogin, user, onShowAuth }) => {
     // Separate state for each view type
@@ -24,6 +26,13 @@ const Home = ({ isLogin, user, onShowAuth }) => {
     // Real-time location tracking
     const [currentLocation, setCurrentLocation] = useState(null);
     const [locationWatchId, setLocationWatchId] = useState(null);
+
+    // New location state management
+    const [userLocation, setUserLocation] = useState(null);      // GPS position
+    const [mapCenter, setMapCenter] = useState(null);            // Current map/search center
+    const [hasGeolocationError, setHasGeolocationError] = useState(false);
+    const [mapHasMoved, setMapHasMoved] = useState(false);
+    const [initialLoadComplete, setInitialLoadComplete] = useState(false);
 
     // Map/list interaction state
     const [viewType, setViewType] = useState('routes');
@@ -147,26 +156,23 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                         lng: position.coords.longitude
                     };
                     setCurrentLocation(newLocation);
+                    setUserLocation(newLocation);
+                    setMapCenter(newLocation);  // Initially same as user location
+                    setHasGeolocationError(false);
 
                     // Load initial data on first location update
-                    if (!storesData.items.length && !storesData.loading) {
+                    if (!initialLoadComplete) {
                         loadInitialItems('stores', newLocation);
-                    }
-                    if (!routesData.items.length && !routesData.loading) {
                         loadInitialItems('routes', newLocation);
+                        setInitialLoadComplete(true);
                     }
                 },
                 (error) => {
                     console.error('Location error:', error);
-                    // Fall back to Berlin
-                    const fallbackLocation = { lat: 52.5200, lng: 13.4050 };
-                    setCurrentLocation(fallbackLocation);
-                    if (!storesData.items.length && !storesData.loading) {
-                        loadInitialItems('stores', fallbackLocation);
-                    }
-                    if (!routesData.items.length && !routesData.loading) {
-                        loadInitialItems('routes', fallbackLocation);
-                    }
+                    setHasGeolocationError(true);
+                    setUserLocation(null);
+                    setMapCenter(null);
+                    // DO NOT load data - show error instead
                 },
                 { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
             );
@@ -174,11 +180,11 @@ const Home = ({ isLogin, user, onShowAuth }) => {
 
             return () => navigator.geolocation.clearWatch(watchId);
         } else {
-            // No geolocation support - use fallback
-            const fallbackLocation = { lat: 52.5200, lng: 13.4050 };
-            setCurrentLocation(fallbackLocation);
-            loadInitialItems('stores', fallbackLocation);
-            loadInitialItems('routes', fallbackLocation);
+            // No geolocation support
+            console.error('Geolocation not supported');
+            setHasGeolocationError(true);
+            setUserLocation(null);
+            setMapCenter(null);
         }
     }, []);
 
@@ -322,6 +328,55 @@ const Home = ({ isLogin, user, onShowAuth }) => {
         }
     };
 
+    // Map interaction handlers
+    const handleMapMove = (newLat, newLng) => {
+        const newCenter = { lat: newLat, lng: newLng };
+        setMapCenter(newCenter);
+
+        // Check if moved >50m from user location
+        if (userLocation) {
+            const distance = calculateDistance(
+                userLocation.lat, userLocation.lng,
+                newLat, newLng
+            );
+            setMapHasMoved(distance > 0.05); // 50 meters (0.05 km)
+        } else {
+            setMapHasMoved(true);
+        }
+    };
+
+    const handleCoordinateChange = (lat, lng) => {
+        setMapCenter({ lat, lng });
+        setMapHasMoved(true);
+    };
+
+    const handleReturnToUser = () => {
+        if (userLocation) {
+            setMapCenter(userLocation);
+            setMapHasMoved(false);
+            // Reload data at user location
+            setStoresData({ items: [], offset: 0, hasMore: true, loading: false });
+            setRoutesData({ items: [], offset: 0, hasMore: true, loading: false });
+            setInitialLoadComplete(false);
+            loadInitialItems('stores', userLocation);
+            loadInitialItems('routes', userLocation);
+            setInitialLoadComplete(true);
+        }
+    };
+
+    const handleSearchThisArea = () => {
+        if (mapCenter) {
+            setMapHasMoved(false);
+            // Clear existing data and reload at new center
+            setStoresData({ items: [], offset: 0, hasMore: true, loading: false });
+            setRoutesData({ items: [], offset: 0, hasMore: true, loading: false });
+            setInitialLoadComplete(false);
+            loadInitialItems('stores', mapCenter);
+            loadInitialItems('routes', mapCenter);
+            setInitialLoadComplete(true);
+        }
+    };
+
     // Filter items based on cuisine filter
     const filteredRoutes = cuisineFilter === 'all'
         ? routesData.items
@@ -355,6 +410,15 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     selectedId={selectedId}
                     onMarkerClick={handleMarkerClick}
                     cuisineFilter={cuisineFilter}
+                    userLat={userLocation?.lat}
+                    userLng={userLocation?.lng}
+                    centerLat={mapCenter?.lat}
+                    centerLng={mapCenter?.lng}
+                    onMapMove={handleMapMove}
+                    onCoordinateChange={handleCoordinateChange}
+                    onReturnToUser={handleReturnToUser}
+                    onSearchArea={handleSearchThisArea}
+                    mapHasMoved={mapHasMoved}
                 />
             </div>
 
@@ -373,12 +437,33 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                 <div className="container">
                     {viewType === 'routes' ? (
                         <div>
-                            {routesData.loading && routesData.items.length === 0 && <p>Loading nearby routes...</p>}
-                            {routesError && <p className="text-danger">{routesError}</p>}
-                            {!routesData.loading && filteredRoutes.length === 0 && routesData.items.length === 0 && (
+                            {/* SKELETON LOADING - Initial load only */}
+                            {!initialLoadComplete && routesData.loading && routesData.items.length === 0 && (
+                                <>
+                                    {Array.from({ length: 15 }).map((_, idx) => (
+                                        <SkeletonCard key={idx} type="route" />
+                                    ))}
+                                </>
+                            )}
+
+                            {/* ERROR STATES */}
+                            {routesError && !routesData.loading && (
+                                <ErrorDisplay message={routesError} type="api" />
+                            )}
+
+                            {hasGeolocationError && !userLocation && initialLoadComplete && (
+                                <ErrorDisplay
+                                    message="Location access denied"
+                                    type="location"
+                                />
+                            )}
+
+                            {/* EMPTY STATES */}
+                            {initialLoadComplete && !routesData.loading && !routesError && !hasGeolocationError &&
+                             filteredRoutes.length === 0 && routesData.items.length === 0 && (
                                 <p>No routes found {cuisineFilter !== 'all' ? `for ${cuisineFilter}` : 'nearby'}.</p>
                             )}
-                            {!routesData.loading && filteredRoutes.length === 0 && routesData.items.length > 0 && (
+                            {initialLoadComplete && !routesData.loading && filteredRoutes.length === 0 && routesData.items.length > 0 && (
                                 <p>No routes found for {cuisineFilter}.</p>
                             )}
 
@@ -419,12 +504,33 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                         </div>
                     ) : (
                         <div>
-                            {storesData.loading && storesData.items.length === 0 && <p>Loading nearby stores...</p>}
-                            {storesError && <p className="text-danger">{storesError}</p>}
-                            {!storesData.loading && filteredStores.length === 0 && storesData.items.length === 0 && (
+                            {/* SKELETON LOADING - Initial load only */}
+                            {!initialLoadComplete && storesData.loading && storesData.items.length === 0 && (
+                                <>
+                                    {Array.from({ length: 15 }).map((_, idx) => (
+                                        <SkeletonCard key={idx} type="store" />
+                                    ))}
+                                </>
+                            )}
+
+                            {/* ERROR STATES */}
+                            {storesError && !storesData.loading && (
+                                <ErrorDisplay message={storesError} type="api" />
+                            )}
+
+                            {hasGeolocationError && !userLocation && initialLoadComplete && (
+                                <ErrorDisplay
+                                    message="Location access denied"
+                                    type="location"
+                                />
+                            )}
+
+                            {/* EMPTY STATES */}
+                            {initialLoadComplete && !storesData.loading && !storesError && !hasGeolocationError &&
+                             filteredStores.length === 0 && storesData.items.length === 0 && (
                                 <p>No stores found {cuisineFilter !== 'all' ? `for ${cuisineFilter}` : 'nearby'}.</p>
                             )}
-                            {!storesData.loading && filteredStores.length === 0 && storesData.items.length > 0 && (
+                            {initialLoadComplete && !storesData.loading && filteredStores.length === 0 && storesData.items.length > 0 && (
                                 <p>No stores found for {cuisineFilter}.</p>
                             )}
 

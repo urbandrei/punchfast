@@ -9,10 +9,27 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import LineString from 'ol/geom/LineString';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import MapControls from './MapControls';
 import 'ol/ol.css';
 
-const MapView = ({ stores, routes, viewType, selectedId, onMarkerClick, cuisineFilter }) => {
+const MapView = ({
+    stores,
+    routes,
+    viewType,
+    selectedId,
+    onMarkerClick,
+    cuisineFilter,
+    userLat,
+    userLng,
+    centerLat,
+    centerLng,
+    onMapMove,
+    onCoordinateChange,
+    onReturnToUser,
+    onSearchArea,
+    mapHasMoved
+}) => {
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
     const vectorLayerRef = useRef(null);
@@ -27,6 +44,17 @@ const MapView = ({ stores, routes, viewType, selectedId, onMarkerClick, cuisineF
             style: (feature) => {
                 const featureType = feature.get('featureType');
                 const isSelected = feature.get('id') === selectedId;
+
+                // User location marker - distinct blue pulsing circle
+                if (featureType === 'userLocation') {
+                    return new Style({
+                        image: new CircleStyle({
+                            radius: 10,
+                            fill: new Fill({ color: 'rgba(0, 122, 255, 0.3)' }),
+                            stroke: new Stroke({ color: '#007AFF', width: 3 })
+                        })
+                    });
+                }
 
                 if (featureType === 'store') {
                     return new Style({
@@ -80,8 +108,8 @@ const MapView = ({ stores, routes, viewType, selectedId, onMarkerClick, cuisineF
                 vectorLayer
             ],
             view: new View({
-                center: fromLonLat([13.4050, 52.5200]), // Berlin
-                zoom: 11
+                center: centerLat && centerLng ? fromLonLat([centerLng, centerLat]) : fromLonLat([0, 0]),
+                zoom: centerLat && centerLng ? 11 : 2
             })
         });
 
@@ -104,6 +132,16 @@ const MapView = ({ stores, routes, viewType, selectedId, onMarkerClick, cuisineF
             map.getTarget().style.cursor = hit ? 'pointer' : '';
         });
 
+        // Detect map movements
+        map.on('moveend', () => {
+            if (onMapMove) {
+                const view = map.getView();
+                const center = view.getCenter();
+                const [lng, lat] = toLonLat(center);
+                onMapMove(lat, lng);
+            }
+        });
+
         mapInstanceRef.current = map;
 
         return () => {
@@ -120,6 +158,15 @@ const MapView = ({ stores, routes, viewType, selectedId, onMarkerClick, cuisineF
         vectorSource.clear();
 
         const features = [];
+
+        // Add user location marker if available
+        if (userLat != null && userLng != null) {
+            const userFeature = new Feature({
+                geometry: new Point(fromLonLat([userLng, userLat]))
+            });
+            userFeature.set('featureType', 'userLocation');
+            features.push(userFeature);
+        }
 
         if (viewType === 'stores') {
             // Show individual store markers
@@ -188,7 +235,20 @@ const MapView = ({ stores, routes, viewType, selectedId, onMarkerClick, cuisineF
                 duration: 500
             });
         }
-    }, [stores, routes, viewType, cuisineFilter]);
+    }, [stores, routes, viewType, cuisineFilter, userLat, userLng]);
+
+    // Update map center when centerLat/centerLng change
+    useEffect(() => {
+        if (!mapInstanceRef.current || centerLat == null || centerLng == null) return;
+
+        const view = mapInstanceRef.current.getView();
+        const newCenter = fromLonLat([centerLng, centerLat]);
+
+        view.animate({
+            center: newCenter,
+            duration: 500
+        });
+    }, [centerLat, centerLng]);
 
     // Center on selected item
     useEffect(() => {
@@ -224,7 +284,24 @@ const MapView = ({ stores, routes, viewType, selectedId, onMarkerClick, cuisineF
         vectorLayerRef.current.changed();
     }, [selectedId]);
 
-    return <div ref={mapRef} style={{ width: '100%', height: '100%' }} />;
+    return (
+        <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+            {centerLat != null && centerLng != null && (
+                <MapControls
+                    currentLat={centerLat}
+                    currentLng={centerLng}
+                    userLat={userLat}
+                    userLng={userLng}
+                    onCoordinateChange={onCoordinateChange}
+                    onReturnToUser={onReturnToUser}
+                    onSearchArea={onSearchArea}
+                    hasUserLocation={userLat != null && userLng != null}
+                    mapHasMoved={mapHasMoved}
+                />
+            )}
+        </div>
+    );
 };
 
 export default MapView;
