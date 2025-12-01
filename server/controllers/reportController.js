@@ -126,7 +126,7 @@ exports.getAllReports = async (req, res) => {
                     attributes: ['id', 'username']
                 }
             ],
-            order: [['createdAt', 'DESC']]
+            order: [['created_at', 'DESC']]
         });
 
         // Enrich reports with store/route names

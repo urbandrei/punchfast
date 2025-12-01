@@ -85,11 +85,11 @@ exports.getUserSavedStores = async (req, res) => {
             include: [
                 {
                     model: Store,
-                    as: 'savedStore',   
+                    as: 'savedStore',
                     attributes: ['id', 'name', 'address', 'latitude', 'longitude']
                 }
             ],
-            order: [['createdAt', 'DESC']]
+            order: [['created_at', 'DESC']]
         });
 
         const stores = savedStores.map(entry => entry.savedStore);
