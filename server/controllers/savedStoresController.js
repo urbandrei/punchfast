@@ -1,4 +1,6 @@
 const { User, Store, SavedStore } = require('../models/associations');
+const Achievement = require('../models/achievement');
+const UserAchievement = require('../models/userachievement');
 
 exports.toggleSavedStore = async (req, res) => {
     const { userId, storeId } = req.body;
@@ -30,9 +32,33 @@ exports.toggleSavedStore = async (req, res) => {
             });
         } else {
             await SavedStore.create({ userId, storeId });
+
+            // Check for achievement unlocks
+            const totalSaves = await SavedStore.count({ where: { userId } });
+            const unlockedAchievements = [];
+
+            const achievements = await Achievement.findAll();
+
+            for (let ach of achievements) {
+                const alreadyUnlocked = await UserAchievement.findOne({
+                    where: { userId, achievementId: ach.id }
+                });
+
+                if (!alreadyUnlocked) {
+                    if (
+                        (ach.type === "first_save" && totalSaves >= ach.condition) ||
+                        (ach.type === "total_saves" && totalSaves >= ach.condition)
+                    ) {
+                        await UserAchievement.create({ userId, achievementId: ach.id });
+                        unlockedAchievements.push(ach);
+                    }
+                }
+            }
+
             return res.status(201).json({
                 message: 'Store saved successfully',
-                saved: true
+                saved: true,
+                unlockedAchievements
             });
         }
     } catch (error) {

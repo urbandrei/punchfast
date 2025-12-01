@@ -13,6 +13,10 @@ const UserAchievement = sequelize.define('UserAchievement', {
     unlockedAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+    },
+    firstShown: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     indexes: [

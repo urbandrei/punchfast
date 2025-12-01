@@ -44,6 +44,9 @@ const Navbar = ({
         <Link to="/dashboard" className="nav-bar-button">
           Dashboard
         </Link>
+        <Link to="/achievements" className="nav-bar-button">
+          Achievements
+        </Link>
         {currentUser?.isAdmin && (
           <Link to="/admin/dashboard" className="nav-bar-button">
             Admin

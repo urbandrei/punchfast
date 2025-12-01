@@ -5,6 +5,7 @@ import UnifiedAuthModal from './components/UnifiedAuthModal';
 import VisitNotificationModal from './components/VisitNotificationModal';
 import PunchNotificationModal from './components/PunchNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
+import AchievementModal from './components/AchievementModal';
 import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
@@ -30,6 +31,8 @@ const App = () => {
   const [showVisitModal, setShowVisitModal] = useState(false);
   const [showPunchModal, setShowPunchModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+  const [showAchievementModal, setShowAchievementModal] = useState(false);
+  const [currentAchievement, setCurrentAchievement] = useState(null);
   const [nearbyStores, setNearbyStores] = useState([]);
   const [punchStore, setPunchStore] = useState(null);
   const locationCheckInterval = useRef(null);
@@ -259,6 +262,29 @@ const App = () => {
     };
   }, [isLoggedIn, currentUser]);
 
+  // Poll for newly unlocked achievements
+  useEffect(() => {
+    if (!isLoggedIn || !currentUser?.id) return;
+
+    const checkNewAchievements = async () => {
+      try {
+        const response = await fetch(`/api/achievements/newly-unlocked/${currentUser.id}`);
+        const data = await response.json();
+        if (data.achievements?.length > 0) {
+          setCurrentAchievement(data.achievements[0]);
+          setShowAchievementModal(true);
+        }
+      } catch (err) {
+        console.error('Error checking for new achievements:', err);
+      }
+    };
+
+    checkNewAchievements(); // Check immediately on login
+    const interval = setInterval(checkNewAchievements, 30000); // Check every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [isLoggedIn, currentUser?.id]);
+
   const handleVisit = (storeIds) => {
     addNotifiedStores(storeIds);
   };
@@ -283,6 +309,25 @@ const App = () => {
   const handleClosePunchModal = () => {
     setShowPunchModal(false);
     setPunchStore(null);
+  };
+
+  const handleAchievementModalClose = async () => {
+    if (currentAchievement) {
+      try {
+        await fetch('/api/achievements/mark-shown', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: currentUser.id,
+            achievementId: currentAchievement.id
+          })
+        });
+      } catch (err) {
+        console.error('Error marking achievement as shown:', err);
+      }
+    }
+    setShowAchievementModal(false);
+    setCurrentAchievement(null);
   };
 
   const handleSignOut = () => {
@@ -340,6 +385,12 @@ const App = () => {
           userId={currentUser?.id}
         />
 
+        <AchievementModal
+          show={showAchievementModal}
+          achievement={currentAchievement}
+          onClose={handleAchievementModalClose}
+        />
+
         <Routes>
           <Route
             path="/"
@@ -375,7 +426,13 @@ const App = () => {
 
           <Route
             path="/achievements"
-            element={<Achievements />}
+            element={
+              <Achievements
+                isLogin={isLoggedIn}
+                user={currentUser}
+                onShowAuth={() => setShowAuthModal(true)}
+              />
+            }
           />
 
           <Route
