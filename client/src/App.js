@@ -13,6 +13,8 @@ import BusinessPunches from './views/business_punches';
 import BusinessDashboard from './views/business_dashboard';
 import AdminDashboard from './views/admin_dashboard';
 import Achievements from "./views/achievements";
+import { customerTokens, businessTokens } from './utils/tokenManager';
+import { customerApi, businessApi } from './utils/apiClient';
 
 const SESSION_STORAGE_KEY = 'punchfast_notified_stores';
 
@@ -32,17 +34,64 @@ const App = () => {
   const [punchStore, setPunchStore] = useState(null);
   const locationCheckInterval = useRef(null);
 
+  // Session restoration on mount
   useEffect(() => {
+    // Restore customer session from JWT tokens
+    if (customerTokens.hasTokens()) {
+      customerApi.get('/api/session')
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Session invalid');
+        })
+        .then(data => {
+          setIsLoggedIn(true);
+          setCurrentUser({
+            id: data.session.userId,
+            username: data.session.username,
+            isAdmin: data.session.isAdmin
+          });
+        })
+        .catch((error) => {
+          console.error('Error restoring customer session:', error);
+          customerTokens.clearTokens();
+        });
+    }
+
+    // Restore business session from JWT tokens
+    if (businessTokens.hasTokens()) {
+      businessApi.get('/api/business/session')
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Session invalid');
+        })
+        .then(data => {
+          setBusinessUser({
+            id: data.session.businessId,
+            username: data.session.username
+          });
+        })
+        .catch((error) => {
+          console.error('Error restoring business session:', error);
+          businessTokens.clearTokens();
+        });
+    }
+
+    // Legacy: Check for old business username in localStorage
     try {
       const stored =
         localStorage.getItem('pf_business_email') ||
         localStorage.getItem('pf_business_username');
 
-      if (stored) {
+      if (stored && !businessTokens.hasTokens()) {
+        // Only use legacy if no JWT tokens exist
         setBusinessUser({ username: stored });
       }
     } catch (e) {
-      console.error('Error reading business session from storage:', e);
+      console.error('Error reading legacy business session:', e);
     }
   }, []);
 
@@ -70,8 +119,13 @@ const App = () => {
     }
   };
 
-  const handleUnifiedLoginSuccess = (userData, type) => {
+  const handleUnifiedLoginSuccess = (userData, type, tokens) => {
     if (type === 'customer') {
+      // Store customer tokens
+      if (tokens?.accessToken && tokens?.refreshToken) {
+        customerTokens.setTokens(tokens.accessToken, tokens.refreshToken);
+      }
+
       handleLogin(true, userData);
 
       // Redirect admins to admin dashboard
@@ -80,6 +134,11 @@ const App = () => {
         return;
       }
     } else if (type === 'business') {
+      // Store business tokens
+      if (tokens?.accessToken && tokens?.refreshToken) {
+        businessTokens.setTokens(tokens.accessToken, tokens.refreshToken);
+      }
+
       handleBusinessLoginSuccess(userData);
     }
     setShowAuthModal(false);
@@ -87,6 +146,7 @@ const App = () => {
 
   const handleBusinessSignOut = () => {
     setBusinessUser(null);
+    businessTokens.clearTokens(); // Clear JWT tokens
     try {
       localStorage.removeItem('pf_business_username');
       localStorage.removeItem('pf_business_email');
@@ -228,6 +288,7 @@ const App = () => {
   const handleSignOut = () => {
     setIsLoggedIn(false);
     setCurrentUser(null);
+    customerTokens.clearTokens(); // Clear JWT tokens
     if (locationCheckInterval.current) {
       clearInterval(locationCheckInterval.current);
       locationCheckInterval.current = null;

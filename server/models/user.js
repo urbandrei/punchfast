@@ -33,6 +33,32 @@ const User = sequelize.define('User', {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+    },
+
+    refreshToken: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
+
+    refreshTokenCreatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+
+    refreshTokenExpiresAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+
+    deviceInfo: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {},
+    },
+
+    lastLoginIp: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 
 }, {

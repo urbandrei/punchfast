@@ -8,6 +8,7 @@ const visitController = require('../controllers/visitController');
 const routeStartController = require('../controllers/routeStartController');
 const savedStoresController = require('../controllers/savedStoresController');
 const nearbyEligibleStoresController = require('../controllers/nearbyEligibleStoresController');
+const { authenticateUser, authenticateBusiness } = require('../middleware/authMiddleware');
 
 // Health check endpoint for Render
 router.get('/', (req, res) => {
@@ -20,11 +21,17 @@ router.get('/', (req, res) => {
 // ---- auth (customers) ----
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);
-router.post('/change-password', authController.changePassword);
+router.post('/refresh-token', authController.refreshUserToken);
+router.post('/logout', authenticateUser, authController.logout);
+router.get('/session', authenticateUser, authController.getSession);
+router.post('/change-password', authenticateUser, authController.changePassword);
 
 // ---- auth (businesses) ----
 router.post('/business/login', authController.businessLogin);
 router.post('/business/signup', authController.businessSignup);
+router.post('/business/refresh-token', authController.refreshBusinessToken);
+router.post('/business/logout', authenticateBusiness, authController.businessLogout);
+router.get('/business/session', authenticateBusiness, authController.getBusinessSession);
 
 // admin-ish business approval + offer config
 router.post('/approve-business', authController.approveBusiness);

@@ -33,6 +33,32 @@ const Business = sequelize.define('Business', {
             model: 'Stores',
             key: 'id'
         }
+    },
+
+    refreshToken: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+    },
+
+    refreshTokenCreatedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+
+    refreshTokenExpiresAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+    },
+
+    deviceInfo: {
+        type: DataTypes.JSON,
+        allowNull: true,
+        defaultValue: {},
+    },
+
+    lastLoginIp: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 }, {
     hooks: {

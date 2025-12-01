@@ -105,13 +105,19 @@ const UnifiedAuthModal = ({ show, onClose, onLoginSuccess, initialAuthType = 'cu
 
             if (response.ok) {
                 if (authType === 'customer') {
-                    // Customer login/signup: Close modal immediately
-                    onLoginSuccess(data.user, 'customer');
+                    // Customer login/signup: Close modal immediately, pass tokens
+                    onLoginSuccess(data.user, 'customer', {
+                        accessToken: data.accessToken,
+                        refreshToken: data.refreshToken
+                    });
                     handleClose();
                 } else if (activeTab === 'login') {
-                    // Business login: Close modal, navigate to /business/punches
+                    // Business login: Close modal, navigate to /business/punches, pass tokens
                     if (data.business && onLoginSuccess) {
-                        onLoginSuccess(data.business, 'business');
+                        onLoginSuccess(data.business, 'business', {
+                            accessToken: data.accessToken,
+                            refreshToken: data.refreshToken
+                        });
                     }
                     handleClose();
                     navigate('/business/punches');
