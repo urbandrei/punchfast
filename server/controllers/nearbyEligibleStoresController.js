@@ -37,7 +37,7 @@ exports.getNearbyEligibleStores = async (req, res) => {
             where: { userId },
             include: [{
                 model: Store,
-                as: 'store',
+                as: 'savedStore',
                 attributes: ['id', 'name', 'address', 'latitude', 'longitude']
             }]
         });
@@ -61,8 +61,8 @@ exports.getNearbyEligibleStores = async (req, res) => {
         const storeMap = new Map();
 
         savedStores.forEach(savedStore => {
-            if (savedStore.store) {
-                storeMap.set(savedStore.store.id, savedStore.store);
+            if (savedStore.savedStore) {
+                storeMap.set(savedStore.savedStore.id, savedStore.savedStore);
             }
         });
 

@@ -14,7 +14,7 @@ exports.getUserAchievements = async (req, res) => {
     try {
         const achievements = await UserAchievement.findAll({
             where: { userId: req.params.userId },
-            include: [{ model: Achievement, as: 'achievement' }]
+            include: [{ model: Achievement, as: 'achievementData' }]
         });
         res.json(achievements);
     } catch (err) {
@@ -49,7 +49,7 @@ exports.getAllAchievementsWithProgress = async (req, res) => {
         const allAchievements = await Achievement.findAll();
         const userAchievements = await UserAchievement.findAll({
             where: { userId },
-            include: [{ model: Achievement, as: 'achievement' }]
+            include: [{ model: Achievement, as: 'achievementData' }]
         });
 
         const userAchievementMap = {};
@@ -86,7 +86,7 @@ exports.getNewlyUnlocked = async (req, res) => {
                 userId,
                 firstShown: false
             },
-            include: [{ model: Achievement, as: 'achievement' }]
+            include: [{ model: Achievement, as: 'achievementData' }]
         });
 
         const achievements = newlyUnlocked.map(ua => ({

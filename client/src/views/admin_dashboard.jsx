@@ -17,6 +17,15 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
   const [showCreateStore, setShowCreateStore] = useState(false);
   const [newStore, setNewStore] = useState({ name: '', address: '', latitude: '', longitude: '' });
 
+  // Pending stores state
+  const [pendingStores, setPendingStores] = useState([]);
+  const [pendingStoresLoading, setPendingStoresLoading] = useState(true);
+
+  // Reports state
+  const [reports, setReports] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(true);
+  const [reportStatusFilter, setReportStatusFilter] = useState('pending');
+
   useEffect(() => {
     if (!user?.id || !user?.isAdmin) {
       setStatsLoading(false);
@@ -68,6 +77,55 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
 
     fetchPendingBusinesses();
   }, [user]);
+
+  // Fetch pending stores
+  useEffect(() => {
+    if (!user?.id || !user?.isAdmin) return;
+
+    const fetchPendingStores = async () => {
+      try {
+        const token = localStorage.getItem('pf_customer_access_token');
+        const res = await fetch('/api/admin/pending-stores', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Failed to fetch pending stores');
+        const data = await res.json();
+        setPendingStores(data.stores || []);
+      } catch (err) {
+        console.error('Pending stores fetch error:', err);
+      } finally {
+        setPendingStoresLoading(false);
+      }
+    };
+
+    fetchPendingStores();
+  }, [user]);
+
+  // Fetch reports
+  useEffect(() => {
+    if (!user?.id || !user?.isAdmin) return;
+
+    const fetchReports = async () => {
+      try {
+        const token = localStorage.getItem('pf_customer_access_token');
+        const url = reportStatusFilter === 'all'
+          ? '/api/reports'
+          : `/api/reports?status=${reportStatusFilter}`;
+        const res = await fetch(url, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Failed to fetch reports');
+        const data = await res.json();
+        setReports(data.reports || []);
+      } catch (err) {
+        console.error('Reports fetch error:', err);
+      } finally {
+        setReportsLoading(false);
+      }
+    };
+
+    fetchReports();
+  }, [user, reportStatusFilter]);
 
   const handleOpenApproval = (business) => {
     setSelectedBusiness(business);
@@ -193,6 +251,92 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
     } catch (err) {
       console.error('Deny error:', err);
       setMessage('Error denying business');
+    }
+  };
+
+  // Store moderation handlers
+  const handleApproveStore = async (storeId, storeName) => {
+    try {
+      const token = localStorage.getItem('pf_customer_access_token');
+      const res = await fetch(`/api/admin/stores/${storeId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: 'active' })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(`Store "${storeName}" approved successfully`);
+        setPendingStores(prev => prev.filter(s => s.id !== storeId));
+        setTimeout(() => setMessage(''), 3000);
+      } else {
+        setMessage(data.message || 'Failed to approve store');
+      }
+    } catch (err) {
+      console.error('Approve store error:', err);
+      setMessage('Error approving store');
+    }
+  };
+
+  const handleDenyStore = async (storeId, storeName) => {
+    if (!window.confirm(`Are you sure you want to deny "${storeName}"?`)) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('pf_customer_access_token');
+      const res = await fetch(`/api/admin/stores/${storeId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: 'inactive' })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(`Store "${storeName}" denied`);
+        setPendingStores(prev => prev.filter(s => s.id !== storeId));
+        setTimeout(() => setMessage(''), 3000);
+      } else {
+        setMessage(data.message || 'Failed to deny store');
+      }
+    } catch (err) {
+      console.error('Deny store error:', err);
+      setMessage('Error denying store');
+    }
+  };
+
+  // Report handlers
+  const handleUpdateReportStatus = async (reportId, newStatus, reportDescription) => {
+    try {
+      const token = localStorage.getItem('pf_customer_access_token');
+      const res = await fetch(`/api/reports/${reportId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(`Report ${newStatus} successfully`);
+        setReports(prev => prev.map(r =>
+          r.id === reportId ? { ...r, status: newStatus } : r
+        ));
+        setTimeout(() => setMessage(''), 3000);
+      } else {
+        setMessage(data.message || 'Failed to update report');
+      }
+    } catch (err) {
+      console.error('Update report error:', err);
+      setMessage('Error updating report');
     }
   };
 
@@ -369,6 +513,168 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
                     Deny
                   </button>
                 </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Pending User-Submitted Stores */}
+      <div style={{ marginTop: '40px' }}>
+        <h2 className="h4" style={{ color: '#302C9A', marginBottom: '20px' }}>
+          Pending User-Submitted Stores
+        </h2>
+
+        {pendingStoresLoading ? (
+          <p style={{ color: '#6AB7AD' }}>Loading pending stores...</p>
+        ) : pendingStores.length === 0 ? (
+          <p style={{ color: '#6AB7AD' }}>No pending stores.</p>
+        ) : (
+          <div style={{ marginTop: '20px' }}>
+            {pendingStores.map(store => (
+              <div key={store.id} style={{
+                backgroundColor: 'white', border: '2px solid #A7CCDE', borderRadius: '12px',
+                padding: '20px', marginBottom: '15px'
+              }}>
+                <div style={{ marginBottom: '15px' }}>
+                  <h5 style={{ color: '#302C9A', margin: '0 0 8px 0' }}>{store.name}</h5>
+                  <p style={{ color: '#6AB7AD', margin: '0 0 4px 0', fontSize: '0.9rem' }}>
+                    {store.address}
+                  </p>
+                  {store.cuisine && (
+                    <p style={{ color: '#999', margin: '0 0 4px 0', fontSize: '0.85rem' }}>
+                      Cuisine: {store.cuisine}
+                    </p>
+                  )}
+                  <p style={{ color: '#999', margin: 0, fontSize: '0.85rem' }}>
+                    Submitted: {new Date(store.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <button onClick={() => handleApproveStore(store.id, store.name)} style={{
+                    backgroundColor: '#6AB7AD', color: 'white', border: 'none',
+                    borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
+                  }}>
+                    Approve
+                  </button>
+                  <button onClick={() => handleDenyStore(store.id, store.name)} style={{
+                    backgroundColor: '#E68E8D', color: 'white', border: 'none',
+                    borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
+                  }}>
+                    Deny
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Reports Management */}
+      <div style={{ marginTop: '40px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h2 className="h4" style={{ color: '#302C9A', margin: 0 }}>
+            User Reports
+          </h2>
+          <select
+            value={reportStatusFilter}
+            onChange={(e) => {
+              setReportStatusFilter(e.target.value);
+              setReportsLoading(true);
+            }}
+            style={{
+              padding: '8px 12px', borderRadius: '6px',
+              border: '2px solid #A7CCDE', fontSize: '0.9rem',
+              backgroundColor: 'white', cursor: 'pointer'
+            }}
+          >
+            <option value="pending">Pending</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="resolved">Resolved</option>
+            <option value="dismissed">Dismissed</option>
+            <option value="all">All Reports</option>
+          </select>
+        </div>
+
+        {reportsLoading ? (
+          <p style={{ color: '#6AB7AD' }}>Loading reports...</p>
+        ) : reports.length === 0 ? (
+          <p style={{ color: '#6AB7AD' }}>No {reportStatusFilter !== 'all' ? reportStatusFilter : ''} reports found.</p>
+        ) : (
+          <div style={{ marginTop: '20px' }}>
+            {reports.map(report => (
+              <div key={report.id} style={{
+                backgroundColor: 'white', border: '2px solid #A7CCDE', borderRadius: '12px',
+                padding: '20px', marginBottom: '15px'
+              }}>
+                <div style={{ marginBottom: '15px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '10px' }}>
+                    <div>
+                      <h5 style={{ color: '#302C9A', margin: '0 0 4px 0' }}>
+                        {report.reportedItemType === 'store' ? '🏪' : '🗺️'} {report.reportedItem?.name || `${report.reportedItemType} #${report.reportedItemId}`}
+                      </h5>
+                      <span style={{
+                        display: 'inline-block',
+                        padding: '4px 10px',
+                        borderRadius: '12px',
+                        fontSize: '0.8rem',
+                        fontWeight: '500',
+                        backgroundColor: report.status === 'pending' ? 'rgba(255, 193, 7, 0.2)' :
+                                        report.status === 'resolved' ? 'rgba(40, 167, 69, 0.2)' :
+                                        report.status === 'dismissed' ? 'rgba(108, 117, 125, 0.2)' :
+                                        'rgba(106, 183, 173, 0.2)',
+                        color: report.status === 'pending' ? '#856404' :
+                               report.status === 'resolved' ? '#155724' :
+                               report.status === 'dismissed' ? '#383d41' :
+                               '#0c5460'
+                      }}>
+                        {report.status.toUpperCase()}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p style={{ color: '#E68E8D', margin: '0 0 8px 0', fontSize: '0.9rem', fontWeight: '500' }}>
+                    Category: {report.category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  </p>
+
+                  {report.description && (
+                    <p style={{ color: '#555', margin: '0 0 8px 0', fontSize: '0.9rem', fontStyle: 'italic' }}>
+                      "{report.description}"
+                    </p>
+                  )}
+
+                  <div style={{ color: '#999', fontSize: '0.85rem' }}>
+                    <p style={{ margin: '4px 0' }}>
+                      Reported by: {report.reporter ? report.reporter.username : 'Guest'}
+                    </p>
+                    <p style={{ margin: '4px 0' }}>
+                      Submitted: {new Date(report.createdAt).toLocaleString()}
+                    </p>
+                    {report.reviewer && (
+                      <p style={{ margin: '4px 0' }}>
+                        Reviewed by: {report.reviewer.username} on {new Date(report.reviewedAt).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {report.status === 'pending' && (
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <button onClick={() => handleUpdateReportStatus(report.id, 'resolved', report.description)} style={{
+                      backgroundColor: '#6AB7AD', color: 'white', border: 'none',
+                      borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
+                    }}>
+                      Mark Resolved
+                    </button>
+                    <button onClick={() => handleUpdateReportStatus(report.id, 'dismissed', report.description)} style={{
+                      backgroundColor: '#E68E8D', color: 'white', border: 'none',
+                      borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
+                    }}>
+                      Dismiss
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>

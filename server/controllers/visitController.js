@@ -1,4 +1,4 @@
-const { User, Store, Visit, RouteStart } = require('../models/associations');
+const { User, Store, Visit, RouteStart, Achievement, UserAchievement } = require('../models/associations');
 const { Op } = require('sequelize');
 
 exports.createVisit = async (req, res) => {

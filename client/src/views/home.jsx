@@ -34,6 +34,8 @@ const Home = ({ isLogin, user, onShowAuth }) => {
     const [hasGeolocationError, setHasGeolocationError] = useState(false);
     const [mapHasMoved, setMapHasMoved] = useState(false);
     const [initialLoadComplete, setInitialLoadComplete] = useState(false);
+    const [shouldFitToFeatures, setShouldFitToFeatures] = useState(true);
+    const [isInitialLoad, setIsInitialLoad] = useState(true);
 
     // Map/list interaction state
     const [viewType, setViewType] = useState('routes');
@@ -167,6 +169,8 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                         loadInitialItems('stores', newLocation);
                         loadInitialItems('routes', newLocation);
                         setInitialLoadComplete(true);
+                        setShouldFitToFeatures(true);
+                        setIsInitialLoad(true);
                     }
                 },
                 (error) => {
@@ -189,6 +193,17 @@ const Home = ({ isLogin, user, onShowAuth }) => {
             setMapCenter(null);
         }
     }, []);
+
+    // Reset shouldFitToFeatures after initial load completes
+    useEffect(() => {
+        if (initialLoadComplete && isInitialLoad) {
+            const timer = setTimeout(() => {
+                setShouldFitToFeatures(false);
+                setIsInitialLoad(false);
+            }, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [initialLoadComplete, isInitialLoad]);
 
     // Fetch user route starts when user logs in
     useEffect(() => {
@@ -356,26 +371,36 @@ const Home = ({ isLogin, user, onShowAuth }) => {
         if (userLocation) {
             setMapCenter(userLocation);
             setMapHasMoved(false);
+            setShouldFitToFeatures(true);
             // Reload data at user location
             setStoresData({ items: [], offset: 0, hasMore: true, loading: false });
             setRoutesData({ items: [], offset: 0, hasMore: true, loading: false });
             setInitialLoadComplete(false);
             loadInitialItems('stores', userLocation);
             loadInitialItems('routes', userLocation);
-            setInitialLoadComplete(true);
+
+            setTimeout(() => {
+                setInitialLoadComplete(true);
+                setShouldFitToFeatures(false);
+            }, 600);
         }
     };
 
     const handleSearchThisArea = () => {
         if (mapCenter) {
             setMapHasMoved(false);
+            setShouldFitToFeatures(true);
             // Clear existing data and reload at new center
             setStoresData({ items: [], offset: 0, hasMore: true, loading: false });
             setRoutesData({ items: [], offset: 0, hasMore: true, loading: false });
             setInitialLoadComplete(false);
             loadInitialItems('stores', mapCenter);
             loadInitialItems('routes', mapCenter);
-            setInitialLoadComplete(true);
+
+            setTimeout(() => {
+                setInitialLoadComplete(true);
+                setShouldFitToFeatures(false);
+            }, 600);
         }
     };
 
@@ -421,6 +446,8 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     onReturnToUser={handleReturnToUser}
                     onSearchArea={handleSearchThisArea}
                     mapHasMoved={mapHasMoved}
+                    shouldFitToFeatures={shouldFitToFeatures}
+                    isInitialLoad={isInitialLoad}
                 />
             </div>
 

@@ -28,11 +28,17 @@ const MapView = ({
     onCoordinateChange,
     onReturnToUser,
     onSearchArea,
-    mapHasMoved
+    mapHasMoved,
+    shouldFitToFeatures,
+    isInitialLoad
 }) => {
     const mapRef = useRef(null);
     const mapInstanceRef = useRef(null);
     const vectorLayerRef = useRef(null);
+    const animationRef = useRef(null);
+    const userHasPannedRef = useRef(false);
+    const isAnimatingRef = useRef(false);
+    const lastFitExtentRef = useRef(null);
 
     // Initialize map
     useEffect(() => {
@@ -132,8 +138,18 @@ const MapView = ({
             map.getTarget().style.cursor = hit ? 'pointer' : '';
         });
 
+        // Detect user pan/zoom interactions
+        const handleUserInteraction = () => {
+            if (!isAnimatingRef.current) {
+                userHasPannedRef.current = true;
+            }
+        };
+        map.on('pointerdrag', handleUserInteraction);
+        map.on('wheel', handleUserInteraction);
+
         // Detect map movements
         map.on('moveend', () => {
+            isAnimatingRef.current = false;
             if (onMapMove) {
                 const view = map.getView();
                 const center = view.getCenter();
@@ -225,44 +241,117 @@ const MapView = ({
         }
 
         vectorSource.addFeatures(features);
-
-        // Fit map to features if there are any
-        if (features.length > 0) {
-            const extent = vectorSource.getExtent();
-            mapInstanceRef.current?.getView().fit(extent, {
-                padding: [50, 50, 50, 50],
-                maxZoom: 14,
-                duration: 500
-            });
-        }
+        // NO automatic map fitting - markers update, map stays in place
     }, [stores, routes, viewType, cuisineFilter, userLat, userLng]);
+
+    // Auto-fit to features ONLY when shouldFitToFeatures is true
+    useEffect(() => {
+        if (!mapInstanceRef.current || !vectorLayerRef.current || !shouldFitToFeatures) {
+            return;
+        }
+
+        const vectorSource = vectorLayerRef.current.getSource();
+        const features = vectorSource.getFeatures();
+        const featuresToFit = features.filter(f => f.get('featureType') !== 'userLocation');
+
+        if (featuresToFit.length === 0) return;
+
+        const extent = vectorSource.getExtent();
+        const extentKey = extent.join(',');
+
+        // Avoid duplicate fits to same extent
+        if (lastFitExtentRef.current === extentKey && !isInitialLoad) {
+            return;
+        }
+        lastFitExtentRef.current = extentKey;
+
+        // Cancel in-flight animations
+        if (animationRef.current) {
+            mapInstanceRef.current.getView().cancelAnimations();
+            animationRef.current = null;
+        }
+
+        isAnimatingRef.current = true;
+        userHasPannedRef.current = false;
+
+        mapInstanceRef.current.getView().fit(extent, {
+            padding: [50, 50, 50, 50],
+            maxZoom: 14,
+            duration: isInitialLoad ? 0 : 500
+        });
+
+        animationRef.current = setTimeout(() => {
+            isAnimatingRef.current = false;
+            animationRef.current = null;
+        }, isInitialLoad ? 0 : 500);
+    }, [shouldFitToFeatures, isInitialLoad]);
 
     // Update map center when centerLat/centerLng change
     useEffect(() => {
         if (!mapInstanceRef.current || centerLat == null || centerLng == null) return;
 
+        // Don't override if user has panned (unless initial load)
+        if (userHasPannedRef.current && !isInitialLoad) return;
+
         const view = mapInstanceRef.current.getView();
+        const currentCenter = view.getCenter();
         const newCenter = fromLonLat([centerLng, centerLat]);
+
+        // Check if center actually changed (avoid unnecessary animations)
+        const [currentLng, currentLat] = toLonLat(currentCenter);
+        const threshold = 0.0001; // ~11 meters
+        if (Math.abs(currentLat - centerLat) < threshold &&
+            Math.abs(currentLng - centerLng) < threshold) {
+            return;
+        }
+
+        // Cancel in-flight animations
+        if (animationRef.current) {
+            view.cancelAnimations();
+            clearTimeout(animationRef.current);
+            animationRef.current = null;
+        }
+
+        isAnimatingRef.current = true;
+        userHasPannedRef.current = false;
 
         view.animate({
             center: newCenter,
             duration: 500
         });
-    }, [centerLat, centerLng]);
 
-    // Center on selected item
+        animationRef.current = setTimeout(() => {
+            isAnimatingRef.current = false;
+            animationRef.current = null;
+        }, 500);
+    }, [centerLat, centerLng, isInitialLoad]);
+
+    // Center on selected item (HIGHEST PRIORITY)
     useEffect(() => {
-        if (!mapInstanceRef.current || !vectorLayerRef.current || !selectedId) return;
+        if (!mapInstanceRef.current || !vectorLayerRef.current || !selectedId) {
+            if (vectorLayerRef.current) {
+                vectorLayerRef.current.changed();
+            }
+            return;
+        }
 
         const vectorSource = vectorLayerRef.current.getSource();
         const features = vectorSource.getFeatures();
-
-        // Find the selected feature
         const selectedFeature = features.find(f => f.get('id') === selectedId);
 
         if (selectedFeature) {
             const geometry = selectedFeature.getGeometry();
             const view = mapInstanceRef.current.getView();
+
+            // Cancel in-flight animations (selection has HIGHEST priority)
+            if (animationRef.current) {
+                view.cancelAnimations();
+                clearTimeout(animationRef.current);
+                animationRef.current = null;
+            }
+
+            isAnimatingRef.current = true;
+            userHasPannedRef.current = false;
 
             if (geometry.getType() === 'Point') {
                 view.animate({
@@ -278,9 +367,13 @@ const MapView = ({
                     duration: 500
                 });
             }
+
+            animationRef.current = setTimeout(() => {
+                isAnimatingRef.current = false;
+                animationRef.current = null;
+            }, 500);
         }
 
-        // Trigger re-render to update marker styles
         vectorLayerRef.current.changed();
     }, [selectedId]);
 
