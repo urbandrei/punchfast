@@ -16,8 +16,17 @@ import AdminDashboard from './views/admin_dashboard';
 import Achievements from "./views/achievements";
 import { customerTokens, businessTokens } from './utils/tokenManager';
 import { customerApi, businessApi } from './utils/apiClient';
-
-const SESSION_STORAGE_KEY = 'punchfast_notified_stores';
+import {
+  calculateDistance,
+  cacheNearbyStores,
+  getCachedStores,
+  getStartingLocation,
+  addVisitDenial,
+  markVisitedToday,
+  findNearbyStores,
+  filterEligibleStores,
+  shouldRefreshStoreList
+} from './utils/proximityUtils';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,6 +45,11 @@ const App = () => {
   const [nearbyStores, setNearbyStores] = useState([]);
   const [punchStore, setPunchStore] = useState(null);
   const locationCheckInterval = useRef(null);
+
+  // Proximity detection state
+  const [cachedStores, setCachedStores] = useState([]);
+  const [startingLocation, setStartingLocation] = useState(null);
+  const [lastProximityCheck, setLastProximityCheck] = useState(0);
 
   // Session restoration on mount
   useEffect(() => {
@@ -159,79 +173,148 @@ const App = () => {
     window.location.href = '/';
   };
 
-  const getNotifiedStores = () => {
+  const fetchAndCacheSavedStores = async (location) => {
+    if (!currentUser || !location) return;
+
     try {
-      const stored = sessionStorage.getItem(SESSION_STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
+      // Fetch user's saved stores
+      const savedStoresRes = await fetch(
+        `/api/saved-stores?userId=${currentUser.id}`
+      );
+
+      if (!savedStoresRes.ok) {
+        console.error('Failed to fetch saved stores');
+        return;
+      }
+
+      const savedStoresData = await savedStoresRes.json();
+      const savedStoreIds = savedStoresData.savedStores?.map(s => s.storeId) || [];
+
+      // Fetch nearby stores
+      const nearbyRes = await fetch(
+        `/api/stores/nearby?lat=${location.lat}&lng=${location.lng}&limit=50&offset=0`
+      );
+
+      if (!nearbyRes.ok) {
+        console.error('Failed to fetch nearby stores');
+        return;
+      }
+
+      const nearbyData = await nearbyRes.json();
+      const stores = nearbyData.stores || [];
+
+      // Filter for only saved/liked stores
+      const savedNearbyStores = stores.filter(store =>
+        savedStoreIds.includes(store.id)
+      );
+
+      // Cache stores and starting location
+      cacheNearbyStores(savedNearbyStores, location);
+      setCachedStores(savedNearbyStores);
+      setStartingLocation(location);
+
+      console.log(`Cached ${savedNearbyStores.length} saved stores`);
     } catch (err) {
-      console.error('Error reading notified stores:', err);
-      return [];
+      console.error('Error fetching and caching stores:', err);
     }
   };
 
-  const addNotifiedStores = (storeIds) => {
-    try {
-      const existing = getNotifiedStores();
-      const updated = [...new Set([...existing, ...storeIds])];
-      sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(updated));
-    } catch (err) {
-      console.error('Error saving notified stores:', err);
+  const checkProximity = (location) => {
+    if (!currentUser || !location) return;
+
+    // Debounce: Only check every 5 seconds max
+    const now = Date.now();
+    if (now - lastProximityCheck < 5000) return;
+    setLastProximityCheck(now);
+
+    // Get cached stores (or load from localStorage if not in state)
+    let stores = cachedStores;
+    let starting = startingLocation;
+
+    if (stores.length === 0) {
+      stores = getCachedStores();
+      starting = getStartingLocation();
+      if (stores.length > 0) {
+        setCachedStores(stores);
+        setStartingLocation(starting);
+      }
     }
-  };
 
-  const checkNearbyStores = async (latitude, longitude) => {
-    if (!isLoggedIn || !currentUser?.id) return;
+    // Check if we should refresh the store list
+    if (shouldRefreshStoreList(location, stores, starting)) {
+      console.log('User moved beyond furthest store, refreshing...');
+      fetchAndCacheSavedStores(location);
+      return; // Will check proximity on next update
+    }
 
-    try {
-      const res = await fetch(
-        `/api/nearby-eligible-stores?userId=${currentUser.id}&latitude=${latitude}&longitude=${longitude}`
-      );
+    // Find stores within 15 meters
+    const nearbyStores = findNearbyStores(location, stores);
 
-      if (!res.ok) {
-        console.error('Failed to fetch nearby stores: ');
-        return;
-      }
+    if (nearbyStores.length === 0) return;
 
-      const data = await res.json();
+    // Filter out denied and already-visited-today stores
+    const eligibleStores = filterEligibleStores(nearbyStores);
 
-      if (!data.stores || data.stores.length === 0) {
-        return;
-      }
+    if (eligibleStores.length === 0) return;
 
-      const notifiedStores = getNotifiedStores();
-      const newStores = data.stores.filter(
-        (store) => !notifiedStores.includes(store.id)
-      );
+    // Separate verified vs non-verified
+    const verifiedStores = eligibleStores.filter(s => s.isVerified);
+    const nonVerifiedStores = eligibleStores.filter(s => !s.isVerified);
 
-      if (newStores.length === 0) {
-        return;
-      }
-
-      // Separate verified and non-verified stores
-      const verifiedStores = newStores.filter(store => store.isVerified);
-      const nonVerifiedStores = newStores.filter(store => !store.isVerified);
-
-      // Prioritize punch modal for verified stores
-      if (verifiedStores.length > 0) {
-        setPunchStore(verifiedStores[0]);
-        setShowPunchModal(true);
-      } else if (nonVerifiedStores.length > 0) {
-        setNearbyStores(nonVerifiedStores);
-        setShowVisitModal(true);
-      }
-    } catch (err) {
-      console.error('Error checking nearby stores:', err);
+    // Show appropriate modal
+    if (verifiedStores.length > 0) {
+      setPunchStore(verifiedStores[0]);
+      setShowPunchModal(true);
+    } else if (nonVerifiedStores.length > 0) {
+      setNearbyStores(nonVerifiedStores);
+      setShowVisitModal(true);
     }
   };
 
   const handleLocationUpdate = (position) => {
-    const { latitude, longitude } = position.coords;
-    checkNearbyStores(latitude, longitude);
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+
+    const location = { lat: latitude, lng: longitude };
+
+    // Check proximity using cached stores
+    checkProximity(location);
   };
 
   const handleLocationError = (error) => {
     console.error('Location error:', error);
   };
+
+  // Load cached stores on initial login
+  useEffect(() => {
+    if (!isLoggedIn || !currentUser) return;
+
+    // Try to restore from localStorage first
+    const cached = getCachedStores();
+    const starting = getStartingLocation();
+
+    if (cached.length > 0 && starting) {
+      setCachedStores(cached);
+      setStartingLocation(starting);
+      console.log(`Restored ${cached.length} cached stores from localStorage`);
+    }
+
+    // Fetch fresh data on app open
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          fetchAndCacheSavedStores(location);
+        },
+        (error) => {
+          console.error('Geolocation error:', error);
+        }
+      );
+    }
+  }, [isLoggedIn, currentUser]);
 
   useEffect(() => {
     if (!isLoggedIn || !currentUser) {
@@ -286,11 +369,13 @@ const App = () => {
   }, [isLoggedIn, currentUser?.id]);
 
   const handleVisit = (storeIds) => {
-    addNotifiedStores(storeIds);
+    // Mark stores as visited today
+    storeIds.forEach(storeId => markVisitedToday(storeId));
   };
 
   const handleNotVisiting = (storeIds) => {
-    addNotifiedStores(storeIds);
+    // Add denials with 1-hour expiration
+    storeIds.forEach(storeId => addVisitDenial(storeId));
   };
 
   const handleCloseVisitModal = () => {
@@ -299,11 +384,13 @@ const App = () => {
   };
 
   const handlePunch = (storeId) => {
-    addNotifiedStores([storeId]);
+    // Mark store as visited today
+    markVisitedToday(storeId);
   };
 
   const handleNotPunching = (storeId) => {
-    addNotifiedStores([storeId]);
+    // Add denial with 1-hour expiration
+    addVisitDenial(storeId);
   };
 
   const handleClosePunchModal = () => {
@@ -338,7 +425,6 @@ const App = () => {
       clearInterval(locationCheckInterval.current);
       locationCheckInterval.current = null;
     }
-    sessionStorage.removeItem(SESSION_STORAGE_KEY);
   };
 
   return (

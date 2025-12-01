@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { markVisitedToday, addVisitDenial } from '../utils/proximityUtils';
 
 const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, onClose }) => {
   const [selectedStoreIds, setSelectedStoreIds] = useState([]);
@@ -55,6 +56,9 @@ const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, 
         return;
       }
 
+      // Mark as visited today locally
+      storeIdsToVisit.forEach(storeId => markVisitedToday(storeId));
+
       if (onVisit) {
         onVisit(storeIdsToVisit);
       }
@@ -72,8 +76,13 @@ const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, 
   };
 
   const handleNotVisiting = () => {
+    const storeIds = stores.map(s => s.id);
+
+    // Add 1-hour denial for each store
+    storeIds.forEach(storeId => addVisitDenial(storeId));
+
     if (onNotVisiting) {
-      onNotVisiting(stores.map(s => s.id));
+      onNotVisiting(storeIds);
     }
     setSelectedStoreIds([]);
     setError(null);
