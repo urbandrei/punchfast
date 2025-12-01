@@ -23,6 +23,13 @@ yarn-error.log
 .env.local
 .env.production
 
+# Render build cache
+.render/
+.cache/
+
+# Production build env
+client/.env.production.local
+
 # Build outputs
 client/build/
 

@@ -1,0 +1,17 @@
+# Exclude from build cache
+.git
+.github
+.vscode
+.idea
+*.md
+.DS_Store
+.gitignore
+
+# Development files
+client/src/
+server/scripts/
+server/migrations/
+
+# Test files
+**/*.test.js
+**/*.test.jsx

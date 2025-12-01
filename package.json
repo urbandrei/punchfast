@@ -13,8 +13,9 @@
     "dev:client": "cd client && yarn start",
     "dev:server": "cd server && yarn start",
     "build": "cd client && yarn build",
-    "install:all": "yarn install && cd client && yarn install && cd ../server && yarn install",
-    "clean": "rm -rf client/node_modules server/node_modules client/build"
+    "install:prod": "yarn install --production --frozen-lockfile",
+    "install:dev": "yarn install --frozen-lockfile",
+    "clean": "rm -rf node_modules client/build client/node_modules server/node_modules yarn-error.log"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
