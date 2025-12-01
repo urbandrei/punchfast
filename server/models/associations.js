@@ -8,6 +8,7 @@ const RouteStart = require('./routeStart');
 const RouteStore = require('./routeStore');
 const Search = require('./search');
 const SavedStore = require('./savedStore');
+const Report = require('./report');
 
 const Achievement = require('./achievement');
 const UserAchievement = require('./userachievement');
@@ -60,6 +61,13 @@ UserAchievement.belongsTo(User, { foreignKey: 'userId', as: 'achievementUser' })
 Achievement.hasMany(UserAchievement, { foreignKey: 'achievementId', as: 'achievementProgress' });
 UserAchievement.belongsTo(Achievement, { foreignKey: 'achievementId', as: 'achievementData' });
 
+// Report associations
+User.hasMany(Report, { foreignKey: 'reporterId', as: 'submittedReports' });
+Report.belongsTo(User, { foreignKey: 'reporterId', as: 'reporter' });
+
+User.hasMany(Report, { foreignKey: 'reviewedBy', as: 'reviewedReports' });
+Report.belongsTo(User, { foreignKey: 'reviewedBy', as: 'reviewer' });
+
 module.exports = {
     User,
     Business,
@@ -71,6 +79,7 @@ module.exports = {
     RouteStore,
     Search,
     SavedStore,
+    Report,
     Achievement,
     UserAchievement
 };

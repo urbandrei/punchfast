@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router';
 import RouteCard from '../components/routeCard';
 import StoreCard from '../components/storeCard';
 import MapView from '../components/MapView';
@@ -45,6 +46,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
     const [routesScrollPos, setRoutesScrollPos] = useState(0);
 
     const listRef = useRef(null);
+    const navigate = useNavigate();
 
     // Helper function: Calculate distance using Haversine formula
     const calculateDistance = (lat1, lng1, lat2, lng2) => {
@@ -608,6 +610,25 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                                 </option>
                             ))}
                         </select>
+                        <button
+                            onClick={() => navigate(viewType === 'stores' ? '/newstore' : '/newroute')}
+                            style={{
+                                padding: '8px 20px',
+                                backgroundColor: '#6AB7AD',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                whiteSpace: 'nowrap',
+                                transition: 'background-color 0.2s'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#5aa69d'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#6AB7AD'}
+                        >
+                            {viewType === 'stores' ? 'Add Store' : 'Add Route'}
+                        </button>
                     </div>
                 </div>
 

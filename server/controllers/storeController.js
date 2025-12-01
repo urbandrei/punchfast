@@ -12,6 +12,11 @@ exports.newStore = async (req, res) => {
     }
 
     try {
+        // Determine store status based on user role
+        // Admin-created stores are active, user/guest-created stores are pending
+        const isAdmin = req.user && req.user.isAdmin;
+        const status = isAdmin ? 'active' : 'pending';
+
         // Prepare base store data
         const baseStoreData = {
             name,
@@ -19,7 +24,8 @@ exports.newStore = async (req, res) => {
             latitude,
             longitude,
             website: website || null,
-            cuisine: cuisine || null
+            cuisine: cuisine || null,
+            status
         };
 
         // Attempt AI cuisine classification (synchronous during store creation)
@@ -86,6 +92,7 @@ exports.getNearbyStores = async (req, res) => {
             SELECT "id", "name", "address", "latitude", "longitude", "cuisine", "amenity", "shop", ${distanceExpr} AS distance_km
             FROM "${tableName}"
             WHERE "latitude" IS NOT NULL AND "longitude" IS NOT NULL
+              AND "status" = 'active'
               AND ${distanceExpr} <= :radius
             ORDER BY distance_km ASC
             LIMIT :limit

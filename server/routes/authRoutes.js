@@ -8,7 +8,7 @@ const visitController = require('../controllers/visitController');
 const routeStartController = require('../controllers/routeStartController');
 const savedStoresController = require('../controllers/savedStoresController');
 const nearbyEligibleStoresController = require('../controllers/nearbyEligibleStoresController');
-const { authenticateUser, authenticateBusiness } = require('../middleware/authMiddleware');
+const { authenticateUser, authenticateBusiness, optionalAuth } = require('../middleware/authMiddleware');
 
 // Health check endpoint for Render
 router.get('/', (req, res) => {
@@ -43,7 +43,7 @@ router.post('/punch', punchesController.punch);
 
 // ---- stores ----
 router.get('/stores/nearby', storeController.getNearbyStores);
-router.post('/stores', storeController.newStore);
+router.post('/stores', optionalAuth, storeController.newStore);
 router.get('/stores/:storeId/verification', storeController.getStoreVerificationStatus);
 
 // ---- routes ----

@@ -283,3 +283,121 @@ exports.adminCreateStore = async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 };
+
+/**
+ * GET /api/admin/pending-stores
+ * Returns list of stores pending approval
+ */
+exports.getPendingStores = async (req, res) => {
+  try {
+    // Authentication handled by requireAdmin middleware
+    // req.user is guaranteed to exist and be admin
+
+    const pendingStores = await Store.findAll({
+      where: { status: 'pending' },
+      attributes: [
+        'id', 'name', 'address', 'latitude', 'longitude',
+        'cuisine', 'amenity', 'shop', 'website', 'phone',
+        'createdAt', 'updatedAt'
+      ],
+      order: [['createdAt', 'DESC']]
+    });
+
+    return res.json({ stores: pendingStores });
+  } catch (error) {
+    console.error('Get pending stores error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/**
+ * PUT /api/admin/stores/:storeId
+ * Update store details
+ */
+exports.updateStore = async (req, res) => {
+  try {
+    const { storeId } = req.params;
+    const { name, address, latitude, longitude, cuisine, website, phone } = req.body;
+
+    // Authentication handled by requireAdmin middleware
+
+    const store = await Store.findByPk(storeId);
+
+    if (!store) {
+      return res.status(404).json({ message: 'Store not found' });
+    }
+
+    // Update only provided fields
+    if (name !== undefined) store.name = name;
+    if (address !== undefined) store.address = address;
+    if (latitude !== undefined) store.latitude = latitude;
+    if (longitude !== undefined) store.longitude = longitude;
+    if (cuisine !== undefined) store.cuisine = cuisine;
+    if (website !== undefined) store.website = website;
+    if (phone !== undefined) store.phone = phone;
+
+    await store.save();
+
+    return res.json({
+      message: 'Store updated successfully',
+      store: {
+        id: store.id,
+        name: store.name,
+        address: store.address,
+        latitude: store.latitude,
+        longitude: store.longitude,
+        cuisine: store.cuisine,
+        website: store.website,
+        phone: store.phone,
+        status: store.status
+      }
+    });
+  } catch (error) {
+    console.error('Update store error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/**
+ * PUT /api/admin/stores/:storeId/status
+ * Update store status (approve/deny pending stores, or set inactive)
+ */
+exports.updateStoreStatus = async (req, res) => {
+  try {
+    const { storeId } = req.params;
+    const { status } = req.body;
+
+    // Authentication handled by requireAdmin middleware
+
+    if (!status) {
+      return res.status(400).json({ message: 'Missing required field: status' });
+    }
+
+    // Validate status
+    const validStatuses = ['active', 'inactive', 'closed', 'pending'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ message: 'Invalid status value' });
+    }
+
+    const store = await Store.findByPk(storeId);
+
+    if (!store) {
+      return res.status(404).json({ message: 'Store not found' });
+    }
+
+    store.status = status;
+    await store.save();
+
+    return res.json({
+      message: 'Store status updated successfully',
+      store: {
+        id: store.id,
+        name: store.name,
+        status: store.status
+      }
+    });
+  } catch (error) {
+    console.error('Update store status error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
+import ReportModal from './ReportModal';
 
 const StoreCard = ({
   storeId,
@@ -16,6 +17,7 @@ const StoreCard = ({
   const [isLoading, setIsLoading] = useState(false);
   const [visitStats, setVisitStats] = useState({ totalVisits: 0, visitedToday: false });
   const [verified, setVerified] = useState(isVerified);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -139,8 +141,26 @@ const StoreCard = ({
           >
             {isSaved ? '❤️' : '🤍'}
           </button>
+          <button
+            className="store-card-report-icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowReportModal(true);
+            }}
+            title="Report an issue with this store"
+          >
+            🚩
+          </button>
         </div>
       </div>
+
+      <ReportModal
+        show={showReportModal}
+        onClose={() => setShowReportModal(false)}
+        itemType="store"
+        itemId={storeId}
+        itemName={storeName}
+      />
     </div>
   );
 };
