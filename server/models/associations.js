@@ -12,6 +12,10 @@ const SavedStore = require('./savedStore');
 const Achievement = require('./achievement');
 const UserAchievement = require('./userachievement');
 
+// Business-Store one-to-one relationship for verified stores
+Business.belongsTo(Store, { foreignKey: 'storeId', as: 'verifiedStore' });
+Store.hasOne(Business, { foreignKey: 'storeId', as: 'verifyingBusiness' });
+
 User.hasMany(Visit, { foreignKey: 'userId', as: 'userVisits' });
 Visit.belongsTo(User, { foreignKey: 'userId', as: 'visitUser' });
 

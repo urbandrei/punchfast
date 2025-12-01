@@ -1,4 +1,4 @@
-const { User, Store, RouteStart, Route, RouteStore, Visit, SavedStore } = require('../models/associations');
+const { User, Store, RouteStart, Route, RouteStore, Visit, SavedStore, Business } = require('../models/associations');
 const { Op } = require('sequelize');
 
 const PROXIMITY_RANGE_METERS = 15;
@@ -120,13 +120,25 @@ exports.getNearbyEligibleStores = async (req, res) => {
             store => !visitedStoreIds.has(store.id)
         );
 
+        // Check which stores are verified
+        const storeIdsToCheck = unvisitedNearbyStores.map(s => s.id);
+        const verifiedBusinesses = await Business.findAll({
+            where: {
+                storeId: { [Op.in]: storeIdsToCheck },
+                status: 'approved'
+            },
+            attributes: ['storeId', 'username']
+        });
+        const verifiedStoreIds = new Set(verifiedBusinesses.map(b => b.storeId));
+
         return res.status(200).json({
             stores: unvisitedNearbyStores.map(store => ({
                 id: store.id,
                 name: store.name,
                 address: store.address,
                 latitude: store.latitude,
-                longitude: store.longitude
+                longitude: store.longitude,
+                isVerified: verifiedStoreIds.has(store.id)
             }))
         });
 

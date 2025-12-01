@@ -24,6 +24,15 @@ const Business = sequelize.define('Business', {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 10
+    },
+
+    storeId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'Stores',
+            key: 'id'
+        }
     }
 }, {
     hooks: {

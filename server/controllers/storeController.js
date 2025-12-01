@@ -1,4 +1,5 @@
 const Store = require('../models/store');
+const Business = require('../models/business');
 const sequelize = require('../config/database');
 const { QueryTypes } = require('sequelize');
 const { searchAndAddStores } = require('../logic/searchForStores');
@@ -107,6 +108,32 @@ exports.getNearbyStores = async (req, res) => {
         });
     } catch (error) {
         console.error('Error fetching nearby stores:', error);
+        return res.status(500).json({ message: 'Server error' });
+    }
+};
+
+/**
+ * GET /api/stores/:storeId/verification
+ * Check if a store is verified (has associated business)
+ */
+exports.getStoreVerificationStatus = async (req, res) => {
+    try {
+        const { storeId } = req.params;
+
+        const business = await Business.findOne({
+            where: {
+                storeId: parseInt(storeId),
+                status: 'approved'
+            },
+            attributes: ['id', 'username']
+        });
+
+        return res.json({
+            verified: !!business,
+            business: business ? { username: business.username } : null
+        });
+    } catch (error) {
+        console.error('Error checking store verification:', error);
         return res.status(500).json({ message: 'Server error' });
     }
 };

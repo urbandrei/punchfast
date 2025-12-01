@@ -31,6 +31,7 @@ const RouteCard = ({
   const [visitedStoreIds, setVisitedStoreIds] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [orderedStores, setOrderedStores] = useState([]);
+  const [verifiedStoresMap, setVerifiedStoresMap] = useState({});
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -53,6 +54,7 @@ const RouteCard = ({
       if (!userId) return;
 
       const savedMap = {};
+      const verifiedMap = {};
       await Promise.all(
         stores.map(async (store) => {
           try {
@@ -64,9 +66,20 @@ const RouteCard = ({
           } catch (err) {
             console.error('Error checking saved status:', err);
           }
+
+          try {
+            const verifyRes = await fetch(`/api/stores/${store.id}/verification`);
+            if (verifyRes.ok) {
+              const verifyData = await verifyRes.json();
+              verifiedMap[store.id] = verifyData.verified;
+            }
+          } catch (err) {
+            console.error('Error checking verification status:', err);
+          }
         })
       );
       setSavedStoresMap(savedMap);
+      setVerifiedStoresMap(verifiedMap);
 
       if (routeId) {
         try {
@@ -222,7 +235,22 @@ const RouteCard = ({
                 >
                   <div className="store-left-section">
                     <div className={`store-list-circle ${isVisited ? 'visited' : ''}`}></div>
-                    <span className="store-name">{store.name}</span>
+                    <span className="store-name">
+                      {store.name}
+                      {verifiedStoresMap[store.id] && (
+                        <span
+                          style={{
+                            marginLeft: '8px',
+                            color: '#6AB7AD',
+                            fontWeight: 'bold',
+                            fontSize: '1.1em'
+                          }}
+                          title="Verified Store"
+                        >
+                          ✓
+                        </span>
+                      )}
+                    </span>
                   </div>
                   <div className="store-icons">
                     {store.latitude && store.longitude && (

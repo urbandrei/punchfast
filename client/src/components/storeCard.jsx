@@ -7,6 +7,7 @@ const StoreCard = ({
   latitude,
   longitude,
   isSelected = false,
+  isVerified,
   onCardClick,
   userId,
   onShowAuth
@@ -14,6 +15,7 @@ const StoreCard = ({
   const [isSaved, setIsSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [visitStats, setVisitStats] = useState({ totalVisits: 0, visitedToday: false });
+  const [verified, setVerified] = useState(isVerified);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,13 +33,22 @@ const StoreCard = ({
           const statsData = await statsRes.json();
           setVisitStats(statsData);
         }
+
+        // Fetch verification status if not provided as prop
+        if (typeof isVerified === 'undefined') {
+          const verifyRes = await fetch(`/api/stores/${storeId}/verification`);
+          if (verifyRes.ok) {
+            const verifyData = await verifyRes.json();
+            setVerified(verifyData.verified);
+          }
+        }
       } catch (err) {
         console.error('Error fetching store data:', err);
       }
     };
 
     fetchData();
-  }, [userId, storeId]);
+  }, [userId, storeId, isVerified]);
 
   const handleToggleSave = async () => {
     if (!userId) {
@@ -81,7 +92,22 @@ const StoreCard = ({
     >
       <div className="store-card-content">
         <div className="store-card-main">
-          <span className="store-card-name">{storeName}</span>
+          <span className="store-card-name">
+            {storeName}
+            {verified && (
+              <span
+                style={{
+                  marginLeft: '8px',
+                  color: '#6AB7AD',
+                  fontWeight: 'bold',
+                  fontSize: '1.1em'
+                }}
+                title="Verified Store"
+              >
+                ✓
+              </span>
+            )}
+          </span>
           {userId && (
             <div className="store-card-visit-info">
               <span className="store-card-visit-count">

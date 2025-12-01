@@ -44,6 +44,11 @@ const Navbar = ({
         <Link to="/dashboard" className="nav-bar-button">
           Dashboard
         </Link>
+        {currentUser?.isAdmin && (
+          <Link to="/admin/dashboard" className="nav-bar-button">
+            Admin
+          </Link>
+        )}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => setShowDropdown(!showDropdown)}

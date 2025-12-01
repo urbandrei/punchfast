@@ -27,6 +27,12 @@ const User = sequelize.define('User', {
     routes_completed: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
+    },
+
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
     }
 
 }, {

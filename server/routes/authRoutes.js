@@ -37,6 +37,7 @@ router.post('/punch', punchesController.punch);
 // ---- stores ----
 router.get('/stores/nearby', storeController.getNearbyStores);
 router.post('/stores', storeController.newStore);
+router.get('/stores/:storeId/verification', storeController.getStoreVerificationStatus);
 
 // ---- routes ----
 router.post('/routes', routeController.newRoute);

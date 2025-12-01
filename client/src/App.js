@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Navbar from './components/Navbar';
 import UnifiedAuthModal from './components/UnifiedAuthModal';
 import VisitNotificationModal from './components/VisitNotificationModal';
+import PunchNotificationModal from './components/PunchNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
 import Home from './views/home';
 import Dashboard from './views/dashboard';
@@ -10,6 +11,7 @@ import NewStore from './views/new_store';
 import NewRoute from './views/new_route';
 import BusinessPunches from './views/business_punches';
 import BusinessDashboard from './views/business_dashboard';
+import AdminDashboard from './views/admin_dashboard';
 import Achievements from "./views/achievements";
 
 const SESSION_STORAGE_KEY = 'punchfast_notified_stores';
@@ -24,8 +26,10 @@ const App = () => {
   const [businessUser, setBusinessUser] = useState(null);
 
   const [showVisitModal, setShowVisitModal] = useState(false);
+  const [showPunchModal, setShowPunchModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [nearbyStores, setNearbyStores] = useState([]);
+  const [punchStore, setPunchStore] = useState(null);
   const locationCheckInterval = useRef(null);
 
   useEffect(() => {
@@ -69,6 +73,12 @@ const App = () => {
   const handleUnifiedLoginSuccess = (userData, type) => {
     if (type === 'customer') {
       handleLogin(true, userData);
+
+      // Redirect admins to admin dashboard
+      if (userData?.isAdmin) {
+        window.location.href = '/admin/dashboard';
+        return;
+      }
     } else if (type === 'business') {
       handleBusinessLoginSuccess(userData);
     }
@@ -130,8 +140,20 @@ const App = () => {
         (store) => !notifiedStores.includes(store.id)
       );
 
-      if (newStores.length > 0) {
-        setNearbyStores(newStores);
+      if (newStores.length === 0) {
+        return;
+      }
+
+      // Separate verified and non-verified stores
+      const verifiedStores = newStores.filter(store => store.isVerified);
+      const nonVerifiedStores = newStores.filter(store => !store.isVerified);
+
+      // Prioritize punch modal for verified stores
+      if (verifiedStores.length > 0) {
+        setPunchStore(verifiedStores[0]);
+        setShowPunchModal(true);
+      } else if (nonVerifiedStores.length > 0) {
+        setNearbyStores(nonVerifiedStores);
         setShowVisitModal(true);
       }
     } catch (err) {
@@ -190,6 +212,19 @@ const App = () => {
     setNearbyStores([]);
   };
 
+  const handlePunch = (storeId) => {
+    addNotifiedStores([storeId]);
+  };
+
+  const handleNotPunching = (storeId) => {
+    addNotifiedStores([storeId]);
+  };
+
+  const handleClosePunchModal = () => {
+    setShowPunchModal(false);
+    setPunchStore(null);
+  };
+
   const handleSignOut = () => {
     setIsLoggedIn(false);
     setCurrentUser(null);
@@ -227,6 +262,15 @@ const App = () => {
           onVisit={handleVisit}
           onNotVisiting={handleNotVisiting}
           onClose={handleCloseVisitModal}
+        />
+
+        <PunchNotificationModal
+          show={showPunchModal}
+          store={punchStore}
+          userId={currentUser?.id}
+          onPunch={handlePunch}
+          onNotPunching={handleNotPunching}
+          onClose={handleClosePunchModal}
         />
 
         <ChangePasswordModal
@@ -271,6 +315,17 @@ const App = () => {
           <Route
             path="/achievements"
             element={<Achievements />}
+          />
+
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminDashboard
+                isLogin={isLoggedIn}
+                user={currentUser}
+                onShowAuth={() => setShowAuthModal(true)}
+              />
+            }
           />
 
           <Route

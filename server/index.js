@@ -6,10 +6,11 @@ const path = require('path');
 const app = express();
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
-const achievementRoutes = require('./routes/achievementRoutes');   
+const achievementRoutes = require('./routes/achievementRoutes');
 const routeRoutes = require('./routes/routeRoutes');
 const savedStoreRoutes = require('./routes/savedStoreRoutes');
 const routeStartRoutes = require('./routes/routeStartRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const enrichmentService = require('./services/storeEnrichmentService');
 
 require('./models/associations');
@@ -22,6 +23,7 @@ app.use('/api/achievements', achievementRoutes);
 app.use('/api/routes', routeRoutes);
 app.use('/api/saved-stores', savedStoreRoutes);
 app.use('/api/route-starts', routeStartRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
@@ -68,6 +70,33 @@ const startServer = async () => {
 
     await sequelize.sync({ alter: true });
     console.log('Database sync completed.');
+
+    // Create default admin account if it doesn't exist
+    const User = require('./models/user');
+
+    try {
+      const [admin, created] = await User.findOrCreate({
+        where: { username: 'admin' },
+        defaults: {
+          username: 'admin',
+          password: 'foodie123',  // Will be hashed by beforeCreate hook
+          isAdmin: true,
+          visits: 0,
+          routes_started: 0,
+          routes_completed: 0
+        }
+      });
+
+      if (created) {
+        console.log('✓ Default admin account created (username: admin, password: foodie123)');
+      } else if (!admin.isAdmin) {
+        admin.isAdmin = true;
+        await admin.save();
+        console.log('✓ Updated existing admin account with isAdmin flag');
+      }
+    } catch (error) {
+      console.error('Error creating default admin account:', error);
+    }
 
     // Start background enrichment service
     enrichmentService.start();
