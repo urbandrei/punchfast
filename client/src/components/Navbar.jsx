@@ -152,7 +152,7 @@ const Navbar = ({
         </div>
       </div>
       </div>
-      <WaveDecoration position="bottom" baseColor="navbar" flipped />
+      <WaveDecoration position="bottom" baseColor="navbar" flipped style="z-index: 99;"/>
     </nav>
   );
 };

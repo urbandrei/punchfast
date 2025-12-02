@@ -490,7 +490,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
     return (
         <div style={{
             position: 'fixed',
-            top: '70px',
+            top: '50px',
             left: 0,
             right: 0,
             bottom: 0,
@@ -500,8 +500,8 @@ const Home = ({ isLogin, user, onShowAuth }) => {
         }}>
             {/* Map container - 50% height + wave height, moved up by wave height */}
             <div style={{
-                height: 'calc(50% + var(--pf-wave-height, 2.5vh))',
-                marginTop: 'calc(-1 * var(--pf-wave-height, 2.5vh))',
+                height: 'calc(50% + 2*var(--pf-wave-height, 2.5vh))',
+                marginTop: '0',
                 position: 'relative'
             }}>
                 <MapView
@@ -748,7 +748,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     display: 'flex',
                     flexDirection: 'column'
                 }}>
-                    <WaveDecoration position="bottom" baseColor="tabs" />
+                    <WaveDecoration position="bottom" baseColor="tabs" backgroundColor='#f8f9fa'/>
                     <div style={{
                         padding: '12px 0',
                         backgroundColor: '#302C9A'
