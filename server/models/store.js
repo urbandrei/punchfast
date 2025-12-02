@@ -314,6 +314,13 @@ const Store = sequelize.define('Store', {
         defaultValue: null,
     },
 
+    // ===== Route Status =====
+    in_route: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+
     // ===== Timestamps =====
     created_at: {
         type: DataTypes.DATE,

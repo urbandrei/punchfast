@@ -49,6 +49,8 @@ const Home = ({ isLogin, user, onShowAuth }) => {
     const [routesScrollPos, setRoutesScrollPos] = useState(0);
 
     const listRef = useRef(null);
+    const lastLocationUpdateRef = useRef(0);
+    const lastMapCenterRef = useRef(null);
     const navigate = useNavigate();
 
     // Helper function: Calculate distance using Haversine formula
@@ -162,8 +164,23 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     };
                     setCurrentLocation(newLocation);
                     setUserLocation(newLocation);
-                    setMapCenter(newLocation);  // Initially same as user location
                     setHasGeolocationError(false);
+
+                    // Only update mapCenter if moved >50m AND 2+ seconds since last update
+                    // This prevents jolting on mobile from GPS accuracy variations
+                    const now = Date.now();
+                    const timeSinceLastUpdate = now - lastLocationUpdateRef.current;
+                    const lastCenter = lastMapCenterRef.current;
+                    const shouldUpdateMap = !lastCenter || (
+                        timeSinceLastUpdate >= 2000 &&
+                        calculateDistance(lastCenter.lat, lastCenter.lng, newLocation.lat, newLocation.lng) > 0.05
+                    );
+
+                    if (shouldUpdateMap) {
+                        setMapCenter(newLocation);
+                        lastMapCenterRef.current = newLocation;
+                        lastLocationUpdateRef.current = now;
+                    }
 
                     // Load initial data on first location update
                     if (!initialLoadComplete) {

@@ -27,6 +27,19 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
   const [reportsLoading, setReportsLoading] = useState(true);
   const [reportStatusFilter, setReportStatusFilter] = useState('pending');
 
+  // Expandable business details state
+  const [expandedBusinessId, setExpandedBusinessId] = useState(null);
+
+  // Edit store modal state
+  const [editingStore, setEditingStore] = useState(null);
+  const [editStoreForm, setEditStoreForm] = useState({
+    name: '', address: '', phone: '', website: '', cuisine: ''
+  });
+
+  // Questionnaire settings state
+  const [questionnaireRate, setQuestionnaireRate] = useState(5);
+  const [questionnaireStats, setQuestionnaireStats] = useState({ answered: 0, skipped: 0 });
+
   useEffect(() => {
     if (!user?.id || !user?.isAdmin) {
       setStatsLoading(false);
@@ -133,6 +146,58 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
 
     fetchReports();
   }, [user, reportStatusFilter]);
+
+  // Fetch questionnaire settings and stats
+  useEffect(() => {
+    if (!user?.id || !user?.isAdmin) return;
+
+    const fetchQuestionnaireData = async () => {
+      try {
+        const token = localStorage.getItem('pf_customer_access_token');
+
+        // Fetch settings
+        const settingsRes = await fetch(`/api/admin/questionnaire/settings?userId=${user.id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (settingsRes.ok) {
+          const settingsData = await settingsRes.json();
+          setQuestionnaireRate(Math.round(settingsData.rate * 100));
+        }
+
+        // Fetch stats
+        const statsRes = await fetch(`/api/admin/questionnaire/stats?userId=${user.id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (statsRes.ok) {
+          const statsData = await statsRes.json();
+          setQuestionnaireStats(statsData);
+        }
+      } catch (err) {
+        console.error('Questionnaire data fetch error:', err);
+      }
+    };
+
+    fetchQuestionnaireData();
+  }, [user]);
+
+  // Handle questionnaire rate change (immediate save)
+  const handleQuestionnaireRateChange = async (newRate) => {
+    setQuestionnaireRate(newRate);
+
+    try {
+      const token = localStorage.getItem('pf_customer_access_token');
+      await fetch('/api/admin/questionnaire/settings', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ userId: user.id, rate: newRate / 100 })
+      });
+    } catch (err) {
+      console.error('Failed to update questionnaire rate:', err);
+    }
+  };
 
   const handleOpenApproval = (business) => {
     setSelectedBusiness(business);
@@ -362,6 +427,97 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
     }
   };
 
+  // Make store inactive from report and auto-resolve the report
+  const handleMakeStoreInactive = async (storeId, storeName, reportId) => {
+    if (!window.confirm(`Make "${storeName}" inactive and hide from map? This will also resolve the report.`)) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('pf_customer_access_token');
+
+      // First, set store to inactive
+      const storeRes = await fetch(`/api/admin/stores/${storeId}/status`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: 'inactive' })
+      });
+
+      if (!storeRes.ok) {
+        const data = await storeRes.json();
+        setMessage(data.message || 'Failed to make store inactive');
+        return;
+      }
+
+      // Then, auto-resolve the report
+      const reportRes = await fetch(`/api/reports/${reportId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: 'resolved' })
+      });
+
+      if (reportRes.ok) {
+        setMessage(`Store "${storeName}" made inactive and report resolved`);
+        setReports(prev => prev.map(r =>
+          r.id === reportId ? { ...r, status: 'resolved' } : r
+        ));
+        setTimeout(() => setMessage(''), 3000);
+      } else {
+        setMessage('Store made inactive but failed to resolve report');
+      }
+    } catch (err) {
+      console.error('Make store inactive error:', err);
+      setMessage('Error making store inactive');
+    }
+  };
+
+  // Open edit store modal with pre-populated data
+  const openEditStoreModal = (store) => {
+    setEditingStore(store);
+    setEditStoreForm({
+      name: store.name || '',
+      address: store.address || '',
+      phone: store.phone || '',
+      website: store.website || '',
+      cuisine: store.cuisine || ''
+    });
+  };
+
+  // Save edited store
+  const handleSaveEditStore = async () => {
+    if (!editingStore) return;
+
+    try {
+      const token = localStorage.getItem('pf_customer_access_token');
+      const res = await fetch(`/api/admin/stores/${editingStore.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(editStoreForm)
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setMessage(`Store "${editStoreForm.name}" updated successfully`);
+        setEditingStore(null);
+        setTimeout(() => setMessage(''), 3000);
+      } else {
+        setMessage(data.message || 'Failed to update store');
+      }
+    } catch (err) {
+      console.error('Edit store error:', err);
+      setMessage('Error updating store');
+    }
+  };
+
   // Not logged in or not admin
   if (!isLogin || !user?.isAdmin) {
     return (
@@ -496,6 +652,65 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
         </div>
       )}
 
+      {/* Questionnaire Management */}
+      <div style={{ marginBottom: '40px' }}>
+        <h2 className="h4" style={{ color: '#302C9A', marginBottom: '20px' }}>Questionnaire Management</h2>
+
+        <div className="row g-3">
+          {/* Questionnaire Stats */}
+          <div className="col-md-3">
+            <MorphingCard style={{
+              borderRadius: '12px', padding: '20px', textAlign: 'center'
+            }}>
+              <h3 style={{ color: '#302C9A', fontSize: '2rem', margin: 0 }}>{questionnaireStats.answered}</h3>
+              <p style={{ color: '#6AB7AD', margin: '8px 0 0 0' }}>Answered</p>
+            </MorphingCard>
+          </div>
+
+          <div className="col-md-3">
+            <MorphingCard style={{
+              borderRadius: '12px', padding: '20px', textAlign: 'center'
+            }}>
+              <h3 style={{ color: '#302C9A', fontSize: '2rem', margin: 0 }}>{questionnaireStats.skipped}</h3>
+              <p style={{ color: '#6AB7AD', margin: '8px 0 0 0' }}>Skipped</p>
+            </MorphingCard>
+          </div>
+
+          {/* Questionnaire Rate Slider */}
+          <div className="col-md-6">
+            <div style={{
+              backgroundColor: 'white', border: '2px solid #A7CCDE', borderRadius: '12px', padding: '20px'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <label style={{ color: '#302C9A', fontWeight: '500' }}>Display Rate</label>
+                <span style={{ color: '#6AB7AD', fontWeight: 'bold', fontSize: '1.2rem' }}>{questionnaireRate}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={questionnaireRate}
+                onChange={(e) => handleQuestionnaireRateChange(parseInt(e.target.value))}
+                style={{
+                  width: '100%',
+                  height: '8px',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  accentColor: '#6AB7AD'
+                }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '8px' }}>
+                <small style={{ color: '#999' }}>0%</small>
+                <small style={{ color: '#999' }}>100%</small>
+              </div>
+              <small style={{ color: '#999', display: 'block', marginTop: '8px' }}>
+                Probability a questionnaire appears after a visit
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Pending Business Applications */}
       <div>
         <h2 className="h4" style={{ color: '#302C9A', marginBottom: '20px' }}>
@@ -511,30 +726,122 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
             {pendingBusinesses.map(business => (
               <div key={business.id} style={{
                 backgroundColor: 'white', border: '2px solid #A7CCDE', borderRadius: '12px',
-                padding: '20px', marginBottom: '15px', display: 'flex',
-                justifyContent: 'space-between', alignItems: 'center'
+                padding: '20px', marginBottom: '15px'
               }}>
-                <div>
-                  <h5 style={{ color: '#302C9A', margin: '0 0 8px 0' }}>{business.username}</h5>
-                  <p style={{ color: '#6AB7AD', margin: 0, fontSize: '0.9rem' }}>
-                    Applied: {new Date(business.createdAt).toLocaleDateString()}
-                  </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h5 style={{ color: '#302C9A', margin: '0 0 8px 0' }}>{business.username}</h5>
+                    <p style={{ color: '#6AB7AD', margin: 0, fontSize: '0.9rem' }}>
+                      Applied: {new Date(business.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <button
+                      onClick={() => setExpandedBusinessId(expandedBusinessId === business.id ? null : business.id)}
+                      style={{
+                        backgroundColor: 'transparent', color: '#302C9A', border: '1px solid #302C9A',
+                        borderRadius: '8px', padding: '8px 12px', cursor: 'pointer', fontSize: '0.85rem'
+                      }}
+                    >
+                      {expandedBusinessId === business.id ? '▲ Hide' : '▼ Details'}
+                    </button>
+                    <button onClick={() => handleOpenApproval(business)} style={{
+                      backgroundColor: '#6AB7AD', color: 'white', border: 'none',
+                      borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
+                    }}>
+                      Approve
+                    </button>
+                    <button onClick={() => handleDenyBusiness(business.username)} style={{
+                      backgroundColor: '#E68E8D', color: 'white', border: 'none',
+                      borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
+                    }}>
+                      Deny
+                    </button>
+                  </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <button onClick={() => handleOpenApproval(business)} style={{
-                    backgroundColor: '#6AB7AD', color: 'white', border: 'none',
-                    borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
+                {/* Expandable Details Section */}
+                {expandedBusinessId === business.id && (
+                  <div style={{
+                    marginTop: '15px', paddingTop: '15px', borderTop: '1px solid #A7CCDE',
+                    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px'
                   }}>
-                    Approve
-                  </button>
-                  <button onClick={() => handleDenyBusiness(business.username)} style={{
-                    backgroundColor: '#E68E8D', color: 'white', border: 'none',
-                    borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
-                  }}>
-                    Deny
-                  </button>
-                </div>
+                    <div>
+                      <strong style={{ color: '#302C9A', fontSize: '0.85rem' }}>Business Info</strong>
+                      <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                        Username: {business.username}
+                      </p>
+                      <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                        Goal: {business.goal || 10} punches
+                      </p>
+                    </div>
+
+                    {business.store ? (
+                      <>
+                        <div>
+                          <strong style={{ color: '#302C9A', fontSize: '0.85rem' }}>Store Details</strong>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Name: {business.store.name || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Address: {business.store.address || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Cuisine: {business.store.cuisine || 'N/A'}
+                          </p>
+                        </div>
+                        <div>
+                          <strong style={{ color: '#302C9A', fontSize: '0.85rem' }}>Contact</strong>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Phone: {business.store.phone || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Email: {business.store.email || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Website: {business.store.website ? (
+                              <a href={business.store.website} target="_blank" rel="noopener noreferrer" style={{ color: '#6AB7AD' }}>
+                                {business.store.website}
+                              </a>
+                            ) : 'N/A'}
+                          </p>
+                        </div>
+                        <div>
+                          <strong style={{ color: '#302C9A', fontSize: '0.85rem' }}>Social Media</strong>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Instagram: {business.store.instagram || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Facebook: {business.store.facebook || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Twitter: {business.store.twitter || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            TikTok: {business.store.tiktok || 'N/A'}
+                          </p>
+                        </div>
+                        <div>
+                          <strong style={{ color: '#302C9A', fontSize: '0.85rem' }}>Location</strong>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Lat: {business.store.latitude || 'N/A'}
+                          </p>
+                          <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#666' }}>
+                            Lng: {business.store.longitude || 'N/A'}
+                          </p>
+                        </div>
+                      </>
+                    ) : (
+                      <div>
+                        <strong style={{ color: '#302C9A', fontSize: '0.85rem' }}>Store</strong>
+                        <p style={{ margin: '4px 0', fontSize: '0.9rem', color: '#999', fontStyle: 'italic' }}>
+                          No store associated yet
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -682,7 +989,7 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
                 </div>
 
                 {report.status === 'pending' && (
-                  <div style={{ display: 'flex', gap: '10px' }}>
+                  <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                     <button onClick={() => handleUpdateReportStatus(report.id, 'resolved', report.description)} style={{
                       backgroundColor: '#6AB7AD', color: 'white', border: 'none',
                       borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
@@ -694,6 +1001,30 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
                       borderRadius: '8px', padding: '10px 20px', cursor: 'pointer', fontWeight: '500'
                     }}>
                       Dismiss
+                    </button>
+                  </div>
+                )}
+
+                {/* Store-specific actions (available for all report statuses) */}
+                {report.reportedItemType === 'store' && report.reportedItem && (
+                  <div style={{ display: 'flex', gap: '10px', paddingTop: '10px', borderTop: '1px solid #eee' }}>
+                    <button
+                      onClick={() => handleMakeStoreInactive(report.reportedItem.id, report.reportedItem.name, report.id)}
+                      style={{
+                        backgroundColor: '#ff9800', color: 'white', border: 'none',
+                        borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontWeight: '500', fontSize: '0.9rem'
+                      }}
+                    >
+                      Make Inactive
+                    </button>
+                    <button
+                      onClick={() => openEditStoreModal(report.reportedItem)}
+                      style={{
+                        backgroundColor: '#302C9A', color: 'white', border: 'none',
+                        borderRadius: '8px', padding: '8px 16px', cursor: 'pointer', fontWeight: '500', fontSize: '0.9rem'
+                      }}
+                    >
+                      Edit Store
                     </button>
                   </div>
                 )}
@@ -928,6 +1259,135 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
                   setSelectedBusiness(null);
                   setSelectedStore(null);
                 }}
+                style={{
+                  backgroundColor: '#E68E8D', color: 'white', border: 'none',
+                  borderRadius: '8px', padding: '12px 20px', cursor: 'pointer', fontWeight: '500'
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Store Modal */}
+      {editingStore && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex',
+          justifyContent: 'center', alignItems: 'center', zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white', borderRadius: '12px', padding: '30px',
+            maxWidth: '500px', width: '90%', maxHeight: '80vh', overflowY: 'auto',
+            border: '2px solid #A7CCDE'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ color: '#302C9A', margin: 0 }}>
+                Edit Store
+              </h3>
+              <button
+                onClick={() => setEditingStore(null)}
+                style={{
+                  backgroundColor: 'transparent', border: 'none',
+                  color: '#E68E8D', cursor: 'pointer', fontSize: '1.5em'
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <div>
+                <label style={{ color: '#6AB7AD', display: 'block', marginBottom: '5px', fontWeight: '500' }}>
+                  Store Name
+                </label>
+                <input
+                  type="text"
+                  value={editStoreForm.name}
+                  onChange={(e) => setEditStoreForm({ ...editStoreForm, name: e.target.value })}
+                  style={{
+                    width: '100%', padding: '10px', borderRadius: '8px',
+                    border: '2px solid #A7CCDE', fontSize: '1em'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ color: '#6AB7AD', display: 'block', marginBottom: '5px', fontWeight: '500' }}>
+                  Address
+                </label>
+                <input
+                  type="text"
+                  value={editStoreForm.address}
+                  onChange={(e) => setEditStoreForm({ ...editStoreForm, address: e.target.value })}
+                  style={{
+                    width: '100%', padding: '10px', borderRadius: '8px',
+                    border: '2px solid #A7CCDE', fontSize: '1em'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ color: '#6AB7AD', display: 'block', marginBottom: '5px', fontWeight: '500' }}>
+                  Phone
+                </label>
+                <input
+                  type="text"
+                  value={editStoreForm.phone}
+                  onChange={(e) => setEditStoreForm({ ...editStoreForm, phone: e.target.value })}
+                  style={{
+                    width: '100%', padding: '10px', borderRadius: '8px',
+                    border: '2px solid #A7CCDE', fontSize: '1em'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ color: '#6AB7AD', display: 'block', marginBottom: '5px', fontWeight: '500' }}>
+                  Website
+                </label>
+                <input
+                  type="text"
+                  value={editStoreForm.website}
+                  onChange={(e) => setEditStoreForm({ ...editStoreForm, website: e.target.value })}
+                  style={{
+                    width: '100%', padding: '10px', borderRadius: '8px',
+                    border: '2px solid #A7CCDE', fontSize: '1em'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ color: '#6AB7AD', display: 'block', marginBottom: '5px', fontWeight: '500' }}>
+                  Cuisine
+                </label>
+                <input
+                  type="text"
+                  value={editStoreForm.cuisine}
+                  onChange={(e) => setEditStoreForm({ ...editStoreForm, cuisine: e.target.value })}
+                  style={{
+                    width: '100%', padding: '10px', borderRadius: '8px',
+                    border: '2px solid #A7CCDE', fontSize: '1em'
+                  }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginTop: '25px' }}>
+              <button
+                onClick={handleSaveEditStore}
+                style={{
+                  flex: 1, backgroundColor: '#6AB7AD', color: 'white',
+                  border: 'none', borderRadius: '8px', padding: '12px',
+                  cursor: 'pointer', fontWeight: '500', fontSize: '1em'
+                }}
+              >
+                Save Changes
+              </button>
+              <button
+                onClick={() => setEditingStore(null)}
                 style={{
                   backgroundColor: '#E68E8D', color: 'white', border: 'none',
                   borderRadius: '8px', padding: '12px 20px', cursor: 'pointer', fontWeight: '500'

@@ -23,4 +23,9 @@ router.get('/pending-stores', adminController.getPendingStores);
 router.put('/stores/:storeId', adminController.updateStore);
 router.put('/stores/:storeId/status', adminController.updateStoreStatus);
 
+// Questionnaire settings and stats
+router.get('/questionnaire/settings', adminController.getQuestionnaireSettings);
+router.put('/questionnaire/settings', adminController.updateQuestionnaireSettings);
+router.get('/questionnaire/stats', adminController.getQuestionnaireStats);
+
 module.exports = router;

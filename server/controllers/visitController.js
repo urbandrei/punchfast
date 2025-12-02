@@ -1,4 +1,4 @@
-const { User, Store, Visit, RouteStart, Achievement, UserAchievement } = require('../models/associations');
+const { User, Store, Visit, RouteStart, Achievement, UserAchievement, SystemSettings } = require('../models/associations');
 const { Op } = require('sequelize');
 
 exports.createVisit = async (req, res) => {
@@ -15,8 +15,10 @@ exports.createVisit = async (req, res) => {
         const store = await Store.findByPk(storeId);
         if (!store) return res.status(404).json({ message: 'Store not found' });
 
-        // 5% probability trigger for questionnaire
-        const shouldShowQuestionnaire = Math.random() < 0.05;
+        // Dynamic probability trigger for questionnaire (default 5%)
+        const rateSetting = await SystemSettings.findByPk('questionnaire_rate');
+        const questionnaireRate = rateSetting ? parseFloat(rateSetting.value) : 0.05;
+        const shouldShowQuestionnaire = Math.random() < questionnaireRate;
 
         const visitData = { userId, storeId, shouldShowQuestionnaire };
         if (visitDate) visitData.visitDate = new Date(visitDate);

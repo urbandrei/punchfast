@@ -2,6 +2,8 @@ const User = require('../models/user');
 const Route = require('../models/routes');
 const Store = require('../models/store');
 const Business = require('../models/business');
+const SystemSettings = require('../models/systemSettings');
+const FieldQuestion = require('../models/fieldQuestion');
 const { Op } = require('sequelize');
 
 /**
@@ -79,7 +81,14 @@ exports.getPendingBusinesses = async (req, res) => {
 
     const pendingBusinesses = await Business.findAll({
       where: { status: 'pending' },
-      attributes: ['id', 'username', 'created_at'],
+      attributes: ['id', 'username', 'created_at', 'goal', 'storeId'],
+      include: [{
+        model: Store,
+        as: 'store',
+        attributes: ['id', 'name', 'address', 'latitude', 'longitude',
+                     'phone', 'email', 'website', 'cuisine',
+                     'instagram', 'facebook', 'twitter', 'tiktok']
+      }],
       order: [['created_at', 'DESC']]
     });
 
@@ -398,6 +407,97 @@ exports.updateStoreStatus = async (req, res) => {
     });
   } catch (error) {
     console.error('Update store status error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/**
+ * GET /api/admin/questionnaire/settings
+ * Get current questionnaire display rate
+ */
+exports.getQuestionnaireSettings = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({ message: 'Forbidden: Admin access required' });
+    }
+
+    const rateSetting = await SystemSettings.findByPk('questionnaire_rate');
+    const rate = rateSetting ? parseFloat(rateSetting.value) : 0.05;
+
+    return res.json({ rate });
+  } catch (error) {
+    console.error('Get questionnaire settings error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/**
+ * PUT /api/admin/questionnaire/settings
+ * Update questionnaire display rate
+ */
+exports.updateQuestionnaireSettings = async (req, res) => {
+  try {
+    const userId = req.query.userId || req.body.userId;
+    const { rate } = req.body;
+
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    if (rate === undefined || rate < 0 || rate > 1) {
+      return res.status(400).json({ message: 'Rate must be between 0 and 1' });
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({ message: 'Forbidden: Admin access required' });
+    }
+
+    await SystemSettings.upsert({
+      key: 'questionnaire_rate',
+      value: rate.toString()
+    });
+
+    return res.json({ message: 'Questionnaire rate updated', rate });
+  } catch (error) {
+    console.error('Update questionnaire settings error:', error);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/**
+ * GET /api/admin/questionnaire/stats
+ * Get questionnaire statistics (answered and skipped counts)
+ */
+exports.getQuestionnaireStats = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const user = await User.findByPk(userId);
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({ message: 'Forbidden: Admin access required' });
+    }
+
+    const answered = await FieldQuestion.count({
+      where: { skipped: false }
+    });
+
+    const skipped = await FieldQuestion.count({
+      where: { skipped: true }
+    });
+
+    return res.json({ answered, skipped });
+  } catch (error) {
+    console.error('Get questionnaire stats error:', error);
     return res.status(500).json({ message: 'Server error' });
   }
 };

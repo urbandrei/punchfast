@@ -14,6 +14,7 @@ const Achievement = require('./achievement');
 const UserAchievement = require('./userachievement');
 const FieldQuestion = require('./fieldQuestion');
 const GeneralQuestion = require('./generalQuestion');
+const SystemSettings = require('./systemSettings');
 
 // Business-Store one-to-one relationship for verified stores
 Business.belongsTo(Store, { foreignKey: 'storeId', as: 'verifiedStore' });
@@ -99,5 +100,6 @@ module.exports = {
     Achievement,
     UserAchievement,
     FieldQuestion,
-    GeneralQuestion
+    GeneralQuestion,
+    SystemSettings
 };
