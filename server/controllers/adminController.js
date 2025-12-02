@@ -87,7 +87,7 @@ exports.getPendingBusinesses = async (req, res) => {
         as: 'verifiedStore',
         attributes: ['id', 'name', 'address', 'latitude', 'longitude',
                      'phone', 'email', 'website', 'cuisine',
-                     'instagram', 'facebook', 'twitter', 'tiktok']
+                     'contact_instagram', 'contact_facebook', 'contact_twitter']
       }],
       order: [['created_at', 'DESC']]
     });
