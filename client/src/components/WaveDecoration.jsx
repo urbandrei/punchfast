@@ -10,7 +10,7 @@ let waveIdCounter = 0;
  * @param {string} baseColor - 'navbar' | 'filter' | 'tabs' | 'cards' - color scheme
  * @param {string} className - additional CSS classes
  */
-const WaveDecoration = ({ position = 'bottom', baseColor = 'cards', className = '' }) => {
+const WaveDecoration = ({ position = 'bottom', baseColor = 'cards', className = '', flipped = false }) => {
   // Generate unique ID for SVG path to prevent conflicts when multiple waves exist
   const idRef = useRef(null);
   if (idRef.current === null) {
@@ -22,10 +22,10 @@ const WaveDecoration = ({ position = 'bottom', baseColor = 'cards', className = 
   const colorConfigs = {
     navbar: {
       layers: [
-        'rgba(167,204,222,0.7)',
-        'rgba(167,204,222,0.5)',
-        'rgba(167,204,222,0.3)',
-        '#A7CCDE'
+        'rgba(106,183,173,0.7)',
+        'rgba(106,183,173,0.5)',
+        'rgba(106,183,173,0.3)',
+        '#6AB7AD'
       ]
     },
     cards: {
@@ -57,6 +57,8 @@ const WaveDecoration = ({ position = 'bottom', baseColor = 'cards', className = 
   const colors = colorConfigs[baseColor] || colorConfigs.cards;
   const positionClass = position === 'top' ? 'position-top' : 'position-bottom';
 
+  const flipStyle = flipped ? { transform: 'rotate(180deg)' } : {};
+
   return (
     <svg
       className={`pf-waves ${positionClass} ${className}`}
@@ -65,6 +67,7 @@ const WaveDecoration = ({ position = 'bottom', baseColor = 'cards', className = 
       viewBox="0 24 150 28"
       preserveAspectRatio="none"
       shapeRendering="auto"
+      style={flipStyle}
     >
       <defs>
         <path

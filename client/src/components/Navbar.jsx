@@ -132,14 +132,12 @@ const Navbar = ({
     <nav
       className="navbar navbar-expand-lg"
       style={{
-        backgroundColor: '#6AB7AD',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
         display: 'flex',
         flexDirection: 'column',
         marginBottom: 0
       }}
     >
-      <div className="nav-bar-content">
+      <div className="nav-bar-content" style={{backgroundColor: '#6AB7AD',}}>
         <Link to="/" className="nav-bar-brand" title="Punchfast">
           <Logo style={{ height: '32px', width: 'auto' }} />
         </Link>
@@ -147,7 +145,7 @@ const Navbar = ({
           {rightControls}
         </div>
       </div>
-      <WaveDecoration position="bottom" baseColor="navbar" />
+      <WaveDecoration position="bottom" baseColor="navbar" flipped />
     </nav>
   );
 };

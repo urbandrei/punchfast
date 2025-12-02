@@ -498,8 +498,12 @@ const Home = ({ isLogin, user, onShowAuth }) => {
             flexDirection: 'column',
             overflow: 'hidden'
         }}>
-            {/* Map container - 50% height */}
-            <div style={{ height: '50%', position: 'relative' }}>
+            {/* Map container - 50% height + wave height, moved up by wave height */}
+            <div style={{
+                height: 'calc(50% + var(--pf-wave-height, 2.5vh))',
+                marginTop: 'calc(-1 * var(--pf-wave-height, 2.5vh))',
+                position: 'relative'
+            }}>
                 <MapView
                     stores={memoizedFilteredStores}
                     routes={memoizedFilteredRoutes}
