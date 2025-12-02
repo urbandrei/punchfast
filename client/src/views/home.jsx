@@ -528,8 +528,14 @@ const Home = ({ isLogin, user, onShowAuth }) => {
             {/* Wave decoration between map and list */}
             <WaveDecoration position="top" baseColor="cards" />
 
-            {/* List container - scrollable, fills remaining space minus option bars (100px) */}
+            {/* List container wrapper - holds gradient overlay and scrollable content */}
             <div style={{
+                flex: 1,
+                position: 'relative',
+                overflow: 'hidden'
+            }}>
+                {/* Fixed gradient overlay at top */}
+                <div style={{
                     position: 'absolute',
                     top: '0',
                     left: '0',
@@ -539,19 +545,18 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     pointerEvents: 'none',
                     zIndex: '5',
                 }}></div>
-            <div
-                ref={listRef}
-                onScroll={handleScroll}
-                className="pf-gradient-fade"
-                style={{
-                    flex: 1,
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                    paddingBottom: '110px',
-                    backgroundColor: '#A7CCDE',
-                    position: 'relative'
-                }}
-            >
+                {/* Scrollable content */}
+                <div
+                    ref={listRef}
+                    onScroll={handleScroll}
+                    style={{
+                        height: '100%',
+                        overflowY: 'auto',
+                        overflowX: 'hidden',
+                        paddingBottom: '110px',
+                        backgroundColor: '#A7CCDE'
+                    }}
+                >
                 
                 <div className="container">
                     {viewType === 'routes' ? (
@@ -684,6 +689,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                         </div>
                     )}
                 </div>
+                </div>
             </div>
 
             {/* Option bars - fixed at bottom */}
@@ -759,7 +765,9 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     display: 'flex',
                     flexDirection: 'column'
                 }}>
-                    <WaveDecoration position="bottom" baseColor="tabs" style={{backgroundColor: '#f8f9fa',}}/>
+                    <div style={{ backgroundColor: '#f8f9fa' }}>
+                        <WaveDecoration position="bottom" baseColor="tabs" />
+                    </div>
                     <div style={{
                         padding: '12px 0',
                         backgroundColor: '#302C9A'
