@@ -1,4 +1,5 @@
-
+.gitignore
+CLAUDE.md
 # Python
 .venv/
 __pycache__/

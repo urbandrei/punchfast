@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punchfast Navbar with Wave</title>
+    <style>
+        :root {
+            /* Punchfast Colors */
+            --pf-primary: #6AB7AD;
+            --pf-dark: #302C9A;
+            --pf-light: #A7CCDE;
+
+            /* Wave Parameters - fixed values for final implementation */
+            --pf-wave-height: 2.5vh;
+            --pf-wave-speed: 0.8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--pf-light);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ================================
+           NAVBAR - acts like the .header in waves.html
+           The navbar itself contains the wave at its bottom edge
+           ================================ */
+        .pf-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--pf-primary);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Push wave to bottom */
+        }
+
+        .pf-navbar-content {
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pf-logo {
+            color: white;
+            font-size: 1.4em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pf-logo svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .pf-nav-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pf-nav-button {
+            background-color: var(--pf-dark);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 18px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .pf-nav-button:hover {
+            background-color: #252080;
+        }
+
+        /* ================================
+           WAVE SVG - integrated into navbar bottom
+           Points downward naturally (no flip needed)
+           ================================ */
+        .pf-navbar .waves {
+            position: relative;
+            width: 100%;
+            height: var(--pf-wave-height);
+            min-height: 25px;
+            max-height: 50px;
+            margin-bottom: -1px; /* Prevent gap */
+        }
+
+        /* Wave Animation */
+        .parallax > use {
+            animation: move-forever calc(25s / var(--pf-wave-speed)) cubic-bezier(.55, .5, .45, .5) infinite;
+        }
+
+        .parallax > use:nth-child(1) {
+            animation-delay: -2s;
+            animation-duration: calc(7s / var(--pf-wave-speed));
+        }
+
+        .parallax > use:nth-child(2) {
+            animation-delay: -3s;
+            animation-duration: calc(10s / var(--pf-wave-speed));
+        }
+
+        .parallax > use:nth-child(3) {
+            animation-delay: -4s;
+            animation-duration: calc(13s / var(--pf-wave-speed));
+        }
+
+        .parallax > use:nth-child(4) {
+            animation-delay: -5s;
+            animation-duration: calc(20s / var(--pf-wave-speed));
+        }
+
+        @keyframes move-forever {
+            0% {
+                transform: translate3d(-90px, 0, 0);
+            }
+            100% {
+                transform: translate3d(85px, 0, 0);
+            }
+        }
+
+        /* Accessibility - respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            .parallax > use {
+                animation: none;
+            }
+        }
+
+        /* ================================
+           LAYOUT - Map between waves, cards overlay bottom
+           ================================ */
+        .main-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        /* Map placeholder - positioned between navbar wave and cards wave */
+        .map-view {
+            position: absolute;
+            top: 52px; /* At navbar content bottom, behind the wave */
+            left: 0;
+            right: 0;
+            bottom: 50%; /* Above cards section */
+            background: linear-gradient(135deg, #e8f4f8 0%, #d0e8f0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--pf-dark);
+            font-size: 1.2em;
+            z-index: 1;
+        }
+
+        .map-view::before {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border: 2px dashed rgba(48, 44, 154, 0.2);
+            border-radius: 8px;
+        }
+
+        /* Route cards section - bottom half with wave on top */
+        .cards-section {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0; /* Above filter + tabs */
+            height: calc(50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Wave at top of cards section (pointing up into map) */
+        .cards-section .waves {
+            position: relative;
+            width: 100%;
+            height: var(--pf-wave-height);
+            min-height: 25px;
+            max-height: 50px;
+            margin-top: calc(-1 * var(--pf-wave-height)); /* Move up by its height */
+        }
+
+        .cards-content-wrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        /* Gradient fade at top of cards content */
+        .cards-content-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--pf-light) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .cards-content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            background: var(--pf-light);
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .cards-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ================================
+           DEMO CARDS WITH MORPHING BACKGROUNDS
+           ================================ */
+        .demo-card {
+            position: relative;
+            background: transparent;
+            margin-bottom: 12px;
+            padding: 16px;
+        }
+
+        .demo-card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            z-index: 0;
+        }
+
+        .demo-card-bg-1 {
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 2px 8px rgba(48, 44, 154, 0.1);
+            border-radius:
+                calc(12px + var(--morph-r1, 0px))
+                calc(12px + var(--morph-r2, 0px))
+                calc(12px + var(--morph-r3, 0px))
+                calc(12px + var(--morph-r4, 0px));
+            transform:
+                translate(var(--morph-pos1, 0px), var(--morph-pos1, 0px))
+                rotate(var(--morph-rot1, 0deg));
+        }
+
+        .demo-card-bg-2 {
+            background: rgba(167, 204, 222, 0.4);
+            border-radius:
+                calc(12px + var(--morph-r3, 0px))
+                calc(12px + var(--morph-r4, 0px))
+                calc(12px + var(--morph-r1, 0px))
+                calc(12px + var(--morph-r2, 0px));
+            transform:
+                translate(var(--morph-pos2, 0px), var(--morph-pos2, 0px))
+                rotate(var(--morph-rot2, 0deg));
+        }
+
+        .demo-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .demo-card h3 {
+            color: var(--pf-dark);
+            margin-bottom: 6px;
+            font-size: 1em;
+        }
+
+        .demo-card p {
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        /* ================================
+           FILTER BAR - above tabs bar
+           ================================ */
+        .filter-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 44px; /* Align with bottom of route/store wave */
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-bar .waves {
+            position: relative;
+            width: 100%;
+            height: var(--pf-wave-height);
+            min-height: 25px;
+            max-height: 50px;
+            margin-bottom: -1px;
+        }
+
+        .filter-bar-content {
+            background: #f8f9fa;
+            height: calc(2*var(--pf-wave-height) + 44px); /* wave height + tabs height */
+            padding: 10px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .filter-bar-content span {
+            color: var(--pf-dark);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .filter-dropdown {
+            background: white;
+            border: 1px solid var(--pf-light);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 0.85em;
+            color: var(--pf-dark);
+            cursor: pointer;
+        }
+
+        .filter-add-btn {
+            background: var(--pf-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ================================
+           TABS BAR - fixed at bottom
+           ================================ */
+        .tabs-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tabs-bar .waves {
+            position: relative;
+            width: 100%;
+            height: var(--pf-wave-height);
+            min-height: 25px;
+            max-height: 50px;
+            margin-bottom: -1px;
+        }
+
+        .tabs-bar-content {
+            background: var(--pf-dark);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .tab-button {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95em;
+            font-weight: 500;
+            padding: 8px 24px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            color: white;
+        }
+
+        .tab-button.active {
+            border-bottom: 2px solid white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR with integrated wave -->
+    <nav class="pf-navbar">
+        <div class="pf-navbar-content">
+            <span class="pf-logo">
+                <svg viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                PunchFast
+            </span>
+            <div class="pf-nav-buttons">
+                <button class="pf-nav-button">Dashboard</button>
+                <button class="pf-nav-button">Sign In</button>
+            </div>
+        </div>
+
+        <!-- Wave SVG - same structure as waves.html but flipped -->
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#wave-path" x="48" y="0" fill="rgba(167,204,222,0.7)" />
+                <use xlink:href="#wave-path" x="48" y="3" fill="rgba(167,204,222,0.5)" />
+                <use xlink:href="#wave-path" x="48" y="5" fill="rgba(167,204,222,0.3)" />
+                <use xlink:href="#wave-path" x="48" y="7" fill="#A7CCDE" />
+            </g>
+        </svg>
+    </nav>
+
+    <!-- Main layout: map behind, cards overlay -->
+    <div class="main-container">
+        <!-- Map view - full area behind everything -->
+        <div class="map-view">
+            Map View
+        </div>
+
+        <!-- Route cards - bottom half with wave on top -->
+        <div class="cards-section">
+            <!-- Wave pointing up into the map -->
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="cards-wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#cards-wave-path" x="48" y="0" fill="rgba(167,204,222,0.7)" />
+                    <use xlink:href="#cards-wave-path" x="48" y="3" fill="rgba(167,204,222,0.5)" />
+                    <use xlink:href="#cards-wave-path" x="48" y="5" fill="rgba(167,204,222,0.3)" />
+                    <use xlink:href="#cards-wave-path" x="48" y="7" fill="#A7CCDE" />
+                </g>
+            </svg>
+
+            <div class="cards-content-wrapper">
+                <div class="cards-content">
+                    <div class="cards-container">
+                        <div class="demo-card">
+                            <div class="demo-card-bg demo-card-bg-1"></div>
+                            <div class="demo-card-bg demo-card-bg-2"></div>
+                            <div class="demo-card-content">
+                                <h3>Coffee Crawl Downtown</h3>
+                                <p>Visit 5 local coffee shops and earn a free drink!</p>
+                            </div>
+                        </div>
+                        <div class="demo-card">
+                            <div class="demo-card-bg demo-card-bg-1"></div>
+                            <div class="demo-card-bg demo-card-bg-2"></div>
+                            <div class="demo-card-content">
+                                <h3>Taco Tuesday Trail</h3>
+                                <p>Explore the best tacos in town on this delicious route.</p>
+                            </div>
+                        </div>
+                        <div class="demo-card">
+                            <div class="demo-card-bg demo-card-bg-1"></div>
+                            <div class="demo-card-bg demo-card-bg-2"></div>
+                            <div class="demo-card-content">
+                                <h3>Brunch Brigade</h3>
+                                <p>Weekend brunch spots that'll make you want to wake up early.</p>
+                            </div>
+                        </div>
+                        <div class="demo-card">
+                            <div class="demo-card-bg demo-card-bg-1"></div>
+                            <div class="demo-card-bg demo-card-bg-2"></div>
+                            <div class="demo-card-content">
+                                <h3>Pizza Paradise</h3>
+                                <p>The ultimate pizza tour - from NY style to Neapolitan.</p>
+                            </div>
+                        </div>
+                        <div class="demo-card">
+                            <div class="demo-card-bg demo-card-bg-1"></div>
+                            <div class="demo-card-bg demo-card-bg-2"></div>
+                            <div class="demo-card-content">
+                                <h3>Sweet Tooth Express</h3>
+                                <p>Dessert destinations for those who love all things sweet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter bar with wave -->
+    <div class="filter-bar">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="filter-wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#filter-wave-path" x="48" y="0" fill="rgba(248,249,250,0.7)" />
+                <use xlink:href="#filter-wave-path" x="48" y="3" fill="rgba(248,249,250,0.5)" />
+                <use xlink:href="#filter-wave-path" x="48" y="5" fill="rgba(248,249,250,0.3)" />
+                <use xlink:href="#filter-wave-path" x="48" y="7" fill="#f8f9fa" />
+            </g>
+        </svg>
+        <div class="filter-bar-content">
+            <span>Filter by:</span>
+            <select class="filter-dropdown">
+                <option>Distance</option>
+                <option>Rating</option>
+                <option>Category</option>
+            </select>
+            <button class="filter-add-btn">+</button>
+        </div>
+    </div>
+
+    <!-- Tabs bar with wave -->
+    <div class="tabs-bar">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="tabs-wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#tabs-wave-path" x="48" y="0" fill="rgba(48,44,154,0.7)" />
+                <use xlink:href="#tabs-wave-path" x="48" y="3" fill="rgba(48,44,154,0.5)" />
+                <use xlink:href="#tabs-wave-path" x="48" y="5" fill="rgba(48,44,154,0.3)" />
+                <use xlink:href="#tabs-wave-path" x="48" y="7" fill="#302C9A" />
+            </g>
+        </svg>
+        <div class="tabs-bar-content">
+            <button class="tab-button active">Routes</button>
+            <button class="tab-button">Stores</button>
+        </div>
+    </div>
+
+    <script>
+        // Morphing cards animation - each card morphs independently
+        const cards = document.querySelectorAll('.demo-card');
+        let time = 0;
+
+        // Give each card a random phase offset for async movement
+        const cardOffsets = Array.from(cards).map(() => Math.random() * Math.PI * 2);
+
+        function animateMorph() {
+            time += 0.015; // Slightly quicker
+
+            cards.forEach((card, index) => {
+                const offset = cardOffsets[index];
+
+                // Border radius variations - slightly bigger (0-5px)
+                const r1 = Math.sin(time * 0.7 + offset) * 4;
+                const r2 = Math.cos(time * 0.9 + offset * 1.3) * 5;
+                const r3 = Math.sin(time * 0.8 + offset * 0.7) * 4;
+                const r4 = Math.cos(time * 0.6 + offset * 1.1) * 5;
+
+                // Position offsets - slightly bigger (0-3px)
+                const pos1 = Math.sin(time * 0.5 + offset * 0.9) * 2.5;
+                const pos2 = Math.cos(time * 0.55 + offset * 1.2) * 2.5;
+
+                // Rotation - slightly bigger (0-1.5deg)
+                const rot1 = Math.sin(time * 0.4 + offset) * 0.8;
+                const rot2 = Math.cos(time * 0.45 + offset * 0.8) * 0.8;
+
+                // Apply to each card individually
+                card.style.setProperty('--morph-r1', `${r1}px`);
+                card.style.setProperty('--morph-r2', `${r2}px`);
+                card.style.setProperty('--morph-r3', `${r3}px`);
+                card.style.setProperty('--morph-r4', `${r4}px`);
+                card.style.setProperty('--morph-pos1', `${pos1}px`);
+                card.style.setProperty('--morph-pos2', `${pos2}px`);
+                card.style.setProperty('--morph-rot1', `${rot1}deg`);
+                card.style.setProperty('--morph-rot2', `${rot2}deg`);
+            });
+
+            requestAnimationFrame(animateMorph);
+        }
+
+        // Start the morphing animation
+        animateMorph();
+    </script>
+
+</body>
+</html>

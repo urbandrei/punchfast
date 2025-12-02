@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple CSS Waves</title>
+    <style>
+        :root {
+            --wave-height: 60px;
+            --wave-speed: 1;
+            --wave-midline: 50vh; /* Controls the vertical position/height of the header */
+            --bg-color-1: #543ab7;
+            --bg-color-2: #00acc1;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            font-family: sans-serif;
+        }
+
+        /* Container for the background color */
+        .header {
+            position: relative;
+            background: linear-gradient(60deg, var(--bg-color-1) 0%, var(--bg-color-2) 100%);
+            color: white;
+            /* The height now determines the 'midline' of the wave on the screen */
+            height: var(--wave-midline); 
+            min-height: 100px; /* Prevent it from disappearing completely */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Push waves to bottom */
+            transition: height 0.1s ease; /* Smooth transition when dragging */
+        }
+
+        /* The SVG Container */
+        .waves {
+            position: relative;
+            width: 100%;
+            height: var(--wave-height);
+            margin-bottom: -7px; /* Fix for safari gap */
+            min-height: 10px;
+        }
+
+        /* Animation */
+        .parallax > use {
+            animation: move-forever calc(25s / var(--wave-speed)) cubic-bezier(.55, .5, .45, .5) infinite;
+        }
+
+        .parallax > use:nth-child(1) {
+            animation-delay: -2s;
+            animation-duration: calc(7s / var(--wave-speed));
+        }
+
+        .parallax > use:nth-child(2) {
+            animation-delay: -3s;
+            animation-duration: calc(10s / var(--wave-speed));
+        }
+
+        .parallax > use:nth-child(3) {
+            animation-delay: -4s;
+            animation-duration: calc(13s / var(--wave-speed));
+        }
+
+        .parallax > use:nth-child(4) {
+            animation-delay: -5s;
+            animation-duration: calc(20s / var(--wave-speed));
+        }
+
+        @keyframes move-forever {
+            0% {
+                transform: translate3d(-90px, 0, 0);
+            }
+            100% {
+                transform: translate3d(85px, 0, 0);
+            }
+        }
+
+        /* Control Panel Styles */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 100;
+            width: 250px;
+        }
+        .control-group {
+            margin-bottom: 15px;
+        }
+        .control-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
+        .control-group input[type="range"] {
+            width: 100%;
+        }
+        .control-group input[type="color"] {
+            width: 100%;
+            height: 30px;
+            border: none;
+            cursor: pointer;
+        }
+        .value-display {
+            float: right;
+            font-weight: normal;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Controls Overlay -->
+    <div class="controls">
+        <div class="control-group">
+            <label>Midline Position <span id="midline-val" class="value-display">50%</span></label>
+            <input type="range" id="midline-slider" min="10" max="95" value="50">
+        </div>
+        <div class="control-group">
+            <label>Wave Amplitude <span id="height-val" class="value-display">60px</span></label>
+            <input type="range" id="height-slider" min="10" max="300" value="60">
+        </div>
+        <div class="control-group">
+            <label>Speed Multiplier <span id="speed-val" class="value-display">1.0x</span></label>
+            <input type="range" id="speed-slider" min="0.1" max="5" step="0.1" value="1">
+        </div>
+        <div class="control-group">
+            <label>Gradient Start</label>
+            <input type="color" id="color1-picker" value="#543ab7">
+        </div>
+        <div class="control-group">
+            <label>Gradient End</label>
+            <input type="color" id="color2-picker" value="#00acc1">
+        </div>
+    </div>
+
+    <div class="header">
+        <!--Waves Container-->
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+            </g>
+        </svg>
+        <!--Waves end-->
+    </div>
+
+    <script>
+        // Get elements
+        const root = document.documentElement;
+        
+        const midlineSlider = document.getElementById('midline-slider');
+        const heightSlider = document.getElementById('height-slider');
+        const speedSlider = document.getElementById('speed-slider');
+        const color1Picker = document.getElementById('color1-picker');
+        const color2Picker = document.getElementById('color2-picker');
+        
+        const midlineVal = document.getElementById('midline-val');
+        const heightVal = document.getElementById('height-val');
+        const speedVal = document.getElementById('speed-val');
+
+        // Event Listeners
+        midlineSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            root.style.setProperty('--wave-midline', val + 'vh');
+            midlineVal.textContent = val + '%';
+        });
+
+        heightSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            root.style.setProperty('--wave-height', val + 'px');
+            heightVal.textContent = val + 'px';
+        });
+
+        speedSlider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            root.style.setProperty('--wave-speed', val);
+            speedVal.textContent = val + 'x';
+        });
+
+        color1Picker.addEventListener('input', (e) => {
+            root.style.setProperty('--bg-color-1', e.target.value);
+        });
+
+        color2Picker.addEventListener('input', (e) => {
+            root.style.setProperty('--bg-color-2', e.target.value);
+        });
+    </script>
+
+</body>
+</html>
