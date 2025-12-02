@@ -10,7 +10,7 @@ const CONFIG = {
     modelDir: path.join(__dirname, '../../ai/auto-cuisine/models'),
     defaultTimeout: 15000, // 15 seconds (matches Python default)
     maxTimeout: 30000,      // 30 seconds max
-    confidenceThreshold: 0.8 // 80% minimum confidence
+    confidenceThreshold: 0.2 // 20% minimum confidence
 };
 
 /**

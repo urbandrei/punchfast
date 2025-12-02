@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MorphingCard from '../components/MorphingCard';
+import { customerApi } from '../utils/apiClient';
 
 const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
   const [stats, setStats] = useState(null);
@@ -185,14 +186,9 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
     setQuestionnaireRate(newRate);
 
     try {
-      const token = localStorage.getItem('pf_customer_access_token');
-      await fetch('/api/admin/questionnaire/settings', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ userId: user.id, rate: newRate / 100 })
+      await customerApi.put('/api/admin/questionnaire/settings', {
+        userId: user.id,
+        rate: newRate / 100
       });
     } catch (err) {
       console.error('Failed to update questionnaire rate:', err);
