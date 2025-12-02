@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- User head -->
+  <circle cx="16" cy="10" r="6" fill="currentColor"/>
+  <!-- User body -->
+  <path d="M4 28 C4 20 10 16 16 16 C22 16 28 20 28 28" fill="currentColor"/>
+</svg>

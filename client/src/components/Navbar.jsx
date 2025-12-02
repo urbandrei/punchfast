@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../index.css';
+import { ReactComponent as Logo } from '../icons/logo.svg';
+import { ReactComponent as UserIcon } from '../icons/user.svg';
+import { ReactComponent as AchievementIcon } from '../icons/achievement.svg';
 
 const Navbar = ({
   isLoggedIn,
@@ -44,8 +47,8 @@ const Navbar = ({
         <Link to="/dashboard" className="nav-bar-button">
           Dashboard
         </Link>
-        <Link to="/achievements" className="nav-bar-button">
-          Achievements
+        <Link to="/achievements" className="nav-bar-button" title="Achievements">
+          <AchievementIcon style={{ height: '32px', width: 'auto', fill: 'white' }} />
         </Link>
         {currentUser?.isAdmin && (
           <Link to="/admin/dashboard" className="nav-bar-button">
@@ -56,8 +59,11 @@ const Navbar = ({
           <button
             onClick={() => setShowDropdown(!showDropdown)}
             className="nav-bar-button"
+            title={`Welcome back, ${currentUser?.username}!`}
+            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
           >
-            Welcome back, {currentUser?.username}! ▼
+            <UserIcon style={{ height: '32px', width: 'auto', fill: 'white' }} />
+            <span>▼</span>
           </button>
           {showDropdown && (
             <>
@@ -130,8 +136,8 @@ const Navbar = ({
       }}
     >
       <div className="nav-bar-content">
-        <Link to="/" className="nav-bar-brand">
-          Punchfast
+        <Link to="/" className="nav-bar-brand" title="Punchfast">
+          <Logo style={{ height: '32px', width: 'auto' }} />
         </Link>
         <div className="d-flex gap-3 ms-auto align-items-center">
           {rightControls}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Badge ribbon left -->
+  <path d="M8 20 L8 30 L12 26 L16 30 L16 20" fill="currentColor" opacity="0.7"/>
+  <!-- Badge ribbon right -->
+  <path d="M16 20 L16 30 L20 26 L24 30 L24 20" fill="currentColor" opacity="0.7"/>
+  <!-- Badge circle -->
+  <circle cx="16" cy="12" r="10" fill="currentColor"/>
+  <!-- Star on badge -->
+  <polygon points="16,4 18,9 23,9 19,13 21,18 16,15 11,18 13,13 9,9 14,9" fill="white"/>
+</svg>
