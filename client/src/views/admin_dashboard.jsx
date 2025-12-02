@@ -40,7 +40,10 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
 
     const fetchStats = async () => {
       try {
-        const res = await fetch(`/api/admin/stats?userId=${user.id}`);
+        const token = localStorage.getItem('pf_customer_access_token');
+        const res = await fetch(`/api/admin/stats?userId=${user.id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
         if (!res.ok) {
           if (res.status === 403) throw new Error('Access denied');
           throw new Error('Failed to fetch stats');
@@ -64,7 +67,10 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
 
     const fetchPendingBusinesses = async () => {
       try {
-        const res = await fetch(`/api/admin/pending-businesses?userId=${user.id}`);
+        const token = localStorage.getItem('pf_customer_access_token');
+        const res = await fetch(`/api/admin/pending-businesses?userId=${user.id}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
         if (!res.ok) throw new Error('Failed to fetch pending businesses');
         const data = await res.json();
         setPendingBusinesses(data.businesses || []);
@@ -145,7 +151,10 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
     }
 
     try {
-      const res = await fetch(`/api/admin/search-stores?userId=${user.id}&query=${encodeURIComponent(storeSearchQuery)}`);
+      const token = localStorage.getItem('pf_customer_access_token');
+      const res = await fetch(`/api/admin/search-stores?userId=${user.id}&query=${encodeURIComponent(storeSearchQuery)}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       const data = await res.json();
       if (res.ok) {
         setStoreSearchResults(data.stores || []);
@@ -171,9 +180,13 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
     }
 
     try {
+      const token = localStorage.getItem('pf_customer_access_token');
       const res = await fetch('/api/admin/create-store', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({
           userId: user.id,
           name,
@@ -202,9 +215,13 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
     if (!selectedBusiness) return;
 
     try {
+      const token = localStorage.getItem('pf_customer_access_token');
       const res = await fetch('/api/admin/approve-business', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({
           userId: user.id,
           businessUsername: selectedBusiness.username,
@@ -235,9 +252,13 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
     }
 
     try {
+      const token = localStorage.getItem('pf_customer_access_token');
       const res = await fetch('/api/admin/deny-business', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ userId: user.id, businessUsername })
       });
 
