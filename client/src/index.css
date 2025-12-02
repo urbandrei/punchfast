@@ -671,9 +671,9 @@
 
 .map-controls-container {
   position: absolute;
-  top: 10px;
+  top: calc(10px + var(--pf-wave-height, 2.5vh));
   right: 10px;
-  z-index: 10;
+  z-index: 150;
   background: white;
   border-radius: 8px;
   padding: 12px;
