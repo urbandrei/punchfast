@@ -144,6 +144,11 @@ const Store = sequelize.define('Store', {
         allowNull: true,
         defaultValue: null,
     },
+    rating: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+        defaultValue: null,
+    },
 
     brand: {
         type: DataTypes.STRING,

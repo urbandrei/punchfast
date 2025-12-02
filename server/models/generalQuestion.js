@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Visit = sequelize.define('Visit', {
+const GeneralQuestion = sequelize.define('GeneralQuestion', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -18,18 +18,19 @@ const Visit = sequelize.define('Visit', {
             key: 'id'
         }
     },
-    visitDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
+    question: {
+        type: DataTypes.TEXT,
+        allowNull: false
     },
-    shouldShowQuestionnaire: {
+    answer: {
+        type: DataTypes.STRING,
+        allowNull: true  // Can be null if skipped
+    },
+    skipped: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
     },
-
-    // ===== Timestamps =====
     created_at: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -41,10 +42,10 @@ const Visit = sequelize.define('Visit', {
         defaultValue: DataTypes.NOW,
     }
 }, {
-    tableName: 'Visits',
+    tableName: 'GeneralQuestions',
     timestamps: true,
     createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    updatedAt: 'updated_at'
 });
 
-module.exports = Visit;
+module.exports = GeneralQuestion;

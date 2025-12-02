@@ -29,6 +29,11 @@ const User = sequelize.define('User', {
         defaultValue: 0,
     },
 
+    questions_answered: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+    },
+
     isAdmin: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

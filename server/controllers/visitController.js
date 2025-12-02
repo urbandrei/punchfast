@@ -15,7 +15,10 @@ exports.createVisit = async (req, res) => {
         const store = await Store.findByPk(storeId);
         if (!store) return res.status(404).json({ message: 'Store not found' });
 
-        const visitData = { userId, storeId };
+        // 5% probability trigger for questionnaire
+        const shouldShowQuestionnaire = Math.random() < 0.05;
+
+        const visitData = { userId, storeId, shouldShowQuestionnaire };
         if (visitDate) visitData.visitDate = new Date(visitDate);
         const visit = await Visit.create(visitData);
 
@@ -51,7 +54,8 @@ exports.createVisit = async (req, res) => {
         return res.status(201).json({
             message: 'Visit created',
             visit: completeVisit,
-            unlockedAchievements     
+            unlockedAchievements,
+            shouldShowQuestionnaire
         });
 
     } catch (error) {

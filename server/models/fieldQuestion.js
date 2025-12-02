@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Visit = sequelize.define('Visit', {
+const FieldQuestion = sequelize.define('FieldQuestion', {
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -18,18 +18,19 @@ const Visit = sequelize.define('Visit', {
             key: 'id'
         }
     },
-    visitDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
+    fieldName: {
+        type: DataTypes.ENUM('cuisine', 'amenity', 'shop', 'rating'),
+        allowNull: false
     },
-    shouldShowQuestionnaire: {
+    suggestedValue: {
+        type: DataTypes.STRING,
+        allowNull: true  // Can be null if skipped
+    },
+    skipped: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
     },
-
-    // ===== Timestamps =====
     created_at: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -41,10 +42,17 @@ const Visit = sequelize.define('Visit', {
         defaultValue: DataTypes.NOW,
     }
 }, {
-    tableName: 'Visits',
+    tableName: 'FieldQuestions',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    indexes: [
+        {
+            // Prevent duplicate questions for same user+store+field
+            unique: true,
+            fields: ['userId', 'storeId', 'fieldName']
+        }
+    ]
 });
 
-module.exports = Visit;
+module.exports = FieldQuestion;

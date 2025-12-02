@@ -6,6 +6,7 @@ import VisitNotificationModal from './components/VisitNotificationModal';
 import PunchNotificationModal from './components/PunchNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
 import AchievementModal from './components/AchievementModal';
+import QuestionnaireModal from './components/QuestionnaireModal';
 import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
@@ -41,7 +42,9 @@ const App = () => {
   const [showPunchModal, setShowPunchModal] = useState(false);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [showAchievementModal, setShowAchievementModal] = useState(false);
+  const [showQuestionnaireModal, setShowQuestionnaireModal] = useState(false);
   const [currentAchievement, setCurrentAchievement] = useState(null);
+  const [questionnaireData, setQuestionnaireData] = useState(null);
   const [nearbyStores, setNearbyStores] = useState([]);
   const [punchStore, setPunchStore] = useState(null);
   const locationCheckInterval = useRef(null);
@@ -417,6 +420,48 @@ const App = () => {
     setCurrentAchievement(null);
   };
 
+  const handleQuestionnaireSubmit = (unlockedAchievements) => {
+    // Show achievement modal if any were unlocked
+    if (unlockedAchievements && unlockedAchievements.length > 0) {
+      setCurrentAchievement(unlockedAchievements[0]);
+      setShowAchievementModal(true);
+    }
+  };
+
+  const handleQuestionnaireSkip = () => {
+    // Nothing special to do on skip
+  };
+
+  const handleCloseQuestionnaireModal = () => {
+    setShowQuestionnaireModal(false);
+    setQuestionnaireData(null);
+  };
+
+  const handleQuestionnaireTriggered = async (visit) => {
+    try {
+      // Fetch the questionnaire for this visit
+      const res = await fetch(`/api/questionnaire/pending?userId=${currentUser.id}&visitId=${visit.id}`);
+
+      if (!res.ok) {
+        console.error('Failed to fetch questionnaire');
+        return;
+      }
+
+      const data = await res.json();
+
+      if (data.hasQuestion) {
+        setQuestionnaireData({
+          storeId: data.storeId,
+          storeName: data.storeName,
+          question: data.question
+        });
+        setShowQuestionnaireModal(true);
+      }
+    } catch (err) {
+      console.error('Error fetching questionnaire:', err);
+    }
+  };
+
   const handleSignOut = () => {
     setIsLoggedIn(false);
     setCurrentUser(null);
@@ -454,6 +499,7 @@ const App = () => {
           onVisit={handleVisit}
           onNotVisiting={handleNotVisiting}
           onClose={handleCloseVisitModal}
+          onQuestionnaireTriggered={handleQuestionnaireTriggered}
         />
 
         <PunchNotificationModal
@@ -475,6 +521,17 @@ const App = () => {
           show={showAchievementModal}
           achievement={currentAchievement}
           onClose={handleAchievementModalClose}
+        />
+
+        <QuestionnaireModal
+          show={showQuestionnaireModal}
+          userId={currentUser?.id}
+          storeId={questionnaireData?.storeId}
+          storeName={questionnaireData?.storeName}
+          question={questionnaireData?.question}
+          onSubmit={handleQuestionnaireSubmit}
+          onSkip={handleQuestionnaireSkip}
+          onClose={handleCloseQuestionnaireModal}
         />
 
         <Routes>

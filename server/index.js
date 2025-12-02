@@ -12,6 +12,7 @@ const savedStoreRoutes = require('./routes/savedStoreRoutes');
 const routeStartRoutes = require('./routes/routeStartRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const questionnaireRoutes = require('./routes/questionnaireRoutes');
 const enrichmentService = require('./services/storeEnrichmentService');
 
 require('./models/associations');
@@ -26,6 +27,7 @@ app.use('/api/saved-stores', savedStoreRoutes);
 app.use('/api/route-starts', routeStartRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/questionnaire', questionnaireRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

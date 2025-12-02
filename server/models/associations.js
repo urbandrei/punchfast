@@ -12,6 +12,8 @@ const Report = require('./report');
 
 const Achievement = require('./achievement');
 const UserAchievement = require('./userachievement');
+const FieldQuestion = require('./fieldQuestion');
+const GeneralQuestion = require('./generalQuestion');
 
 // Business-Store one-to-one relationship for verified stores
 Business.belongsTo(Store, { foreignKey: 'storeId', as: 'verifiedStore' });
@@ -61,6 +63,20 @@ UserAchievement.belongsTo(User, { foreignKey: 'userId', as: 'achievementUser' })
 Achievement.hasMany(UserAchievement, { foreignKey: 'achievementId', as: 'achievementProgress' });
 UserAchievement.belongsTo(Achievement, { foreignKey: 'achievementId', as: 'achievementData' });
 
+// FieldQuestion associations
+User.hasMany(FieldQuestion, { foreignKey: 'userId', as: 'fieldQuestionResponses' });
+FieldQuestion.belongsTo(User, { foreignKey: 'userId', as: 'respondingUser' });
+
+Store.hasMany(FieldQuestion, { foreignKey: 'storeId', as: 'fieldQuestionResponses' });
+FieldQuestion.belongsTo(Store, { foreignKey: 'storeId', as: 'questionStore' });
+
+// GeneralQuestion associations
+User.hasMany(GeneralQuestion, { foreignKey: 'userId', as: 'generalQuestionResponses' });
+GeneralQuestion.belongsTo(User, { foreignKey: 'userId', as: 'generalRespondingUser' });
+
+Store.hasMany(GeneralQuestion, { foreignKey: 'storeId', as: 'generalQuestionResponses' });
+GeneralQuestion.belongsTo(Store, { foreignKey: 'storeId', as: 'generalQuestionStore' });
+
 // Report associations
 User.hasMany(Report, { foreignKey: 'reporterId', as: 'submittedReports' });
 Report.belongsTo(User, { foreignKey: 'reporterId', as: 'reporter' });
@@ -81,5 +97,7 @@ module.exports = {
     SavedStore,
     Report,
     Achievement,
-    UserAchievement
+    UserAchievement,
+    FieldQuestion,
+    GeneralQuestion
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { markVisitedToday, addVisitDenial } from '../utils/proximityUtils';
 
-const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, onClose }) => {
+const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, onClose, onQuestionnaireTriggered }) => {
   const [selectedStoreIds, setSelectedStoreIds] = useState([]);
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,6 +56,10 @@ const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, 
         return;
       }
 
+      // Check for questionnaire triggers
+      const jsonResults = await Promise.all(results.map(res => res.json()));
+      const triggeredVisit = jsonResults.find(data => data.shouldShowQuestionnaire);
+
       // Mark as visited today locally
       storeIdsToVisit.forEach(storeId => markVisitedToday(storeId));
 
@@ -67,6 +71,11 @@ const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, 
       setError(null);
       setIsSubmitting(false);
       onClose();
+
+      // Show questionnaire modal if triggered
+      if (triggeredVisit && onQuestionnaireTriggered) {
+        onQuestionnaireTriggered(triggeredVisit.visit);
+      }
 
     } catch (err) {
       console.error('Error recording visit:', err);
