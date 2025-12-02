@@ -132,18 +132,25 @@ const Navbar = ({
     <nav
       className="navbar navbar-expand-lg"
       style={{
+        padding: '0',
         display: 'flex',
         flexDirection: 'column',
         marginBottom: 0
       }}
     >
-      <div className="nav-bar-content" style={{backgroundColor: '#6AB7AD',}}>
+      <div style={{
+        padding: '0.5rem 0rem',
+        width: '100%',
+        backgroundColor: '#6AB7AD'
+      }}>
+      <div className="nav-bar-content">
         <Link to="/" className="nav-bar-brand" title="Punchfast">
           <Logo style={{ height: '32px', width: 'auto' }} />
         </Link>
         <div className="d-flex gap-3 ms-auto align-items-center">
           {rightControls}
         </div>
+      </div>
       </div>
       <WaveDecoration position="bottom" baseColor="navbar" flipped />
     </nav>
