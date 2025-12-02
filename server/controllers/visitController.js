@@ -48,8 +48,8 @@ exports.createVisit = async (req, res) => {
 
         const completeVisit = await Visit.findByPk(visit.id, {
             include: [
-                { model: User, as: 'user', attributes: ['id', 'username'] },
-                { model: Store, as: 'store', attributes: ['id', 'name', 'address', 'latitude', 'longitude'] }
+                { model: User, as: 'visitUser', attributes: ['id', 'username'] },
+                { model: Store, as: 'visitStore', attributes: ['id', 'name', 'address', 'latitude', 'longitude'] }
             ]
         });
 

@@ -84,7 +84,7 @@ exports.getPendingBusinesses = async (req, res) => {
       attributes: ['id', 'username', 'created_at', 'goal', 'storeId'],
       include: [{
         model: Store,
-        as: 'store',
+        as: 'verifiedStore',
         attributes: ['id', 'name', 'address', 'latitude', 'longitude',
                      'phone', 'email', 'website', 'cuisine',
                      'instagram', 'facebook', 'twitter', 'tiktok']
