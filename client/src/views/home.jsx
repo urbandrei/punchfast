@@ -529,6 +529,17 @@ const Home = ({ isLogin, user, onShowAuth }) => {
             <WaveDecoration position="top" baseColor="cards" />
 
             {/* List container - scrollable, fills remaining space minus option bars (100px) */}
+            <div>
+            <div style={{
+                    position: 'absolute',
+                    top: '0',
+                    left: '0',
+                    right: '0',
+                    height: '40px',
+                    background: 'linear-gradient(to bottom, #A7CCDE 0%, transparent 100%)',
+                    pointerEvents: 'none',
+                    zIndex: '5',
+                }}></div>
             <div
                 ref={listRef}
                 onScroll={handleScroll}
@@ -542,16 +553,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     position: 'relative'
                 }}
             >
-                <div style={{
-                    position: 'absolute',
-                    top: '0',
-                    left: '0',
-                    right: '0',
-                    height: '40px',
-                    background: 'linear-gradient(to bottom, #A7CCDE 0%, transparent 100%)',
-                    pointerEvents: 'none',
-                    zIndex: '5',
-                }}></div>
+                
                 <div className="container">
                     {viewType === 'routes' ? (
                         <div>
@@ -683,6 +685,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                         </div>
                     )}
                 </div>
+            </div>
             </div>
 
             {/* Option bars - fixed at bottom */}
