@@ -20,6 +20,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:coverage": "react-scripts test --coverage --watchAll=false",
+    "test:ci": "CI=true react-scripts test --coverage --watchAll=false",
+    "test:utils": "react-scripts test --testPathPattern=utils",
+    "test:components": "react-scripts test --testPathPattern=components",
+    "test:views": "react-scripts test --testPathPattern=views",
+    "test:integration": "react-scripts test --testPathPattern=__tests__/flows",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
