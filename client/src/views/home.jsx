@@ -529,7 +529,6 @@ const Home = ({ isLogin, user, onShowAuth }) => {
             <WaveDecoration position="top" baseColor="cards" />
 
             {/* List container - scrollable, fills remaining space minus option bars (100px) */}
-            <div>
             <div style={{
                     position: 'absolute',
                     top: '0',
@@ -685,7 +684,6 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                         </div>
                     )}
                 </div>
-            </div>
             </div>
 
             {/* Option bars - fixed at bottom */}
