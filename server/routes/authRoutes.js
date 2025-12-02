@@ -54,6 +54,7 @@ router.get('/routes/nearby', routeController.getNearbyRoutes);
 router.post('/visits', visitController.createVisit);
 router.get('/visits/store-stats', visitController.getStoreVisitStats);
 router.get('/visits/route-progress', visitController.getRouteVisitProgress);
+router.get('/visits/:userId', visitController.getUserVisits);
 
 // ---- route starts ----
 router.post('/route-starts', routeStartController.startRoute);

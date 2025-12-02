@@ -5,15 +5,19 @@ import StoreCard from '../components/storeCard';
 const Dashboard = ({ isLogin, user, onShowAuth }) => {
     const [stores, setStores] = useState([]);
     const [routes, setRoutes] = useState([]);
+    const [visits, setVisits] = useState([]);
     const [storesLoading, setStoresLoading] = useState(true);
     const [routesLoading, setRoutesLoading] = useState(true);
+    const [visitsLoading, setVisitsLoading] = useState(true);
     const [storesError, setStoresError] = useState(null);
     const [routesError, setRoutesError] = useState(null);
+    const [visitsError, setVisitsError] = useState(null);
 
     useEffect(() => {
         if (!user?.id) {
             setStoresLoading(false);
             setRoutesLoading(false);
+            setVisitsLoading(false);
             return;
         }
 
@@ -57,8 +61,24 @@ const Dashboard = ({ isLogin, user, onShowAuth }) => {
             }
         };
 
+        const fetchUserVisits = async () => {
+            try {
+                const res = await fetch(`/api/visits/${user.id}`);
+                if (!res.ok) throw new Error("Failed to fetch visits");
+
+                const data = await res.json();
+                setVisits(data.visits || []);
+            } catch (err) {
+                console.error(err);
+                setVisitsError("Could not load visit history");
+            } finally {
+                setVisitsLoading(false);
+            }
+        };
+
         fetchJoinedRoutes();
         fetchSavedStores();
+        fetchUserVisits();
     }, [user?.id]);
 
     const handleLeaveRoute = async (routeId) => {
@@ -191,6 +211,79 @@ const Dashboard = ({ isLogin, user, onShowAuth }) => {
                         onShowAuth={onShowAuth}
                     />
                 ))}
+            </div>
+
+            {/* VISIT HISTORY SECTION */}
+            <div className="page-header" style={{ marginTop: "40px" }}>
+                <h1 className="h3" style={{ color: "#302C9A" }}>Visit History</h1>
+            </div>
+
+            <div>
+                {visitsLoading && <p>Loading your visit history...</p>}
+                {visitsError && <p className="text-danger">{visitsError}</p>}
+                {!visitsLoading && visits.length === 0 && (
+                    <p style={{ color: "#6AB7AD" }}>
+                        No visits yet. Get punched in at stores to track your visits!
+                    </p>
+                )}
+
+                {!visitsLoading && visits.length > 0 && (
+                    <div style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                        gap: "1rem",
+                        marginTop: "1rem"
+                    }}>
+                        {visits.map((visit) => (
+                            <div
+                                key={visit.id}
+                                style={{
+                                    border: "1px solid #A7CCDE",
+                                    borderRadius: "8px",
+                                    padding: "1rem",
+                                    backgroundColor: "white"
+                                }}
+                            >
+                                <h3 style={{ margin: "0 0 0.5rem 0", color: "#302C9A" }}>
+                                    {visit.visitStore?.name || 'Unknown Store'}
+                                </h3>
+                                <p style={{
+                                    color: "#666",
+                                    fontSize: "0.9rem",
+                                    margin: "0.25rem 0"
+                                }}>
+                                    {visit.visitStore?.address || ''}
+                                </p>
+                                <p style={{
+                                    color: "#999",
+                                    fontSize: "0.85rem",
+                                    margin: "0.5rem 0"
+                                }}>
+                                    {new Date(visit.visitDate).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    })}
+                                </p>
+                                {visit.visitStore?.cuisine && (
+                                    <span style={{
+                                        display: "inline-block",
+                                        background: "#f0f0f0",
+                                        padding: "0.25rem 0.5rem",
+                                        borderRadius: "4px",
+                                        fontSize: "0.8rem",
+                                        color: "#666",
+                                        marginTop: "0.5rem"
+                                    }}>
+                                        {visit.visitStore.cuisine}
+                                    </span>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

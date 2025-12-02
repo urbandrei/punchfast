@@ -134,3 +134,33 @@ exports.getRouteVisitProgress = async (req, res) => {
         return res.status(500).json({ message: 'Server error', error: error.message });
     }
 };
+
+exports.getUserVisits = async (req, res) => {
+    try {
+        const { userId } = req.params;
+
+        // Verify user exists
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Fetch all visits with store information
+        const visits = await Visit.findAll({
+            where: { userId },
+            include: [
+                {
+                    model: Store,
+                    as: 'visitStore',
+                    attributes: ['id', 'name', 'address', 'latitude', 'longitude', 'cuisine', 'amenity']
+                }
+            ],
+            order: [['visitDate', 'DESC']]
+        });
+
+        return res.status(200).json({ visits });
+    } catch (error) {
+        console.error('Get user visits error:', error);
+        return res.status(500).json({ message: 'Server error fetching visits' });
+    }
+};
