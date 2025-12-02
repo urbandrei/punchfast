@@ -135,7 +135,8 @@ const Navbar = ({
         padding: '0',
         display: 'flex',
         flexDirection: 'column',
-        marginBottom: 0
+        marginBottom: '0',
+        zIndex: '99',
       }}
     >
       <div style={{

@@ -758,7 +758,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                     display: 'flex',
                     flexDirection: 'column'
                 }}>
-                    <WaveDecoration position="bottom" baseColor="tabs" backgroundColor='#f8f9fa'/>
+                    <WaveDecoration position="bottom" baseColor="tabs" style={{backgroundColor: '#f8f9fa',}}/>
                     <div style={{
                         padding: '12px 0',
                         backgroundColor: '#302C9A'
