@@ -28,13 +28,25 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/questionnaire', questionnaireRoutes);
 
+// Error handler for API routes - ensures errors return JSON, not HTML
+app.use('/api', (err, req, res, next) => {
+  console.error('API Error:', err);
+  res.status(err.status || 500).json({
+    message: err.message || 'Internal server error'
+  });
+});
+
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   const buildPath = path.join(__dirname, '../client/build');
   app.use(express.static(buildPath));
 
   // Catch-all for client-side routing (Express 5 compatible)
-  app.use((req, res) => {
+  // Only serve index.html for non-API routes
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return res.status(404).json({ message: 'API endpoint not found' });
+    }
     res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
