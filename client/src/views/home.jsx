@@ -558,15 +558,15 @@ const Home = ({ isLogin, user, onShowAuth }) => {
 
                             {/* EMPTY STATES */}
                             {initialLoadComplete && !routesData.loading && !routesError && !hasGeolocationError &&
-                             filteredRoutes.length === 0 && routesData.items.length === 0 && (
+                             memoizedFilteredRoutes.length === 0 && routesData.items.length === 0 && (
                                 <p>No routes found {cuisineFilter !== 'all' ? `for ${cuisineFilter}` : 'nearby'}.</p>
                             )}
-                            {initialLoadComplete && !routesData.loading && filteredRoutes.length === 0 && routesData.items.length > 0 && (
+                            {initialLoadComplete && !routesData.loading && memoizedFilteredRoutes.length === 0 && routesData.items.length > 0 && (
                                 <p>No routes found for {cuisineFilter}.</p>
                             )}
 
                             <div style={{ marginTop: '20px' }}>
-                                {filteredRoutes.map((route) => {
+                                {memoizedFilteredRoutes.map((route) => {
                                     const userRouteStart = userRouteStarts.find(
                                         rs => rs.routeId === route.id && rs.status === 'active'
                                     );
@@ -625,15 +625,15 @@ const Home = ({ isLogin, user, onShowAuth }) => {
 
                             {/* EMPTY STATES */}
                             {initialLoadComplete && !storesData.loading && !storesError && !hasGeolocationError &&
-                             filteredStores.length === 0 && storesData.items.length === 0 && (
+                             memoizedFilteredStores.length === 0 && storesData.items.length === 0 && (
                                 <p>No stores found {cuisineFilter !== 'all' ? `for ${cuisineFilter}` : 'nearby'}.</p>
                             )}
-                            {initialLoadComplete && !storesData.loading && filteredStores.length === 0 && storesData.items.length > 0 && (
+                            {initialLoadComplete && !storesData.loading && memoizedFilteredStores.length === 0 && storesData.items.length > 0 && (
                                 <p>No stores found for {cuisineFilter}.</p>
                             )}
 
                             <div style={{ marginTop: '20px' }}>
-                                {filteredStores.map((store) => {
+                                {memoizedFilteredStores.map((store) => {
                                     const isSelected = selectedId === store.id;
 
                                     return (
