@@ -79,7 +79,7 @@ exports.getPendingBusinesses = async (req, res) => {
 
     const pendingBusinesses = await Business.findAll({
       where: { status: 'pending' },
-      attributes: ['id', 'username', 'createdAt'],
+      attributes: ['id', 'username', 'created_at'],
       order: [['created_at', 'DESC']]
     });
 
@@ -298,7 +298,7 @@ exports.getPendingStores = async (req, res) => {
       attributes: [
         'id', 'name', 'address', 'latitude', 'longitude',
         'cuisine', 'amenity', 'shop', 'website', 'phone',
-        'createdAt', 'updatedAt'
+        'created_at', 'updated_at'
       ],
       order: [['created_at', 'DESC']]
     });
