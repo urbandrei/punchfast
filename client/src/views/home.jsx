@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import RouteCard from '../components/routeCard';
 import StoreCard from '../components/storeCard';
@@ -404,18 +404,87 @@ const Home = ({ isLogin, user, onShowAuth }) => {
         }
     };
 
-    // Filter items based on cuisine filter
-    const filteredRoutes = cuisineFilter === 'all'
-        ? routesData.items
-        : routesData.items.filter(r => r.routeType === cuisineFilter);
+    // Memoize filtered data to prevent unnecessary re-renders
+    const memoizedFilteredRoutes = useMemo(() => {
+        return cuisineFilter === 'all'
+            ? routesData.items
+            : routesData.items.filter(r => r.routeType === cuisineFilter);
+    }, [routesData.items, cuisineFilter]);
 
-    const filteredStores = cuisineFilter === 'all'
-        ? storesData.items
-        : storesData.items.filter(s =>
-            s.cuisine === cuisineFilter ||
-            s.amenity === cuisineFilter ||
-            s.shop === cuisineFilter
-        );
+    const memoizedFilteredStores = useMemo(() => {
+        return cuisineFilter === 'all'
+            ? storesData.items
+            : storesData.items.filter(s =>
+                s.cuisine === cuisineFilter ||
+                s.amenity === cuisineFilter ||
+                s.shop === cuisineFilter
+            );
+    }, [storesData.items, cuisineFilter]);
+
+    // Memoize callbacks to prevent re-creating functions on every render
+    const handleMarkerClickMemo = useCallback((id, type) => {
+        setSelectedId(id);
+        if (type === 'store' && viewType !== 'stores') {
+            setViewType('stores');
+        } else if (type === 'route' && viewType !== 'routes') {
+            setViewType('routes');
+        }
+    }, [viewType]);
+
+    const handleMapMoveMemo = useCallback((newLat, newLng) => {
+        const newCenter = { lat: newLat, lng: newLng };
+        setMapCenter(newCenter);
+
+        if (userLocation) {
+            const distance = calculateDistance(
+                userLocation.lat, userLocation.lng,
+                newLat, newLng
+            );
+            setMapHasMoved(distance > 0.05);
+        } else {
+            setMapHasMoved(true);
+        }
+    }, [userLocation]);
+
+    const handleCoordinateChangeMemo = useCallback((lat, lng) => {
+        setMapCenter({ lat, lng });
+        setMapHasMoved(true);
+    }, []);
+
+    const handleReturnToUserMemo = useCallback(() => {
+        if (userLocation) {
+            setMapCenter(userLocation);
+            setMapHasMoved(false);
+            setShouldFitToFeatures(true);
+            setStoresData({ items: [], offset: 0, hasMore: true, loading: false });
+            setRoutesData({ items: [], offset: 0, hasMore: true, loading: false });
+            setInitialLoadComplete(false);
+            loadInitialItems('stores', userLocation);
+            loadInitialItems('routes', userLocation);
+
+            setTimeout(() => {
+                setInitialLoadComplete(true);
+                setShouldFitToFeatures(false);
+            }, 600);
+        }
+    }, [userLocation]);
+
+    const handleSearchThisAreaMemo = useCallback(() => {
+        if (mapCenter) {
+            setMapHasMoved(false);
+            setShouldFitToFeatures(true);
+            setStoresData({ items: [], offset: 0, hasMore: true, loading: false });
+            setRoutesData({ items: [], offset: 0, hasMore: true, loading: false });
+            setInitialLoadComplete(false);
+            loadInitialItems('stores', mapCenter);
+            loadInitialItems('routes', mapCenter);
+
+            setTimeout(() => {
+                setInitialLoadComplete(true);
+                setShouldFitToFeatures(false);
+            }, 600);
+        }
+    }, [mapCenter]);
 
     return (
         <div style={{
@@ -431,20 +500,20 @@ const Home = ({ isLogin, user, onShowAuth }) => {
             {/* Map container - 50% height */}
             <div style={{ height: '50%', position: 'relative' }}>
                 <MapView
-                    stores={filteredStores}
-                    routes={filteredRoutes}
+                    stores={memoizedFilteredStores}
+                    routes={memoizedFilteredRoutes}
                     viewType={viewType}
                     selectedId={selectedId}
-                    onMarkerClick={handleMarkerClick}
+                    onMarkerClick={handleMarkerClickMemo}
                     cuisineFilter={cuisineFilter}
                     userLat={userLocation?.lat}
                     userLng={userLocation?.lng}
                     centerLat={mapCenter?.lat}
                     centerLng={mapCenter?.lng}
-                    onMapMove={handleMapMove}
-                    onCoordinateChange={handleCoordinateChange}
-                    onReturnToUser={handleReturnToUser}
-                    onSearchArea={handleSearchThisArea}
+                    onMapMove={handleMapMoveMemo}
+                    onCoordinateChange={handleCoordinateChangeMemo}
+                    onReturnToUser={handleReturnToUserMemo}
+                    onSearchArea={handleSearchThisAreaMemo}
                     mapHasMoved={mapHasMoved}
                     shouldFitToFeatures={shouldFitToFeatures}
                     isInitialLoad={isInitialLoad}

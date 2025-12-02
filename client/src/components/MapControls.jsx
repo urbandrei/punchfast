@@ -14,6 +14,10 @@ const MapControls = ({
 }) => {
   const [latInput, setLatInput] = useState('');
   const [lngInput, setLngInput] = useState('');
+  const [isMinimized, setIsMinimized] = useState(() => {
+    const saved = localStorage.getItem('mapControlsMinimized');
+    return saved === 'true';
+  });
 
   // Update inputs when currentLat/currentLng props change
   useEffect(() => {
@@ -22,6 +26,12 @@ const MapControls = ({
       setLngInput(currentLng.toFixed(6));
     }
   }, [currentLat, currentLng]);
+
+  const handleToggleMinimize = () => {
+    const newMinimized = !isMinimized;
+    setIsMinimized(newMinimized);
+    localStorage.setItem('mapControlsMinimized', String(newMinimized));
+  };
 
   const handleApplyCoordinates = () => {
     const lat = parseFloat(latInput);
@@ -54,53 +64,65 @@ const MapControls = ({
 
   return (
     <div className="map-controls-container">
-      <div className="map-controls-coord-group">
-        <label className="map-controls-label">Latitude</label>
-        <input
-          type="text"
-          className="map-controls-input"
-          value={latInput}
-          onChange={(e) => setLatInput(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="e.g., 52.520008"
-        />
-      </div>
-
-      <div className="map-controls-coord-group">
-        <label className="map-controls-label">Longitude</label>
-        <input
-          type="text"
-          className="map-controls-input"
-          value={lngInput}
-          onChange={(e) => setLngInput(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="e.g., 13.404954"
-        />
-      </div>
-
       <button
-        className="map-controls-button primary"
-        onClick={handleApplyCoordinates}
+        className="map-controls-minimize-button"
+        onClick={handleToggleMinimize}
+        title={isMinimized ? 'Show controls' : 'Hide controls'}
       >
-        Update Location
+        {isMinimized ? '▲' : '▼'}
       </button>
 
-      {hasUserLocation && (
-        <button
-          className="map-controls-button secondary"
-          onClick={onReturnToUser}
-        >
-          Return to My Location
-        </button>
-      )}
+      {!isMinimized && (
+        <>
+          <div className="map-controls-coord-group">
+            <label className="map-controls-label">Latitude</label>
+            <input
+              type="text"
+              className="map-controls-input"
+              value={latInput}
+              onChange={(e) => setLatInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="e.g., 52.520008"
+            />
+          </div>
 
-      {mapHasMoved && (
-        <button
-          className="map-controls-button primary"
-          onClick={onSearchArea}
-        >
-          Search This Area
-        </button>
+          <div className="map-controls-coord-group">
+            <label className="map-controls-label">Longitude</label>
+            <input
+              type="text"
+              className="map-controls-input"
+              value={lngInput}
+              onChange={(e) => setLngInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="e.g., 13.404954"
+            />
+          </div>
+
+          <button
+            className="map-controls-button primary"
+            onClick={handleApplyCoordinates}
+          >
+            Update Location
+          </button>
+
+          {hasUserLocation && (
+            <button
+              className="map-controls-button secondary"
+              onClick={onReturnToUser}
+            >
+              Return to My Location
+            </button>
+          )}
+
+          {mapHasMoved && (
+            <button
+              className="map-controls-button primary"
+              onClick={onSearchArea}
+            >
+              Search This Area
+            </button>
+          )}
+        </>
       )}
     </div>
   );

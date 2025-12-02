@@ -540,3 +540,20 @@
   margin-bottom: 2px;
   font-weight: 500;
 }
+
+.map-controls-minimize-button {
+  align-self: flex-end;
+  background: none;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s;
+  margin-bottom: 8px;
+}
+
+.map-controls-minimize-button:hover {
+  background-color: #f0f0f0;
+  border-color: #302C9A;
+}

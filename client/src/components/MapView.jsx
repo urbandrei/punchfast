@@ -39,6 +39,7 @@ const MapView = ({
     const userHasPannedRef = useRef(false);
     const isAnimatingRef = useRef(false);
     const lastFitExtentRef = useRef(null);
+    const lastRenderedDataRef = useRef({ stores: [], routes: [], viewType: '', cuisineFilter: '' });
 
     // Initialize map
     useEffect(() => {
@@ -170,6 +171,20 @@ const MapView = ({
     useEffect(() => {
         if (!vectorLayerRef.current) return;
 
+        // Skip if data hasn't actually changed (prevent scroll-induced re-renders)
+        const dataChanged =
+            lastRenderedDataRef.current.stores !== stores ||
+            lastRenderedDataRef.current.routes !== routes ||
+            lastRenderedDataRef.current.viewType !== viewType ||
+            lastRenderedDataRef.current.cuisineFilter !== cuisineFilter ||
+            lastRenderedDataRef.current.userLat !== userLat ||
+            lastRenderedDataRef.current.userLng !== userLng;
+
+        if (!dataChanged) return;
+
+        // Update ref
+        lastRenderedDataRef.current = { stores, routes, viewType, cuisineFilter, userLat, userLng };
+
         const vectorSource = vectorLayerRef.current.getSource();
         vectorSource.clear();
 
@@ -241,7 +256,6 @@ const MapView = ({
         }
 
         vectorSource.addFeatures(features);
-        // NO automatic map fitting - markers update, map stays in place
     }, [stores, routes, viewType, cuisineFilter, userLat, userLng]);
 
     // Auto-fit to features ONLY when shouldFitToFeatures is true
@@ -397,4 +411,32 @@ const MapView = ({
     );
 };
 
-export default MapView;
+export default React.memo(MapView, (prevProps, nextProps) => {
+    // Only re-render if these props actually change
+    return (
+        prevProps.viewType === nextProps.viewType &&
+        prevProps.selectedId === nextProps.selectedId &&
+        prevProps.cuisineFilter === nextProps.cuisineFilter &&
+        prevProps.userLat === nextProps.userLat &&
+        prevProps.userLng === nextProps.userLng &&
+        prevProps.centerLat === nextProps.centerLat &&
+        prevProps.centerLng === nextProps.centerLng &&
+        prevProps.mapHasMoved === nextProps.mapHasMoved &&
+        prevProps.shouldFitToFeatures === nextProps.shouldFitToFeatures &&
+        prevProps.isInitialLoad === nextProps.isInitialLoad &&
+        arraysEqual(prevProps.stores, nextProps.stores) &&
+        arraysEqual(prevProps.routes, nextProps.routes)
+    );
+});
+
+// Helper for array comparison
+function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+
+    for (let i = 0; i < a.length; i++) {
+        if (a[i].id !== b[i].id) return false;
+    }
+    return true;
+}

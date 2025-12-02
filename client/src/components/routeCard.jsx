@@ -231,7 +231,10 @@ const RouteCard = ({
         </div>
         <div
           className="route-card-dropdown-arrow"
-          onClick={() => setShowStores(!showStores)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setShowStores(!showStores);
+          }}
         >
           {showStores ? '▲' : '▼'}
         </div>
