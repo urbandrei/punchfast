@@ -4,6 +4,7 @@ import '../index.css';
 import { ReactComponent as Logo } from '../icons/logo.svg';
 import { ReactComponent as UserIcon } from '../icons/user.svg';
 import { ReactComponent as AchievementIcon } from '../icons/achievement.svg';
+import WaveDecoration from './WaveDecoration';
 
 const Navbar = ({
   isLoggedIn,
@@ -129,10 +130,13 @@ const Navbar = ({
 
   return (
     <nav
-      className="navbar navbar-expand-lg mb-4"
+      className="navbar navbar-expand-lg"
       style={{
         backgroundColor: '#6AB7AD',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        marginBottom: 0
       }}
     >
       <div className="nav-bar-content">
@@ -143,6 +147,7 @@ const Navbar = ({
           {rightControls}
         </div>
       </div>
+      <WaveDecoration position="bottom" baseColor="navbar" />
     </nav>
   );
 };

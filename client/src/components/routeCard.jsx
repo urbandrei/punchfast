@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
 import ReportModal from './ReportModal';
+import MorphingCard from './MorphingCard';
 
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371000;
@@ -174,13 +175,12 @@ const RouteCard = ({
   const visitedCount = visitedStoreIds.length;
 
   return (
-    <div
+    <MorphingCard
       className="route-card-container"
       onClick={onCardClick}
       style={{
         cursor: 'pointer',
-        border: isSelected ? '3px solid #FF5722' : '1px solid #dee2e6',
-        backgroundColor: isSelected ? '#fff5f3' : 'white',
+        border: isSelected ? '3px solid #FF5722' : 'none',
         transition: 'all 0.2s'
       }}
     >
@@ -303,7 +303,7 @@ const RouteCard = ({
         itemId={routeId}
         itemName={routeName}
       />
-    </div>
+    </MorphingCard>
   );
 };
 

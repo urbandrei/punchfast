@@ -1,4 +1,5 @@
 import React from 'react';
+import MorphingCard from './MorphingCard';
 
 const AchievementModal = ({ show, achievement, onClose }) => {
     if (!show || !achievement) return null;
@@ -25,9 +26,9 @@ const AchievementModal = ({ show, achievement, onClose }) => {
             }}
             onClick={handleOverlayClick}
         >
-            <div
+            <MorphingCard
+                variant="modal"
                 style={{
-                    backgroundColor: 'white',
                     borderRadius: '12px',
                     padding: '30px',
                     maxWidth: '500px',
@@ -90,7 +91,7 @@ const AchievementModal = ({ show, achievement, onClose }) => {
                 >
                     Awesome!
                 </button>
-            </div>
+            </MorphingCard>
         </div>
     );
 };

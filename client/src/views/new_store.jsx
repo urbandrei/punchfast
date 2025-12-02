@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import MorphingCard from '../components/MorphingCard';
 
 const NewStore = ({ onLoginSuccess }) => {
     const [name, setName] = useState('');
@@ -65,7 +65,7 @@ const NewStore = ({ onLoginSuccess }) => {
         <div>
             <div className="container">
                 <div className="row justify-content-center align-items-center min-vh-100" style={{marginTop: '-56px'}}>
-                    <div className="card shadow-sm mx-auto w-100" style={{maxWidth: '500px'}}>
+                    <MorphingCard className="shadow-sm mx-auto w-100" style={{maxWidth: '500px', borderRadius: '12px'}}>
                         <div className="card-body p-4 p-md-5">
                             <h2 className="card-title text-center mb-2 fw-bold">Create New Store</h2>
                             <form onSubmit={handleSubmit}>
@@ -104,7 +104,7 @@ const NewStore = ({ onLoginSuccess }) => {
 
                         </div>
 
-                    </div>
+                    </MorphingCard>
                 </div>
             </div>
         </div>

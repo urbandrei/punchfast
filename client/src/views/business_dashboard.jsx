@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import MorphingCard from "../components/MorphingCard";
 
 const BusinessDashboard = ({ business }) => {
   const [businessId, setBusinessId] = useState(business?.username || "");
@@ -189,12 +190,10 @@ const BusinessDashboard = ({ business }) => {
         <div className="row g-3">
           {/* Punchcard settings */}
           <div className="col-12 col-md-6">
-            <div
+            <MorphingCard
               className="p-3 h-100"
               style={{
                 borderRadius: "12px",
-                border: "1px solid #A7CCDE",
-                backgroundColor: "#ffffff",
               }}
             >
               <h5 style={{ color: "#302C9A" }} className="mb-2">
@@ -257,17 +256,15 @@ const BusinessDashboard = ({ business }) => {
                   </div>
                 )}
               </form>
-            </div>
+            </MorphingCard>
           </div>
 
           {/* Punch statistics */}
           <div className="col-12 col-md-6">
-            <div
+            <MorphingCard
               className="p-3 h-100"
               style={{
                 borderRadius: "12px",
-                border: "1px solid #A7CCDE",
-                backgroundColor: "#ffffff",
               }}
             >
               <h5 style={{ color: "#302C9A" }} className="mb-2">
@@ -314,7 +311,7 @@ const BusinessDashboard = ({ business }) => {
                   ))}
                 </ul>
               )}
-            </div>
+            </MorphingCard>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import RouteCard from '../components/routeCard';
 import StoreCard from '../components/storeCard';
+import MorphingCard from '../components/MorphingCard';
 
 const Dashboard = ({ isLogin, user, onShowAuth }) => {
     const [stores, setStores] = useState([]);
@@ -235,13 +236,11 @@ const Dashboard = ({ isLogin, user, onShowAuth }) => {
                         marginTop: "1rem"
                     }}>
                         {visits.map((visit) => (
-                            <div
+                            <MorphingCard
                                 key={visit.id}
                                 style={{
-                                    border: "1px solid #A7CCDE",
                                     borderRadius: "8px",
-                                    padding: "1rem",
-                                    backgroundColor: "white"
+                                    padding: "1rem"
                                 }}
                             >
                                 <h3 style={{ margin: "0 0 0.5rem 0", color: "#302C9A" }}>
@@ -280,7 +279,7 @@ const Dashboard = ({ isLogin, user, onShowAuth }) => {
                                         {visit.visitStore.cuisine}
                                     </span>
                                 )}
-                            </div>
+                            </MorphingCard>
                         ))}
                     </div>
                 )}

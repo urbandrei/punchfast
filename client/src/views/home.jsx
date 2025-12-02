@@ -5,6 +5,7 @@ import StoreCard from '../components/storeCard';
 import MapView from '../components/MapView';
 import SkeletonCard from '../components/SkeletonCard';
 import ErrorDisplay from '../components/ErrorDisplay';
+import WaveDecoration from '../components/WaveDecoration';
 
 const Home = ({ isLogin, user, onShowAuth }) => {
     // Separate state for each view type
@@ -520,16 +521,21 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                 />
             </div>
 
+            {/* Wave decoration between map and list */}
+            <WaveDecoration position="top" baseColor="cards" />
+
             {/* List container - scrollable, fills remaining space minus option bars (100px) */}
             <div
                 ref={listRef}
                 onScroll={handleScroll}
+                className="pf-gradient-fade"
                 style={{
                     flex: 1,
                     overflowY: 'auto',
                     overflowX: 'hidden',
                     paddingBottom: '110px',
-                    backgroundColor: '#f8f9fa'
+                    backgroundColor: '#A7CCDE',
+                    position: 'relative'
                 }}
             >
                 <div className="container">
@@ -673,12 +679,16 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                 right: 0,
                 zIndex: 1000
             }}>
-                {/* Cuisine filter bar */}
+                {/* Cuisine filter bar with wave */}
                 <div style={{
-                    padding: '12px 0',
-                    backgroundColor: '#f8f9fa',
-                    borderTop: '1px solid #dee2e6'
+                    display: 'flex',
+                    flexDirection: 'column'
                 }}>
+                    <WaveDecoration position="bottom" baseColor="filter" />
+                    <div style={{
+                        padding: '12px 0',
+                        backgroundColor: '#f8f9fa'
+                    }}>
                     <div className="container" style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -726,14 +736,20 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                             {viewType === 'stores' ? 'Add Store' : 'Add Route'}
                         </button>
                     </div>
+                    </div>
                 </div>
 
-                {/* View toggle bar */}
+                {/* View toggle bar with wave */}
                 <div style={{
-                    padding: '12px 0',
-                    backgroundColor: '#302C9A'
+                    display: 'flex',
+                    flexDirection: 'column'
                 }}>
-                    <div className="container" style={{
+                    <WaveDecoration position="bottom" baseColor="tabs" />
+                    <div style={{
+                        padding: '12px 0',
+                        backgroundColor: '#302C9A'
+                    }}>
+                        <div className="container" style={{
                         display: 'flex',
                         gap: '12px',
                         justifyContent: 'center'
@@ -774,6 +790,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                         >
                             Stores
                         </button>
+                        </div>
                     </div>
                 </div>
             </div>

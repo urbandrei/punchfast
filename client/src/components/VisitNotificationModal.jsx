@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { markVisitedToday, addVisitDenial } from '../utils/proximityUtils';
+import MorphingCard from './MorphingCard';
 
 const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, onClose, onQuestionnaireTriggered }) => {
   const [selectedStoreIds, setSelectedStoreIds] = useState([]);
@@ -114,9 +115,9 @@ const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, 
       }}
       onClick={handleNotVisiting}
     >
-      <div
+      <MorphingCard
+        variant="modal"
         style={{
-          backgroundColor: 'white',
           borderRadius: '12px',
           padding: '30px',
           maxWidth: '500px',
@@ -259,7 +260,7 @@ const VisitNotificationModal = ({ show, stores, userId, onVisit, onNotVisiting, 
             {isSubmitting ? 'Recording...' : 'Visit'}
           </button>
         </div>
-      </div>
+      </MorphingCard>
     </div>
   );
 };

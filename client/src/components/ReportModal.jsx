@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { customerTokens } from '../utils/tokenManager';
+import MorphingCard from './MorphingCard';
 
 const ReportModal = ({ show, onClose, itemType, itemId, itemName }) => {
     const [category, setCategory] = useState('');
@@ -96,9 +97,9 @@ const ReportModal = ({ show, onClose, itemType, itemId, itemName }) => {
             }}
             onClick={handleOverlayClick}
         >
-            <div
+            <MorphingCard
+                variant="modal"
                 style={{
-                    backgroundColor: 'white',
                     borderRadius: '12px',
                     padding: '30px',
                     maxWidth: '500px',
@@ -244,7 +245,7 @@ const ReportModal = ({ show, onClose, itemType, itemId, itemName }) => {
                         </form>
                     </>
                 )}
-            </div>
+            </MorphingCard>
         </div>
     );
 };

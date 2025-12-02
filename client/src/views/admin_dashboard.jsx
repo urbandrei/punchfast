@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import MorphingCard from '../components/MorphingCard';
 
 const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
   const [stats, setStats] = useState(null);
@@ -395,39 +396,39 @@ const AdminDashboard = ({ isLogin, user, onShowAuth }) => {
         ) : stats ? (
           <div className="row g-3">
             <div className="col-md-3">
-              <div className="card" style={{
-                border: '2px solid #A7CCDE', borderRadius: '12px', padding: '20px', textAlign: 'center'
+              <MorphingCard style={{
+                borderRadius: '12px', padding: '20px', textAlign: 'center'
               }}>
                 <h3 style={{ color: '#302C9A', fontSize: '2rem', margin: 0 }}>{stats.totalUsers}</h3>
                 <p style={{ color: '#6AB7AD', margin: '8px 0 0 0' }}>Total Users</p>
-              </div>
+              </MorphingCard>
             </div>
 
             <div className="col-md-3">
-              <div className="card" style={{
-                border: '2px solid #A7CCDE', borderRadius: '12px', padding: '20px', textAlign: 'center'
+              <MorphingCard style={{
+                borderRadius: '12px', padding: '20px', textAlign: 'center'
               }}>
                 <h3 style={{ color: '#302C9A', fontSize: '2rem', margin: 0 }}>{stats.totalRoutes}</h3>
                 <p style={{ color: '#6AB7AD', margin: '8px 0 0 0' }}>Total Routes</p>
-              </div>
+              </MorphingCard>
             </div>
 
             <div className="col-md-3">
-              <div className="card" style={{
-                border: '2px solid #A7CCDE', borderRadius: '12px', padding: '20px', textAlign: 'center'
+              <MorphingCard style={{
+                borderRadius: '12px', padding: '20px', textAlign: 'center'
               }}>
                 <h3 style={{ color: '#302C9A', fontSize: '2rem', margin: 0 }}>{stats.totalStores}</h3>
                 <p style={{ color: '#6AB7AD', margin: '8px 0 0 0' }}>Total Stores</p>
-              </div>
+              </MorphingCard>
             </div>
 
             <div className="col-md-3">
-              <div className="card" style={{
-                border: '2px solid #A7CCDE', borderRadius: '12px', padding: '20px', textAlign: 'center'
+              <MorphingCard style={{
+                borderRadius: '12px', padding: '20px', textAlign: 'center'
               }}>
                 <h3 style={{ color: '#302C9A', fontSize: '2rem', margin: 0 }}>{pendingBusinesses.length}</h3>
                 <p style={{ color: '#6AB7AD', margin: '8px 0 0 0' }}>Pending Businesses</p>
-              </div>
+              </MorphingCard>
             </div>
           </div>
         ) : null}

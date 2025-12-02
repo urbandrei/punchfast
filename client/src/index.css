@@ -1,3 +1,197 @@
+/* ================================
+   PUNCHFAST WAVE SYSTEM - CSS VARIABLES
+   ================================ */
+:root {
+    /* Punchfast Colors */
+    --pf-primary: #6AB7AD;
+    --pf-dark: #302C9A;
+    --pf-light: #A7CCDE;
+    --pf-gold: #E2CA80;
+
+    /* Wave Parameters */
+    --pf-wave-height: 2.5vh;
+    --pf-wave-speed: 0.8;
+}
+
+/* ================================
+   WAVE ANIMATIONS
+   ================================ */
+.pf-waves {
+    position: relative;
+    width: 100%;
+    height: var(--pf-wave-height);
+    min-height: 20px;
+    max-height: 40px;
+    overflow: hidden;
+}
+
+.pf-waves.position-bottom {
+    margin-bottom: -1px;
+}
+
+.pf-waves.position-top {
+    margin-top: calc(-1 * var(--pf-wave-height));
+}
+
+.pf-waves .parallax > use {
+    animation: pf-move-forever calc(25s / var(--pf-wave-speed)) cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+.pf-waves .parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: calc(7s / var(--pf-wave-speed));
+}
+
+.pf-waves .parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: calc(10s / var(--pf-wave-speed));
+}
+
+.pf-waves .parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: calc(13s / var(--pf-wave-speed));
+}
+
+.pf-waves .parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: calc(20s / var(--pf-wave-speed));
+}
+
+@keyframes pf-move-forever {
+    0% {
+        transform: translate3d(-90px, 0, 0);
+    }
+    100% {
+        transform: translate3d(85px, 0, 0);
+    }
+}
+
+/* ================================
+   MORPHING CARD SYSTEM
+   ================================ */
+.pf-morphing-card {
+    position: relative;
+    background: transparent;
+}
+
+.pf-morph-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.pf-morph-bg-1 {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 8px rgba(48, 44, 154, 0.1);
+    border-radius:
+        calc(12px + var(--morph-r1, 0px))
+        calc(12px + var(--morph-r2, 0px))
+        calc(12px + var(--morph-r3, 0px))
+        calc(12px + var(--morph-r4, 0px));
+    transform:
+        translate(var(--morph-pos1, 0px), var(--morph-pos1, 0px))
+        rotate(var(--morph-rot1, 0deg));
+}
+
+.pf-morph-bg-2 {
+    background: rgba(167, 204, 222, 0.4);
+    border-radius:
+        calc(12px + var(--morph-r3, 0px))
+        calc(12px + var(--morph-r4, 0px))
+        calc(12px + var(--morph-r1, 0px))
+        calc(12px + var(--morph-r2, 0px));
+    transform:
+        translate(var(--morph-pos2, 0px), var(--morph-pos2, 0px))
+        rotate(var(--morph-rot2, 0deg));
+}
+
+.pf-morph-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Modal morphing variant */
+.pf-morphing-modal .pf-morph-bg-1 {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 20px rgba(48, 44, 154, 0.2);
+}
+
+.pf-morphing-modal .pf-morph-bg-2 {
+    background: rgba(167, 204, 222, 0.25);
+}
+
+/* Button morphing variant */
+.pf-morphing-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.pf-morphing-button .pf-morph-bg {
+    border-radius: 25px;
+}
+
+.pf-morphing-button .pf-morph-bg-1 {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+}
+
+.pf-morphing-button .pf-morph-bg-2 {
+    background: rgba(167, 204, 222, 0.15);
+}
+
+/* ================================
+   GRADIENT FADE OVERLAY
+   ================================ */
+.pf-gradient-fade {
+    position: relative;
+}
+
+.pf-gradient-fade::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--pf-light) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* ================================
+   ACCESSIBILITY - Reduced Motion
+   ================================ */
+@media (prefers-reduced-motion: reduce) {
+    .pf-waves .parallax > use {
+        animation: none;
+    }
+    .pf-morph-bg {
+        transition: none;
+    }
+}
+
+/* ================================
+   NAVBAR WAVE SPACING
+   ================================ */
+.navbar + .pf-waves + * {
+    margin-top: 1rem;
+}
+
+/* Main content spacing after navbar with wave */
+.stores-container,
+.container.stores-container {
+    margin-top: 1.5rem;
+}
+
+/* ================================
+   END WAVE SYSTEM
+   ================================ */
+
 /* General */
 
 .container {

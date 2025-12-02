@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import MorphingCard from "../components/MorphingCard";
 
 const BusinessPunches = ({ business }) => {
   const [businessId, setBusinessId] = useState(business?.username || "");
@@ -233,7 +234,7 @@ const BusinessPunches = ({ business }) => {
 
       <div className="row justify-content-center mt-2">
         <div className="col-12 col-md-8 col-lg-6">
-          <div className="card shadow-sm">
+          <MorphingCard className="shadow-sm" style={{ borderRadius: '12px' }}>
             <div className="card-body">
               <h5 className="card-title mb-3">Register a punch</h5>
               <form onSubmit={handleRegister}>
@@ -280,7 +281,7 @@ const BusinessPunches = ({ business }) => {
                 </div>
               )}
             </div>
-          </div>
+          </MorphingCard>
         </div>
       </div>
     </div>

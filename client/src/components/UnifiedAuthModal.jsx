@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import MorphingCard from './MorphingCard';
 
 const UnifiedAuthModal = ({ show, onClose, onLoginSuccess, initialAuthType = 'customer' }) => {
     const [authType, setAuthType] = useState(initialAuthType);
@@ -168,7 +169,7 @@ const UnifiedAuthModal = ({ show, onClose, onLoginSuccess, initialAuthType = 'cu
         <>
             <div className="modal d-block" tabIndex="-1" role="dialog" onClick={handleClose}>
                 <div className="modal-dialog modal-dialog-centered" role="document" onClick={(e) => e.stopPropagation()}>
-                    <div className="modal-content">
+                    <MorphingCard variant="modal" className="modal-content">
                         <div className="modal-body px-4 pt-0 pb-4">
                             {/* Tab Navigation */}
                             <ul className="nav nav-tabs nav-fill mb-4" role="tablist" style={{ borderBottom: '2px solid #A7CCDE' }}>
@@ -393,7 +394,7 @@ const UnifiedAuthModal = ({ show, onClose, onLoginSuccess, initialAuthType = 'cu
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </MorphingCard>
                 </div>
             </div>
             <div className="modal-backdrop show"></div>

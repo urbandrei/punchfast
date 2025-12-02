@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import MorphingCard from './MorphingCard';
 
 const PunchNotificationModal = ({ show, store, userId, onPunch, onNotPunching, onClose }) => {
   const [error, setError] = useState(null);
@@ -89,9 +90,9 @@ const PunchNotificationModal = ({ show, store, userId, onPunch, onNotPunching, o
       }}
       onClick={handleNotPunching}
     >
-      <div
+      <MorphingCard
+        variant="modal"
         style={{
-          backgroundColor: 'white',
           borderRadius: '12px',
           padding: '30px',
           maxWidth: '500px',
@@ -193,7 +194,7 @@ const PunchNotificationModal = ({ show, store, userId, onPunch, onNotPunching, o
             {isSubmitting ? 'Punching...' : 'Punch Card'}
           </button>
         </div>
-      </div>
+      </MorphingCard>
     </div>
   );
 };

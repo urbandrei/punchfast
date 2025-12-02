@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import MorphingCard from '../components/MorphingCard';
 
 const NewRoute = ({ isLogin , user}) => {
     const [stores, setStores] = useState([]);
@@ -133,8 +134,8 @@ const NewRoute = ({ isLogin , user}) => {
                     {!loading && stores.length === 0 && <p>No stores found nearby.</p>}
 
                     {stores.map((s) => (
-                        <div key={s.id} className="panel panel-default">
-                            <div className="panel-body" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <MorphingCard key={s.id} style={{ marginBottom: '10px', borderRadius: '8px' }}>
+                            <div className="panel-body" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px' }}>
                                 <label style={{ display: 'flex', alignItems: 'center', margin: 0 }}>
                                     <input
                                         type="checkbox"
@@ -158,7 +159,7 @@ const NewRoute = ({ isLogin , user}) => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </MorphingCard>
                     ))}
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
 import ReportModal from './ReportModal';
+import MorphingCard from './MorphingCard';
 
 const StoreCard = ({
   storeId,
@@ -82,13 +83,12 @@ const StoreCard = ({
   };
 
   return (
-    <div
+    <MorphingCard
       className="store-card-container"
       onClick={onCardClick}
       style={{
         cursor: 'pointer',
-        border: isSelected ? '3px solid #FF5722' : '1px solid #dee2e6',
-        backgroundColor: isSelected ? '#fff5f3' : 'white',
+        border: isSelected ? '3px solid #FF5722' : 'none',
         transition: 'all 0.2s'
       }}
     >
@@ -161,7 +161,7 @@ const StoreCard = ({
         itemId={storeId}
         itemName={storeName}
       />
-    </div>
+    </MorphingCard>
   );
 };
 

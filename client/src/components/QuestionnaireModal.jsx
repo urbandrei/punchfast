@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import MorphingCard from './MorphingCard';
 
 const QuestionnaireModal = ({ show, userId, storeId, storeName, question, onSubmit, onSkip, onClose }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -117,9 +118,9 @@ const QuestionnaireModal = ({ show, userId, storeId, storeName, question, onSubm
       }}
       onClick={(e) => e.stopPropagation()}
     >
-      <div
+      <MorphingCard
+        variant="modal"
         style={{
-          backgroundColor: 'white',
           borderRadius: '12px',
           padding: '30px',
           maxWidth: '500px',
@@ -247,7 +248,7 @@ const QuestionnaireModal = ({ show, userId, storeId, storeName, question, onSubm
             {isSubmitting ? 'Submitting...' : 'Submit'}
           </button>
         </div>
-      </div>
+      </MorphingCard>
     </div>
   );
 };

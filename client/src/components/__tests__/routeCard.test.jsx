@@ -116,7 +116,8 @@ describe('RouteCard', () => {
       const { container } = renderCard({ isSelected: false });
 
       const card = container.firstChild;
-      expect(card).toHaveStyle({ border: '1px solid #dee2e6' });
+      // MorphingCard wrapper now handles the background styling, no border when not selected
+      expect(card).not.toHaveStyle({ border: '3px solid #FF5722' });
     });
   });
 

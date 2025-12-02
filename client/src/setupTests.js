@@ -46,6 +46,28 @@ Element.prototype.scrollIntoView = jest.fn();
 // Mock scrollTo
 window.scrollTo = jest.fn();
 
+// Mock requestAnimationFrame (used by animation hooks)
+global.requestAnimationFrame = jest.fn(cb => setTimeout(cb, 0));
+global.cancelAnimationFrame = jest.fn(id => clearTimeout(id));
+
+// Mock MorphingCard component to avoid animation complexity in tests
+jest.mock('./components/MorphingCard', () => {
+  return function MockMorphingCard({ children, className, style, onClick, ...props }) {
+    return (
+      <div className={className} style={style} onClick={onClick} data-testid="morphing-card" {...props}>
+        {children}
+      </div>
+    );
+  };
+});
+
+// Mock WaveDecoration component
+jest.mock('./components/WaveDecoration', () => {
+  return function MockWaveDecoration() {
+    return <div data-testid="wave-decoration" />;
+  };
+});
+
 // Mock localStorage with working implementation
 // Create a class that maintains internal state
 class LocalStorageMock {

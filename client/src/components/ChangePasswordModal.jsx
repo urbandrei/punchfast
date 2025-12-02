@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import MorphingCard from './MorphingCard';
 
 const ChangePasswordModal = ({ show, onClose, userId }) => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -88,9 +89,9 @@ const ChangePasswordModal = ({ show, onClose, userId }) => {
       }}
       onClick={handleClose}
     >
-      <div
+      <MorphingCard
+        variant="modal"
         style={{
-          backgroundColor: 'white',
           borderRadius: '12px',
           padding: '30px',
           maxWidth: '450px',
@@ -265,7 +266,7 @@ const ChangePasswordModal = ({ show, onClose, userId }) => {
             </button>
           </div>
         </form>
-      </div>
+      </MorphingCard>
     </div>
   );
 };
