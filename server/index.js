@@ -7,7 +7,7 @@ const enrichmentService = require('./services/storeEnrichmentService');
 
 require('./models/associations');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 53141;
 
 // Global error handlers for better debugging
 process.on('unhandledRejection', (reason, promise) => {

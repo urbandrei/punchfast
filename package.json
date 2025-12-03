@@ -9,19 +9,18 @@
   ],
   "scripts": {
     "start": "cd server && NODE_ENV=production node index.js",
-    "dev": "concurrently \"yarn dev:client\" \"yarn dev:server\"",
-    "dev:client": "cd client && yarn start",
-    "dev:server": "cd server && yarn start",
-    "build": "cd client && yarn build",
-    "install:prod": "yarn install --production --frozen-lockfile",
-    "install:dev": "yarn install --frozen-lockfile",
-    "clean": "rm -rf node_modules client/build client/node_modules server/node_modules yarn-error.log"
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "cd client && npm start",
+    "dev:server": "cd server && npm start",
+    "build": "cd client && npm run build",
+    "install:prod": "npm ci --omit=dev",
+    "install:dev": "npm ci",
+    "clean": "rm -rf node_modules client/build client/node_modules server/node_modules package-lock.json client/package-lock.json"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "yarn": ">=1.22.0"
+    "node": ">=18.0.0"
   }
 }
