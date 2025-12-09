@@ -60,7 +60,7 @@ const RouteCard = ({
       await Promise.all(
         stores.map(async (store) => {
           try {
-            const res = await fetch(`/api/saved-stores/${userId}/${store.id}`);
+            const res = await fetch(`/api/saved-stores/check/${userId}/${store.id}`);
             if (res.ok) {
               const data = await res.json();
               savedMap[store.id] = data.saved;

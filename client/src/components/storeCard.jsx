@@ -24,7 +24,7 @@ const StoreCard = ({
       if (!userId || !storeId) return;
 
       try {
-        const savedRes = await fetch(`/api/saved-stores/${userId}/${storeId}`);
+        const savedRes = await fetch(`/api/saved-stores/check/${userId}/${storeId}`);
         if (savedRes.ok) {
           const savedData = await savedRes.json();
           setIsSaved(savedData.saved);
