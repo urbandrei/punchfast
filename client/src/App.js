@@ -194,7 +194,7 @@ const App = () => {
       }
 
       const savedStoresData = await savedStoresRes.json();
-      const savedStoreIds = savedStoresData.savedStores?.map(s => s.storeId) || [];
+      const savedStoreIds = savedStoresData.stores?.map(s => s.id) || [];
 
       // Fetch nearby stores
       const nearbyRes = await fetch(
