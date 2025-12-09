@@ -185,7 +185,7 @@ const App = () => {
     try {
       // Fetch user's saved stores
       const savedStoresRes = await fetch(
-        `/api/saved-stores?userId=${currentUser.id}`
+        `/api/saved-stores/${currentUser.id}`
       );
 
       if (!savedStoresRes.ok) {
