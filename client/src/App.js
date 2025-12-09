@@ -195,6 +195,7 @@ const App = () => {
 
       const savedStoresData = await savedStoresRes.json();
       const savedStoreIds = savedStoresData.savedStores?.map(s => s.storeId) || [];
+      console.log('Saved store IDs:', savedStoreIds);
 
       // Fetch nearby stores
       const nearbyRes = await fetch(
@@ -208,11 +209,13 @@ const App = () => {
 
       const nearbyData = await nearbyRes.json();
       const stores = nearbyData.stores || [];
+      console.log('Nearby store IDs:', stores.map(s => s.id));
 
       // Filter for only saved/liked stores
       const savedNearbyStores = stores.filter(store =>
         savedStoreIds.includes(store.id)
       );
+      console.log('Intersection (saved + nearby):', savedNearbyStores.map(s => s.id));
 
       // Cache stores and starting location
       cacheNearbyStores(savedNearbyStores, location);
