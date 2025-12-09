@@ -7,6 +7,7 @@ import PunchNotificationModal from './components/PunchNotificationModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
 import AchievementModal from './components/AchievementModal';
 import QuestionnaireModal from './components/QuestionnaireModal';
+import ReportModal from './components/ReportModal';
 import Home from './views/home';
 import Dashboard from './views/dashboard';
 import NewStore from './views/new_store';
@@ -43,8 +44,10 @@ const App = () => {
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [showAchievementModal, setShowAchievementModal] = useState(false);
   const [showQuestionnaireModal, setShowQuestionnaireModal] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
   const [currentAchievement, setCurrentAchievement] = useState(null);
   const [questionnaireData, setQuestionnaireData] = useState(null);
+  const [reportData, setReportData] = useState({ itemType: '', itemId: '', itemName: '' });
   const [nearbyStores, setNearbyStores] = useState([]);
   const [punchStore, setPunchStore] = useState(null);
   const locationCheckInterval = useRef(null);
@@ -472,6 +475,11 @@ const App = () => {
     }
   };
 
+  const handleShowReport = (itemType, itemId, itemName) => {
+    setReportData({ itemType, itemId, itemName });
+    setShowReportModal(true);
+  };
+
   return (
     <Router>
       <div>
@@ -534,6 +542,14 @@ const App = () => {
           onClose={handleCloseQuestionnaireModal}
         />
 
+        <ReportModal
+          show={showReportModal}
+          onClose={() => setShowReportModal(false)}
+          itemType={reportData.itemType}
+          itemId={reportData.itemId}
+          itemName={reportData.itemName}
+        />
+
         <Routes>
           <Route
             path="/"
@@ -542,6 +558,7 @@ const App = () => {
                 isLogin={isLoggedIn}
                 user={currentUser}
                 onShowAuth={() => setShowAuthModal(true)}
+                onShowReport={handleShowReport}
               />
             }
           />

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
-import ReportModal from './ReportModal';
 import MorphingCard from './MorphingCard';
 
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -26,7 +25,8 @@ const RouteCard = ({
   onCardClick,
   stores = [],
   userId,
-  onShowAuth
+  onShowAuth,
+  onShowReport
 }) => {
   const [showStores, setShowStores] = useState(false);
   const [savedStoresMap, setSavedStoresMap] = useState({});
@@ -34,7 +34,6 @@ const RouteCard = ({
   const [userLocation, setUserLocation] = useState(null);
   const [orderedStores, setOrderedStores] = useState([]);
   const [verifiedStoresMap, setVerifiedStoresMap] = useState({});
-  const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -198,7 +197,9 @@ const RouteCard = ({
             className="route-card-report-icon"
             onClick={(e) => {
               e.stopPropagation();
-              setShowReportModal(true);
+              if (onShowReport) {
+                onShowReport('route', routeId, routeName);
+              }
             }}
             title="Report an issue with this route"
           >
@@ -295,14 +296,6 @@ const RouteCard = ({
           </div>
         </div>
       )}
-
-      <ReportModal
-        show={showReportModal}
-        onClose={() => setShowReportModal(false)}
-        itemType="route"
-        itemId={routeId}
-        itemName={routeName}
-      />
     </MorphingCard>
   );
 };

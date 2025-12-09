@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
-import ReportModal from './ReportModal';
 import MorphingCard from './MorphingCard';
 
 const StoreCard = ({
@@ -12,13 +11,13 @@ const StoreCard = ({
   isVerified,
   onCardClick,
   userId,
-  onShowAuth
+  onShowAuth,
+  onShowReport
 }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [visitStats, setVisitStats] = useState({ totalVisits: 0, visitedToday: false });
   const [verified, setVerified] = useState(isVerified);
-  const [showReportModal, setShowReportModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -145,7 +144,9 @@ const StoreCard = ({
             className="store-card-report-icon"
             onClick={(e) => {
               e.stopPropagation();
-              setShowReportModal(true);
+              if (onShowReport) {
+                onShowReport('store', storeId, storeName);
+              }
             }}
             title="Report an issue with this store"
           >
@@ -153,14 +154,6 @@ const StoreCard = ({
           </button>
         </div>
       </div>
-
-      <ReportModal
-        show={showReportModal}
-        onClose={() => setShowReportModal(false)}
-        itemType="store"
-        itemId={storeId}
-        itemName={storeName}
-      />
     </MorphingCard>
   );
 };

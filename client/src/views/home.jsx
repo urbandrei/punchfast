@@ -7,7 +7,7 @@ import SkeletonCard from '../components/SkeletonCard';
 import ErrorDisplay from '../components/ErrorDisplay';
 import WaveDecoration from '../components/WaveDecoration';
 
-const Home = ({ isLogin, user, onShowAuth }) => {
+const Home = ({ isLogin, user, onShowAuth, onShowReport }) => {
     // Separate state for each view type
     const [storesData, setStoresData] = useState({
         items: [],
@@ -618,6 +618,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                                                 stores={route.stores || []}
                                                 userId={user?.id}
                                                 onShowAuth={onShowAuth}
+                                                onShowReport={onShowReport}
                                             />
                                         </div>
                                     );
@@ -679,6 +680,7 @@ const Home = ({ isLogin, user, onShowAuth }) => {
                                                 onCardClick={() => handleItemClick(store.id)}
                                                 userId={user?.id}
                                                 onShowAuth={onShowAuth}
+                                                onShowReport={onShowReport}
                                             />
                                         </div>
                                     );
